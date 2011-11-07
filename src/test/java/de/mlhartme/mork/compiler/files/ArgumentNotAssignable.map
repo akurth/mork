@@ -1,0 +1,9 @@
+mapper ArgumentNotAssignable;
+
+grm = "ab.grm";
+
+import de.mlhartme.mork.compiler:
+  MainFunctionalTest;
+
+S   => MainFunctionalTest.noArguments;
+A   => [text];

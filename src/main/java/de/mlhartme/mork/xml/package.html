@@ -1,0 +1,23 @@
+<body>
+
+<p>Implements Xml syntax. Implements most of the XML specification:
+XML 1.0 W3C Recommendation Second Editions, 6-Oct-2000. See
+http://www.w3.org/TR/2000/REC-xml-20001006.html. References (e.g. §4.3.2)
+in the code or javadoc refer to paragraphs of this specification.</p>
+
+<p>The top-level classes in this package are XmlSyntax and XmlScanner.
+They correspond to GrammarSyntax and Grammar scanner for grammar syntax.
+An XmlSyntax object represents a DTD; translating it results in a parser
+that refers to an XmlScanner object.</p>
+
+<p>To understand this package it's important to distinguish grammar token
+and Xml token. Grammar token result from regular expressions taken from a
+xml.grm, they are used internally by the XmlScanner that transforms them
+into XmlToken like are start- and end token for the underlying DTD, pctext
+and the like.
+</p>
+
+<p>Note that there is just one Parser class. It can be used for both
+grammar parser and Xml parsers. </p>
+
+</body>

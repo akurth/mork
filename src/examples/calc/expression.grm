@@ -1,0 +1,35 @@
+#
+# Copyright 1&1 Internet AG, http://www.1and1.org
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; either version 2 of the License,
+# or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+[PARSER]
+
+Expr      ::= Sum ;
+Sum       ::= Add | Sub | Prod ;
+Add       ::= Sum "+" Prod ;
+Sub       ::= Sum "-" Prod ;
+Prod      ::= Mult | Div | Atom ;
+Mult      ::= Prod "*" Atom ;
+Div       ::= Prod "/" Atom ;
+Atom      ::= Num | "(" Sum ")" ;
+Num       ::= DIGITS ;
+
+[SCANNER]
+    white = SPACE, COMMENT;
+
+SPACE     ::= ('\u0020' | '\b' | '\t' | '\n' | '\f' | '\r' )+ ;
+COMMENT   ::= '#' '\u0020'..'\u007f'* ('\n'|'\r') ;
+DIGITS    ::= '0'..'9'+ ;

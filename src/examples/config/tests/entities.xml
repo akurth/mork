@@ -1,0 +1,10 @@
+<!DOCTYPE config SYSTEM "../config.dtd" [
+ <!ENTITY firstKey '<key>Hello</key>'>
+ <!ENTITY firstValue '<string>World</string>'>
+ <!ENTITY txt 'foo'>
+ <!ENTITY included SYSTEM 'included.inc'>
+]>
+<config>
+  &firstKey; &firstValue;
+  &included;
+</config>

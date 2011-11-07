@@ -1,0 +1,25 @@
+program {
+    String a;
+    String b;
+
+    print "a=";
+    input a;
+    b = "foo";
+    {
+        String a;
+
+        print "inner a=";
+        input a;
+
+        print "b: " + b + "\n";
+        print "inner a: " + a + "\n";
+
+        a = a + a;
+        print "inner a (modified): " + a + "\n";
+    }
+
+    print "outer a: " + a + "\n";
+    print "b: " + b + "\n";
+    a = a + a;
+    print "outer a (modified): " + a + "\n";
+}

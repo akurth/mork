@@ -1,0 +1,5 @@
+<!ELEMENT config  (key, (string | number))* >
+<!ELEMENT key     (#PCDATA) >
+<!ELEMENT string  (#PCDATA) >
+<!ELEMENT number  (#PCDATA) >
+<!ATTLIST number radix CDATA "10">

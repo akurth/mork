@@ -1,0 +1,6 @@
+command "Hello, World": "Standard example"
+    x: "Feld x";
+    y: "Feld y";
+{
+    run "echo \"Hello, World!  var x=" + x + " var y=" + y + "\"";
+}

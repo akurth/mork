@@ -1,0 +1,52 @@
+<config>
+
+  <key>predefined internal entities</key>
+  <string>&lt;&gt;&amp;&quot;&apos;</string>
+
+  <key>character entities</key>
+  <string>&#65;&#66;&#x43;&#x44;</string>
+
+  <key>cdata</key>
+  <string><![CDATA[some markup: <a></b><c/>]]></string>
+
+  <key>empty cdata</key>
+  <string><![CDATA[]]></string>
+
+  <key>spaces left</key>
+  <string>  spaces left</string>
+
+  <key>spaces right</key>
+  <string>spaces right  </string>
+
+  <key>comments and PI</key>
+  <!-- comment 1 -->
+  <?blablabla1 ?>
+  <!-- comment 2 -->
+  <?blablabla2 ?>
+  <!-- multi
+     line
+     comment -->
+  <?blablabla3 ?>
+  <?blablabla4 ?>
+  <!-- comment
+     with embedded
+      markup:
+       <hello>
+         <world/>
+       </hello>
+     -->
+  <string>ok</string>
+
+  <key>unusual character</key>
+  <string>äöüÄÖÜß</string>
+
+  <key>all spaces</key>
+  <string>    </string>
+
+  <key>empty text</key>
+  <string></string>
+
+  <key>empty element</key>
+  <string/>
+
+</config>

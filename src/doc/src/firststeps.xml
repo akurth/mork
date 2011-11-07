@@ -1,0 +1,666 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<chapter>
+<title>First steps</title>
+
+<formalpara>
+<title>Quick start</title>
+<para>The classic introduction for compiler tools is a calculator to compute expressions like
+<literal>68/2+8</literal> <!-- 42 -->. Mork provides a calculator example
+<indexterm><primary>calculator</primary></indexterm>, you can compile and run it as follows:
+<programlisting>
+  cd mork/examples
+  CLASSPATH=.
+  javac -g calc/*.java
+  mork calc/Calc.map
+  java calc.Main
+</programlisting>
+</para></formalpara>
+
+<formalpara>
+<title>Example</title>
+<para>This chapter is built around an example called <literal>command</literal>
+<indexterm><primary>command</primary></indexterm>. The above calculator example is not suitable
+because it demonstrates the most basic features only. <literal>command</literal> is simple enough
+to serve as an introduction and it is as complex as necessary to demonstrate the important
+features.</para></formalpara>
+
+<formalpara>
+<title>Overview</title>
+<para>The next section explains how to compile and run <literal>command</literal> without digging
+into the sources. This is followed by various sections that pick the interesting aspects of
+<literal>command</literal> and explain them in more detail. Note that this chapter is an
+introduction, exhaustive coverage follows in the remaining chapters.</para></formalpara>
+
+<sect1>
+<title>Get going</title>
+
+<formalpara>
+<title><literal>command</literal></title>
+<para><literal>command</literal> adds GUI front-ends to command line tools like
+<literal>javac</literal>, <literal>jar</literal>, or <literal>mork</literal>. To do so, the form of
+valid command lines is described in a command file. A command file describing Java's
+<literal>jar</literal> command line tool is shown in the listing below. The description consists
+of three things:
+<itemizedlist>
+  <listitem><para>a command name: <literal>create jar</literal></para></listitem>
+  <listitem><para>variable declarations:
+    <literal>jar</literal> for the name of the jar file to create
+    and <literal>dir</literal> for the directory to be zipped.</para>
+    </listitem>
+  <listitem><para>a command line: <literal>run "jar cvf " + jar + " " + dir;</literal>
+    defines how to combine variable values into the command line to invoke
+    <literal>jar</literal></para></listitem>
+</itemizedlist>
+Note: To keep things simple, only a fraction of <literal>jar</literal>'s functionality is
+provided. Most notably, you can create jar file only, extracting data is not available.
+</para></formalpara>
+
+<figure>
+<title>jar command file</title>
+<programlisting>
+<!-- §{xml.includeSource(Files.join(Config.HOME, "examples", "command", "tests", "jar.cf"), Xml.HASH_HEAD) }: -->
+&jarText;
+<!-- §. -->
+</programlisting>
+</figure>
+
+<formalpara>
+<title>Front-ends</title>
+<para>Running <literal>command</literal> on a command file opens a window that provides a
+front-end to the respective command line tool. The front-end has fields for
+all variables declared in the command file and provides two buttons to
+start the command or to cancel without running the command. The following
+figure shows the front-end corresponding to the above command file.
+</para></formalpara>
+
+<figure>
+<title>jar command screen shot</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="jarCF.jpg" format="JPG"/>
+</imageobject>
+</mediaobject>
+</figure>
+
+<formalpara>
+<title>Source code</title>
+<para><literal>command</literal>'s source code is located in <literal>examples/command</literal>,
+the contents of this directory is listed below. It contains mostly Java files, Most of the Java
+files will be touched in the course of this chapter. Maybe the two most important Java files
+are <literal>Main.java</literal> which implements the overall logic and
+<literal>Command.java</literal> which defines the <literal>command.Command</literal> class. The
+largest Java files are <literal>Console.java</literal> (implementing a console window
+for command output) and <literal>Frontend.java</literal> (implementing the initial Swing
+dialog). </para></formalpara>
+<!-- TODO: javadoc link. -->
+
+<figure>
+<title>Source files</title>
+<programlisting>
+<!-- §{xml.ls(Files.join(Config.HOME, "examples", "command"), new String[] { "*.java", "*.map", "*.grm" }) }: -->
+         command.grm    1108 bytes
+        Command.java    1104 bytes
+        Console.java    4670 bytes
+       Constant.java     644 bytes
+   Declarations.java    1785 bytes
+     Expression.java     530 bytes
+        Failure.java     557 bytes
+       Frontend.java    2823 bytes
+           Line.java    1021 bytes
+           Main.java    1217 bytes
+          Mapper.map     947 bytes
+      Reference.java     896 bytes
+       Variable.java    1061 bytes
+
+<!-- §. -->
+</programlisting>
+</figure>
+
+<para>Besides Java files, the source directory contains a grammar file
+<literal>command.grm</literal> and a mapper file <literal>Mapper.map</literal>. The grammar file
+defines the syntax of command files and the mapper file defines how to map a command files into an
+instance of <literal>command.Command</literal>.</para>
+
+<formalpara>
+<title><literal>Javadoc</literal></title>
+<para>To have a closer look at the Java files you might want to generate the
+<literal>javadoc</literal> documentation for examples ...
+<programlisting>
+  cd examples
+  mkdir command/javadoc
+  javadoc -d command/javadoc -sourcepath . command
+</programlisting></para></formalpara>
+
+
+<formalpara>
+<title>Compiling</title>
+<para>To compile <literal>command</literal>, run <literal>javac</literal> on the Java files and
+<literal>mork</literal> on the mapper file:
+<programlisting>
+  cd examples
+  CLASSPATH=.
+  javac -g command/*.java
+  mork command/Mapper.map
+</programlisting>
+Mork translates both the mapper file and the grammar file into several Java class files.
+Note that mapper files contains a reference to <literal>command.grm</literal>. Therefore, only
+the file <literal>Mapper.map</literal> has to be specified when calling <literal>mork</literal>.
+</para></formalpara>
+
+<formalpara>
+<title>Running</title>
+<para>Running <literal>command</literal> takes one argument: the command file to be processed. You
+can create your own command file or you can use one of the sample command files in the tests
+directory. Run the <literal>jar</literal> command mentioned above as follows:
+<programlisting>
+  cd examples/command/tests
+  java command.Main jar.cf
+</programlisting>
+</para></formalpara>
+
+</sect1>
+
+<sect1>
+<title>Overall logic</title>
+
+<figure>
+<title>command.Main</title>
+<programlisting>
+<!-- §{xml.includeSource(Files.join(Config.HOME, "examples", "command", "Main.java"), Xml.JAVA_HEAD) }: -->
+&MainText;
+<!-- §. -->
+</programlisting>
+</figure>
+
+<para><literal>Main.java</literal> defines the <literal>main</literal> method which implements the
+overall logic of <literal>command</literal>. <literal>main</literal> demonstrates the typical steps
+to use a mapper: <orderedlist>
+<listitem>
+  <para>Instantiate the mapper class generated by Mork:
+<programlisting>
+    mapper = new Mapper("command.Mapper");
+</programlisting>
+  </para></listitem>
+<listitem>
+  <para>Use the mapper object to read the command file specified on the command line:
+<programlisting>
+    tmp = mapper.run(args[0])
+</programlisting>
+  </para></listitem>
+<listitem>
+  <para>Running the mapper turns the command file into an instances of command.Command:
+<programlisting>
+    command = (Command) tmp[0];
+</programlisting></para></listitem>
+<listitem>
+  <para>Run the command, i.e. open the front-end window and execute the command line built
+  from the end-user's input.
+<programlisting>
+    command.run();
+</programlisting></para></listitem>
+</orderedlist></para>
+
+</sect1>
+
+<sect1>
+<title>Grammar files</title>
+
+<formalpara>
+<title>Grammar files</title>
+<para><literal>command.grm</literal> defines the syntax of command files. A grammar file has a
+scanner section and a parser section.</para></formalpara>
+
+<figure>
+<title><literal>command.grm</literal></title>
+<programlisting>
+<!-- §{xml.includeSource(Files.join(Config.HOME, "examples", "command", "command.grm"), Xml.HASH_HEAD) }: -->
+&commandText;
+<!-- §. -->
+</programlisting>
+</figure>
+
+<formalpara>
+<title>Syntax</title>
+<para>The syntax is specified in terms of symbols. Scanner and parser section give a list of rules.
+A rule has a left hand side and a right hand side, separated by <literal>::=</literal>. It defines
+a symbol by specifying how the symbol on the left hand side is composed of symbols on the right
+hand side. Running the mapper creates a syntax tree according to these rules, where each node
+represents a symbol. Usually, the leafs of the syntax tree are defined in the scanner section,
+whereas the inner nodes are define in the parser section. The first rule in the parser section
+defines the root node of the syntax tree.</para></formalpara>
+
+<!-- TODO
+<figure>
+<title>command file analyzing</title>
+<mediaobject>
+<textobject>
+TODO: Picture with characters, syntax tree and objects
+</textobject>
+</mediaobject>
+</figure>
+-->
+
+
+</sect1>
+
+<sect1>
+<title>Mapper files</title>
+
+<formalpara>
+<title>Mapper files</title>
+<para><literal>Mapper.map</literal> defines how to turn command files into instances of
+<literal>command.Command</literal>. Running the mapper reads a command file, checks for
+the appropriate syntax (defined in the grammar file) and maps the file into an instance of
+<literal>command.Command</literal></para></formalpara>
+
+<figure>
+<title><literal>Mapper.map</literal></title>
+<programlisting>
+<!-- §{xml.includeSource(Files.join(Config.HOME, "examples", "command", "Mapper.map"), Xml.HASH_HEAD) }: -->
+&MapperText;
+<!-- §. -->
+</programlisting>
+</figure>
+
+<formalpara>
+<title>Mapping</title>
+<para>A mapper file is comprised of a list of attributes. The basic form of an attribute
+<indexterm><primary>attribute</primary></indexterm> associates a symbol (on the left hand side)
+with a constructor (on the right hand side). Whenever the specified symbol is found in some input
+stream, the associated constructor is triggered. Here are two attributes used in the
+<literal>command</literal> application.
+<programlisting>
+Command         => Command;
+String          => BuiltIn.parseString;
+</programlisting>
+</para></formalpara>
+
+<formalpara>
+<title>Runtime</title>
+<para>At runtime, a mapper first creates a syntax tree of the input stream. If this step is
+successful (i.e. there are no syntax errors), the mapper walks through the nodes of the syntax
+tree and invokes the constructors associated for the respective symbol. Example 1: The symbol
+<literal>Command</literal> triggers invocation of the constructor <literal>Command</literal> which
+results in an new instance of the class <literal>command.Command</literal>. Example 2: The symbol
+<literal>Identifier</literal> triggers invocation of the constructor
+<literal>BuildIn.parseString</literal> which results in a new instance of the class
+<literal>java.lang.String</literal>. A mapper returns the object(s) created for the root node. In
+the <literal>command</literal> example, this is a <literal>command.Command</literal> object.
+</para></formalpara>
+
+<formalpara>
+<title>Constructors</title>
+<para>The right hand side of an attribute specifies a constructor. A constructor
+<indexterm><primary>constructor</primary></indexterm> may be a Java constructor (e.g.
+<literal>command.Command</literal>), a Java method (e.g.
+<literal>de.mlhartme.mork.semantics.BuiltIn.parseString</literal>), or an internal constructor.
+Thus, the term constructor is used in a more generalized meaning.</para></formalpara>
+
+<formalpara>
+<title>Internal constructors</title>
+<para>A common requirement for symbols like <literal>Identifier</literal> is to access
+the actual input matched by the symbol. Example: the symbol <literal>Identifier</literal>
+might match the input <literal>jar</literal>. For this purpose, Mork provides internal
+constructors.<indexterm><primary>internal constructors</primary></indexterm>
+<literal>command</literal> use the internal constructor <literal>[text]</literal> to
+access the actual input matched by the symbol. (There are more internal constructors
+besides <literal>[text]</literal>, but in most cases, <literal>[text]</literal> is all you need).
+<programlisting>
+Identifier      => [text];
+Literal         => [text];
+</programlisting>
+Note: internal constructors are restricted to symbols defined in the scanner section; associating
+them with symbols defined in the parser section results in an error.</para></formalpara>
+
+<formalpara>
+<title>Import and package</title>
+<para>Import and package declarations in the mapper file are similar to their Java
+counter-parts. As demonstrated by the attributes for <literal>Command</literal> and
+<literal>String</literal> symbols, imported classes can be specified without
+a package name. However, there is one important difference from Java's
+import declaration: all classes have to be imported explicitly. Example: all classes from
+<literal>command</literal> are explicitly imported, even though the mapper resides in
+the same package. Similarly, classes from <literal>java.lang</literal> have to be imported
+explicitly. Explicitly also means that Mork does not provide something like
+<literal>import foo.*</literal>.</para></formalpara>
+
+
+</sect1>
+
+<sect1>
+<title>Visibility</title>
+
+<formalpara>
+<title>Argument passing</title>
+<para>In the previous section, you have seen how to associate symbols with constructors
+in order to create objects. Constructors take arguments. How do you define the arguments
+passed to a constructor? The answer is visibility. If you now other compiler tools it might take
+some time to get used to the visibility idea. But it's the feature that makes mapper files simple
+and powerful.</para></formalpara>
+
+<formalpara>
+<title>Java argument passing</title>
+<para>Let's have a look at argument passing in Java. Consider the following Java fragment,
+where <literal>name</literal>, <literal>decls</literal> and <literal>line</literal> are
+variables holding appropriate values:
+<programlisting>
+  new Command(name, decls, line)
+</programlisting>
+This expression invokes the constructor of the <literal>command.Command</literal> class. The
+arguments passed to the constructor are specified by an argument list. In Java, an argument
+list defines the arguments passed to a constructor. OK, that's obvious. But read on ...
+</para></formalpara>
+
+<formalpara>
+<title>Mork argument passing</title>
+<para>In Mork, visibility defines the arguments passed to a constructor. In some sense,
+visibility turns Java's argument lists upside down: argument lists are tied to the constructor
+and kind of pull arguments into the constructor. In contrast, visibility is tied to an argument
+and kind of pushes it toward an constructor. This is illustrated in the graphic below.
+</para></formalpara>
+
+<figure>
+<title>Argument passing</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="passing.jpg" format="JPG"/>
+</imageobject>
+</mediaobject>
+</figure>
+
+<formalpara>
+<title>Visibility</title>
+<para>Each attribute has a visibility which defines the constructors the attribute is passed
+to as an argument. <indexterm><primary>visibility</primary></indexterm>Visibility can be defined
+explicitly and implicitly. Look at the listing below, it shows two attribute definitions from
+<literal>command</literal>'s map file. Visibility of the <literal>Declarations</literal> attribute
+is defined explicitly by a colon <literal>":"</literal> and two paths <literal>\\Command</literal>
+and <literal>\\Command//Reference</literal>. In contrast, the <literal>Command</literal> attribute
+has implicit visibility since there is no explicit visibility defined.</para></formalpara>
+
+<programlisting>
+Command         => Command;
+Declarations    => Declarations:
+                     > \\Command
+                     > \\Command//Reference;
+</programlisting>
+
+<formalpara>
+<title>Implicit visibility</title>
+<para>An attribute with implicit visibility is passed to the constructor attached to the nearest
+symbol in the syntax tree above. Example: <literal>command.Command</literal>'s constructor
+takes three arguments: two Strings, an instance of <literal>command.Declarations</literal> and an
+instance of <literal>command.Line</literal>. All of the attributes involved
+(<literal>String</literal>, <literal>Declarations</literal>, and <literal>Line</literal>) have
+implicit visibility, and the nearest constructor in the syntax tree above is
+<literal>command.Command</literal>. Consequently, these are the attributes passed
+<literal>command.Command</literal>. </para></formalpara>
+
+<formalpara>
+<title>Explicit visibility</title>
+<para>Implicit visibility is appropriate in most situations. Explicit visibility enters the scene
+if an object has to be passed to a constructor other than the constructor in the syntax tree
+above. Explicit visibility is defined by a list of paths. Attributes with explicit visibility are
+passed to all constructors defined by the paths. The need for explicit visibility typically arises
+when resolving identifiers -- which will be studied in the respective section below.
+</para></formalpara>
+
+<formalpara>
+<title>Argument order</title>
+<para>Visibility declarations do not define the argument order. If two attributes are visible to a
+given constructor, which attribute is passed first? Basically, Mork computes the argument order by
+iterating the list of formal arguments, passing the left-most attribute assignable to the current
+formal arguments. Consider <literal>command.Command</literal>'s constructor: the formal argument
+list is <literal>(String name, String description, Declarations decls, Line line)</literal>. The
+list of visible attributes are <literal>String</literal>, <literal>String</literal>,
+<literal>Declarations</literal> and <literal>Line</literal>. Note that this list is ordered
+according to the order of attributes in the syntax tree (which mostly resembles the grammar rule
+<literal>Command ::= "command" String ":" String Declarations "{" Line "}" ;</literal>).
+<literal>String</literal> argument occurs twice since the <literal>String</literal> symbols has
+two occurrences in the grammar rule.  Argument ordering is performed as follows: The left-most
+attribute which is assignable to <literal>name</literal> is the first <literal>String</literal>
+attribute, thus it is assigned to <literal>name</literal>. After this, the second
+<literal>String</literal> attribute is passed since it is the only remaining attribute which is
+assignable to the formal argument <literal>String description</literal>. Similarly, the attribute
+<literal>Declarations</literal> is assigned to the formal argument <literal>decls</literal> and the
+attribute <literal>Line</literal> is assigned to the formal argument <literal>line</literal>.
+</para></formalpara>
+
+<para>
+Note that the argument order is computed at compile-time, i.e. when translating the map file.
+An error is reported if there is no valid argument order. </para>
+
+<formalpara>
+<title>List arguments</title>
+<para>The attribute <literal>Variable</literal> has default visibility, thus it is added to the
+argument lists passed to the <literal>command.Declarations</literal> constructor. The type of this
+argument is <literal>Variable*</literal> where <literal>*</literal> indicates a list argument.
+<literal>Variable</literal> is a list argument since a given syntax tree might have any number of
+Variable attributes. A List arguments is assignable to <literal>java.util.List</literal> or arrays
+of the respective base type.  TODO: more about </para></formalpara>
+
+<formalpara>
+<title>Option arguments</title>
+<para>TODO: change command to include an example for optional arguments. TODO: more about
+optional arguments.</para></formalpara>
+
+<formalpara>
+<title>Argument merging</title>
+<para>Alternative arguments are merged. Example <literal>Constant</literal> and
+<literal>Reference</literal>.  TODO: more about this. </para></formalpara>
+
+</sect1>
+
+<sect1>
+<title>Error handling </title>
+
+<formalpara>
+<title>Errors</title>
+<para><literal>command</literal>'s <literal>main</literal> method uses <literal>Mapper.run</literal>
+to read command files. This method reports syntax errors and semantic errors to System.err. A syntax
+error is reported whenever the syntax of the input stream read by the mapper does not match the
+syntax specified in the syntax file underlying this mapper. Semantic errors are reported whenever
+one of the constructors throws a checked exception.</para></formalpara>
+
+<formalpara>
+<title>Semantic errors</title>
+<para><literal>command</literal> makes sure that variable names are unique. If two variable have
+the same name, a semantic error is reported. To see this message, just duplicate the declaration
+for the <literal>jar</literal> variable in <literal>tests/jar.cf</literal> and run
+<literal>command</literal> on it:
+<programlisting>
+examples/command > cat tests/jar.cf
+command "create jar"
+    jar: "jar file";
+    jar: "jar file";
+    dir: "directory";
+{
+    run "jar cvf " + jar + " " + dir;
+}
+examples/command > java command.Main tests/jar.cf
+tests/jar.cf:2:5: semantic error: duplicate variable name: jar
+examples/command >
+</programlisting>
+</para></formalpara>
+
+<formalpara>
+<title>Defining</title>
+<para>Defining semantic errors<indexterm><primary>semantic error</primary></indexterm> is straight
+forward: check for the error situation in the appropriate constructor and, if a problem is
+detected, throw a checked exception. Whenever a mapper encounters a checked exception, it issues a
+semantic error message, reporting the current source positions and the string obtained from
+<literal>Exception.getMessage()</literal>. The current source position is the position of syntax
+tree node, the constructor was invoked for.</para></formalpara>
+
+<formalpara>
+<title>Duplicate Identifier</title>
+<para><literal>command</literal>'s semantic error <literal>duplicate variable name</literal> is
+realized in the file <literal>Declarations.java</literal> listed below. The constructor takes an
+argument with all variables declared in a given command file. After storing these variables in a
+member variable, <literal>checkDuplicates</literal> is invoked to look for a name that is used more
+than once. If a duplicate name is found, it throws a <literal>Failure</literal> exception.
+The <literal>Failure</literal> class extends <literal>java.lang.Exception</literal>, thus it is
+a checked exception. When reporting this error, the exception message
+<literal>duplicate variable name</literal> is used to describe the problem. The position
+reported is the position of the <literal>Declarations</literal> symbol. </para></formalpara>
+
+<figure>
+<title><literal>Declarations.java</literal></title>
+<programlisting>
+<!-- §{xml.includeSource(Files.join(Config.HOME, "examples", "command", "Declarations.java"), Xml.JAVA_HEAD) }: -->
+&DeclarationsText;
+<!-- §. -->
+</programlisting>
+</figure>
+
+<para>The next section includes another example for semantic errors.</para>
+
+</sect1>
+
+<sect1>
+<title>Resolving identifiers</title>
+
+<formalpara>
+<title>Meta</title>
+<para>Resolving identifiers can be seen as an advanced topic, but it is a common task within
+applications that use Mork. Almost every compiler or interpreter resolves variable names
+in one way or another.</para></formalpara>
+
+<formalpara>
+<title>Example</title>
+<para>The <literal>command</literal> example has to resolve identifiers to evaluate the command line
+specified in a command file. Consider the jar command file listed in the first section. It includes
+the command line
+<programlisting>
+    run "jar cvf " + jar + " " + dir;
+</programlisting>
+To evaluate this line, <literal>command</literal> has to find the variables referenced by the
+identifiers <literal>jar</literal> and <literal>dir</literal>. This is called identifier resolution.
+<indexterm><primary>identifier resolution</primary></indexterm>
+<literal>command</literal>'s identifier resolution is implemented in the files
+<literal>Line.java</literal> and <literal>Reference.java</literal>.</para></formalpara>
+
+<formalpara>
+<title>Line objects</title>
+<para>Before digging into identifier resolution, I have to explain the <literal>Line</literal>
+class. See the listing below. Instances of this class represent command lines like
+<literal>run "jar cvf " + jar + " " + dir;</literal>. A <literal>Line</literal> is characterized
+by an array of exceptions. This array is passed to the constructor and stored in the field
+<literal>exceptions</literal>. The command line <literal>run "jar cvf " + jar + " " + dir;</literal>
+is an array of four expressions: two constants (<literal>"jar cvf "</literal> and
+<literal>" "</literal>) and two variable references (<literal>jar</literal> and
+<literal>dir</literal>). Constants are represented by instances of
+<literal>command.Constant</literal> and variables are presented by instances of
+<literal>command.Reference</literal>. Both classes extend <literal>command.Expression</literal> and
+thus have an <literal>eval</literal> method. The whole purpose of <literal>Line</literal> is to
+provide another <literal>eval</literal> method; <literal>Line</literal>'s <literal>eval</literal>
+is used in <literal>Command.execute</literal> to compute the string which is used to launch
+an operating system process. <literal>Line</literal>'s <literal>eval</literal> method simply
+evaluates all expressions and concatenates the results. </para></formalpara>
+
+<figure>
+<title><literal>Line.java</literal></title>
+<programlisting>
+<!-- §{xml.includeSource(Files.join(Config.HOME, "examples", "command", "Line.java"), Xml.JAVA_HEAD) }: -->
+&LineText;
+<!-- §. -->
+</programlisting>
+</figure>
+
+<formalpara>
+<title>References</title>
+<para><literal>command.Reference</literal> is shown in the listing below. A reference is nothing
+but a pointer to the variable it refers to. When asked to evaluate itself, it just returns the
+current value of the variable. The interesting part of the <literal>Reference</literal> class is
+its constructor. The constructor expects two variables, a declarations object and an identifier.
+What happens inside is straight forward: the declarations object is searched for the identifier.
+If the is a variable with the specified name, it is stored in the <literal>var</literal>
+field and the identifier resolution has succeeded. Otherwise, a semantic error
+<literal>unkown identifier</literal> is issued by throwing an exception. </para></formalpara>
+
+<figure>
+<title><literal>Reference.java</literal></title>
+<programlisting>
+<!-- §{xml.includeSource(Files.join(Config.HOME, "examples", "command", "Reference.java"), Xml.JAVA_HEAD) }: -->
+&ReferenceText;
+<!-- §. -->
+</programlisting>
+</figure>
+
+<formalpara>
+<title>Argument passing</title>
+<para>The constructor of <literal>command.Reference</literal> expects two arguments:
+a <literal>Declarations</literal> object and a <literal>String</literal> object. As explained
+in the visibility section above, the arguments passed to a constructor are determined by visibility
+definitions. The following visibility definitions are relevant here:
+<programlisting>
+Declarations    => Declarations:
+                     > \\Command
+                     > \\Command//Reference;
+Identifier      => String;
+</programlisting>
+The <literal>Identifier</literal> attribute has implicit visibility. Consequently, it is passed
+to the nearest constructor in the syntax tree above - which is <literal>command.Reference</literal>.
+The <literal>Declarations</literal> attribute has explicit visibility, defined by two paths.
+The first path <literal>\\Command</literal> specifies to pass the attribute up to
+<literal>command.Command</literal>'s constructor - which is not relevant here. The second path
+<literal>\\Command//Reference</literal> specifies to pass the attribute up to the
+<literal>Command</literal> symbol and from there down to any <literal>Reference</literal>
+constructor. Thus, <literal>command.Command</literal> obtains both a <literal>String</literal> and
+a <literal>Declarations</literal> object and all it's arguments are satisfied.
+</para></formalpara>
+
+<formalpara>
+<title>Paths</title>
+<para>In general, a path specifies a way through the syntax tree. <literal>\\</literal> passes an
+attribute up in the syntax tree until the specified symbol is found, and <literal>//</literal>
+passes an attribute down until the specified symbol is found.</para></formalpara>
+
+<para>TODO: some words about optional arguments and lists of arguments.</para>
+
+</sect1>
+
+<sect1>
+<title>What's next</title>
+
+<para>This chapter introduced the most important features. There are several ways
+to go on now:</para>
+<itemizedlist>
+<listitem>
+  <formalpara><title>Extend the <literal>command</literal> example</title>
+  <para>Interesting stuff is missing in <literal>command</literal>:
+  <itemizedlist>
+    <listitem>
+      <para>Beautified dialogs</para></listitem>
+    <listitem>
+      <para>More input elements like browse buttons or check boxes, e.g. to switch between
+      creating a jar file and extracting data from a jar file. </para></listitem>
+    <listitem>
+      <para>Instead of launching an operating system process, a command could invoke
+      static Java methods using reflection.</para></listitem>
+  </itemizedlist></para></formalpara></listitem>
+<listitem><formalpara>
+  <title>Study more examples</title>
+  <para>Have a look at the examples directory. Both the interpreter and the compiler
+  example are more complex than <literal>command</literal>.</para></formalpara>
+  </listitem>
+<listitem><formalpara>
+  <title>Start a new application</title>
+  <para>This is probably the most challenging way to continue. In particular, visibility
+  declarations are more difficult than you might expect from looking at examples that run out of
+  the box. In addition, the documentation in the remaining chapters is still incomplete. In general,
+  I suggest starting new applications with a small grammar and just few classes you map to. If the
+  small mapper work, continue by adding a single class and growing the grammar/mapping accordingly.
+  Caution: if you first develop the complete grammar, then implement all your classes and then try
+  to define a mapping, its much more difficult to solve visibility problems.
+  </para>
+  </formalpara></listitem>
+<listitem><formalpara>
+  <title>Go on reading</title>
+  <para>The remaining chapter in this manual provide in depth information about Mork.
+  In my opinion it is more appropriate to just start using Mork an come back later.
+  </para></formalpara></listitem>
+</itemizedlist>
+</sect1>
+
+</chapter>

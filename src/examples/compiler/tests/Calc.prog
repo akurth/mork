@@ -1,0 +1,33 @@
+program {
+    int a;
+    int b;
+
+    print "a=";
+    input a;
+    print "b=";
+    input b;
+
+    print "\na + b   = ";
+    print a + b;
+    print "\na - b   = ";
+    print a - b;
+    print "\na * b   = ";
+    print a * b;
+    print "\na / b   = ";
+    print a / b;
+
+    print "\n";
+    print "\na < b   = ";
+    print a < b;
+    print "\na <= b  = ";
+    print a <= b;
+    print "\na > b   = ";
+    print a > b;
+    print "\na >= b  = ";
+    print a >= b;
+    print "\na == b   = ";
+    print a == b;
+    print "\na != b  = ";
+    print a != b;
+    print "\n";
+}

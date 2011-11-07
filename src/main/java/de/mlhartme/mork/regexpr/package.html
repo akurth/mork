@@ -1,0 +1,24 @@
+<body>
+
+<p>Regular expressions. For Sequence and Alternative there is a choice
+between a body of two sub-expression or a list of sub-expressions. I
+choose the list because it tends to simplify the code, for example
+be having One and Zero RegExprs as special cases.</p>
+
+<pre>
+TODO
+o atoms/ranges of arbitrary bit length
+  o default length 16; adjustable
+  o atom ::= code [ ":" bits ]
+  o an atom is translated into n single-bit transitions
+  o FA.mergeTransitions(m)
+    o compose m transitions into single transitions
+    o caution with end states
+  o replace range tests in TableFA by array indexing;
+    e.g. scan char by 4x4 transitions
+  o caution: reading from an input stream raised byte order issues
+o Visitor for getRanges
+
+</pre>
+
+</body>

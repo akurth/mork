@@ -1,0 +1,11 @@
+program {
+    int a;
+
+    print "Number: ";
+    input a;
+    if (a) {
+        print "not null\n";
+    } else {
+        print "null\n";
+    }
+}

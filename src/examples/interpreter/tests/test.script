@@ -1,0 +1,11 @@
+script
+  int a;
+{
+  print "welcome";
+  print a;
+  print "enter number: ";
+  input a;
+  a = a*a;
+  print "a*a:";
+  print a;
+}

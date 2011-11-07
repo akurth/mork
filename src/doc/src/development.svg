@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding='ISO-8859-1' standalone="yes" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20000802//EN"
+                     "http://www.w3.org/TR/2000/CR-SVG-20000802/DTD/svg-20000802.dtd">
+<svg width="180mm" height="100mm" background="white" viewBox="0 0 400 250" >
+  <title>Development</title>
+  <style type="text/css"><![CDATA[
+    .legend {
+      font-family: Helvetica;
+      font-size: 8;
+      text-anchor: middle;
+      fill: black;
+    }
+  ]]></style>
+
+  <g fill="none" stroke="black" text-anchor="middle" >
+    <defs>
+        <rect id="source" x="0" y="0" width="60" height="20" rx="3" ry="3" fill="white"/>
+        <rect id="binary" x="0" y="0" width="60" height="20" rx="3" ry="3" fill="lightgray"/>
+        <rect id="instance" x="0" y="0" width="60" height="20"/>
+        <marker id="triangle" viewBox="0 0 10 10" refX="0" refY="5"
+            markerUnits="strokeWidth" markerWidth="7" markerHeight="6" orient="auto" fill="black">
+          <path d="M 0 0 L 10 5 L 0 10 z"/>
+        </marker>
+    </defs>
+
+    <g transform="translate( 15, 8)">
+      <use xlink:href="#source"/>
+      <text class="legend" x="30" y="10">syntax file</text>
+    </g>
+    <path d="M 40 28 l -4 7" marker-end="url(#triangle)"/>
+
+    <g transform="translate( 3, 40)">
+      <use xlink:href="#source"/>
+      <text class="legend" x="30" y="10">mapper file</text>
+    </g>
+
+    <g transform="translate( 3,85)">
+      <use xlink:href="#source"/>
+      <text class="legend" x="30" y="10">Java file</text>
+    </g>
+    <g transform="translate( 3,110)">
+      <use xlink:href="#source"/>
+      <text class="legend" x="30" y="10">Java file</text>
+    </g>
+    <g transform="translate( 3,135)">
+      <use xlink:href="#source"/>
+      <text class="legend" x="30" y="10">Java file</text>
+    </g>
+
+    <text class="legend" x="95" y="44">mork</text>
+    <path d="M 72 50 h 45" marker-end="url(#triangle)"/>
+    <text class="legend" x="95" y="114">javac</text>
+    <path d="M 72 120 h 45" marker-end="url(#triangle)"/>
+
+    <text class="legend" x="221" y="44">instance</text>
+    <path d="M 198 50 h 45" marker-end="url(#triangle)"/>
+    <text class="legend" x="221" y="114">instances</text>
+    <path d="M 198 120 h 45" marker-end="url(#triangle)"/>
+
+    <g fill="lightgray">
+      <g transform="translate( 130,40)">
+        <use xlink:href="#binary"/>
+        <text class="legend" x="30" y="10">mapper class</text>
+      </g>
+
+      <g transform="translate( 130,85)">
+        <use xlink:href="#binary"/>
+        <text class="legend" x="30" y="10">Java class</text>
+      </g>
+      <g transform="translate( 130,110)">
+        <use xlink:href="#binary"/>
+        <text class="legend" x="30" y="10">Java class</text>
+      </g>
+      <g transform="translate( 130,135)">
+        <use xlink:href="#binary"/>
+        <text class="legend" x="30" y="10">Java class</text>
+      </g>
+    </g>
+
+    <g transform="translate(280, 10)">
+      <use xlink:href="#instance"/>
+      <text class="legend" x="30" y="10">input</text>
+    </g>
+    <path d="M 332 30 v 50" marker-end="url(#triangle)"/>
+    <g transform="translate(325, 52)  rotate(90)">
+      <text class="legend">maps</text>
+    </g>
+    <g transform="translate(260, 40)">
+      <use xlink:href="#instance"/>
+      <text class="legend" x="30" y="10">mapper object</text>
+    </g>
+    <g transform="translate(280,85)">
+      <use xlink:href="#instance"/>
+      <text class="legend" x="30" y="10">Java object</text>
+    </g>
+    <g transform="translate(256,110)">
+      <use xlink:href="#instance"/>
+      <text class="legend" x="30" y="10">Java object</text>
+    </g>
+    <g transform="translate(270,135)">
+      <use xlink:href="#instance"/>
+      <text class="legend" x="30" y="10">Java object</text>
+    </g>
+
+    <g transform="translate(2, 185)">
+      <path d="m 0,0 h 194"/>
+      <path d="m 0,-2 v 4"/>
+      <path d="m 194,-2 v 4"/>
+      <text class="legend" x="100" y="-2">compile-time</text>
+    </g>
+
+    <g transform="translate(210, 185)">
+      <path d="m 0,0 h 140"/>
+      <path d="m 0,-2 v 4"/>
+      <path d="m 140,-2 v 4"/>
+      <text class="legend" x="70" y="-2">runtime</text>
+    </g>
+
+
+    <g transform="translate(12, 200) scale(0.7)">
+      <use xlink:href="#source"/>
+      <text class="legend" x="30" y="10">source file</text>
+    </g>
+    <g transform="translate(140, 200) scale(0.7)">
+      <use xlink:href="#binary"/>
+      <text class="legend" x="30" y="10">binary file</text>
+    </g>
+    <g transform="translate(280, 200) scale(0.7)">
+      <use xlink:href="#instance"/>
+      <text class="legend" x="30" y="10">instance</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,101 @@
+#
+# Copyright 1&1 Internet AG, http://www.1and1.org
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; either version 2 of the License,
+# or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+[PARSER]
+
+#
+# overall structure
+
+Grammar             ::= Parser Scanner ;
+Parser              ::= "[" "PARSER" "]" Rule+ ;
+Scanner             ::= "[" "SCANNER" "]" Priorities WhiteOpt Rule* ;
+Priorities          ::= UsePriorities | NoPriorities;
+UsePriorities       ::= ;
+NoPriorities        ::= "nopriorities;";
+WhiteOpt            ::= ("white" "=" SymbolSet ";")? ;
+SymbolSet           ::= ( Symbol ("," Symbol)* )? ;
+
+
+#
+# symbols
+
+Symbol              ::= StringSymbol | IdentifierSymbol ;
+StringSymbol        ::= StringLiteral ;
+IdentifierSymbol    ::= Identifier ;
+Rule                ::= Subject "::=" RegExpr ";" ;
+Subject             ::= Symbol ;
+
+#
+# regular expressions
+
+RegExpr             ::= Choice ;
+Choice              ::= Choice "|" Sequence | Sequence ;
+Sequence            ::= (Factor | Restriction) * ;
+Restriction         ::= Factor "-" Factor;
+Factor              ::= Operation | Reference | Range | "(" RegExpr ")" ;
+Operation           ::= Star | Plus | Option | Times | Not  ;
+
+Star                ::= Factor "*" ;
+Plus                ::= Factor "+" ;
+Option              ::= Factor "?" ;
+Times               ::= Factor ":" IntegerLiteral ;
+Not                 ::= Factor "!" ;
+
+Reference           ::= Symbol ;
+
+Range               ::= Atom (".." Atom)? ;
+Atom                ::= CharacterLiteral | Code ;
+Code                ::= IntegerLiteral ;
+
+[SCANNER]
+    white = WhiteSpace, EndOfLineComment, TraditionalComment ;
+
+
+IntegerLiteral     ::= '0'
+                     | '1'..'9' '0'..'9'*
+                     | '0' ('x'|'X')
+                           ('0'..'9' | 'a'..'f' | 'A'..'F')+
+                     | '0' ('0'..'7')+ ;
+
+StringLiteral      ::= '"' (('\\' 0..65535)
+                        | ('\\' | '"' | '\n' | '\r')!)+ '"' ;
+
+CharacterLiteral   ::= '\'' (('\\' 0..65535) |
+                           ('\\' |'\'' |'\n' | '\r')!)+ '\'' ;
+
+Identifier ::=
+   ( 0x0024..0x0024 | 0x0041..0x005a | 0x005f..0x005f |
+     0x0061..0x007a | 0x00a2..0x00a5 | 0x00aa..0x00aa |
+     0x00b5..0x00b5 | 0x00ba..0x00ba | 0x00c0..0x00d6 |
+     0x00d8..0x00f6 | 0x00f8..0x00ff )
+   ( 0x0000..0x0008 | 0x000e..0x001b | 0x0024..0x0024 |
+     0x0030..0x0039 | 0x0041..0x005a | 0x005f..0x005f |
+     0x0061..0x007a | 0x007f..0x009f | 0x00a2..0x00a5 |
+     0x00aa..0x00aa | 0x00b5..0x00b5 | 0x00ba..0x00ba |
+     0x00c0..0x00d6 | 0x00d8..0x00f6 | 0x00f8..0x00ff )* ;
+
+#
+# white space
+
+WhiteSpace         ::= ( ' ' | '\t' | '\n' | '\f' | '\r' )+ ;
+EndOfLineComment   ::= '#' ('\n' | '\r')!* ('\n' | '\r') ;
+TraditionalComment ::=
+  "/*"
+         ( ('*'! | '*'+ ('*' | '/')!)*
+         | '*'!* '*' ('*' | ('*' | '/')! '*'!* '*')*
+         )
+  "*/" ;

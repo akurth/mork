@@ -1,0 +1,56 @@
+<body>
+
+<p>Invoke and control mork.</p>
+
+<pre>
+syntax style
+o use brackets with spaces, in order to distinguish them from postfix operators
+o right hand side of a rule
+  o placement on the same line frequently need re-alligning ::=
+  o placement on a new line is less compact
+o no explicit start symbol in Mork files
+  o placing the scanner section behind the parser section
+    implies my symbol ordering
+  o temporarily changing the start symbol for testing
+    purpose isn't possible because more complains about
+    unreachable symbols
+  o shorter
+
+<pre>
+TODO
+o compiled Mapper
+  o compiled functions
+    o improve code-generation
+      o unwraping and casting
+      o use local variables instead of operand stack?
+      o get rid of some of the copy function calls.
+    o hard-wire the option?
+  o cleanup "compiler" classes
+
+o mapper.grm improvements
+  o remove tailing ";" if lookahead 2 is available
+    + ; is irritating
+    + no more reformatting if alternatives are added
+    + formatting of ";" is difficult:
+      o symbol; would be Java-like, but it's problemtic
+        with postfix-operators:  symbol+;
+  o style consideration
+    o 1 line  - a comprehensive spec is needed
+    o allign to column 16
+
+o merge parser + scanner section -- automatically separate regular and context-free parts
+  o how to invoke semantic functions in the scanner?
+  o algorithm
+    o goal: collect all symbols to be processed by the scanner
+    o init: initialize with identifier symbols and symbols for
+            literals
+    o step:
+      add left-hand-side symbol, if all right-hand-side symbols
+      are already contained
+  o white space handling
+    o declare a set of symbols where special processing is wanted;
+      declare white-space removal as special processing
+    o white space can become an attribute ...
+  o Cocom's tool "MESE" does it
+</pre>
+</body>

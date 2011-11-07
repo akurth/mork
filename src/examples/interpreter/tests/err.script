@@ -1,0 +1,6 @@
+script
+  int b;
+{
+  print b;
+  b = "hei";
+}

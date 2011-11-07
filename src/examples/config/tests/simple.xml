@@ -1,0 +1,6 @@
+<config>
+  <key>Hello</key>
+  <string>World</string>
+  <key>Hallo</key>
+  <string>Welt</string>
+</config>

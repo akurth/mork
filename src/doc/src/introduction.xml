@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<chapter>
+<title>Introduction</title>
+
+<sect1>
+<title>Preface</title>
+
+<formalpara>
+<title>Prerequisites</title>
+<para>This manual assumes knowledge about Java and some understanding of
+regular expressions and context-free grammars.</para></formalpara>
+
+<formalpara>
+<title>Status</title>
+<para>Mork is developed in my spare time. I consider Mork as beta code.
+It has been tested for Mork itself (Mork is bootstrapped) and the example
+applications - and nothing else. The syntax grammar part is stable. The
+mapping part slowly matures. The XML syntax part is unstable. </para></formalpara>
+
+<formalpara>
+<title>Conventions</title>
+<para>The following font conventions are used throughout this document
+<itemizedlist>
+  <listitem><para>A <literal>typewriter font</literal> indicates example code or shell commands.
+    </para></listitem>
+  <listitem><para>An <emphasis>italic font</emphasis> indicates that the given term is defined
+    in the respective sentence. TODO: not completed yet.</para></listitem>
+</itemizedlist>
+</para></formalpara>
+
+<formalpara>
+<title>License</title>
+<para><indexterm><primary>license</primary></indexterm>Mork is licensed under the terms of the GNU
+Lesser General Public License. It is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE. For a copy of this license, see the file <literal>license.txt</literal>
+which is part of the distribution. </para></formalpara>
+
+<formalpara>
+<title>Contact</title>
+<para><indexterm><primary>contact</primary></indexterm><indexterm><primary>feedback</primary>
+</indexterm>Please send your feedback to <email>michael.hartmeier@1und1.de</email>! Mork has a web page
+at <ulink url="http://mork.sourceforge.net/">mork.sourceforge.net</ulink>
+</para></formalpara>
+
+</sect1>
+
+<sect1>
+<title>Overview</title>
+
+<formalpara>
+<title>Applications</title>
+<para><emphasis>Mork</emphasis><indexterm significance="preferred"><primary>Mork</primary>
+</indexterm> is a compiler tool
+for Java. Its purpose similar to ANTLR, JavaCC (and jjTree), JLex &amp; CUP, or SableCC. Mork can
+be used for <emphasis>applications</emphasis><indexterm significance="preferred">
+<primary>applications</primary></indexterm> that process input streams, e.g.
+<itemizedlist>
+<listitem><formalpara><title>calculators</title>
+  <para>computing expressions</para></formalpara></listitem>
+<listitem><formalpara><title>pretty printers</title>
+  <para>formatting program sources</para></formalpara></listitem>
+<listitem><formalpara><title>interpreters</title>
+  <para>executing scripts</para></formalpara></listitem>
+<listitem><formalpara><title>compilers</title>
+  <para>translating programs</para></formalpara></listitem>
+<listitem><formalpara><title>tools like make</title>
+  <para>implement some kind of command language</para></formalpara></listitem>
+<listitem><formalpara><title>application configuration</title>
+  <para>reading configuration files (e.g. Tomcat's <literal>server.xml</literal> file
+  or manifest file for <literal>jar</literal>)
+  </para></formalpara></listitem>
+</itemizedlist></para></formalpara>
+
+<formalpara>
+<title>Mapping</title>
+<para>Applications use Mork to map<indexterm><primary>mapping</primary></indexterm> input
+streams into Java objects. Example 1: In a calculator application, Mork maps the input
+<literal>17+5*7-10</literal> into a number object <literal>42</literal>. Example 2: In an
+interpreter application, Mork maps a script file into Java objects like statements and expressions.
+The underlying statement and expression classes are defined by the application, they usually have
+methods like <literal>execute</literal> and <literal>eval</literal> that implement the actual
+execution if the script. </para></formalpara>
+
+<formalpara>
+<title>Development</title>
+<para>Developing an application with Mork centers around the mapper concept
+<indexterm><primary>mapper</primary></indexterm>. This is outlined in the figure below. The
+application is defined by three kinds of source files: (1) A syntax file defining the structure of
+the input stream, (2) a mapper file that defines how to map input streams with this syntax into
+Java objects, and (3) Java files defining the objects the input stream is mapped to. The application
+is compiled into Java class files by running a Java compiler on the Java files and my running Mork
+on the mapper file. At runtime, the application instantiates the mapper class and runs it on input
+streams in order to map them into Java objects. </para></formalpara>
+
+<figure>
+<title>Development</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="development.jpg" format="JPG"/>
+</imageobject>
+</mediaobject>
+</figure>
+
+<formalpara>
+<title>Terminology</title>
+<para>In this document, the term application<indexterm><primary>applications</primary></indexterm>
+denotes an application that uses Mork. The term user <indexterm><primary>user</primary></indexterm>
+refers to the developer who uses Mork to write an application; user does not refer to the person
+using the application. This manual forms the user documentation for Mork.
+<!-- most of the sentences sound better with "user"; "user guide" is just one example -->
+</para></formalpara>
+
+<formalpara>
+<title>Outline</title>
+<para>The next two chapters form a kind of user's guide, they describe how to install Mork
+(chapter 2) and how to get going (3). The remaining chapter are written more like a reference.
+Everything is centered around mappers: how to define the syntax of a mapper (4), how to define
+the mapper itself (5), how to translate a mapper (6) and how to invoke a mapper from your
+application (7). The last chapter (8) contains notes about example applications and the
+implementation of Mork. </para></formalpara>
+
+</sect1>
+
+<sect1>
+<title>Features</title>
+
+<itemizedlist>
+<listitem><formalpara>
+  <title>Mapper</title>
+  <para>Applications use a mapper as a black box: they just run it on some input stream to get
+  their objects instantiated. This is like de-serializing objects from file with arbitrary syntax
+  </para></formalpara></listitem>
+<listitem><formalpara>
+  <title>Mapping</title>
+  <para>An attribute is defined my simply associating symbols with constructors. A set of
+  attributes defines a mapper. </para></formalpara></listitem>
+<listitem><formalpara>
+  <title>Visibility</title>
+  <para>Visibility declarations can be used to make attributes available to almost any location
+  in the syntax tree. </para></formalpara></listitem>
+<listitem><formalpara>
+  <title>Scanner</title>
+  <para>Unicode support, scanner modes, and the usual regular expression operators.
+  </para></formalpara></listitem>
+<listitem><formalpara>
+  <title>Parser</title>
+  <para>LALR(1) parsers and regular expression operators for grammar
+  rules: EBNF and more.</para></formalpara></listitem>
+<listitem><formalpara>
+  <title>Attribution</title>
+  <para>Well-defined attribute grammars: Any number of synthesized and
+  inherited attributes.
+  </para></formalpara></listitem>
+<listitem><formalpara>
+  <title>No embedded code</title>
+  <para>Clean separation of syntax and semantics: syntax goes into
+    the specification file, semantics into Java files.
+    </para></formalpara></listitem>
+<listitem><formalpara>
+  <title>True compiler</title>
+  <para>Mork generates class file, not Java code: no Java-compile step is needed.
+    </para></formalpara></listitem>
+<listitem><formalpara>
+  <title>Class file package</title>
+  <para>To generate Java class files. Includes features like automatic
+    stack size computation.</para></formalpara></listitem>
+<listitem><formalpara>
+  <title>Examples</title>
+  <para>Mork includes an interpreter example, a compiler example that
+    generates bytecode, and a Java parser example.
+    </para></formalpara></listitem>
+<listitem><formalpara>
+  <title>Positional error messages</title>
+  <para>Throwing an exception reports the current position and the
+  exception message.</para></formalpara></listitem>
+</itemizedlist>
+
+</sect1>
+
+</chapter>

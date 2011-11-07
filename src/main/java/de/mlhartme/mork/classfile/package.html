@@ -1,0 +1,61 @@
+<body>
+
+<p>Java class files. The primary purpose of this package is compiler
+construction, i.e. to simplify code generation. In addition, the package
+can be used to dis-assemble class files, which might be usefull for
+tools like disassemblers/dumpers, obfuscators, javap, verifiers, class
+loaders.  This package has a Main class that demonstrates some of
+the features. </p>
+
+<p>The package hides details of class files (namely the constant pool and
+the instruction encoding) in order to simplify code generation: I trade
+simplicity for control of the generated class file. For example, saving a
+classfile previously loaded normally does not necessarily
+yield an identical classfile. However, the resulting class file has the
+same effect. This philosophy differs from gnu.bytecode and makes it *not*
+suitable for exact disassembling.</p>
+
+<p>This package hides the constant pool: users of this package have no
+access to the constant pool, it's hidden completely. Note: javac seems to
+sort constant pool entries and adds a "LineNummer" utf8 to constant pool,
+even if no code attributes occur. This might result in physically different
+class files when dumping.</p>
+
+<p>This package hides the instruction encoding: when loading instructions
+from a class file, it turns physical into logical instructions. The
+physical instruction includes offsets, optimized constants, optimized
+local variables references, etc.  The logical instruction does not,
+and thus users do now have to care about these details. This encoding (and
+decoding when writing logical instructions) is defined by the
+InstructionEncoding and InstructionType classes.</p>
+
+<p>Bytecode within class files is not optimized for speed or size. </p>
+
+<p>toString() is implemented to be used in a dumper.</p>
+
+<p>Ref classes stand between descriptor Strings and the corresponding
+java.lang.reflect classes:  Descriptor - Ref - reflect.  There is a
+bijection between descriptors and Refs. Any reflect object has a corresponding
+reference; however, Refs do not necessarily imply a reflect object.</p>
+
+<pre>
+TODO
+
+o features
+  o renaming classes
+  o TABLESWITCH: fixup start/end argument;
+    use this feature in the MapperFunction compiler
+
+o cleanup
+  o intructions
+    o re-think implementation
+    o use primitive values to store int arguments?
+  o local variables; allocate or assign?
+  o error messages, checks, warning
+  o argument and result types in IO
+  o constant pool
+    o hash for entries to speedup large file processing
+    o introduce a "Ref" base class
+
+</pre>
+</body>

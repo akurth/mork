@@ -1,0 +1,72 @@
+#
+# Copyright 1&1 Internet AG, http://www.1and1.org
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; either version 2 of the License,
+# or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+[PARSER]
+
+Script          ::= "script" Declarations Block;
+
+Declarations    ::= ( Variable ";" )* ;
+Variable        ::= Type Identifier ;
+Type            ::= "bool" | "int" ;
+Type            ::= "string" ;
+
+Stmt            ::= Block | Print | Input | If | While | Assign ;
+
+Block           ::= "{" Stmt* "}";
+Print           ::= "print" Expr ";";
+Input           ::= "input" Reference ";";
+If              ::= "if" "(" Expr ")" Block ("else" Block )? ;
+While           ::= "while" "(" Expr ")" Stmt ;
+Assign          ::= Reference "=" Expr ";";
+
+Expr            ::= Or | And ;
+Or              ::= Expr "||" And ;
+
+And             ::= And2 | Equation ;
+And2            ::= And "&&" Equation ;
+
+Equation        ::= Equation2 | Relation ;
+Equation2       ::= Equation ("==" | "!=") Relation ;
+
+Relation        ::= Relation2 | Sum ;
+Relation2       ::= Relation ("<" | ">" | "<=" | ">=") Sum ;
+
+Sum             ::= Sum2 | Prod  ;
+Sum2            ::= Sum ("+"|"-") Prod ;
+Prod            ::= Prod2 | Unary ;
+Prod2           ::= Prod ("*"|"/"|"%") Unary ;
+Unary           ::= Unary1 | Atom ;
+Unary1          ::= ("+"|"-"|"!") Unary;
+
+Atom            ::= Const | Reference | "(" Expr ")";
+Reference       ::= Identifier ;
+
+Const           ::= String | Integer | Boolean ;
+Boolean         ::= "true" | "false" ;
+
+
+[SCANNER]
+    white = Space, Comment;
+
+String     ::= '"' '"'!* '"' ;
+Integer    ::= Digit+ ;
+Identifier ::= Letter (Letter | Digit | '_')* ;
+Letter     ::= 'A'..'Z' | 'a'..'z' ;
+Digit      ::= '0'..'9';
+
+Space      ::= (' ' | '\b' | '\t' | '\n' | '\f' | '\r' )+ ;
+Comment    ::= '#' ('\n'|'\r')!* ;

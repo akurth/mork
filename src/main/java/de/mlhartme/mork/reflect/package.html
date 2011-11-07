@@ -1,0 +1,40 @@
+<body>
+
+<p>Additional functionality over java.lang.reflect. Provides
+wrapper classes that unify methods, constructors and fields in functions.
+Some classes in this package use the same name as the wrapped
+java.lang.reflect class. The documentation adds the term Java when refering
+java.lang.reflect classes </p>
+
+<p>Implementation notes:</p>
+
+<p>Wrapper classes (Method, Constructor, Field) can't derive
+the corresponding reflection classes because those are final or have
+private constructors.</p>
+
+<p>There is an alternative implementation for Function: its constructur
+receives the function signature (name, result, arguments) and maintains them
+autonomously. This would prevent derived functions to change the signature
+dynamically and it would be slightly faster. However, constructing derived
+classes becomes weired, speed is typically not an issue (because type-checking
+is performed at compile-time), and it requires more space. The current
+solution is somehow cleaner. </p>
+
+<p>I'd like to avoid argument copying by adding an ofs argument to invoke.
+But finally, Java methods or constructors will be called - and they need
+a shrink-wrapped array.</p>
+
+<pre>
+TODO:
+o rename functions into Callable?
+  o functions can have side-effects
+o Function.getParameterTypes is expensive
+o mutable Selections?
+o resemble java.lang.reflect naming
+
+o merge with mapping.Type/mapping.Library?
+o move classfile.*Ref classes into this package?
+o functions and interfaces?
+</pre>
+
+</body>

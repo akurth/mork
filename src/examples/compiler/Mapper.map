@@ -1,0 +1,62 @@
+#
+# Copyright 1&1 Internet AG, http://www.1and1.org
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; either version 2 of the License,
+# or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+mapper compiler.Mapper;
+
+grm = "program.grm";
+
+import compiler:
+    Assign, Binary, Block, Declarations, If, Input, Number, Print, Program,
+    StringLiteral, Variable, VariableReference, While, Int, Str, Operator;
+
+Program           => Program;
+
+Declarations      => Declarations:
+                        >\\Program >\Block//Stmt//Declarations >\Block//VariableReference ;
+Variable          => Variable;
+IntType           => Int.TYPE;
+StrType           => Str.TYPE;
+
+Block             => Block;
+Assign            => Assign;
+Input             => Input;
+Print             => Print;
+If                => If;
+While             => While;
+
+Compare           => Binary.createRightOptional;
+Sum               => Binary.createLeftOptional;
+Prod              => Binary.createLeftOptional;
+VariableReference => VariableReference;
+
+id                => [text];
+num               => Number;
+                  => [text] : > num;
+str               => StringLiteral;
+                  => [text] : > str;
+
+"+"               => Operator.ADD;
+"-"               => Operator.SUB;
+"*"               => Operator.MUL;
+"/"               => Operator.DIV;
+
+"!="              => Operator.NE;
+"=="              => Operator.EQ;
+"<"               => Operator.LT;
+"<="              => Operator.LE;
+">"               => Operator.GT;
+">="              => Operator.GE;

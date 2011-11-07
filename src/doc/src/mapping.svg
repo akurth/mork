@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding='ISO-8859-1' standalone="yes" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20000802//EN"
+                     "http://www.w3.org/TR/2000/CR-SVG-20000802/DTD/svg-20000802.dtd">
+<svg width="150mm" height="50mm" viewBox="0 0 360 120">
+  <title>Development</title>
+  <style type="text/css"><![CDATA[
+    .legend {
+      font-family: Helvetica;
+      font-size: 8;
+      text-anchor: middle;
+      fill: black;
+    }
+  ]]></style>
+
+  <g fill="none" stroke="black" text-anchor="middle">
+    <defs>
+        <rect id="char" width="10" height="10" fill="white"/>
+        <rect id="node" width="10" height="10" rx="2" ry="2" fill="lightgray"/>
+        <rect id="obj" width="10" height="10" rx="4" ry="4" fill="gray"/>
+        <marker id="triangle" viewBox="0 0 10 10" refX="0" refY="5"
+            markerUnits="strokeWidth" markerWidth="7" markerHeight="6" orient="auto" fill="black">
+          <path d="M 0 0 L 10 5 L 0 10 z"/>
+        </marker>
+    </defs>
+
+    <g id="characters" transform="translate(0,0)">
+        <g transform="translate(5,100)"><use xlink:href="#char"/></g>
+        <text class="legend" x="40" y="108">character</text>
+
+        <g transform="translate( 5,30)"><use xlink:href="#char"/></g>
+        <g transform="translate(15,30)"><use xlink:href="#char"/></g>
+        <g transform="translate(25,30)"><use xlink:href="#char"/></g>
+        <g transform="translate(35,30)"><use xlink:href="#char"/></g>
+        <g transform="translate(45,30)"><use xlink:href="#char"/></g>
+
+        <path d="M 80 35 h 40" marker-end="url(#triangle)"/>
+        <text class="legend" x="105" y="50">syntactic analysis</text>
+
+    </g>
+    <g id="nodes" transform="translate(120,0)">
+        <g transform="translate(10,100)"><use xlink:href="#node"/></g>
+        <text class="legend" x="60" y="108">syntax tree node</text>
+
+        <g transform="translate(40,10)"><use xlink:href="#node"/></g>
+        <g transform="translate(30,40)"><use xlink:href="#node"/></g>
+        <g transform="translate(50,40)"><use xlink:href="#node"/></g>
+        <g transform="translate(70,40)"><use xlink:href="#node"/></g>
+        <g transform="translate(40,70)"><use xlink:href="#node"/></g>
+        <g transform="translate(60,70)"><use xlink:href="#node"/></g>
+
+        <path d="M 45 20 l -10 20"/>
+        <path d="M 45 20 l  10 20"/>
+        <path d="M 45 20 l  30 20"/>
+        <path d="M 55 50 l -10 20"/>
+        <path d="M 55 50 l  10 20"/>
+
+        <path d="M 110 35 h 40" marker-end="url(#triangle)"/>
+        <text class="legend" x="130" y="50">semantic analysis</text>
+    </g>
+    <g id="objects" transform="translate(270, 0)">
+        <g transform="translate(30,100)"><use xlink:href="#obj"/></g>
+        <text class="legend" x="60" y="108">object</text>
+
+        <g transform="translate(40,12)"><use xlink:href="#obj"/></g>
+        <g transform="translate(60,20)"><use xlink:href="#obj"/></g>
+        <g transform="translate(50,40)"><use xlink:href="#obj"/></g>
+        <g transform="translate(30,50)"><use xlink:href="#obj"/></g>
+        <g transform="translate(40,70)"><use xlink:href="#obj"/></g>
+        <g transform="translate(60,70)"><use xlink:href="#obj"/></g>
+
+        <path d="M 50 17 l  10   5"/>
+        <path d="M 45 22 l  10  18"/>
+        <path d="M 65 30 l -10  10"/>
+        <path d="M 55 50 l -10  20"/>
+        <path d="M 55 50 l  10  20"/>
+        <path d="M 45 70 l -10 -10"/>
+
+    </g>
+  </g>
+</svg>

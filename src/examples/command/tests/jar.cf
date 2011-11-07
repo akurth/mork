@@ -1,0 +1,6 @@
+command "create jar": "Creates a jar file"
+    jar: "jar file name";
+    dir: "directory";
+{
+    run "jar cvf " + jar + " " + dir;
+}

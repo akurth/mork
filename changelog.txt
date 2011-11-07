@@ -1,0 +1,61 @@
+Mork
+====
+
+Changelog for Mork §{version}:
+0.6
+# §.
+
+changes since 0.5
+-----------------
+
+o moved some packages into beezle
+o bug fix for large parser tables which resulted in corrupt class files
+  (thanks to Hidetoshi Ohuchi!)
+o remove examples from built-in classpath
+o Position object for all nodes
+o performance improvements
+  o jp: +50% real
+  o compiler example: +10%
+  o calc example: -10%   TODO
+o reduced memory consuption
+o reworked ErrorHandler
+o ordered attributes grammars
+o merge Grammar and GrammarBuffer
+o build system
+  o switched to junit 3.8
+  o switched to python 2
+  o use a build directory instead of a tmp directory
+  o filelist module: unified interface for glob/find functionality
+  o adjusted to work with jython 2.1
+    o lambda expressions had to be replaced by local function definitions
+    
+o fixed "-verbose:translation" switch
+o remove attribute states
+o reworked -lst output; reworked toString() for Grammar, GrammarBuffer and SemanticsBuffer
+
+changes since 0.4
+-----------------
+
+o improved performance of generated parsers:
+  the Java Parser example is 20-40% faster
+  
+o fixes
+  o wrong error position computed for large token
+  o classfile packakge
+    o IO.read() and Pool.read threw wrong EOFException
+  
+o switched to packlet installer
+
+o switched from png to jpg images in the manual
+
+o java
+  o renamed mapping.Type  -> mapping.Import
+  o cleanup visibility computation
+  
+o build system
+  o use Mork 0.4 for bootstrapping (instead of Mork 0.2.4)
+  o cleanup
+    o remove import *
+    o move general purpose code from mork to util package
+  
+

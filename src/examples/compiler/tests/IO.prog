@@ -1,0 +1,12 @@
+program {
+    String a;
+    int b;
+    print "IO tests\n";
+    print "A string: ";
+    input a;
+    print "A number: ";
+    input b;
+    print a + " " + a + "\n";
+    print b + b;
+    print "\n";
+}

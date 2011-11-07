@@ -1,0 +1,52 @@
+<body>
+
+<p>LALR(1) parser construction and push down automatons for
+shift-reduce parsing. This package could as well be named
+lalrparser. This packages does not provide LR(1) construction,
+LR(1) tables are considers to be too big for realistic languages. </p>
+
+<p>LALR(1) construction follows the algorithm shown in [DeRemer79].
+I did not read this paper, instead the desciption in [Sorenson84] was
+used. Most compiler text books (e.g. [Waite84], [Aho86],[Wilhelm92])
+do not include a description of this algorithm.</p>
+
+<p>Problem of the implementation is that states, items and transitions
+need access to an envionment with at least grammar and nullable symbols.
+I dislike both inner classes and static variables to solve this problem.
+Instead I pass an explicit environment argument to each method that needs
+to access it.</p>
+
+<pre>
+TODO:
+o conflict handling
+  o improved error messages
+    o user-readable description
+  o statically
+    o by priority
+    o by associativity
+  o dynamically
+    o user-defined predicate
+    o make attributes available
+  o automatically
+    o transparently change the grammar
+  o can I use the same declarations for scanner and ll and lr?
+  o scanner conflicts are usually solved implicitly, using
+    sequencing information; this may become explicit
+  o other tools
+    o Eli
+      o offers to change the lookahead
+    o lex, yacc, syntax
+      o priority for token; inherited to productions
+      o priority for productions
+      o associativity
+o error repair
+  o recover from syntax errors
+  o improved error messages
+  o Toplas 17(4)
+  o use the same declarations for scanner and parser
+  o provide automatic of declared messages
+o more powerfull pda construction
+  o more lookahead
+</pre>
+
+</body>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding='ISO-8859-1' standalone="yes" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20000802//EN"
+                     "http://www.w3.org/TR/2000/CR-SVG-20000802/DTD/svg-20000802.dtd">
+<svg width="105mm" height="105mm" viewBox="0 0 315 315" >
+  <title>Library</title>
+  <style type="text/css"><![CDATA[
+    .legend {
+      font-family: Helvetica;
+      font-size: 8;
+      fill: black;
+    }
+  ]]></style>
+  <g stroke="black" fill="none" text-anchor="middle">
+
+    <defs>
+        <rect id="package" x="0" y="0" width="60" height="30" rx="4" ry="4"/>
+        <rect id="jpackage" x="0" y="0" width="50" height="30" rx="4" ry="4"/>
+    </defs>
+
+    <rect x="0" y="0" width="300" height="300"/>
+
+    <!-- mork level -->
+    <g transform="translate( 30,22)"><use xlink:href="#package"/><text class="legend"
+       x="30" y="15">mapping</text></g>
+    <g transform="translate(100,18)"><use xlink:href="#package"/><text class="legend"
+       x="30" y="15">xml</text></g>
+    <g transform="translate(170,13)"><use xlink:href="#package"/><text class="legend"
+       x="30" y="15">mork</text></g>
+    <text class="legend" text-anchor="end" x="295" y="55">Mork compiler tool</text>
+
+    <path d="M 0,60 h 300"/>
+
+    <!-- compiler tools -->
+    <g transform="translate( 30, 72)">
+      <use xlink:href="#package"/>
+      <text class="legend" x="30" y="15">finite</text>
+      <text class="legend" x="30" y="25">automatons</text>
+    </g>
+    <g transform="translate(100, 69)">
+      <use xlink:href="#package"/>
+      <text class="legend" x="30" y="15">pushdown</text>
+      <text class="legend" x="30" y="25">automatons</text>
+    </g>
+    <g transform="translate(170, 63)">
+      <use xlink:href="#package"/>
+      <text class="legend" x="30" y="15">attribute</text>
+      <text class="legend" x="30" y="25">grammars</text>
+    </g>
+    <g transform="translate( 60,109)">
+      <use xlink:href="#package"/>
+      <text class="legend" x="30" y="15">regular</text>
+      <text class="legend" x="30" y="25">expressions</text>
+    </g>
+    <g transform="translate(130,104)">
+      <use xlink:href="#package"/>
+      <text class="legend" x="30" y="15">context-free</text>
+      <text class="legend" x="30" y="25">grammars</text>
+    </g>
+
+    <text class="legend" text-anchor="end" x="295" y="145">compiler tool</text>
+    <path d="M 0,150 h 300"/>
+
+    <!-- util box -->
+    <g transform="translate( 30,164)"><use xlink:href="#package"/><text class="legend"
+       x="30" y="15">data types</text></g>
+    <g transform="translate(100,159)"><use xlink:href="#package"/><text class="legend"
+       x="30" y="15">reflection</text></g>
+    <g transform="translate(170,155)"><use xlink:href="#package"/><text class="legend"
+       x="30" y="15">classfile</text></g>
+
+    <text class="legend" text-anchor="end" x="295" y="215">general purpose</text>
+    <path d="M 0,220 h 300"/>
+    <path d="M 0,222 h 300"/>
+
+    <!-- java platform -->
+
+    <text class="legend" text-anchor="end" x="295" y="235">Java platform</text>
+    <g transform="translate( 10,255)"><use xlink:href="#jpackage"/><text class="legend"
+       x="25" y="15">java.lang</text></g>
+    <g transform="translate( 65,255)">
+      <use xlink:href="#jpackage"/>
+      <text class="legend" x="25" y="15">java.lang</text>
+      <text class="legend" x="25" y="25">.reflect</text>
+    </g>
+    <g transform="translate(120,255)"><use xlink:href="#jpackage"/><text class="legend"
+       x="25" y="15">java.util</text></g>
+    <g transform="translate(175,255)"><use xlink:href="#jpackage"/><text class="legend"
+       x="25" y="15">java.io</text></g>
+    <g transform="translate(230,255)"><use xlink:href="#jpackage"/><text class="legend"
+       x="25" y="15">java.net</text></g>
+  </g>
+</svg>

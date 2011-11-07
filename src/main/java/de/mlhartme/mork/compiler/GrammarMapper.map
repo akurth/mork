@@ -1,0 +1,82 @@
+#
+# Copyright 1&1 Internet AG, http://www.1and1.org
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; either version 2 of the License,
+# or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+mapper de.mlhartme.mork.compiler.GrammarMapper;
+
+grm = "grammar.grm";
+
+import de.mlhartme.mork.regexpr:
+    Choice, Loop, Sequence, Symbol, Range, Without;
+import de.mlhartme.mork.grammar:
+    Rule;
+import de.mlhartme.mork.compiler:
+    GrammarSyntax, Stubs;
+import de.mlhartme.mork.semantics:
+    BuiltIn;
+import java.lang:
+    Boolean, Integer, String;
+
+
+#
+# overall structure
+Grammar             => Stubs.grammarSyntax ;
+ :grammarSymbolTable   => Stubs.symbolTable:
+                         > Grammar
+                         > //StringSymbol
+                         > //IdentifierSymbol;
+SymbolSet           => Stubs.symbolSet;
+UsePriorities       => Boolean.TRUE;
+NoPriorities        => Boolean.FALSE;
+
+#
+# symbols
+
+StringSymbol        => Stubs.symbolRef:
+                         > \\*
+                         > Keyword ;
+ :Keyword           => Stubs.keyword: > \\Grammar;
+IdentifierSymbol    => Stubs.symbolRef;
+
+#
+# regular expressions
+
+Rule                => Rule: >\\Parser\\Grammar >\\Scanner\\Grammar;  # TODO
+Choice              => Choice.createLeftOptional;
+Sequence            => Sequence;
+Restriction         => Without;
+Star                => Loop.createStar;
+Plus                => Loop;
+Option              => Choice.createOption;
+Times               => Sequence.createTimes;
+Not                 => Choice.createNot;
+Reference           => Symbol;
+Range               => Stubs.range;
+Code                => Stubs.toChar;
+
+#
+# lexical elements
+
+IntegerLiteral      => Integer.decode;
+                    => [text] : > IntegerLiteral;
+CharacterLiteral    => BuiltIn.parseChar;
+                    => [text] : > CharacterLiteral;
+StringLiteral       => [text] :
+                         > \\Keyword > \\StringSymbol
+                         > \\StringSymbol\\grammarSymbolTable;
+Identifier          => [text]:
+                         > \\*
+                         > \\Subject\\grammarSymbolTable;

@@ -1,0 +1,100 @@
+#
+# Copyright 1&1 Internet AG, http://www.1and1.org
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; either version 2 of the License,
+# or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+[PARSER]
+
+#
+# overall structure
+
+Mapper              ::= MapperName SyntaxFile Imports Definitions ;
+MapperName          ::= "mapper" Name ";" ;
+SyntaxFile          ::= Grammar | Dtd ;
+Grammar             ::= "grm" "=" StringLiteral ";" ;
+Dtd                 ::= "dtd" "=" StringLiteral ";" ;
+Imports             ::= Import* ;
+Import              ::= "import" PackageName ":" Class ("," Class)* ";";
+Class               ::= Identifier ("->" Identifier)? ;
+PackageName         ::= Name ;
+Name                ::= Identifier ("." Identifier)* ;
+
+#
+# Constructors
+
+Constructor         ::= ClassRef | MemberRef | Internal | Copy;
+ClassRef            ::= Identifier ;
+MemberRef           ::= Identifier "." Identifier ;
+Internal            ::= "[" Identifier "]" ;
+Copy                ::= "(" Identifier ")" ;
+
+#
+# Attributes
+
+Definitions         ::= Group* ;
+Group               ::= Symbol Attribute+ ;
+Symbol              ::= StringSymbol | IdentifierSymbol ;
+StringSymbol        ::= StringLiteral ;
+IdentifierSymbol    ::= Identifier ;
+Attribute           ::= AttributeName "=>" Constructor Visibility ;
+AttributeName       ::= (":" Identifier)? ;
+
+#
+# visibility
+
+Visibility          ::= Implicit | Explicit ;
+Implicit            ::= ";" ;
+Explicit            ::= ":" (">" Path)* ";" ;
+Path                ::= ImplicitPath | LocalPath | NormalPath ;
+ImplicitPath        ::= "\\\\*" ;
+LocalPath           ::= Identifier ;
+NormalPath          ::= Step+ ;
+Step                ::= Move Identifier ;
+Move                ::= Ups | Up | Downs | Down ;
+Ups                 ::= "\\\\" ;
+Up                  ::= "\\" ;
+Downs               ::= "//" ;
+Down                ::= "/" ;
+
+
+[SCANNER]
+    white = WhiteSpace, EndOfLineComment, TraditionalComment ;
+
+
+StringLiteral      ::= '"' (('\\' 0..65535)
+                        | ('\\' | '"' | '\n' | '\r')!)+ '"' ;
+
+Identifier ::=
+   ( 0x0024..0x0024 | 0x0041..0x005a | 0x005f..0x005f |
+     0x0061..0x007a | 0x00a2..0x00a5 | 0x00aa..0x00aa |
+     0x00b5..0x00b5 | 0x00ba..0x00ba | 0x00c0..0x00d6 |
+     0x00d8..0x00f6 | 0x00f8..0x00ff )
+   ( 0x0000..0x0008 | 0x000e..0x001b | 0x0024..0x0024 |
+     0x0030..0x0039 | 0x0041..0x005a | 0x005f..0x005f |
+     0x0061..0x007a | 0x007f..0x009f | 0x00a2..0x00a5 |
+     0x00aa..0x00aa | 0x00b5..0x00b5 | 0x00ba..0x00ba |
+     0x00c0..0x00d6 | 0x00d8..0x00f6 | 0x00f8..0x00ff )* ;
+
+#
+# white space
+
+WhiteSpace         ::= ( ' ' | '\t' | '\n' | '\f' | '\r' )+ ;
+EndOfLineComment   ::= '#' ('\n' | '\r')!* ('\n' | '\r') ;
+TraditionalComment ::=
+  '/' '*'
+         ( ('*'! | '*'+ ('*' | '/')!)*
+         | '*'!* '*' ('*' | ('*' | '/')! '*'!* '*')*
+         )
+  '*' '/' ;

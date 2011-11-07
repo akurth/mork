@@ -1,0 +1,8 @@
+mapper UndefinedSymbol;
+
+grm = "ab.grm";
+
+import java.lang: String;
+
+x => String;
+

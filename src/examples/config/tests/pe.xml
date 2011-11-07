@@ -1,0 +1,15 @@
+<!DOCTYPE config SYSTEM "../config.dtd" [
+ <!ENTITY % k1 "<key>k1</key>">
+ <!ENTITY % s2 '<string>s2</string>'>
+ <!ENTITY % k3 "<key>k3</key>">
+ <!ENTITY % s3 '<string>s3</string>'>
+ <!ENTITY p1 "%k1;<string>s1</string>">
+ <!ENTITY p2 "<key>k2</key>%s2;">
+ <!ENTITY p3 "%k3;%s3;">
+]>
+
+<config>
+  &p1;
+  &p2;
+  &p3;
+</config>

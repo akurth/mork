@@ -1,0 +1,81 @@
+#
+# Copyright 1&1 Internet AG, http://www.1and1.org
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; either version 2 of the License,
+# or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+mapper interpreter.Mapper;
+
+grm = "script.grm";
+
+import interpreter:
+    Assign, Binary, Block, Const, Declarations, Expression, If, Input,
+    Print, Reference, Script, Unary, Variable, While;
+import de.mlhartme.mork.semantics:
+    BuiltIn;
+import java.lang:
+    Boolean, Integer, String;
+
+Script              => Script;
+Declarations        => Declarations : >\\Script  > \\Script//Reference;
+Variable            => Variable;
+"int"               => Expression.INT;
+"bool"              => Expression.BOOL;
+"string"            => Expression.STR;
+
+# Statements
+Block               => Block;
+While               => While;
+If                  => If;
+Input               => Input;
+Print               => Print;
+Assign              => Assign;
+
+# Expressions
+Const               => Const;
+Reference           => Reference;
+Or                  => Binary;
+And2                => Binary;
+Equation2           => Binary;
+Relation2           => Binary;
+Sum2                => Binary;
+Prod2               => Binary;
+Unary1              => Unary;
+
+# Operators
+"+"                 => Expression.ADD;
+"-"                 => Expression.SUB;
+"*"                 => Expression.MUL;
+"/"                 => Expression.DIV;
+"%"                 => Expression.REM;
+"&&"                => Expression.AND;
+"||"                => Expression.OR;
+"!"                 => Expression.NOT;
+"=="                => Expression.EQ;
+"!="                => Expression.NE;
+"<"                 => Expression.LT;
+">"                 => Expression.GT;
+"<="                => Expression.LE;
+">="                => Expression.GE;
+
+# misc
+Boolean             => Boolean;
+"true"              => Boolean.TRUE;
+"false"             => Boolean.FALSE;
+Identifier          => String;
+                    => [text]: > Identifier;
+String              => BuiltIn.parseString;
+                    => [text]: > String;
+Integer             => Integer.parseInt;
+                    => [text]: > Integer;

@@ -1,0 +1,57 @@
+#
+# Copyright 1&1 Internet AG, http://www.1and1.org
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; either version 2 of the License,
+# or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+[PARSER]
+
+Program             ::= "program" Block ;
+
+Declarations        ::= Variable* ;
+Variable            ::= Type id ";" ;
+Type                ::= IntType | StrType;
+IntType             ::= "int" ;
+StrType             ::= "String" ;
+
+Stmt                ::= Block | Assign | Print | Input | If | While ;
+
+Block               ::= "{" Declarations Stmt* "}" ;
+Assign              ::= LValue "=" Expr ";" ;
+Print               ::= "print" Expr ";" ;
+Input               ::= "input" LValue ";" ;
+If                  ::= "if" "(" Expr ")" Block ("else" Block)?;
+While               ::= "while" "(" Expr ")" Block ;
+
+Expr                ::= Compare ;
+Compare             ::= Sum | Sum ("==" | "!=" | "<" | "<=" | ">" | ">=") Sum ;
+Sum                 ::= Prod | Sum ("+"|"-") Prod ;
+Prod                ::= Atom | Prod ("*" | "/") Atom ;
+Atom                ::= LValue | str | num | "(" Expr ")" ;
+
+LValue              ::= VariableReference ;
+VariableReference   ::= id ;
+
+
+[SCANNER]
+    white = space, comment;
+
+str     ::= '"' '"'!* '"' ;
+id      ::= letter (letter | digit | '_')* ;
+num     ::= digit+ ;
+letter  ::= 'A'..'Z' | 'a'..'z' ;
+digit   ::= '0'..'9' ;
+
+space   ::= (' ' | '\b' | '\t' | '\n' | '\f' | '\r' )+ ;
+comment ::= "/*" ('*'! | '*' '/'!)* "*/" ;

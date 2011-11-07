@@ -1,0 +1,14 @@
+script
+  int result;
+  int fak;
+{
+  print "number:";
+  input fak;
+  result = 1;
+  while (fak > 0) {
+    result = result*fak;
+    fak = fak - 1;
+  }
+  print "result:";
+  print result;
+}

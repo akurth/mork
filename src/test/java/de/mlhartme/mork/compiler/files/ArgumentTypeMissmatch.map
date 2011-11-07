@@ -1,0 +1,11 @@
+mapper ArgumentTypeMismatch;
+
+grm = "ab.grm";
+
+import de.mlhartme.mork.compiler:
+  MainFunctionalTest;
+
+S   => MainFunctionalTest.ab;
+A   => MainFunctionalTest.aNumber;
+B   => MainFunctionalTest.aString;
+

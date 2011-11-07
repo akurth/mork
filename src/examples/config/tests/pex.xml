@@ -1,0 +1,8 @@
+<!DOCTYPE config SYSTEM "../config.dtd" [
+ <!ENTITY % s2 '<string>s2</string>'>
+ <!ENTITY p2 "<key>k2</key> %s2;">
+]>
+
+<config>
+  &p2;
+</config>

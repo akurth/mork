@@ -1,0 +1,103 @@
+#
+# Copyright 1&1 Internet AG, http://www.1and1.org
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; either version 2 of the License,
+# or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+mapper de.mlhartme.mork.compiler.MapperMapper;
+
+grm = "mapper.grm";
+
+import de.mlhartme.mork.mapping:
+    Import, Internal, Library, Path;
+import de.mlhartme.mork.compiler:
+    GrammarSyntax, Specification, Stubs, Syntax;
+import de.mlhartme.mork.semantics:
+    BuiltIn;
+import java.lang:
+    Boolean, Integer, String;
+
+#
+# overall structure
+
+Mapper              => Specification:
+                         > //Implicit
+                         > //ImplicitPath
+                         > //LocalPath
+                         > //NormalPath ;
+  :SideEffect       => Stubs.sideEffect;
+SyntaxFile          => (Syntax):
+                         > \\Mapper
+                         > Grammar
+                         > SymbolTable;
+  :Grammar          => Stubs.getIFGrammar:
+                         > \\Mapper//Attribute;
+  :SymbolTable      => Stubs.getIFSymbolTable:
+                         > \\Mapper//Symbol
+                         > \\Mapper//AttributeName
+                         > \\Mapper//Attribute;
+Grammar             => Stubs.loadGrammar;
+  :Mork             => [env]: > Grammar;
+Dtd                 => Stubs.loadDtd;
+  :Mork             => [env]: > Dtd;
+Imports             => Library:
+                         > \\Mapper//ClassRef
+                         > \\Mapper//MemberRef
+                         > \\Mapper//Copy;
+PackageName         => (String):
+                         > \\Import//Class;
+Class               => Import.create;
+Name                => Stubs.name;
+
+#
+# constructors
+
+ClassRef            => Library.lookupClass;
+MemberRef           => Library.lookupMember;
+Internal            => Internal;
+Copy                => Stubs.copyFunctionRef;
+
+#
+# mapping
+
+Symbol              => Stubs.symbolRef:
+                         > \\Group//Attribute
+                         > \\Group//AttributeName
+                         > \\Group//LocalPath;
+Attribute           => Stubs.createDefinition:
+                         > \\Mapper
+                         > //NormalPath
+                         > //LocalPath
+                         > //Implicit
+                         > //ImplicitPath;
+AttributeName       => Stubs.attributeName;
+
+#
+# paths
+
+Implicit            => Stubs.implicitPath: >\\SideEffect;
+ImplicitPath        => Stubs.implicitPath: >\\SideEffect;
+LocalPath           => Stubs.localPath: >\\SideEffect;
+NormalPath          => Stubs.normalPath: >\\SideEffect;
+Step                => Stubs.step;
+Downs               => Path.DOWNS;
+Down                => Path.DOWN;
+Ups                 => Path.UPS;
+Up                  => Path.UP;
+
+#
+# lexical elements
+
+StringLiteral       => [text];
+Identifier          => [text];
