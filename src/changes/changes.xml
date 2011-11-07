@@ -2,6 +2,11 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
   <body>
+    <release version="0.7.0" date="2011-11-xx">
+      <action dev="mhm" type="update">
+        Moved Project into Beezle: copied source code in svn; changed groupId to net.sf.beezle.mork.
+      </action>
+    </release>
     <release version="0.6.4" date="2011-09-01">
       <action dev="mhm" type="fix">
         Fixed ClassRef.resolve for Array types.

@@ -2,11 +2,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <name>Mork</name>
-  <url>https://mork.sf.net</url>
+  <url>https://beezle.sf.net</url>
 
-  <groupId>de.mlhartme.mork</groupId>
+  <groupId>net.sf.beezle.mork</groupId>
   <artifactId>mork</artifactId>
-  <version>0.6.5-SNAPSHOT</version>
+  <version>0.7.0-SNAPSHOT</version>
 
   <packaging>jar</packaging>
   <inceptionYear>1998</inceptionYear>
@@ -26,9 +26,9 @@
   </developers>
 
   <scm>
-    <connection>scm:svn:https://mork.svn.sourceforge.net/svnroot/mork/trunk</connection>
-    <developerConnection>scm:svn:https://mork.svn.sourceforge.net/svnroot/mork/trunk</developerConnection>
-    <url>http://mork.svn.sourceforge.net/viewvc/mork/trunk</url>
+    <connection>scm:svn:https://beezle.svn.sourceforge.net/svnroot/beezle/mork/trunk</connection>
+    <developerConnection>scm:svn:https://beezle.svn.sourceforge.net/svnroot/beezle/mork/trunk</developerConnection>
+    <url>http://beezle.svn.sourceforge.net/viewvc/beezle/mork/trunk</url>
   </scm>
 
   <properties>
