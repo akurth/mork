@@ -15,15 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.mapping;
+package net.sf.beezle.mork.mapping;
 
-import de.mlhartme.mork.classfile.ClassRef;
+import net.sf.beezle.mork.classfile.ClassRef;
 
-import de.mlhartme.mork.misc.GenericException;
-import de.mlhartme.mork.reflect.Constructor;
-import de.mlhartme.mork.reflect.Field;
-import de.mlhartme.mork.reflect.Method;
-import de.mlhartme.mork.reflect.Selection;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.reflect.Constructor;
+import net.sf.beezle.mork.reflect.Field;
+import net.sf.beezle.mork.reflect.Method;
+import net.sf.beezle.mork.reflect.Selection;
 
 /**
  * Java class with a name.

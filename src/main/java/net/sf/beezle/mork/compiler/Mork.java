@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.compiler;
+package net.sf.beezle.mork.compiler;
 
-import de.mlhartme.mork.bootstrap.Loader;
-import de.mlhartme.mork.mapping.Mapper;
-import de.mlhartme.mork.misc.GenericException;
-import de.mlhartme.mork.reflect.Function;
-import de.mlhartme.mork.semantics.BuiltIn;
-import de.mlhartme.mork.semantics.IllegalLiteral;
+import net.sf.beezle.mork.bootstrap.Loader;
+import net.sf.beezle.mork.mapping.Mapper;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.reflect.Function;
+import net.sf.beezle.mork.semantics.BuiltIn;
+import net.sf.beezle.mork.semantics.IllegalLiteral;
 import java.io.File;
 
 /**
@@ -63,9 +63,9 @@ public class Mork {
 
     public Mork(Output output, Function mapperFn) {
         this.output = output;
-        this.mapperMapper = new MorkMapper(this, "de.mlhartme.mork.compiler.MapperMapper", mapperFn);
-        this.grammarMapper = new MorkMapper(this, "de.mlhartme.mork.compiler.GrammarMapper");
-        this.dtdMapper = new MorkMapper(this, "de.mlhartme.mork.xml.DtdMapper");
+        this.mapperMapper = new MorkMapper(this, "net.sf.beezle.mork.compiler.MapperMapper", mapperFn);
+        this.grammarMapper = new MorkMapper(this, "net.sf.beezle.mork.compiler.GrammarMapper");
+        this.dtdMapper = new MorkMapper(this, "net.sf.beezle.mork.xml.DtdMapper");
         this.compiler = new MapperCompiler(output);
         this.currentJob = null;
     }

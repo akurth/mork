@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.mapping;
+package net.sf.beezle.mork.mapping;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -32,10 +32,10 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import de.mlhartme.mork.parser.Parser;
-import de.mlhartme.mork.scanner.Position;
-import de.mlhartme.mork.semantics.Node;
-import de.mlhartme.mork.semantics.Oag;
+import net.sf.beezle.mork.parser.Parser;
+import net.sf.beezle.mork.scanner.Position;
+import net.sf.beezle.mork.semantics.Node;
+import net.sf.beezle.mork.semantics.Oag;
 
 /**
  * Wraps a stream to add mapping functionality. Implements the

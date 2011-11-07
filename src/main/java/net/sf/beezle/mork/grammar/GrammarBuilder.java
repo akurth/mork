@@ -15,11 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.grammar;
+package net.sf.beezle.mork.grammar;
 
-import de.mlhartme.mork.misc.GenericException;
-import de.mlhartme.mork.misc.StringArrayList;
-import de.mlhartme.mork.regexpr.Action;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.misc.StringArrayList;
+import net.sf.beezle.mork.regexpr.Action;
 
 /**
  * <p>Translate regular expressions to context free grammars.

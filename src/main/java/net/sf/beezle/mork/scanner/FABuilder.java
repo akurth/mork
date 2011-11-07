@@ -15,20 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.scanner;
+package net.sf.beezle.mork.scanner;
 
 import java.io.PrintStream;
 
 import net.sf.beezle.sushi.util.IntBitSet;
 
-import de.mlhartme.mork.grammar.IllegalSymbols;
-import de.mlhartme.mork.grammar.Rule;
-import de.mlhartme.mork.misc.GenericException;
-import de.mlhartme.mork.misc.StringArrayList;
-import de.mlhartme.mork.regexpr.Action;
-import de.mlhartme.mork.regexpr.Choice;
-import de.mlhartme.mork.regexpr.Range;
-import de.mlhartme.mork.regexpr.RegExpr;
+import net.sf.beezle.mork.grammar.IllegalSymbols;
+import net.sf.beezle.mork.grammar.Rule;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.misc.StringArrayList;
+import net.sf.beezle.mork.regexpr.Action;
+import net.sf.beezle.mork.regexpr.Choice;
+import net.sf.beezle.mork.regexpr.Range;
+import net.sf.beezle.mork.regexpr.RegExpr;
 
 /** stores the result from visiting a node */
 

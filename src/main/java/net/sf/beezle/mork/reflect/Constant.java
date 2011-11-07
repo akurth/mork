@@ -15,16 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.reflect;
+package net.sf.beezle.mork.reflect;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import de.mlhartme.mork.classfile.Bytecodes;
-import de.mlhartme.mork.classfile.ClassRef;
-import de.mlhartme.mork.classfile.Code;
+import net.sf.beezle.mork.classfile.Bytecodes;
+import net.sf.beezle.mork.classfile.ClassRef;
+import net.sf.beezle.mork.classfile.Code;
 
 /**
  * Wraps an Object to make is useable as a constant Function, i.e.

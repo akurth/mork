@@ -2,7 +2,7 @@ mapper ArgumentTypeMismatch;
 
 grm = "ab.grm";
 
-import de.mlhartme.mork.compiler:
+import net.sf.beezle.mork.compiler:
   MainFunctionalTest;
 
 S   => MainFunctionalTest.ab;

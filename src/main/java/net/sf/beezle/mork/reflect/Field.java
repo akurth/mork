@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.reflect;
+package net.sf.beezle.mork.reflect;
 
 import java.io.IOException;
 import java.io.ObjectInput;
@@ -24,10 +24,10 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Modifier;
 
-import de.mlhartme.mork.classfile.Bytecodes;
-import de.mlhartme.mork.classfile.ClassRef;
-import de.mlhartme.mork.classfile.Code;
-import de.mlhartme.mork.classfile.FieldRef;
+import net.sf.beezle.mork.classfile.Bytecodes;
+import net.sf.beezle.mork.classfile.ClassRef;
+import net.sf.beezle.mork.classfile.Code;
+import net.sf.beezle.mork.classfile.FieldRef;
 
 /**
  * A Function that reads a Java Field. Both static and non-static fields

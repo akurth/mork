@@ -15,12 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.compiler;
+package net.sf.beezle.mork.compiler;
 
-import de.mlhartme.mork.mapping.Conversion;
-import de.mlhartme.mork.mapping.Definition;
-import de.mlhartme.mork.misc.GenericException;
-import de.mlhartme.mork.semantics.SemanticError;
+import net.sf.beezle.mork.mapping.Conversion;
+import net.sf.beezle.mork.mapping.Definition;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.semantics.SemanticError;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileReader;

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.scanner;
+package net.sf.beezle.mork.scanner;
 
 import java.io.PrintStream;
 import java.io.Reader;
@@ -24,10 +24,10 @@ import java.util.List;
 
 import net.sf.beezle.sushi.util.IntBitSet;
 
-import de.mlhartme.mork.grammar.Rule;
-import de.mlhartme.mork.misc.GenericException;
-import de.mlhartme.mork.parser.ParserTable;
-import de.mlhartme.mork.regexpr.Range;
+import net.sf.beezle.mork.grammar.Rule;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.parser.ParserTable;
+import net.sf.beezle.mork.regexpr.Range;
 
 /**
  * <p>An immutable FA. Instances are used for acual scanning. I would call

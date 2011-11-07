@@ -15,21 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.compiler;
+package net.sf.beezle.mork.compiler;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import de.mlhartme.mork.classfile.Access;
-import de.mlhartme.mork.classfile.Bytecodes;
-import de.mlhartme.mork.classfile.ClassDef;
-import de.mlhartme.mork.classfile.ClassRef;
-import de.mlhartme.mork.classfile.Code;
-import de.mlhartme.mork.classfile.Constants;
-import de.mlhartme.mork.classfile.MethodRef;
-import de.mlhartme.mork.reflect.Arrays;
+import net.sf.beezle.mork.classfile.Access;
+import net.sf.beezle.mork.classfile.Bytecodes;
+import net.sf.beezle.mork.classfile.ClassDef;
+import net.sf.beezle.mork.classfile.ClassRef;
+import net.sf.beezle.mork.classfile.Code;
+import net.sf.beezle.mork.classfile.Constants;
+import net.sf.beezle.mork.classfile.MethodRef;
+import net.sf.beezle.mork.reflect.Arrays;
 
 /**
  * Turn object into bytecode to create the object. Serializes an object into a class.

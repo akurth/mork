@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.xml;
+package net.sf.beezle.mork.xml;
 
 /**
  * Symbols recognized by the Xml scanner. The constants here are taken from

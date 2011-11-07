@@ -21,7 +21,7 @@ grm = "command.grm";
 
 import command:
     Command, Declarations, Line, Constant, Reference, Variable;
-import de.mlhartme.mork.semantics:
+import net.sf.beezle.mork.semantics:
     BuiltIn;
 
 Command         => Command;

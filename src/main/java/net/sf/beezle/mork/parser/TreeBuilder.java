@@ -15,10 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.parser;
+package net.sf.beezle.mork.parser;
 
-import de.mlhartme.mork.scanner.Scanner;
-import de.mlhartme.mork.semantics.SemanticError; // TODO: ugly dependency
+import net.sf.beezle.mork.scanner.Scanner;
+import net.sf.beezle.mork.semantics.SemanticError; // TODO: ugly dependency
 import java.io.IOException;
 
 /**

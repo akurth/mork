@@ -15,10 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.grammar;
+package net.sf.beezle.mork.grammar;
 
-import de.mlhartme.mork.misc.StringArrayList;
-import de.mlhartme.mork.regexpr.RegExpr;
+import net.sf.beezle.mork.misc.StringArrayList;
+import net.sf.beezle.mork.regexpr.RegExpr;
 import java.io.Serializable;
 
 /**

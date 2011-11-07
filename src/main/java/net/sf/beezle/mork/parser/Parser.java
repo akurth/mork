@@ -15,17 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.parser;
+package net.sf.beezle.mork.parser;
 
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Reader;
 
-import de.mlhartme.mork.mapping.ErrorHandler;
-import de.mlhartme.mork.scanner.Position;
-import de.mlhartme.mork.scanner.Scanner;
-import de.mlhartme.mork.scanner.ScannerFactory;
-import de.mlhartme.mork.semantics.SemanticError;
+import net.sf.beezle.mork.mapping.ErrorHandler;
+import net.sf.beezle.mork.scanner.Position;
+import net.sf.beezle.mork.scanner.Scanner;
+import net.sf.beezle.mork.scanner.ScannerFactory;
+import net.sf.beezle.mork.semantics.SemanticError;
 
 /**
  * Push down automaton, performing LR parsing

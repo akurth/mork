@@ -17,8 +17,8 @@
 
 package compiler;
 
-import de.mlhartme.mork.classfile.Bytecodes;
-import de.mlhartme.mork.classfile.Code;
+import net.sf.beezle.mork.classfile.Bytecodes;
+import net.sf.beezle.mork.classfile.Code;
 
 public abstract class Type implements Bytecodes {
     private String name;

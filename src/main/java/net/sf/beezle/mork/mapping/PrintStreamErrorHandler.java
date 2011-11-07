@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.mapping;
+package net.sf.beezle.mork.mapping;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -24,8 +24,8 @@ import java.util.List;
 
 import net.sf.beezle.sushi.util.IntBitSet;
 
-import de.mlhartme.mork.misc.GenericException;
-import de.mlhartme.mork.scanner.Position;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.scanner.Position;
 
 /**
  * ErrorHandler that prints messages to the PrintStream specified in the constructor.

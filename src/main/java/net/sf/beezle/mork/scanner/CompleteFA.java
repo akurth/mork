@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.scanner;
+package net.sf.beezle.mork.scanner;
 
-import de.mlhartme.mork.regexpr.Range;
+import net.sf.beezle.mork.regexpr.Range;
 
 /**
  * Adds tranisitions to a specified state for all input not defined

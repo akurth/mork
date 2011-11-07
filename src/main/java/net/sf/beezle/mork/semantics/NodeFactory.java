@@ -15,11 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.semantics;
+package net.sf.beezle.mork.semantics;
 
-import de.mlhartme.mork.parser.Parser;
-import de.mlhartme.mork.scanner.Position;
-import de.mlhartme.mork.scanner.Scanner;
+import net.sf.beezle.mork.parser.Parser;
+import net.sf.beezle.mork.scanner.Position;
+import net.sf.beezle.mork.scanner.Scanner;
 
 public class NodeFactory {
     private final Node[] pool;

@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.reflect;
+package net.sf.beezle.mork.reflect;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import de.mlhartme.mork.classfile.ClassRef;
+import net.sf.beezle.mork.classfile.ClassRef;
 
 /**
  * A collection of functions. Immutable. Argument- and return-types

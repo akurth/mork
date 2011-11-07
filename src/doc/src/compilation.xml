@@ -49,7 +49,7 @@ reports an error, indicating that the class <literal>mypkg.Bar</literal> is not 
 substantial amount of memory. If Java runs out of memory (i.e. throws an
 <literal>OutOfMemoryError</literal>), use the Java <literal>-Xmx</literal> option in
 the launch script to increase the memory available to the virtual machine. Example
-<literal>java -Xmx128M de.mlhartme.mork.compiler.Main veryComplex.mork</literal>.
+<literal>java -Xmx128M net.sf.beezle.mork.compiler.Main veryComplex.mork</literal>.
 </para></formalpara>
 
 <formalpara>

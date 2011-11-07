@@ -22,7 +22,7 @@ grm = "script.grm";
 import interpreter:
     Assign, Binary, Block, Const, Declarations, Expression, If, Input,
     Print, Reference, Script, Unary, Variable, While;
-import de.mlhartme.mork.semantics:
+import net.sf.beezle.mork.semantics:
     BuiltIn;
 import java.lang:
     Boolean, Integer, String;

@@ -17,10 +17,10 @@
 
 package compiler;
 
-import de.mlhartme.mork.classfile.Code;
+import net.sf.beezle.mork.classfile.Code;
 
-import de.mlhartme.mork.semantics.BuiltIn;
-import de.mlhartme.mork.semantics.IllegalLiteral;
+import net.sf.beezle.mork.semantics.BuiltIn;
+import net.sf.beezle.mork.semantics.IllegalLiteral;
 
 public class StringLiteral extends Expression {
     private String str;

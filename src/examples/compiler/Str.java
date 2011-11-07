@@ -17,9 +17,9 @@
 
 package compiler;
 
-import de.mlhartme.mork.classfile.ClassRef;
-import de.mlhartme.mork.classfile.Code;
-import de.mlhartme.mork.classfile.MethodRef;
+import net.sf.beezle.mork.classfile.ClassRef;
+import net.sf.beezle.mork.classfile.Code;
+import net.sf.beezle.mork.classfile.MethodRef;
 
 public class Str extends Type {
     public static final Str TYPE = new Str();

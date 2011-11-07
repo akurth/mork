@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.xml;
+package net.sf.beezle.mork.xml;
 
-import de.mlhartme.mork.mapping.Mapper;
-import de.mlhartme.mork.parser.Parser;
-import de.mlhartme.mork.parser.ParserTable;
-import de.mlhartme.mork.scanner.GrammarScanner;
-import de.mlhartme.mork.scanner.Position;
-import de.mlhartme.mork.scanner.GrammarScannerFactory;
+import net.sf.beezle.mork.mapping.Mapper;
+import net.sf.beezle.mork.parser.Parser;
+import net.sf.beezle.mork.parser.ParserTable;
+import net.sf.beezle.mork.scanner.GrammarScanner;
+import net.sf.beezle.mork.scanner.Position;
+import net.sf.beezle.mork.scanner.GrammarScannerFactory;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -72,7 +72,7 @@ public class DocumentBuilder {
     public static DocumentBuilder create(PrintStream log) throws IOException {
         Mapper mapper;
 
-        mapper = new Mapper("de.mlhartme.mork.xml.DtdMapper");
+        mapper = new Mapper("net.sf.beezle.mork.xml.DtdMapper");
         return create(log, mapper.getParser());
     }
 

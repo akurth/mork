@@ -15,16 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.semantics;
+package net.sf.beezle.mork.semantics;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
 
-import de.mlhartme.mork.grammar.Grammar;
-import de.mlhartme.mork.misc.GenericException;
-import de.mlhartme.mork.reflect.Identity;
+import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.reflect.Identity;
 import net.sf.beezle.sushi.util.Util;
 
 public class OagTest extends TestCase {

@@ -293,7 +293,7 @@ the <literal>command</literal> example, this is a <literal>command.Command</lite
 <para>The right hand side of an attribute specifies a constructor. A constructor
 <indexterm><primary>constructor</primary></indexterm> may be a Java constructor (e.g.
 <literal>command.Command</literal>), a Java method (e.g.
-<literal>de.mlhartme.mork.semantics.BuiltIn.parseString</literal>), or an internal constructor.
+<literal>net.sf.beezle.mork.semantics.BuiltIn.parseString</literal>), or an internal constructor.
 Thus, the term constructor is used in a more generalized meaning.</para></formalpara>
 
 <formalpara>

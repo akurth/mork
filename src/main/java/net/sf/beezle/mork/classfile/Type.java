@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.classfile;
+package net.sf.beezle.mork.classfile;
 
 /**
  * Stupid data container for ClassRef.

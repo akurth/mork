@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.classfile;
+package net.sf.beezle.mork.classfile;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
-import de.mlhartme.mork.classfile.attribute.Attribute;
+import net.sf.beezle.mork.classfile.attribute.Attribute;
 import net.sf.beezle.sushi.util.IntArrayList;
 import net.sf.beezle.sushi.util.IntBitSet;
 

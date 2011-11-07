@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.regexpr;
+package net.sf.beezle.mork.regexpr;
 
-import de.mlhartme.mork.misc.StringArrayList;
+import net.sf.beezle.mork.misc.StringArrayList;
 
 /**
  * Symbol constant for a regular expression.

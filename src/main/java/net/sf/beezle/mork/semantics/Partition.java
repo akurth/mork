@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.semantics;
+package net.sf.beezle.mork.semantics;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,7 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import de.mlhartme.mork.misc.GenericException;
+import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.sushi.graph.Graph;
 import net.sf.beezle.sushi.graph.EdgeIterator;
 

@@ -15,25 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.compiler;
+package net.sf.beezle.mork.compiler;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-import de.mlhartme.mork.classfile.Access;
-import de.mlhartme.mork.classfile.Bytecodes;
-import de.mlhartme.mork.classfile.ClassDef;
-import de.mlhartme.mork.classfile.ClassRef;
-import de.mlhartme.mork.classfile.Code;
-import de.mlhartme.mork.classfile.ExceptionInfo;
-import de.mlhartme.mork.classfile.FieldRef;
-import de.mlhartme.mork.classfile.MethodDef;
-import de.mlhartme.mork.classfile.MethodRef;
-import de.mlhartme.mork.classfile.Output;
-import de.mlhartme.mork.classfile.attribute.Exceptions;
-import de.mlhartme.mork.reflect.Function;
+import net.sf.beezle.mork.classfile.Access;
+import net.sf.beezle.mork.classfile.Bytecodes;
+import net.sf.beezle.mork.classfile.ClassDef;
+import net.sf.beezle.mork.classfile.ClassRef;
+import net.sf.beezle.mork.classfile.Code;
+import net.sf.beezle.mork.classfile.ExceptionInfo;
+import net.sf.beezle.mork.classfile.FieldRef;
+import net.sf.beezle.mork.classfile.MethodDef;
+import net.sf.beezle.mork.classfile.MethodRef;
+import net.sf.beezle.mork.classfile.Output;
+import net.sf.beezle.mork.classfile.attribute.Exceptions;
+import net.sf.beezle.mork.reflect.Function;
 import net.sf.beezle.sushi.util.IntArrayList;
 
 /**

@@ -15,15 +15,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-mapper de.mlhartme.mork.compiler.MapperMapper;
+mapper net.sf.beezle.mork.compiler.MapperMapper;
 
 grm = "mapper.grm";
 
-import de.mlhartme.mork.mapping:
+import net.sf.beezle.mork.mapping:
     Import, Internal, Library, Path;
-import de.mlhartme.mork.compiler:
+import net.sf.beezle.mork.compiler:
     GrammarSyntax, Specification, Stubs, Syntax;
-import de.mlhartme.mork.semantics:
+import net.sf.beezle.mork.semantics:
     BuiltIn;
 import java.lang:
     Boolean, Integer, String;

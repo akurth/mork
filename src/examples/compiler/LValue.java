@@ -17,7 +17,7 @@
 
 package compiler;
 
-import de.mlhartme.mork.classfile.Code;
+import net.sf.beezle.mork.classfile.Code;
 
 public abstract class LValue extends Expression {
     public abstract void translateAssign(Code code);

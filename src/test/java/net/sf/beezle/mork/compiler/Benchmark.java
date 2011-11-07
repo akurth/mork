@@ -15,12 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.compiler;
+package net.sf.beezle.mork.compiler;
 
 import java.io.File;
 import java.io.IOException;
 
-import de.mlhartme.mork.mapping.Mapper;
+import net.sf.beezle.mork.mapping.Mapper;
 
 public class Benchmark {
     public static void main(String[] args) {

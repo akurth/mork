@@ -17,7 +17,7 @@
 
 package compiler;
 
-import de.mlhartme.mork.classfile.Code;
+import net.sf.beezle.mork.classfile.Code;
 
 public class Int extends Type {
     public static final Int TYPE = new Int();

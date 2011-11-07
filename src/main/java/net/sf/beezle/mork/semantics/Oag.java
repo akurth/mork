@@ -15,15 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.semantics;
+package net.sf.beezle.mork.semantics;
 
 import java.io.PrintStream;
 import java.io.Serializable;
 
-import de.mlhartme.mork.parser.Parser;
-import de.mlhartme.mork.parser.ParserTable;
-import de.mlhartme.mork.parser.TreeBuilder;
-import de.mlhartme.mork.scanner.Scanner;
+import net.sf.beezle.mork.parser.Parser;
+import net.sf.beezle.mork.parser.ParserTable;
+import net.sf.beezle.mork.parser.TreeBuilder;
+import net.sf.beezle.mork.scanner.Scanner;
 
 /**
  * Ordered attribute grammar.

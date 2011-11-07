@@ -15,11 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.classfile.attribute;
+package net.sf.beezle.mork.classfile.attribute;
 
 import java.io.IOException;
 
-import de.mlhartme.mork.classfile.Input;
+import net.sf.beezle.mork.classfile.Input;
 
 public class Deprecated extends Empty {
     public static final String NAME = "Deprecated";

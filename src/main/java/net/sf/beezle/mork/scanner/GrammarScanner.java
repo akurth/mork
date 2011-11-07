@@ -15,12 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.scanner;
+package net.sf.beezle.mork.scanner;
 
 import java.io.IOException;
 import java.io.Reader;
 
-import de.mlhartme.mork.misc.GenericException;
+import net.sf.beezle.mork.misc.GenericException;
 /**
  * A token stream, input for parsers. Adds filter functionality to
  * regular expressions.

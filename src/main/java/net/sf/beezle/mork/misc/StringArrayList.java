@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.misc;
+package net.sf.beezle.mork.misc;
 
 import java.io.Serializable;
 import java.util.ArrayList;

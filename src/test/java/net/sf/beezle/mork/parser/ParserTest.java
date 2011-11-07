@@ -15,12 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.parser;
+package net.sf.beezle.mork.parser;
 
 import junit.framework.TestCase;
-import de.mlhartme.mork.grammar.Grammar;
-import de.mlhartme.mork.misc.GenericException;
-import de.mlhartme.mork.misc.StringArrayList;
+import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.misc.StringArrayList;
 
 /**
  ** Test that pda tables are generated without exceptions.

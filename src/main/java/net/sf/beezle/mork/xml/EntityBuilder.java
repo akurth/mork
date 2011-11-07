@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.xml;
+package net.sf.beezle.mork.xml;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,11 +24,11 @@ import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import de.mlhartme.mork.parser.Parser;
-import de.mlhartme.mork.parser.ParserTable;
-import de.mlhartme.mork.parser.TreeBuilder;
-import de.mlhartme.mork.scanner.Position;
-import de.mlhartme.mork.scanner.Scanner;
+import net.sf.beezle.mork.parser.Parser;
+import net.sf.beezle.mork.parser.ParserTable;
+import net.sf.beezle.mork.parser.TreeBuilder;
+import net.sf.beezle.mork.scanner.Position;
+import net.sf.beezle.mork.scanner.Scanner;
 
 /**
  * Build buffer for a given entity, feeds grammar token obtained from

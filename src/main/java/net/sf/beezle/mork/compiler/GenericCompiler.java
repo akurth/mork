@@ -15,18 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.compiler;
+package net.sf.beezle.mork.compiler;
 
 import java.lang.reflect.InvocationTargetException;
 
-import de.mlhartme.mork.classfile.Bytecodes;
-import de.mlhartme.mork.classfile.ClassRef;
-import de.mlhartme.mork.classfile.Code;
-import de.mlhartme.mork.classfile.MethodRef;
-import de.mlhartme.mork.reflect.Field;
-import de.mlhartme.mork.reflect.Function;
-import de.mlhartme.mork.reflect.Method;
-import de.mlhartme.mork.reflect.Selection;
+import net.sf.beezle.mork.classfile.Bytecodes;
+import net.sf.beezle.mork.classfile.ClassRef;
+import net.sf.beezle.mork.classfile.Code;
+import net.sf.beezle.mork.classfile.MethodRef;
+import net.sf.beezle.mork.reflect.Field;
+import net.sf.beezle.mork.reflect.Function;
+import net.sf.beezle.mork.reflect.Method;
+import net.sf.beezle.mork.reflect.Selection;
 
 /**
  * Compiling an object compiles it fields. The reverse process

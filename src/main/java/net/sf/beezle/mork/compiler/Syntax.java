@@ -15,11 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.compiler;
+package net.sf.beezle.mork.compiler;
 
-import de.mlhartme.mork.grammar.Grammar;
-import de.mlhartme.mork.misc.GenericException;
-import de.mlhartme.mork.parser.Parser;
+import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.parser.Parser;
 
 /** Scanner and parser specification. **/
 public abstract class Syntax {

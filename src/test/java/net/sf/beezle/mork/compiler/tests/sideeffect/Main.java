@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.compiler.tests.sideeffect;
+package net.sf.beezle.mork.compiler.tests.sideeffect;
 
-import de.mlhartme.mork.mapping.Mapper;
+import net.sf.beezle.mork.mapping.Mapper;
 import java.io.StringReader;
 
 /**
@@ -28,7 +28,7 @@ public class Main {
         Mapper mapper;
         Object[] result;
 
-        mapper = new Mapper("de.mlhartme.mork.compiler.tests.sideeffect.Mapper");
+        mapper = new Mapper("net.sf.beezle.mork.compiler.tests.sideeffect.Mapper");
         mapper.setLogging(null, System.out);
         result = mapper.run("<const>", new StringReader("abbb"));
         System.out.println("result: " + result[0]);

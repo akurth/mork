@@ -15,22 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.compiler;
+package net.sf.beezle.mork.compiler;
 
 import net.sf.beezle.sushi.util.IntBitSet;
 
-import de.mlhartme.mork.grammar.Grammar;
-import de.mlhartme.mork.grammar.GrammarBuilder;
-import de.mlhartme.mork.grammar.Rule;
-import de.mlhartme.mork.misc.GenericException;
-import de.mlhartme.mork.misc.StringArrayList;
-import de.mlhartme.mork.parser.Conflicts;
-import de.mlhartme.mork.parser.PDA;
-import de.mlhartme.mork.parser.Parser;
-import de.mlhartme.mork.parser.ParserTable;
-import de.mlhartme.mork.scanner.FABuilder;
-import de.mlhartme.mork.scanner.GrammarScannerFactory;
-import de.mlhartme.mork.scanner.Modes;
+import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.grammar.GrammarBuilder;
+import net.sf.beezle.mork.grammar.Rule;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.misc.StringArrayList;
+import net.sf.beezle.mork.parser.Conflicts;
+import net.sf.beezle.mork.parser.PDA;
+import net.sf.beezle.mork.parser.Parser;
+import net.sf.beezle.mork.parser.ParserTable;
+import net.sf.beezle.mork.scanner.FABuilder;
+import net.sf.beezle.mork.scanner.GrammarScannerFactory;
+import net.sf.beezle.mork.scanner.Modes;
 
 /**
  * Grammar syntax specification. Represents a grammar syntax file with

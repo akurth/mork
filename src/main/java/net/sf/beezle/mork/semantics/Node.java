@@ -15,11 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.semantics;
+package net.sf.beezle.mork.semantics;
 
 import java.io.PrintStream;
 
-import de.mlhartme.mork.scanner.Position;
+import net.sf.beezle.mork.scanner.Position;
 
 /**
  * Node of the syntax tree. A stupid data contained for Semantics.

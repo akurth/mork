@@ -15,11 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.xml;
+package net.sf.beezle.mork.xml;
 
-import de.mlhartme.mork.misc.GenericException;
-import de.mlhartme.mork.misc.StringArrayList;
-import de.mlhartme.mork.scanner.Position;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.misc.StringArrayList;
+import net.sf.beezle.mork.scanner.Position;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;

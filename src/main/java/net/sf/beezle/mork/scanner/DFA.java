@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.scanner;
+package net.sf.beezle.mork.scanner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.beezle.sushi.util.IntBitSet;
 
-import de.mlhartme.mork.regexpr.Range;
+import net.sf.beezle.mork.regexpr.Range;
 
 /** Create determinitic automatons. */
 

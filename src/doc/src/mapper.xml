@@ -439,7 +439,7 @@ body, the <literal>1/0</literal> would result in an internal error of the calcul
 <programlisting>
 package foo;
 
-import de.mlhartme.mork.util.GenericException;
+import net.sf.beezle.mork.util.GenericException;
 
 public class bar {
     public static int div(int left, int right) throws GenericException {

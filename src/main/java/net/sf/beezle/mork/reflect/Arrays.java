@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.reflect;
+package net.sf.beezle.mork.reflect;
 
 import java.lang.reflect.Array;
 

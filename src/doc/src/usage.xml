@@ -18,7 +18,7 @@ name was <literal>foo.Mapper</literal>. The following code fragment create a
 <example>
 <title>Mapper usage</title>
 <programlisting>
-import de.mlhartme.mork.mapping.Mapper;
+import net.sf.beezle.mork.mapping.Mapper;
 
 Mapper mapper;
 Object[] result;
@@ -47,7 +47,7 @@ current source position.</para>
 <sect1>
 <title>The <literal>Mapper</literal> class</title>
 
-<para>The class <literal>de.mlhartme.mork.mapping.Mapper</literal> forms the main API
+<para>The class <literal>net.sf.beezle.mork.mapping.Mapper</literal> forms the main API
 used by applications. The following describes the most important constructors and methods.
 This description is sufficient for normal use. See the API documentation for more details.
 </para>
@@ -126,7 +126,7 @@ quit.</para></formalpara>
 <sect2>
 <title><literal>setErrorHander</literal></title>
 
-<para><literal>setErrorHandler(de.mlhartme.mork.mapping.ErrorHandler)</literal></para>
+<para><literal>setErrorHandler(net.sf.beezle.mork.mapping.ErrorHandler)</literal></para>
 
 <para>Defines the error handler used by <literal>run</literal> to report errors. The
 <literal>ErrorHandler</literal> documentation below explains the various types of errors.
@@ -219,14 +219,14 @@ method, even if the mapper throws an unchecked exception. </para>
 <sect1>
 <title>The <literal>ErrorHandler</literal> interface</title>
 
-<para><literal>de.mlhartme.mork.mapping.ErrorHandler</literal></para>
+<para><literal>net.sf.beezle.mork.mapping.ErrorHandler</literal></para>
 
 <para>Error handling is work in progress. If you have a choice, please rely on the
 default error handling. Avoid implementing you own error handler since the interface
 is expected to change. Similarly, this documentation is preliminary. It concentrates
 on the various error types (which I consider more stables), it does not explain individual
 methods of the interface. If you have to implement an error handler, the source code of
-<literal>de.mlhartme.mork.mapping.PrintStreamErrorHandler</literal> might provide
+<literal>net.sf.beezle.mork.mapping.PrintStreamErrorHandler</literal> might provide
 some help.</para>
 
 <formalpara>

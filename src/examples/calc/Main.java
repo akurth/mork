@@ -17,8 +17,8 @@
 
 package calc;
 
-import de.mlhartme.mork.mapping.Mapper;
-import de.mlhartme.mork.misc.GenericException;
+import net.sf.beezle.mork.mapping.Mapper;
+import net.sf.beezle.mork.misc.GenericException;
 
 /**
  * Calculate simple expression.

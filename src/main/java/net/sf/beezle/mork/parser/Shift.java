@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.parser;
+package net.sf.beezle.mork.parser;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,8 +25,8 @@ import java.util.Set;
 
 import net.sf.beezle.sushi.util.IntBitSet;
 
-import de.mlhartme.mork.grammar.Grammar;
-import de.mlhartme.mork.misc.StringArrayList;
+import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.misc.StringArrayList;
 
 public class Shift {
     public final int symbol;

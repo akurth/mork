@@ -15,13 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.mapping;
+package net.sf.beezle.mork.mapping;
 
 import java.io.IOException;
 
 import net.sf.beezle.sushi.util.IntBitSet;
 
-import de.mlhartme.mork.scanner.Position;
+import net.sf.beezle.mork.scanner.Position;
 
 /**
  * <code>Mapper.run()</code> reports errors by taking the registered error handler and

@@ -15,12 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.bootstrap;
+package net.sf.beezle.mork.bootstrap;
 
-import de.mlhartme.mork.compiler.Syntax;
-import de.mlhartme.mork.misc.GenericException;
-import de.mlhartme.mork.semantics.BuiltIn;
-import de.mlhartme.mork.semantics.IllegalLiteral;
+import net.sf.beezle.mork.compiler.Syntax;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.semantics.BuiltIn;
+import net.sf.beezle.mork.semantics.IllegalLiteral;
 
 /**
  * Helper functions referred by bootstrap mappers.

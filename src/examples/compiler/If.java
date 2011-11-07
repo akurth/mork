@@ -17,7 +17,7 @@
 
 package compiler;
 
-import de.mlhartme.mork.classfile.Code;
+import net.sf.beezle.mork.classfile.Code;
 
 public class If extends Statement {
     private Expression test;

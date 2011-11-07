@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.mapping;
+package net.sf.beezle.mork.mapping;
 
-import de.mlhartme.mork.semantics.Compare;
+import net.sf.beezle.mork.semantics.Compare;
 import java.util.ArrayList;
 import java.util.List;
 

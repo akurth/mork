@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
-<!-- §{xml.header("book", de.mlhartme.mork.beezle.Config.DB_DTD)}: -->
+<!-- §{xml.header("book", net.sf.beezle.mork.beezle.Config.DB_DTD)}: -->
 <!DOCTYPE book SYSTEM "file:/usr/share/sgml/docbook/xml-dtd-4.2-1.0-14/docbookx.dtd" [
   <!ENTITY % GENERATED_ENTITIES SYSTEM "/home/mhm/java/mork/doc/src/entities.inc">
   %GENERATED_ENTITIES;

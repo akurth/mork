@@ -15,17 +15,17 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-mapper de.mlhartme.mork.bootstrap.GrammarMapper;
+mapper net.sf.beezle.mork.bootstrap.GrammarMapper;
 
 grm = "grammar.grm";
 
-import de.mlhartme.mork.regexpr:
+import net.sf.beezle.mork.regexpr:
     Choice, Loop, Sequence, Symbol, Range, Without;
-import de.mlhartme.mork.grammar:
+import net.sf.beezle.mork.grammar:
     Rule;
-import de.mlhartme.mork.compiler:
+import net.sf.beezle.mork.compiler:
     GrammarSyntax, Stubs;
-import de.mlhartme.mork.semantics:
+import net.sf.beezle.mork.semantics:
     BuiltIn;
 import java.lang:
     Boolean, Integer, String;

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.mapping;
+package net.sf.beezle.mork.mapping;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -23,14 +23,14 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.Array;
 import java.util.List;
 
-import de.mlhartme.mork.classfile.Bytecodes;
-import de.mlhartme.mork.classfile.ClassRef;
-import de.mlhartme.mork.classfile.Code;
-import de.mlhartme.mork.classfile.MethodRef;
+import net.sf.beezle.mork.classfile.Bytecodes;
+import net.sf.beezle.mork.classfile.ClassRef;
+import net.sf.beezle.mork.classfile.Code;
+import net.sf.beezle.mork.classfile.MethodRef;
 
-import de.mlhartme.mork.compiler.Util;
-import de.mlhartme.mork.reflect.Arrays;
-import de.mlhartme.mork.reflect.Function;
+import net.sf.beezle.mork.compiler.Util;
+import net.sf.beezle.mork.reflect.Arrays;
+import net.sf.beezle.mork.reflect.Function;
 
 /**
  * Invokation creates an array initialized with the List passed as an

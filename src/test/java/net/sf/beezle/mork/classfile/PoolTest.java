@@ -1,4 +1,4 @@
-package de.mlhartme.mork.classfile;
+package net.sf.beezle.mork.classfile;
 
 import org.junit.Test;
 

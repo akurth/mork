@@ -15,11 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.mapping;
+package net.sf.beezle.mork.mapping;
 
-import de.mlhartme.mork.reflect.Method;
-import de.mlhartme.mork.reflect.Selection;
-import de.mlhartme.mork.semantics.Type;
+import net.sf.beezle.mork.reflect.Method;
+import net.sf.beezle.mork.reflect.Selection;
+import net.sf.beezle.mork.semantics.Type;
 import java.util.List;
 
 public class ConversionTest extends CompareBase {

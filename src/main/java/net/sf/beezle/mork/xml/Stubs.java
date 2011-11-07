@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.xml;
+package net.sf.beezle.mork.xml;
 
-import de.mlhartme.mork.misc.GenericException;
-import de.mlhartme.mork.misc.StringArrayList;
-import de.mlhartme.mork.regexpr.Choice;
-import de.mlhartme.mork.regexpr.Loop;
-import de.mlhartme.mork.regexpr.RegExpr;
-import de.mlhartme.mork.regexpr.Symbol;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.misc.StringArrayList;
+import net.sf.beezle.mork.regexpr.Choice;
+import net.sf.beezle.mork.regexpr.Loop;
+import net.sf.beezle.mork.regexpr.RegExpr;
+import net.sf.beezle.mork.regexpr.Symbol;
 
 /** Helper methods used by DtdMapper.map. */
 public class Stubs {

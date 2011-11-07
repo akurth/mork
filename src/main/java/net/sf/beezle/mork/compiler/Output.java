@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.compiler;
+package net.sf.beezle.mork.compiler;
 
-import de.mlhartme.mork.mapping.PrintStreamErrorHandler;
+import net.sf.beezle.mork.mapping.PrintStreamErrorHandler;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

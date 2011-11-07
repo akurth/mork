@@ -15,15 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.classfile;
+package net.sf.beezle.mork.classfile;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import de.mlhartme.mork.classfile.attribute.Attribute;
-import de.mlhartme.mork.classfile.attribute.Exceptions;
+import net.sf.beezle.mork.classfile.attribute.Attribute;
+import net.sf.beezle.mork.classfile.attribute.Exceptions;
 
 public class MethodDef extends Definition {
     public Set<Access> accessFlags;

@@ -15,27 +15,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.compiler;
+package net.sf.beezle.mork.compiler;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.beezle.sushi.util.IntBitSet;
 
-import de.mlhartme.mork.grammar.Grammar;
-import de.mlhartme.mork.grammar.IllegalSymbols;
-import de.mlhartme.mork.grammar.Rule;
-import de.mlhartme.mork.mapping.Definition;
-import de.mlhartme.mork.mapping.Library;
-import de.mlhartme.mork.mapping.Path;
-import de.mlhartme.mork.misc.GenericException;
-import de.mlhartme.mork.misc.StringArrayList;
-import de.mlhartme.mork.reflect.Identity;
-import de.mlhartme.mork.reflect.Selection;
-import de.mlhartme.mork.regexpr.Range;
-import de.mlhartme.mork.regexpr.Sequence;
-import de.mlhartme.mork.semantics.BuiltIn;
-import de.mlhartme.mork.semantics.IllegalLiteral;
+import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.grammar.IllegalSymbols;
+import net.sf.beezle.mork.grammar.Rule;
+import net.sf.beezle.mork.mapping.Definition;
+import net.sf.beezle.mork.mapping.Library;
+import net.sf.beezle.mork.mapping.Path;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.misc.StringArrayList;
+import net.sf.beezle.mork.reflect.Identity;
+import net.sf.beezle.mork.reflect.Selection;
+import net.sf.beezle.mork.regexpr.Range;
+import net.sf.beezle.mork.regexpr.Sequence;
+import net.sf.beezle.mork.semantics.BuiltIn;
+import net.sf.beezle.mork.semantics.IllegalLiteral;
 
 /**
  * Helper functions referred by MappingMapper.map. These methods brigde gaps

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.regexpr;
+package net.sf.beezle.mork.regexpr;
 
 /** stores the result from visiting a node */
 

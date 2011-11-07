@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.compiler;
+package net.sf.beezle.mork.compiler;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,10 +24,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.mlhartme.mork.classfile.Bytecodes;
-import de.mlhartme.mork.classfile.Code;
+import net.sf.beezle.mork.classfile.Bytecodes;
+import net.sf.beezle.mork.classfile.Code;
 
-import de.mlhartme.mork.reflect.Function;
+import net.sf.beezle.mork.reflect.Function;
 
 /**
  * Generates classes derived from CompiledFunctionBase classes. Generates zero, one (or multiple

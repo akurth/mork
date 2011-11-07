@@ -15,22 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.compiler;
+package net.sf.beezle.mork.compiler;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.beezle.sushi.util.IntBitSet;
 
-import de.mlhartme.mork.mapping.Definition;
-import de.mlhartme.mork.mapping.Mapper;
-import de.mlhartme.mork.mapping.Path;
-import de.mlhartme.mork.mapping.Transport;
-import de.mlhartme.mork.misc.GenericException;
-import de.mlhartme.mork.parser.Parser;
-import de.mlhartme.mork.semantics.Ag;
-import de.mlhartme.mork.semantics.Attribute;
-import de.mlhartme.mork.semantics.Oag;
+import net.sf.beezle.mork.mapping.Definition;
+import net.sf.beezle.mork.mapping.Mapper;
+import net.sf.beezle.mork.mapping.Path;
+import net.sf.beezle.mork.mapping.Transport;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.parser.Parser;
+import net.sf.beezle.mork.semantics.Ag;
+import net.sf.beezle.mork.semantics.Attribute;
+import net.sf.beezle.mork.semantics.Oag;
 
 /**
  * Specifies a mapper, thus, a Mapping object is a Mapper before translation.

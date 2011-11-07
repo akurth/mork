@@ -20,13 +20,13 @@ package compiler;
 import java.io.File;
 import java.io.IOException;
 
-import de.mlhartme.mork.classfile.Access;
-import de.mlhartme.mork.classfile.ClassDef;
-import de.mlhartme.mork.classfile.ClassRef;
-import de.mlhartme.mork.classfile.MethodDef;
-import de.mlhartme.mork.classfile.Output;
+import net.sf.beezle.mork.classfile.Access;
+import net.sf.beezle.mork.classfile.ClassDef;
+import net.sf.beezle.mork.classfile.ClassRef;
+import net.sf.beezle.mork.classfile.MethodDef;
+import net.sf.beezle.mork.classfile.Output;
 
-import de.mlhartme.mork.mapping.Mapper;
+import net.sf.beezle.mork.mapping.Mapper;
 
 public class Main {
     public static void main(String[] args) throws IOException {

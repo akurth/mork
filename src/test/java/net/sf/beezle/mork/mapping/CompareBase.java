@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.mapping;
+package net.sf.beezle.mork.mapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +24,9 @@ import junit.framework.TestCase;
 
 import net.sf.beezle.sushi.util.IntArrayList;
 
-import de.mlhartme.mork.semantics.Attribute;
-import de.mlhartme.mork.semantics.Compare;
-import de.mlhartme.mork.semantics.Type;
+import net.sf.beezle.mork.semantics.Attribute;
+import net.sf.beezle.mork.semantics.Compare;
+import net.sf.beezle.mork.semantics.Type;
 
 public abstract class CompareBase extends TestCase implements Compare {
     protected Attribute attr;

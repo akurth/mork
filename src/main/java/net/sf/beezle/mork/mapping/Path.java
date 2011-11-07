@@ -15,19 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.mapping;
+package net.sf.beezle.mork.mapping;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.mlhartme.mork.compiler.Syntax;
-import de.mlhartme.mork.grammar.Grammar;
-import de.mlhartme.mork.misc.GenericException;
-import de.mlhartme.mork.semantics.AgBuffer;
-import de.mlhartme.mork.semantics.Attribute;
-import de.mlhartme.mork.semantics.Occurrence;
-import de.mlhartme.mork.semantics.Pusher;
-import de.mlhartme.mork.semantics.Type;
+import net.sf.beezle.mork.compiler.Syntax;
+import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.semantics.AgBuffer;
+import net.sf.beezle.mork.semantics.Attribute;
+import net.sf.beezle.mork.semantics.Occurrence;
+import net.sf.beezle.mork.semantics.Pusher;
+import net.sf.beezle.mork.semantics.Type;
 import net.sf.beezle.sushi.util.IntBitSet;
 
 /**

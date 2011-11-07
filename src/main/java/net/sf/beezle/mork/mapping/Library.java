@@ -15,10 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.mapping;
+package net.sf.beezle.mork.mapping;
 
-import de.mlhartme.mork.misc.GenericException;
-import de.mlhartme.mork.reflect.Selection;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.reflect.Selection;
 
 /**
  * A set of types.

@@ -15,12 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.semantics;
+package net.sf.beezle.mork.semantics;
 
-import de.mlhartme.mork.grammar.Grammar;
-import de.mlhartme.mork.misc.StringArrayList;
-import de.mlhartme.mork.reflect.Function;
-import de.mlhartme.mork.scanner.Position;
+import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.misc.StringArrayList;
+import net.sf.beezle.mork.reflect.Function;
+import net.sf.beezle.mork.scanner.Position;
 import java.io.PrintStream;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;

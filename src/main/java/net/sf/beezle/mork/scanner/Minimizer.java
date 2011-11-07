@@ -15,12 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.scanner;
+package net.sf.beezle.mork.scanner;
 
 import net.sf.beezle.sushi.util.IntArrayList;
 import net.sf.beezle.sushi.util.IntBitSet;
 
-import de.mlhartme.mork.regexpr.Range;
+import net.sf.beezle.mork.regexpr.Range;
 
 /**
  * Minimization of a finite automaton. Requires a complete depterministic

@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.scanner;
+package net.sf.beezle.mork.scanner;
 
-import de.mlhartme.mork.misc.GenericException;
+import net.sf.beezle.mork.misc.GenericException;
 
 import java.io.IOException;
 import java.io.Reader;

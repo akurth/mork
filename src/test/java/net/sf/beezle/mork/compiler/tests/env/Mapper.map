@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-mapper de.mlhartme.mork.compiler.tests.env.Mapper;
+mapper net.sf.beezle.mork.compiler.tests.env.Mapper;
 
 grm = "env.grm";
 

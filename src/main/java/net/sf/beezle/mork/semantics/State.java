@@ -15,16 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.semantics;
+package net.sf.beezle.mork.semantics;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import de.mlhartme.mork.grammar.Grammar;
-import de.mlhartme.mork.mapping.Transport;
-import de.mlhartme.mork.reflect.Function;
-import de.mlhartme.mork.reflect.Identity;
+import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.mapping.Transport;
+import net.sf.beezle.mork.reflect.Function;
+import net.sf.beezle.mork.reflect.Identity;
 import net.sf.beezle.sushi.util.IntArrayList;
 
 /**

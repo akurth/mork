@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.semantics;
+package net.sf.beezle.mork.semantics;
 
-import de.mlhartme.mork.scanner.Position;
+import net.sf.beezle.mork.scanner.Position;
 
 public class SemanticError extends Exception {
     public final Position position;

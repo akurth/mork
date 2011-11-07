@@ -15,19 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.mapping;
+package net.sf.beezle.mork.mapping;
 
 import junit.framework.TestCase;
 
 import net.sf.beezle.sushi.util.IntBitSet;
 
-import de.mlhartme.mork.grammar.Grammar;
-import de.mlhartme.mork.semantics.Ag;
-import de.mlhartme.mork.semantics.Attribute;
-import de.mlhartme.mork.semantics.AgBuffer;
-import de.mlhartme.mork.semantics.Oag;
-import de.mlhartme.mork.semantics.Occurrence;
-import de.mlhartme.mork.semantics.Pusher;
+import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.semantics.Ag;
+import net.sf.beezle.mork.semantics.Attribute;
+import net.sf.beezle.mork.semantics.AgBuffer;
+import net.sf.beezle.mork.semantics.Oag;
+import net.sf.beezle.mork.semantics.Occurrence;
+import net.sf.beezle.mork.semantics.Pusher;
 
 public class CopyBufferPushUpTest extends TestCase {
     private Attribute seed;

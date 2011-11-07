@@ -15,11 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.compiler;
+package net.sf.beezle.mork.compiler;
 
-import de.mlhartme.mork.classfile.Code;
+import net.sf.beezle.mork.classfile.Code;
 
-import de.mlhartme.mork.reflect.Function;
+import net.sf.beezle.mork.reflect.Function;
 
 public abstract class CompiledFunctionBase extends Function {
     @Override

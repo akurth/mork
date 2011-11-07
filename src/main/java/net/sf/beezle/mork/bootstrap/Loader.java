@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.bootstrap;
+package net.sf.beezle.mork.bootstrap;
 
-import de.mlhartme.mork.compiler.GrammarSyntax;
-import de.mlhartme.mork.compiler.Specification;
-import de.mlhartme.mork.reflect.Constructor;
-import de.mlhartme.mork.reflect.Function;
-import de.mlhartme.mork.reflect.Method;
-import de.mlhartme.mork.reflect.Selection;
+import net.sf.beezle.mork.compiler.GrammarSyntax;
+import net.sf.beezle.mork.compiler.Specification;
+import net.sf.beezle.mork.reflect.Constructor;
+import net.sf.beezle.mork.reflect.Function;
+import net.sf.beezle.mork.reflect.Method;
+import net.sf.beezle.mork.reflect.Selection;
 import java.io.File;
 
 /**
@@ -46,14 +46,14 @@ public class Loader {
 
     public static Specification loadMapper(String file) {
         mapperFile = file;
-        return (Specification) load("de.mlhartme.mork.bootstrap.MapperMapper", file);
+        return (Specification) load("net.sf.beezle.mork.bootstrap.MapperMapper", file);
     }
 
     public static GrammarSyntax loadGrammar(String file) {
         File absolute;
 
         absolute = absoluteFile(new File(mapperFile).getParentFile(), file);
-        return (GrammarSyntax) load("de.mlhartme.mork.bootstrap.GrammarMapper", absolute.getPath());
+        return (GrammarSyntax) load("net.sf.beezle.mork.bootstrap.GrammarMapper", absolute.getPath());
     }
 
     // returns null if an error has been reported

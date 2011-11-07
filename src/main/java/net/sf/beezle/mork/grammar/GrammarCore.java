@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.grammar;
+package net.sf.beezle.mork.grammar;
 
 import java.util.ArrayList;
 import java.util.List;

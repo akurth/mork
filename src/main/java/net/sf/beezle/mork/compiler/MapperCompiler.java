@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.compiler;
+package net.sf.beezle.mork.compiler;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,21 +23,21 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import de.mlhartme.mork.classfile.Access;
-import de.mlhartme.mork.classfile.Bytecodes;
-import de.mlhartme.mork.classfile.ClassDef;
-import de.mlhartme.mork.classfile.ClassRef;
-import de.mlhartme.mork.classfile.Code;
-import de.mlhartme.mork.classfile.Output;
+import net.sf.beezle.mork.classfile.Access;
+import net.sf.beezle.mork.classfile.Bytecodes;
+import net.sf.beezle.mork.classfile.ClassDef;
+import net.sf.beezle.mork.classfile.ClassRef;
+import net.sf.beezle.mork.classfile.Code;
+import net.sf.beezle.mork.classfile.Output;
 
-import de.mlhartme.mork.mapping.Mapper;
-import de.mlhartme.mork.misc.GenericException;
+import net.sf.beezle.mork.mapping.Mapper;
+import net.sf.beezle.mork.misc.GenericException;
 
 
 public class MapperCompiler implements Bytecodes {
-    private de.mlhartme.mork.compiler.Output output;
+    private net.sf.beezle.mork.compiler.Output output;
 
-    public MapperCompiler(de.mlhartme.mork.compiler.Output output) {
+    public MapperCompiler(net.sf.beezle.mork.compiler.Output output) {
         this.output = output;
     }
 
@@ -151,48 +151,48 @@ public class MapperCompiler implements Bytecodes {
 
     private static CustomCompiler[] customs = {
         null,  // reserved for function compiler
-        new GenericCompiler(de.mlhartme.mork.grammar.Rule.class,
+        new GenericCompiler(net.sf.beezle.mork.grammar.Rule.class,
             new String[] { "left", "right" }),
-        new GenericCompiler(de.mlhartme.mork.parser.ParserTable.class,
+        new GenericCompiler(net.sf.beezle.mork.parser.ParserTable.class,
             new String[] { "startState", "symbolCount", "getStateCount",
                            "packValues", "lengths", "lefts", "modes" }),
-        new GenericCompiler(de.mlhartme.mork.semantics.Attribution.class,
+        new GenericCompiler(net.sf.beezle.mork.semantics.Attribution.class,
             new String[] { "function", "resultOfs", "resultAttr", "argsOfs", "argsAttr"}),
-        new GenericCompiler(de.mlhartme.mork.semantics.Oag.class,
+        new GenericCompiler(net.sf.beezle.mork.semantics.Oag.class,
             new String[] { "visits", "internalAttrs" }),
-        new GenericCompiler(de.mlhartme.mork.semantics.Visits.class,
+        new GenericCompiler(net.sf.beezle.mork.semantics.Visits.class,
             new String[] { "visits" }),
-        new GenericCompiler(de.mlhartme.mork.parser.Parser.class,
+        new GenericCompiler(net.sf.beezle.mork.parser.Parser.class,
             new String[] { "table", "scannerFactory"}),
-        new GenericCompiler(de.mlhartme.mork.scanner.GrammarScannerFactory.class,
+        new GenericCompiler(net.sf.beezle.mork.scanner.GrammarScannerFactory.class,
             new String[] { "start", "modeCount", "eofSymbol", "data" }),
-        new GenericCompiler(de.mlhartme.mork.xml.XmlScannerFactory.class,
+        new GenericCompiler(net.sf.beezle.mork.xml.XmlScannerFactory.class,
             new String[] { "symbolTable", "eofSymbol", "attrs"}),
-        new GenericCompiler(de.mlhartme.mork.xml.Attribute.class,
+        new GenericCompiler(net.sf.beezle.mork.xml.Attribute.class,
             new String[] { "element", "attributeName", "terminal", "defaultMode", "defaultValue" }),
         new GenericCompiler(net.sf.beezle.sushi.util.IntBitSet.class,
             new String[] { "data" }),
         new GenericCompiler(net.sf.beezle.sushi.util.IntArrayList.class,
             new String[] { "size", "data" }),
-        new GenericCompiler(de.mlhartme.mork.misc.StringArrayList.class,
+        new GenericCompiler(net.sf.beezle.mork.misc.StringArrayList.class,
             new String[] { "size", "data" }),
         new GenericCompiler(java.lang.Integer.class,
             new String[] {
-                "de.mlhartme.mork.compiler.MapperCompiler.saveInteger" },
-                "de.mlhartme.mork.compiler.MapperCompiler.loadInteger"),
+                "net.sf.beezle.mork.compiler.MapperCompiler.saveInteger" },
+                "net.sf.beezle.mork.compiler.MapperCompiler.loadInteger"),
         new GenericCompiler(java.lang.Class.class,
             new String[] {
-                "de.mlhartme.mork.compiler.MapperCompiler.saveClass" },
-                "de.mlhartme.mork.compiler.MapperCompiler.loadClass"),
+                "net.sf.beezle.mork.compiler.MapperCompiler.saveClass" },
+                "net.sf.beezle.mork.compiler.MapperCompiler.loadClass"),
         new GenericCompiler(java.lang.reflect.Constructor.class,
             new String[] { "getDeclaringClass", "getParameterTypes" },
-            "de.mlhartme.mork.compiler.MapperCompiler.loadConstructor"),
+            "net.sf.beezle.mork.compiler.MapperCompiler.loadConstructor"),
         new GenericCompiler(java.lang.reflect.Method.class,
             new String[] { "getDeclaringClass", "getName", "getParameterTypes" },
-            "de.mlhartme.mork.compiler.MapperCompiler.loadMethod"),
+            "net.sf.beezle.mork.compiler.MapperCompiler.loadMethod"),
         new GenericCompiler(java.lang.reflect.Field.class,
             new String[] { "getDeclaringClass", "getName" },
-            "de.mlhartme.mork.compiler.MapperCompiler.loadField")
+            "net.sf.beezle.mork.compiler.MapperCompiler.loadField")
     };
 
     //----------------------------------------------------------------

@@ -24,20 +24,6 @@
   <packaging>jar</packaging>
   <inceptionYear>1998</inceptionYear>
 
-  <developers>
-    <developer>
-      <name>Michael Hartmeier</name>
-      <id>mlhartme</id>
-      <email>michael.hartmeier@1und1.de</email>
-      <organization>1&amp;1</organization>
-      <roles>
-        <role>Java Development</role>
-      </roles>
-      <url>http://sourceforge.net/users/mlhartme/</url>
-      <timezone>+1</timezone>
-    </developer>
-  </developers>
-
   <scm>
     <connection>scm:svn:https://beezle.svn.sourceforge.net/svnroot/beezle/mork/trunk</connection>
     <developerConnection>scm:svn:https://beezle.svn.sourceforge.net/svnroot/beezle/mork/trunk</developerConnection>
@@ -53,20 +39,12 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.8.2</version>
+      <version>4.10</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
 
   <build>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-ssh-external</artifactId>
-        <version>1.0-beta-7</version>
-      </extension>
-    </extensions>
- 
     <defaultGoal>package</defaultGoal>
 
     <pluginManagement>
@@ -93,6 +71,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.7</version>
         <executions>
           <execution>
             <id>bootstrap</id>
@@ -119,7 +98,7 @@
                   <include name="src/main/java/**/compiler/*.map" />
                 </fileset>
                 <pathconvert property="mapper.bs2" refid="mapper.bs2" pathsep=" " />
-                <java fork="true" dir="${basedir}" classname="de.mlhartme.mork.compiler.Main" failonerror="true">
+                <java fork="true" dir="${basedir}" classname="net.sf.beezle.mork.compiler.Main" failonerror="true">
                   <classpath>
                     <pathelement path="${basedir}/src/bsmork.jar" />
                     <pathelement path="${basedir}/target/classes" />
@@ -129,7 +108,7 @@
                   <arg path="${basedir}/target/classes" />
                   <arg value="-lst" />
                   <arg value="-mapper" />
-                  <arg value="de.mlhartme.mork.bootstrap.Loader.loadMapper" />
+                  <arg value="net.sf.beezle.mork.bootstrap.Loader.loadMapper" />
                   <arg line="${mapper.bs2}" />
                 </java>
                 <echo>Bootstrap Pass 3</echo>
@@ -138,7 +117,7 @@
                   <exclude name="src/main/java/**/bootstrap/*.map" />
                 </fileset>
                 <pathconvert property="mapper.bs3" refid="mapper.bs3" pathsep=" " />
-                <java fork="true" dir="${basedir}" classname="de.mlhartme.mork.compiler.Main" failonerror="true">
+                <java fork="true" dir="${basedir}" classname="net.sf.beezle.mork.compiler.Main" failonerror="true">
                   <classpath>
                     <pathelement path="${basedir}/target/classes" />
                     <pathelement path="${basedir}/target/test-classes" />
@@ -150,7 +129,7 @@
                   <arg line="${mapper.bs3}" />
                 </java>
                 <!-- run again to test the generated mappers -->
-                <java fork="true" dir="${basedir}" classname="de.mlhartme.mork.compiler.Main" failonerror="true">
+                <java fork="true" dir="${basedir}" classname="net.sf.beezle.mork.compiler.Main" failonerror="true">
                   <classpath>
                     <pathelement path="${basedir}/target/classes" />
                     <pathelement path="${basedir}/target/test-classes" />

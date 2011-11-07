@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.classfile;
+package net.sf.beezle.mork.classfile;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;

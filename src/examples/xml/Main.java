@@ -17,7 +17,7 @@
 
 package xml;
 
-import de.mlhartme.mork.mapping.Mapper;
+import net.sf.beezle.mork.mapping.Mapper;
 
 /**
  * This is a kind of XML scanner. It does not read external entities; in fact, entities are

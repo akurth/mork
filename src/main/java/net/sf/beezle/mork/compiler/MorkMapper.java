@@ -15,13 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.compiler;
+package net.sf.beezle.mork.compiler;
 
-import de.mlhartme.mork.mapping.Mapper;
-import de.mlhartme.mork.misc.GenericException;
-import de.mlhartme.mork.reflect.Function;
-import de.mlhartme.mork.reflect.Method;
-import de.mlhartme.mork.reflect.Selection;
+import net.sf.beezle.mork.mapping.Mapper;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.reflect.Function;
+import net.sf.beezle.mork.reflect.Method;
+import net.sf.beezle.mork.reflect.Selection;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;

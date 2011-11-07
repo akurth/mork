@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.xml;
+package net.sf.beezle.mork.xml;
 
-import de.mlhartme.mork.scanner.Position;
+import net.sf.beezle.mork.scanner.Position;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

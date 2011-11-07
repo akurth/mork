@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.compiler.tests.env;
+package net.sf.beezle.mork.compiler.tests.env;
 
-import de.mlhartme.mork.mapping.Mapper;
+import net.sf.beezle.mork.mapping.Mapper;
 import java.io.StringReader;
 
 /**
@@ -28,7 +28,7 @@ public class Main {
         Mapper mapper;
         Object[] result;
 
-        mapper = new Mapper("de.mlhartme.mork.compiler.tests.env.Mapper");
+        mapper = new Mapper("net.sf.beezle.mork.compiler.tests.env.Mapper");
         mapper.setEnvironment(new Integer(3));
         result = mapper.run("<const>", new StringReader("ab"));
         System.out.println("result: " + result[0]);

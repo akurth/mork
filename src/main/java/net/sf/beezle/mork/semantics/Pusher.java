@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.mlhartme.mork.semantics;
+package net.sf.beezle.mork.semantics;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.beezle.sushi.util.IntBitSet;
 
-import de.mlhartme.mork.grammar.Grammar;
+import net.sf.beezle.mork.grammar.Grammar;
 
 /**
  * Attribute grammar, supports >=0 synthesized and inherited attributes.
