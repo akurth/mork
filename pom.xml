@@ -148,6 +148,33 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <!-- Notes:
+             * pdf generation needs an image path because the image is resolved at build-time
+               (html images are resolved at runtime)
+             * documentation: http://code.google.com/p/docbkx-tools/
+             * built-in images (src/site/resources/docbkx/images/docbkx copied from
+               http://mvnrepository.com/artifact/org.docbook/docbook-xsl/1.72.0)
+          -->
+        <groupId>com.agilejava.docbkx</groupId>
+        <artifactId>docbkx-maven-plugin</artifactId>
+        <version>2.0.13</version>
+        <executions>
+          <execution>
+            <id>manual</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>generate-html</goal>
+            </goals>
+            <configuration>
+              <sourceDirectory>src/doc</sourceDirectory>
+              <includes>main.xml</includes>
+              <!-- <admonGraphicsPath>images/docbkx/</admonGraphicsPath>
+              <calloutGraphicsPath>images/docbkx/callouts/</calloutGraphicsPath>-->
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
