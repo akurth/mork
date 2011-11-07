@@ -23,7 +23,6 @@ import de.mlhartme.mork.reflect.Constructor;
 import de.mlhartme.mork.reflect.Function;
 import de.mlhartme.mork.reflect.Method;
 import de.mlhartme.mork.reflect.Selection;
-import net.sf.beezle.sushi.util.Util;
 import java.io.File;
 
 /**
@@ -31,6 +30,16 @@ import java.io.File;
  * classpath. Caution: this class is *not* for stub code to map to!
  */
 public class Loader {
+    public static File absoluteFile(File dir, String fileName) {
+        File file;
+
+        file = new File(fileName);
+        if (file.isAbsolute()) {
+            return file;
+        }
+        return new File(dir, fileName);
+    }
+
     // holds the last mapper file name loaded;  this is kind of ugly, but setting up/using
     // "[env]" is tedious since I'd have to use reflection ...
     private static String mapperFile;
@@ -43,7 +52,7 @@ public class Loader {
     public static GrammarSyntax loadGrammar(String file) {
         File absolute;
 
-        absolute = Util.absoluteFile(new File(mapperFile).getParentFile(), file);
+        absolute = absoluteFile(new File(mapperFile).getParentFile(), file);
         return (GrammarSyntax) load("de.mlhartme.mork.bootstrap.GrammarMapper", absolute.getPath());
     }
 

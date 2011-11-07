@@ -17,12 +17,12 @@
 
 package de.mlhartme.mork.compiler;
 
+import de.mlhartme.mork.bootstrap.Loader;
 import de.mlhartme.mork.mapping.Mapper;
 import de.mlhartme.mork.misc.GenericException;
 import de.mlhartme.mork.reflect.Function;
 import de.mlhartme.mork.semantics.BuiltIn;
 import de.mlhartme.mork.semantics.IllegalLiteral;
-import net.sf.beezle.sushi.util.Util;
 import java.io.File;
 
 /**
@@ -122,7 +122,7 @@ public class Mork {
 
         fileName = BuiltIn.parseString(fileName);   // fileName use / on all platforms
         fileName = fileName.replace('/', File.separatorChar);
-        file = Util.absoluteFile(currentJob.source.getParentFile(), fileName);
+        file = Loader.absoluteFile(currentJob.source.getParentFile(), fileName);
         syntax = (Syntax) mapper.invoke(file);
         if (syntax == null) {
             throw new GenericException("error(s) in syntax file - aborted");
