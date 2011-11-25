@@ -100,7 +100,6 @@ public class Mapper implements Serializable {
     public void load() {
         ClassLoader loader;
         Class c;
-        Mapper result;
         Method m;
         Object[] tables;
 
@@ -178,6 +177,16 @@ public class Mapper implements Serializable {
         return run(new File(fileName));
     }
 
+    public Object[] run(net.sf.beezle.sushi.fs.Node node) {
+        try {
+            return run(node, node.createReader());
+        } catch (IOException e) {
+            errorHandler();
+            errorHandler.ioError(node.toString(), "cannot open stream", e);
+            return null;
+        }
+    }
+
     public Object[] run(File file) {
         try {
             return run(file.toURL(), new FileReader(file));
@@ -195,6 +204,7 @@ public class Mapper implements Serializable {
         try {
             return run(url, new InputStreamReader(url.openStream()));
         } catch (IOException e) {
+            errorHandler();
             errorHandler.ioError(url.toString(), "cannot open stream", e);
             return null;
         }
@@ -227,7 +237,7 @@ public class Mapper implements Serializable {
         try {
             src.close();
         } catch (IOException e) {
-            // nothing I can do - a flow-up problem of a previous io exception
+            // nothing I can do - a follow-up problem of a previous io exception
         }
         if (node == null) {
             return null;
