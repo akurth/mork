@@ -159,21 +159,35 @@
         <groupId>com.agilejava.docbkx</groupId>
         <artifactId>docbkx-maven-plugin</artifactId>
         <version>2.0.13</version>
+        <configuration>
+          <sourceDirectory>src/site/manual</sourceDirectory>
+          <includes>manual.xml</includes>
+          <targetDirectory>${basedir}/target/site</targetDirectory>
+        </configuration>
         <executions>
           <execution>
-            <id>manual</id>
+            <id>manual-html</id>
             <phase>pre-site</phase>
             <goals>
               <goal>generate-html</goal>
             </goals>
             <configuration>
-              <sourceDirectory>src/site/manual</sourceDirectory>
-              <includes>manual.xml</includes>
               <chunkedOutput>true</chunkedOutput>
               <chunkSectionDepth>0</chunkSectionDepth>
-              <targetDirectory>${basedir}/target/site</targetDirectory>
               <!-- <admonGraphicsPath>images/docbkx/</admonGraphicsPath>
               <calloutGraphicsPath>images/docbkx/callouts/</calloutGraphicsPath>-->
+            </configuration>
+          </execution>
+          <execution>
+            <id>manual-pdf</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>generate-pdf</goal>
+            </goals>
+            <configuration>
+              <!-- imgSrcPath>../../site/resources/docbkx/</imgSrcPath>
+              <admonGraphicsPath>../../site/resources/docbkx/images/docbkx/</admonGraphicsPath>
+              <calloutGraphicsPath>../../site/resources/docbkx/images/docbkx/callouts/</calloutGraphicsPath-->
             </configuration>
           </execution>
         </executions>
