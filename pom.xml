@@ -150,9 +150,9 @@
       </plugin>
       <plugin>
         <!-- Notes:
+             * documentation: http://code.google.com/p/docbkx-tools/
              * pdf generation needs an image path because the image is resolved at build-time
                (html images are resolved at runtime)
-             * documentation: http://code.google.com/p/docbkx-tools/
              * built-in images (src/site/resources/docbkx/images/docbkx copied from
                http://mvnrepository.com/artifact/org.docbook/docbook-xsl/1.72.0)
           -->
@@ -167,8 +167,9 @@
               <goal>generate-html</goal>
             </goals>
             <configuration>
-              <sourceDirectory>src/doc/src</sourceDirectory>
-              <includes>main.xml</includes>
+              <sourceDirectory>src/site/manual</sourceDirectory>
+              <includes>manual.xml</includes>
+              <targetDirectory>${basedir}/target/site/manual</targetDirectory>
               <!-- <admonGraphicsPath>images/docbkx/</admonGraphicsPath>
               <calloutGraphicsPath>images/docbkx/callouts/</calloutGraphicsPath>-->
             </configuration>
