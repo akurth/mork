@@ -169,7 +169,9 @@
             <configuration>
               <sourceDirectory>src/site/manual</sourceDirectory>
               <includes>manual.xml</includes>
-              <targetDirectory>${basedir}/target/site/manual</targetDirectory>
+              <chunkedOutput>true</chunkedOutput>
+              <chunkSectionDepth>0</chunkSectionDepth>
+              <targetDirectory>${basedir}/target/site</targetDirectory>
               <!-- <admonGraphicsPath>images/docbkx/</admonGraphicsPath>
               <calloutGraphicsPath>images/docbkx/callouts/</calloutGraphicsPath>-->
             </configuration>
