@@ -3,28 +3,3031 @@
       xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0CR7/xsd/docbook.xsd"
       id="faq"
->
-  <chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0CR7/xsd/docbook.xsd">
+    >
+  <bookinfo>
+    <title>Mork</title>
+    <subtitle>Compiler tool for Java</subtitle>
+    <authorgroup>
+      <author>
+        <firstname>Michael</firstname>
+        <surname>Hartmeier</surname>
+      </author>
+    </authorgroup>
+    <copyright>
+      <year>
+        <!-- §{years}: -->
+        1998-2003
+        <!-- §. -->
+      </year>
+      <holder>
+        <!-- §{author}: -->
+        Michael Hartmeier
+        <!-- §. -->
+      </holder>
+    </copyright>
 
-  <title>Test</title>
+    <releaseinfo><remark>This document was generated
+      <!-- §{xml.date()}: -->
+      Wednesday, January 15, 2003 10:47:33 PM CET
+      <!-- §. -->
+      (Mork
+      <!-- §{version}: -->
+      0.6
+      <!-- §. -->
+      ).
+    </remark></releaseinfo>
 
-  <sect1>
-  <title>Preface</title>
-  </sect1>
+    <legalnotice>
+      <!-- This notice is the first paragraph of the legal notice used in -->
+      <!-- GNU documents. I don't include the paragraphs that grants permission -->
+      <!-- to distribute modifications because I want to keep the notice short. -->
+      <!-- I don't add trademark statements, they seem to be restricted to -->
+      <!-- printed books. -->
+      <para>Permission is granted to make and distribute verbatim copies
+        of this manual provided the copyright notice and this permission notice are
+        preserved on all copies.</para>
+    </legalnotice>
+  </bookinfo>
+
+  <chapter>
+    <title>Introduction</title>
+
+    <sect1>
+      <title>Preface</title>
+
+      <formalpara>
+        <title>Prerequisites</title>
+        <para>This manual assumes knowledge about Java and some understanding of
+          regular expressions and context-free grammars.</para></formalpara>
+
+      <formalpara>
+        <title>Status</title>
+        <para>Mork is developed in my spare time. I consider Mork as beta code.
+          It has been tested for Mork itself (Mork is bootstrapped) and the example
+          applications - and nothing else. The syntax grammar part is stable. The
+          mapping part slowly matures. The XML syntax part is unstable. </para></formalpara>
+
+      <formalpara>
+        <title>Conventions</title>
+        <para>The following font conventions are used throughout this document
+          <itemizedlist>
+            <listitem><para>A <literal>typewriter font</literal> indicates example code or shell commands.
+            </para></listitem>
+            <listitem><para>An <emphasis>italic font</emphasis> indicates that the given term is defined
+              in the respective sentence. TODO: not completed yet.</para></listitem>
+          </itemizedlist>
+        </para></formalpara>
+
+      <formalpara>
+        <title>License</title>
+        <para><indexterm><primary>license</primary></indexterm>Mork is licensed under the terms of the GNU
+          Lesser General Public License. It is distributed in the hope that it will be useful, but WITHOUT
+          ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+          PURPOSE. For a copy of this license, see the file <literal>license.txt</literal>
+          which is part of the distribution. </para></formalpara>
+
+      <formalpara>
+        <title>Contact</title>
+        <para><indexterm><primary>contact</primary></indexterm><indexterm><primary>feedback</primary>
+        </indexterm>Please send your feedback to <email>michael.hartmeier@1und1.de</email>! Mork has a web page
+          at <ulink url="http://mork.sourceforge.net/">mork.sourceforge.net</ulink>
+        </para></formalpara>
+
+    </sect1>
+
+    <sect1>
+      <title>Overview</title>
+
+      <formalpara>
+        <title>Applications</title>
+        <para><emphasis>Mork</emphasis><indexterm significance="preferred"><primary>Mork</primary>
+        </indexterm> is a compiler tool
+          for Java. Its purpose similar to ANTLR, JavaCC (and jjTree), JLex &amp; CUP, or SableCC. Mork can
+          be used for <emphasis>applications</emphasis><indexterm significance="preferred">
+            <primary>applications</primary></indexterm> that process input streams, e.g.
+          <itemizedlist>
+            <listitem><formalpara><title>calculators</title>
+              <para>computing expressions</para></formalpara></listitem>
+            <listitem><formalpara><title>pretty printers</title>
+              <para>formatting program sources</para></formalpara></listitem>
+            <listitem><formalpara><title>interpreters</title>
+              <para>executing scripts</para></formalpara></listitem>
+            <listitem><formalpara><title>compilers</title>
+              <para>translating programs</para></formalpara></listitem>
+            <listitem><formalpara><title>tools like make</title>
+              <para>implement some kind of command language</para></formalpara></listitem>
+            <listitem><formalpara><title>application configuration</title>
+              <para>reading configuration files (e.g. Tomcat's <literal>server.xml</literal> file
+                or manifest file for <literal>jar</literal>)
+              </para></formalpara></listitem>
+          </itemizedlist></para></formalpara>
+
+      <formalpara>
+        <title>Mapping</title>
+        <para>Applications use Mork to map<indexterm><primary>mapping</primary></indexterm> input
+          streams into Java objects. Example 1: In a calculator application, Mork maps the input
+          <literal>17+5*7-10</literal> into a number object <literal>42</literal>. Example 2: In an
+          interpreter application, Mork maps a script file into Java objects like statements and expressions.
+          The underlying statement and expression classes are defined by the application, they usually have
+          methods like <literal>execute</literal> and <literal>eval</literal> that implement the actual
+          execution if the script. </para></formalpara>
+
+      <formalpara>
+        <title>Development</title>
+        <para>Developing an application with Mork centers around the mapper concept
+          <indexterm><primary>mapper</primary></indexterm>. This is outlined in the figure below. The
+          application is defined by three kinds of source files: (1) A syntax file defining the structure of
+          the input stream, (2) a mapper file that defines how to map input streams with this syntax into
+          Java objects, and (3) Java files defining the objects the input stream is mapped to. The application
+          is compiled into Java class files by running a Java compiler on the Java files and my running Mork
+          on the mapper file. At runtime, the application instantiates the mapper class and runs it on input
+          streams in order to map them into Java objects. </para></formalpara>
+
+      <figure>
+        <title>Development</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="development.jpg" format="JPG"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <formalpara>
+        <title>Terminology</title>
+        <para>In this document, the term application<indexterm><primary>applications</primary></indexterm>
+          denotes an application that uses Mork. The term user <indexterm><primary>user</primary></indexterm>
+          refers to the developer who uses Mork to write an application; user does not refer to the person
+          using the application. This manual forms the user documentation for Mork.
+          <!-- most of the sentences sound better with "user"; "user guide" is just one example -->
+        </para></formalpara>
+
+      <formalpara>
+        <title>Outline</title>
+        <para>The next two chapters form a kind of user's guide, they describe how to install Mork
+          (chapter 2) and how to get going (3). The remaining chapter are written more like a reference.
+          Everything is centered around mappers: how to define the syntax of a mapper (4), how to define
+          the mapper itself (5), how to translate a mapper (6) and how to invoke a mapper from your
+          application (7). The last chapter (8) contains notes about example applications and the
+          implementation of Mork. </para></formalpara>
+
+    </sect1>
+
+    <sect1>
+      <title>Features</title>
+
+      <itemizedlist>
+        <listitem><formalpara>
+          <title>Mapper</title>
+          <para>Applications use a mapper as a black box: they just run it on some input stream to get
+            their objects instantiated. This is like de-serializing objects from file with arbitrary syntax
+          </para></formalpara></listitem>
+        <listitem><formalpara>
+          <title>Mapping</title>
+          <para>An attribute is defined my simply associating symbols with constructors. A set of
+            attributes defines a mapper. </para></formalpara></listitem>
+        <listitem><formalpara>
+          <title>Visibility</title>
+          <para>Visibility declarations can be used to make attributes available to almost any location
+            in the syntax tree. </para></formalpara></listitem>
+        <listitem><formalpara>
+          <title>Scanner</title>
+          <para>Unicode support, scanner modes, and the usual regular expression operators.
+          </para></formalpara></listitem>
+        <listitem><formalpara>
+          <title>Parser</title>
+          <para>LALR(1) parsers and regular expression operators for grammar
+            rules: EBNF and more.</para></formalpara></listitem>
+        <listitem><formalpara>
+          <title>Attribution</title>
+          <para>Well-defined attribute grammars: Any number of synthesized and
+            inherited attributes.
+          </para></formalpara></listitem>
+        <listitem><formalpara>
+          <title>No embedded code</title>
+          <para>Clean separation of syntax and semantics: syntax goes into
+            the specification file, semantics into Java files.
+          </para></formalpara></listitem>
+        <listitem><formalpara>
+          <title>True compiler</title>
+          <para>Mork generates class file, not Java code: no Java-compile step is needed.
+          </para></formalpara></listitem>
+        <listitem><formalpara>
+          <title>Class file package</title>
+          <para>To generate Java class files. Includes features like automatic
+            stack size computation.</para></formalpara></listitem>
+        <listitem><formalpara>
+          <title>Examples</title>
+          <para>Mork includes an interpreter example, a compiler example that
+            generates bytecode, and a Java parser example.
+          </para></formalpara></listitem>
+        <listitem><formalpara>
+          <title>Positional error messages</title>
+          <para>Throwing an exception reports the current position and the
+            exception message.</para></formalpara></listitem>
+      </itemizedlist>
+    </sect1>
   </chapter>
 
-  <!-- xi:include href="front.xml" /-->
-  <xi:include href="introduction.xml" />
+  <chapter>
+    <title>Setup</title>
+
+    <formalpara>
+      <title>Requirements</title>
+      <para>Mork needs a properly installed Java 2 platform, version 1.2 or higher.
+        A graphical user-interface is needed to run the installer. Make sure that JDK's
+        <literal>bin</literal> directory is in your path. In most cases, 64MB of memory is
+        enough do to run Mork. More memory is needed to compile complex mapping files or
+        to run on 64 bit machines.</para></formalpara>
+
+    <formalpara>
+      <title>Install</title>
+      <para><orderedlist>
+        <listitem><para>Download Mork. It is distributed as a Java installer class
+          <literal>mork_x_y.class</literal>.</para></listitem>
+        <listitem><para>Enter the directory that holds <literal>mork_x_y.class</literal>.
+          <programlisting>
+            cd /path/to/installer
+          </programlisting></para></listitem>
+        <listitem><para>Launch the installer.
+          <programlisting>
+            java -cp . mork_x_y
+          </programlisting>Note that <literal>mork_x_y</literal> is specified without the
+          <literal>.class</literal> extension.</para></listitem>
+        <listitem><para>Follow the instructions.</para></listitem>
+        <listitem><para>Make sure that <literal>bin/</literal> is in your <literal>PATH</literal>.
+        </para></listitem>
+        <listitem><para>Make sure that <literal>lib/mork.jar</literal> is in your
+          <literal>CLASSPATH</literal> when compiling and running applications that use Mork.</para>
+        </listitem>
+        <listitem><para>Check your setup. Typing
+          <programlisting>
+            mork
+          </programlisting> should print Mork's usage message.</para></listitem>
+      </orderedlist></para></formalpara>
+
+    <formalpara>
+      <title>Technical details</title>
+      <para>The installer unpacks Mork, generates launch scripts, and fixes executable flags
+        (Unix only). The installer does not touch or create files outside the install directory. It
+        does not touch any system settings like <literal>PATH</literal> or
+        <literal>CLASSPATH</literal>.</para></formalpara>
+
+    <formalpara>
+      <title>Uninstall</title>
+      <para>
+        <orderedlist>
+          <listitem>
+            <para>Remove the directory where Mork was installed.</para></listitem>
+          <listitem>
+            <para>Remove Mork jar files from your <literal>CLASSPATH</literal>.</para></listitem>
+          <listitem>
+            <para>Remove Mork scripts from your <literal>PATH</literal>.</para></listitem>
+        </orderedlist>
+      </para></formalpara>
+  </chapter>
+
+  <chapter>
+    <title>First steps</title>
+
+    <formalpara>
+      <title>Quick start</title>
+      <para>The classic introduction for compiler tools is a calculator to compute expressions like
+        <literal>68/2+8</literal> <!-- 42 -->. Mork provides a calculator example
+        <indexterm><primary>calculator</primary></indexterm>, you can compile and run it as follows:
+        <programlisting>
+          cd mork/examples
+          CLASSPATH=.
+          javac -g calc/*.java
+          mork calc/Calc.map
+          java calc.Main
+        </programlisting>
+      </para></formalpara>
+
+    <formalpara>
+      <title>Example</title>
+      <para>This chapter is built around an example called <literal>command</literal>
+        <indexterm><primary>command</primary></indexterm>. The above calculator example is not suitable
+        because it demonstrates the most basic features only. <literal>command</literal> is simple enough
+        to serve as an introduction and it is as complex as necessary to demonstrate the important
+        features.</para></formalpara>
+
+    <formalpara>
+      <title>Overview</title>
+      <para>The next section explains how to compile and run <literal>command</literal> without digging
+        into the sources. This is followed by various sections that pick the interesting aspects of
+        <literal>command</literal> and explain them in more detail. Note that this chapter is an
+        introduction, exhaustive coverage follows in the remaining chapters.</para></formalpara>
+
+    <sect1>
+      <title>Get going</title>
+
+      <formalpara>
+        <title><literal>command</literal></title>
+        <para><literal>command</literal> adds GUI front-ends to command line tools like
+          <literal>javac</literal>, <literal>jar</literal>, or <literal>mork</literal>. To do so, the form of
+          valid command lines is described in a command file. A command file describing Java's
+          <literal>jar</literal> command line tool is shown in the listing below. The description consists
+          of three things:
+          <itemizedlist>
+            <listitem><para>a command name: <literal>create jar</literal></para></listitem>
+            <listitem><para>variable declarations:
+              <literal>jar</literal> for the name of the jar file to create
+              and <literal>dir</literal> for the directory to be zipped.</para>
+            </listitem>
+            <listitem><para>a command line: <literal>run "jar cvf " + jar + " " + dir;</literal>
+              defines how to combine variable values into the command line to invoke
+              <literal>jar</literal></para></listitem>
+          </itemizedlist>
+          Note: To keep things simple, only a fraction of <literal>jar</literal>'s functionality is
+          provided. Most notably, you can create jar file only, extracting data is not available.
+        </para></formalpara>
+
+      <figure>
+        <title>jar command file</title>
+        <programlisting>
+          <!-- §{xml.includeSource(Files.join(Config.HOME, "examples", "command", "tests", "jar.cf"), Xml.HASH_HEAD) }: -->
+          <!-- TODO jarText; -->
+          <!-- §. -->
+        </programlisting>
+      </figure>
+
+      <formalpara>
+        <title>Front-ends</title>
+        <para>Running <literal>command</literal> on a command file opens a window that provides a
+          front-end to the respective command line tool. The front-end has fields for
+          all variables declared in the command file and provides two buttons to
+          start the command or to cancel without running the command. The following
+          figure shows the front-end corresponding to the above command file.
+        </para></formalpara>
+
+      <figure>
+        <title>jar command screen shot</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="jarCF.jpg" format="JPG"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <formalpara>
+        <title>Source code</title>
+        <para><literal>command</literal>'s source code is located in <literal>examples/command</literal>,
+          the contents of this directory is listed below. It contains mostly Java files, Most of the Java
+          files will be touched in the course of this chapter. Maybe the two most important Java files
+          are <literal>Main.java</literal> which implements the overall logic and
+          <literal>Command.java</literal> which defines the <literal>command.Command</literal> class. The
+          largest Java files are <literal>Console.java</literal> (implementing a console window
+          for command output) and <literal>Frontend.java</literal> (implementing the initial Swing
+          dialog). </para></formalpara>
+      <!-- TODO: javadoc link. -->
+
+      <figure>
+        <title>Source files</title>
+        <programlisting>
+          <!-- §{xml.ls(Files.join(Config.HOME, "examples", "command"), new String[] { "*.java", "*.map", "*.grm" }) }: -->
+          command.grm    1108 bytes
+          Command.java    1104 bytes
+          Console.java    4670 bytes
+          Constant.java     644 bytes
+          Declarations.java    1785 bytes
+          Expression.java     530 bytes
+          Failure.java     557 bytes
+          Frontend.java    2823 bytes
+          Line.java    1021 bytes
+          Main.java    1217 bytes
+          Mapper.map     947 bytes
+          Reference.java     896 bytes
+          Variable.java    1061 bytes
+
+          <!-- §. -->
+        </programlisting>
+      </figure>
+
+      <para>Besides Java files, the source directory contains a grammar file
+        <literal>command.grm</literal> and a mapper file <literal>Mapper.map</literal>. The grammar file
+        defines the syntax of command files and the mapper file defines how to map a command files into an
+        instance of <literal>command.Command</literal>.</para>
+
+      <formalpara>
+        <title><literal>Javadoc</literal></title>
+        <para>To have a closer look at the Java files you might want to generate the
+          <literal>javadoc</literal> documentation for examples ...
+          <programlisting>
+            cd examples
+            mkdir command/javadoc
+            javadoc -d command/javadoc -sourcepath . command
+          </programlisting></para></formalpara>
 
 
-  <!--
-  <xi:include href="setup.xml" />
-  <xi:include href="firststeps.xml" />
-  <xi:include href="syntax.xml" />
-  <xi:include href="mapper.xml" />
-  <xi:include href="compilation.xml" />
-  <xi:include href="usage.xml" />
-  <xi:include href="sources.xml" />
-  <xi:include href="back.xml" /-->
+      <formalpara>
+        <title>Compiling</title>
+        <para>To compile <literal>command</literal>, run <literal>javac</literal> on the Java files and
+          <literal>mork</literal> on the mapper file:
+          <programlisting>
+            cd examples
+            CLASSPATH=.
+            javac -g command/*.java
+            mork command/Mapper.map
+          </programlisting>
+          Mork translates both the mapper file and the grammar file into several Java class files.
+          Note that mapper files contains a reference to <literal>command.grm</literal>. Therefore, only
+          the file <literal>Mapper.map</literal> has to be specified when calling <literal>mork</literal>.
+        </para></formalpara>
+
+      <formalpara>
+        <title>Running</title>
+        <para>Running <literal>command</literal> takes one argument: the command file to be processed. You
+          can create your own command file or you can use one of the sample command files in the tests
+          directory. Run the <literal>jar</literal> command mentioned above as follows:
+          <programlisting>
+            cd examples/command/tests
+            java command.Main jar.cf
+          </programlisting>
+        </para></formalpara>
+
+    </sect1>
+
+    <sect1>
+      <title>Overall logic</title>
+
+      <figure>
+        <title>command.Main</title>
+        <programlisting>
+          <!-- §{xml.includeSource(Files.join(Config.HOME, "examples", "command", "Main.java"), Xml.JAVA_HEAD) }: -->
+          <!-- TODO &MainText; -->
+          <!-- §. -->
+        </programlisting>
+      </figure>
+
+      <para><literal>Main.java</literal> defines the <literal>main</literal> method which implements the
+        overall logic of <literal>command</literal>. <literal>main</literal> demonstrates the typical steps
+        to use a mapper: <orderedlist>
+          <listitem>
+            <para>Instantiate the mapper class generated by Mork:
+              <programlisting>
+                mapper = new Mapper("command.Mapper");
+              </programlisting>
+            </para></listitem>
+          <listitem>
+            <para>Use the mapper object to read the command file specified on the command line:
+              <programlisting>
+                tmp = mapper.run(args[0])
+              </programlisting>
+            </para></listitem>
+          <listitem>
+            <para>Running the mapper turns the command file into an instances of command.Command:
+              <programlisting>
+                command = (Command) tmp[0];
+              </programlisting></para></listitem>
+          <listitem>
+            <para>Run the command, i.e. open the front-end window and execute the command line built
+              from the end-user's input.
+              <programlisting>
+                command.run();
+              </programlisting></para></listitem>
+        </orderedlist></para>
+
+    </sect1>
+
+    <sect1>
+      <title>Grammar files</title>
+
+      <formalpara>
+        <title>Grammar files</title>
+        <para><literal>command.grm</literal> defines the syntax of command files. A grammar file has a
+          scanner section and a parser section.</para></formalpara>
+
+      <figure>
+        <title><literal>command.grm</literal></title>
+        <programlisting>
+          <!-- §{xml.includeSource(Files.join(Config.HOME, "examples", "command", "command.grm"), Xml.HASH_HEAD) }: -->
+          <!-- TODO &commandText; -->
+          <!-- §. -->
+        </programlisting>
+      </figure>
+
+      <formalpara>
+        <title>Syntax</title>
+        <para>The syntax is specified in terms of symbols. Scanner and parser section give a list of rules.
+          A rule has a left hand side and a right hand side, separated by <literal>::=</literal>. It defines
+          a symbol by specifying how the symbol on the left hand side is composed of symbols on the right
+          hand side. Running the mapper creates a syntax tree according to these rules, where each node
+          represents a symbol. Usually, the leafs of the syntax tree are defined in the scanner section,
+          whereas the inner nodes are define in the parser section. The first rule in the parser section
+          defines the root node of the syntax tree.</para></formalpara>
+
+      <!-- TODO
+      <figure>
+      <title>command file analyzing</title>
+      <mediaobject>
+      <textobject>
+      TODO: Picture with characters, syntax tree and objects
+      </textobject>
+      </mediaobject>
+      </figure>
+      -->
+
+
+    </sect1>
+
+    <sect1>
+      <title>Mapper files</title>
+
+      <formalpara>
+        <title>Mapper files</title>
+        <para><literal>Mapper.map</literal> defines how to turn command files into instances of
+          <literal>command.Command</literal>. Running the mapper reads a command file, checks for
+          the appropriate syntax (defined in the grammar file) and maps the file into an instance of
+          <literal>command.Command</literal></para></formalpara>
+
+      <figure>
+        <title><literal>Mapper.map</literal></title>
+        <programlisting>
+          <!-- §{xml.includeSource(Files.join(Config.HOME, "examples", "command", "Mapper.map"), Xml.HASH_HEAD) }: -->
+          <!-- TODO &MapperText; -->
+          <!-- §. -->
+        </programlisting>
+      </figure>
+
+      <formalpara>
+        <title>Mapping</title>
+        <para>A mapper file is comprised of a list of attributes. The basic form of an attribute
+          <indexterm><primary>attribute</primary></indexterm> associates a symbol (on the left hand side)
+          with a constructor (on the right hand side). Whenever the specified symbol is found in some input
+          stream, the associated constructor is triggered. Here are two attributes used in the
+          <literal>command</literal> application.
+          <programlisting>
+            Command         => Command;
+            String          => BuiltIn.parseString;
+          </programlisting>
+        </para></formalpara>
+
+      <formalpara>
+        <title>Runtime</title>
+        <para>At runtime, a mapper first creates a syntax tree of the input stream. If this step is
+          successful (i.e. there are no syntax errors), the mapper walks through the nodes of the syntax
+          tree and invokes the constructors associated for the respective symbol. Example 1: The symbol
+          <literal>Command</literal> triggers invocation of the constructor <literal>Command</literal> which
+          results in an new instance of the class <literal>command.Command</literal>. Example 2: The symbol
+          <literal>Identifier</literal> triggers invocation of the constructor
+          <literal>BuildIn.parseString</literal> which results in a new instance of the class
+          <literal>java.lang.String</literal>. A mapper returns the object(s) created for the root node. In
+          the <literal>command</literal> example, this is a <literal>command.Command</literal> object.
+        </para></formalpara>
+
+      <formalpara>
+        <title>Constructors</title>
+        <para>The right hand side of an attribute specifies a constructor. A constructor
+          <indexterm><primary>constructor</primary></indexterm> may be a Java constructor (e.g.
+          <literal>command.Command</literal>), a Java method (e.g.
+          <literal>net.sf.beezle.mork.semantics.BuiltIn.parseString</literal>), or an internal constructor.
+          Thus, the term constructor is used in a more generalized meaning.</para></formalpara>
+
+      <formalpara>
+        <title>Internal constructors</title>
+        <para>A common requirement for symbols like <literal>Identifier</literal> is to access
+          the actual input matched by the symbol. Example: the symbol <literal>Identifier</literal>
+          might match the input <literal>jar</literal>. For this purpose, Mork provides internal
+          constructors.<indexterm><primary>internal constructors</primary></indexterm>
+          <literal>command</literal> use the internal constructor <literal>[text]</literal> to
+          access the actual input matched by the symbol. (There are more internal constructors
+          besides <literal>[text]</literal>, but in most cases, <literal>[text]</literal> is all you need).
+          <programlisting>
+            Identifier      => [text];
+            Literal         => [text];
+          </programlisting>
+          Note: internal constructors are restricted to symbols defined in the scanner section; associating
+          them with symbols defined in the parser section results in an error.</para></formalpara>
+
+      <formalpara>
+        <title>Import and package</title>
+        <para>Import and package declarations in the mapper file are similar to their Java
+          counter-parts. As demonstrated by the attributes for <literal>Command</literal> and
+          <literal>String</literal> symbols, imported classes can be specified without
+          a package name. However, there is one important difference from Java's
+          import declaration: all classes have to be imported explicitly. Example: all classes from
+          <literal>command</literal> are explicitly imported, even though the mapper resides in
+          the same package. Similarly, classes from <literal>java.lang</literal> have to be imported
+          explicitly. Explicitly also means that Mork does not provide something like
+          <literal>import foo.*</literal>.</para></formalpara>
+
+
+    </sect1>
+
+    <sect1>
+      <title>Visibility</title>
+
+      <formalpara>
+        <title>Argument passing</title>
+        <para>In the previous section, you have seen how to associate symbols with constructors
+          in order to create objects. Constructors take arguments. How do you define the arguments
+          passed to a constructor? The answer is visibility. If you now other compiler tools it might take
+          some time to get used to the visibility idea. But it's the feature that makes mapper files simple
+          and powerful.</para></formalpara>
+
+      <formalpara>
+        <title>Java argument passing</title>
+        <para>Let's have a look at argument passing in Java. Consider the following Java fragment,
+          where <literal>name</literal>, <literal>decls</literal> and <literal>line</literal> are
+          variables holding appropriate values:
+          <programlisting>
+            new Command(name, decls, line)
+          </programlisting>
+          This expression invokes the constructor of the <literal>command.Command</literal> class. The
+          arguments passed to the constructor are specified by an argument list. In Java, an argument
+          list defines the arguments passed to a constructor. OK, that's obvious. But read on ...
+        </para></formalpara>
+
+      <formalpara>
+        <title>Mork argument passing</title>
+        <para>In Mork, visibility defines the arguments passed to a constructor. In some sense,
+          visibility turns Java's argument lists upside down: argument lists are tied to the constructor
+          and kind of pull arguments into the constructor. In contrast, visibility is tied to an argument
+          and kind of pushes it toward an constructor. This is illustrated in the graphic below.
+        </para></formalpara>
+
+      <figure>
+        <title>Argument passing</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="passing.jpg" format="JPG"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <formalpara>
+        <title>Visibility</title>
+        <para>Each attribute has a visibility which defines the constructors the attribute is passed
+          to as an argument. <indexterm><primary>visibility</primary></indexterm>Visibility can be defined
+          explicitly and implicitly. Look at the listing below, it shows two attribute definitions from
+          <literal>command</literal>'s map file. Visibility of the <literal>Declarations</literal> attribute
+          is defined explicitly by a colon <literal>":"</literal> and two paths <literal>\\Command</literal>
+          and <literal>\\Command//Reference</literal>. In contrast, the <literal>Command</literal> attribute
+          has implicit visibility since there is no explicit visibility defined.</para></formalpara>
+
+      <programlisting>
+        Command         => Command;
+        Declarations    => Declarations:
+        > \\Command
+        > \\Command//Reference;
+      </programlisting>
+
+      <formalpara>
+        <title>Implicit visibility</title>
+        <para>An attribute with implicit visibility is passed to the constructor attached to the nearest
+          symbol in the syntax tree above. Example: <literal>command.Command</literal>'s constructor
+          takes three arguments: two Strings, an instance of <literal>command.Declarations</literal> and an
+          instance of <literal>command.Line</literal>. All of the attributes involved
+          (<literal>String</literal>, <literal>Declarations</literal>, and <literal>Line</literal>) have
+          implicit visibility, and the nearest constructor in the syntax tree above is
+          <literal>command.Command</literal>. Consequently, these are the attributes passed
+          <literal>command.Command</literal>. </para></formalpara>
+
+      <formalpara>
+        <title>Explicit visibility</title>
+        <para>Implicit visibility is appropriate in most situations. Explicit visibility enters the scene
+          if an object has to be passed to a constructor other than the constructor in the syntax tree
+          above. Explicit visibility is defined by a list of paths. Attributes with explicit visibility are
+          passed to all constructors defined by the paths. The need for explicit visibility typically arises
+          when resolving identifiers -- which will be studied in the respective section below.
+        </para></formalpara>
+
+      <formalpara>
+        <title>Argument order</title>
+        <para>Visibility declarations do not define the argument order. If two attributes are visible to a
+          given constructor, which attribute is passed first? Basically, Mork computes the argument order by
+          iterating the list of formal arguments, passing the left-most attribute assignable to the current
+          formal arguments. Consider <literal>command.Command</literal>'s constructor: the formal argument
+          list is <literal>(String name, String description, Declarations decls, Line line)</literal>. The
+          list of visible attributes are <literal>String</literal>, <literal>String</literal>,
+          <literal>Declarations</literal> and <literal>Line</literal>. Note that this list is ordered
+          according to the order of attributes in the syntax tree (which mostly resembles the grammar rule
+          <literal>Command ::= "command" String ":" String Declarations "{" Line "}" ;</literal>).
+          <literal>String</literal> argument occurs twice since the <literal>String</literal> symbols has
+          two occurrences in the grammar rule.  Argument ordering is performed as follows: The left-most
+          attribute which is assignable to <literal>name</literal> is the first <literal>String</literal>
+          attribute, thus it is assigned to <literal>name</literal>. After this, the second
+          <literal>String</literal> attribute is passed since it is the only remaining attribute which is
+          assignable to the formal argument <literal>String description</literal>. Similarly, the attribute
+          <literal>Declarations</literal> is assigned to the formal argument <literal>decls</literal> and the
+          attribute <literal>Line</literal> is assigned to the formal argument <literal>line</literal>.
+        </para></formalpara>
+
+      <para>
+        Note that the argument order is computed at compile-time, i.e. when translating the map file.
+        An error is reported if there is no valid argument order. </para>
+
+      <formalpara>
+        <title>List arguments</title>
+        <para>The attribute <literal>Variable</literal> has default visibility, thus it is added to the
+          argument lists passed to the <literal>command.Declarations</literal> constructor. The type of this
+          argument is <literal>Variable*</literal> where <literal>*</literal> indicates a list argument.
+          <literal>Variable</literal> is a list argument since a given syntax tree might have any number of
+          Variable attributes. A List arguments is assignable to <literal>java.util.List</literal> or arrays
+          of the respective base type.  TODO: more about </para></formalpara>
+
+      <formalpara>
+        <title>Option arguments</title>
+        <para>TODO: change command to include an example for optional arguments. TODO: more about
+          optional arguments.</para></formalpara>
+
+      <formalpara>
+        <title>Argument merging</title>
+        <para>Alternative arguments are merged. Example <literal>Constant</literal> and
+          <literal>Reference</literal>.  TODO: more about this. </para></formalpara>
+
+    </sect1>
+
+    <sect1>
+      <title>Error handling </title>
+
+      <formalpara>
+        <title>Errors</title>
+        <para><literal>command</literal>'s <literal>main</literal> method uses <literal>Mapper.run</literal>
+          to read command files. This method reports syntax errors and semantic errors to System.err. A syntax
+          error is reported whenever the syntax of the input stream read by the mapper does not match the
+          syntax specified in the syntax file underlying this mapper. Semantic errors are reported whenever
+          one of the constructors throws a checked exception.</para></formalpara>
+
+      <formalpara>
+        <title>Semantic errors</title>
+        <para><literal>command</literal> makes sure that variable names are unique. If two variable have
+          the same name, a semantic error is reported. To see this message, just duplicate the declaration
+          for the <literal>jar</literal> variable in <literal>tests/jar.cf</literal> and run
+          <literal>command</literal> on it:
+          <programlisting>
+            examples/command > cat tests/jar.cf
+            command "create jar"
+            jar: "jar file";
+            jar: "jar file";
+            dir: "directory";
+            {
+            run "jar cvf " + jar + " " + dir;
+            }
+            examples/command > java command.Main tests/jar.cf
+            tests/jar.cf:2:5: semantic error: duplicate variable name: jar
+            examples/command >
+          </programlisting>
+        </para></formalpara>
+
+      <formalpara>
+        <title>Defining</title>
+        <para>Defining semantic errors<indexterm><primary>semantic error</primary></indexterm> is straight
+          forward: check for the error situation in the appropriate constructor and, if a problem is
+          detected, throw a checked exception. Whenever a mapper encounters a checked exception, it issues a
+          semantic error message, reporting the current source positions and the string obtained from
+          <literal>Exception.getMessage()</literal>. The current source position is the position of syntax
+          tree node, the constructor was invoked for.</para></formalpara>
+
+      <formalpara>
+        <title>Duplicate Identifier</title>
+        <para><literal>command</literal>'s semantic error <literal>duplicate variable name</literal> is
+          realized in the file <literal>Declarations.java</literal> listed below. The constructor takes an
+          argument with all variables declared in a given command file. After storing these variables in a
+          member variable, <literal>checkDuplicates</literal> is invoked to look for a name that is used more
+          than once. If a duplicate name is found, it throws a <literal>Failure</literal> exception.
+          The <literal>Failure</literal> class extends <literal>java.lang.Exception</literal>, thus it is
+          a checked exception. When reporting this error, the exception message
+          <literal>duplicate variable name</literal> is used to describe the problem. The position
+          reported is the position of the <literal>Declarations</literal> symbol. </para></formalpara>
+
+      <figure>
+        <title><literal>Declarations.java</literal></title>
+        <programlisting>
+          <!-- §{xml.includeSource(Files.join(Config.HOME, "examples", "command", "Declarations.java"), Xml.JAVA_HEAD) }: -->
+          <!-- TODO &DeclarationsText; -->
+          <!-- §. -->
+        </programlisting>
+      </figure>
+
+      <para>The next section includes another example for semantic errors.</para>
+
+    </sect1>
+
+    <sect1>
+      <title>Resolving identifiers</title>
+
+      <formalpara>
+        <title>Meta</title>
+        <para>Resolving identifiers can be seen as an advanced topic, but it is a common task within
+          applications that use Mork. Almost every compiler or interpreter resolves variable names
+          in one way or another.</para></formalpara>
+
+      <formalpara>
+        <title>Example</title>
+        <para>The <literal>command</literal> example has to resolve identifiers to evaluate the command line
+          specified in a command file. Consider the jar command file listed in the first section. It includes
+          the command line
+          <programlisting>
+            run "jar cvf " + jar + " " + dir;
+          </programlisting>
+          To evaluate this line, <literal>command</literal> has to find the variables referenced by the
+          identifiers <literal>jar</literal> and <literal>dir</literal>. This is called identifier resolution.
+          <indexterm><primary>identifier resolution</primary></indexterm>
+          <literal>command</literal>'s identifier resolution is implemented in the files
+          <literal>Line.java</literal> and <literal>Reference.java</literal>.</para></formalpara>
+
+      <formalpara>
+        <title>Line objects</title>
+        <para>Before digging into identifier resolution, I have to explain the <literal>Line</literal>
+          class. See the listing below. Instances of this class represent command lines like
+          <literal>run "jar cvf " + jar + " " + dir;</literal>. A <literal>Line</literal> is characterized
+          by an array of exceptions. This array is passed to the constructor and stored in the field
+          <literal>exceptions</literal>. The command line <literal>run "jar cvf " + jar + " " + dir;</literal>
+          is an array of four expressions: two constants (<literal>"jar cvf "</literal> and
+          <literal>" "</literal>) and two variable references (<literal>jar</literal> and
+          <literal>dir</literal>). Constants are represented by instances of
+          <literal>command.Constant</literal> and variables are presented by instances of
+          <literal>command.Reference</literal>. Both classes extend <literal>command.Expression</literal> and
+          thus have an <literal>eval</literal> method. The whole purpose of <literal>Line</literal> is to
+          provide another <literal>eval</literal> method; <literal>Line</literal>'s <literal>eval</literal>
+          is used in <literal>Command.execute</literal> to compute the string which is used to launch
+          an operating system process. <literal>Line</literal>'s <literal>eval</literal> method simply
+          evaluates all expressions and concatenates the results. </para></formalpara>
+
+      <figure>
+        <title><literal>Line.java</literal></title>
+        <programlisting>
+          <!-- §{xml.includeSource(Files.join(Config.HOME, "examples", "command", "Line.java"), Xml.JAVA_HEAD) }: -->
+          <!-- &LineText; -->
+          <!-- §. -->
+        </programlisting>
+      </figure>
+
+      <formalpara>
+        <title>References</title>
+        <para><literal>command.Reference</literal> is shown in the listing below. A reference is nothing
+          but a pointer to the variable it refers to. When asked to evaluate itself, it just returns the
+          current value of the variable. The interesting part of the <literal>Reference</literal> class is
+          its constructor. The constructor expects two variables, a declarations object and an identifier.
+          What happens inside is straight forward: the declarations object is searched for the identifier.
+          If the is a variable with the specified name, it is stored in the <literal>var</literal>
+          field and the identifier resolution has succeeded. Otherwise, a semantic error
+          <literal>unkown identifier</literal> is issued by throwing an exception. </para></formalpara>
+
+      <figure>
+        <title><literal>Reference.java</literal></title>
+        <programlisting>
+          <!-- §{xml.includeSource(Files.join(Config.HOME, "examples", "command", "Reference.java"), Xml.JAVA_HEAD) }: -->
+          <!-- TODO &ReferenceText; -->
+          <!-- §. -->
+        </programlisting>
+      </figure>
+
+      <formalpara>
+        <title>Argument passing</title>
+        <para>The constructor of <literal>command.Reference</literal> expects two arguments:
+          a <literal>Declarations</literal> object and a <literal>String</literal> object. As explained
+          in the visibility section above, the arguments passed to a constructor are determined by visibility
+          definitions. The following visibility definitions are relevant here:
+          <programlisting>
+            Declarations    => Declarations:
+            > \\Command
+            > \\Command//Reference;
+            Identifier      => String;
+          </programlisting>
+          The <literal>Identifier</literal> attribute has implicit visibility. Consequently, it is passed
+          to the nearest constructor in the syntax tree above - which is <literal>command.Reference</literal>.
+          The <literal>Declarations</literal> attribute has explicit visibility, defined by two paths.
+          The first path <literal>\\Command</literal> specifies to pass the attribute up to
+          <literal>command.Command</literal>'s constructor - which is not relevant here. The second path
+          <literal>\\Command//Reference</literal> specifies to pass the attribute up to the
+          <literal>Command</literal> symbol and from there down to any <literal>Reference</literal>
+          constructor. Thus, <literal>command.Command</literal> obtains both a <literal>String</literal> and
+          a <literal>Declarations</literal> object and all it's arguments are satisfied.
+        </para></formalpara>
+
+      <formalpara>
+        <title>Paths</title>
+        <para>In general, a path specifies a way through the syntax tree. <literal>\\</literal> passes an
+          attribute up in the syntax tree until the specified symbol is found, and <literal>//</literal>
+          passes an attribute down until the specified symbol is found.</para></formalpara>
+
+      <para>TODO: some words about optional arguments and lists of arguments.</para>
+
+    </sect1>
+
+    <sect1>
+      <title>What's next</title>
+
+      <para>This chapter introduced the most important features. There are several ways
+        to go on now:</para>
+      <itemizedlist>
+        <listitem>
+          <formalpara><title>Extend the <literal>command</literal> example</title>
+            <para>Interesting stuff is missing in <literal>command</literal>:
+              <itemizedlist>
+                <listitem>
+                  <para>Beautified dialogs</para></listitem>
+                <listitem>
+                  <para>More input elements like browse buttons or check boxes, e.g. to switch between
+                    creating a jar file and extracting data from a jar file. </para></listitem>
+                <listitem>
+                  <para>Instead of launching an operating system process, a command could invoke
+                    static Java methods using reflection.</para></listitem>
+              </itemizedlist></para></formalpara></listitem>
+        <listitem><formalpara>
+          <title>Study more examples</title>
+          <para>Have a look at the examples directory. Both the interpreter and the compiler
+            example are more complex than <literal>command</literal>.</para></formalpara>
+        </listitem>
+        <listitem><formalpara>
+          <title>Start a new application</title>
+          <para>This is probably the most challenging way to continue. In particular, visibility
+            declarations are more difficult than you might expect from looking at examples that run out of
+            the box. In addition, the documentation in the remaining chapters is still incomplete. In general,
+            I suggest starting new applications with a small grammar and just few classes you map to. If the
+            small mapper work, continue by adding a single class and growing the grammar/mapping accordingly.
+            Caution: if you first develop the complete grammar, then implement all your classes and then try
+            to define a mapping, its much more difficult to solve visibility problems.
+          </para>
+        </formalpara></listitem>
+        <listitem><formalpara>
+          <title>Go on reading</title>
+          <para>The remaining chapter in this manual provide in depth information about Mork.
+            In my opinion it is more appropriate to just start using Mork an come back later.
+          </para></formalpara></listitem>
+      </itemizedlist>
+    </sect1>
+  </chapter>
+
+  <chapter>
+    <title>Syntax files</title>
+
+    <formalpara><title>Syntax files</title>
+      <para>This chapter is about syntax files. A syntax file defines the structure of
+        an input stream. Mork reads syntax files when processing a mapper file. Mork supports
+        two types of syntax: grammar syntax and XML syntax. Grammar syntax is based on
+        context-free syntax, it allows to define the syntax of most programming languages.
+        XML syntax is more restricted, it allows to define the syntax of XML files only.
+        Examples: Java has a grammar syntax, whereas DocBook has an XML syntax.
+      </para></formalpara>
+
+    <para>When writing applications, you have to choose between grammar syntax or XML syntax.
+      Here are some pros and cons for using XML syntax:
+      <itemizedlist>
+        <listitem><para>Pro: XML syntax is easy to learn or grasp from examples.
+        </para></listitem>
+        <listitem><para>Pro: It easy for applications to read you file because
+          the appropriate XML tools are quite common.</para></listitem>
+        <listitem><para>Cons: XML is verbose and thus hard to read and write.
+          This is not a problems for simple configuration file. But the
+          more complex the XML file is, the harder it is to work with them.
+          If you want humans to use XML files without special XML editors, your syntax should
+          not be more complex than Apache Ant files (<literal>build.xml</literal>).
+          If you want to see examples for more complex syntax, have a look
+          XML stylesheets (XSL files) XML schema definitions (XSD files). In my
+          opinion, these files form a bad examples, they are too verbose
+          (and they even use "embedded" syntax for paths).
+        </para></listitem>
+      </itemizedlist>
+    </para>
+
+
+    <sect1>
+      <title>Grammar syntax</title>
+
+      <para>Grammar syntax is defined by a list of BNF-style rules. The list of rules is divided
+        into a parser section defining a pushdown automaton and a scanner section defining a finite
+        automaton. Grammar syntax is defined by grammar files.</para>
+
+      <formalpara>
+        <title>Naming convention</title>
+        <para>My naming convention for grammar files is as follows. The base name of
+          a grammar files is the name of the language specified in the file. The first
+          letter is lower case because that's consistent with dtd files and I prefer
+          lowercase names (even though this conflicts with Java's naming convention
+          for class names). The file name extension is <literal>.grm</literal> (all
+          lower case on every platform). Examples: <literal>java.grm</literal> for a Java
+          syntax. <literal>config.grm</literal> for the syntax of configuration files.
+        </para></formalpara>
+
+      <sect2>
+        <title>Overall structure</title>
+
+        <figure>
+          <title>Overall structure</title>
+          <programlisting>
+            Grammar             ::= Parser Scanner ;
+            Parser              ::= "[" "PARSER" "]" Rule+ ;
+            Scanner             ::= "[" "SCANNER" "]" Priorities WhiteOpt Rule* ;
+            Priorities          ::= UsePriorities | NoPriorities;
+            UsePriorities       ::= ;
+            NoPriorities        ::= "nopriorities;";
+            WhiteOpt            ::= ("white" "=" SymbolSet ";")? ;
+            SymbolSet           ::= ( Symbol ("," Symbol)* )? ;
+          </programlisting>
+        </figure>
+
+        <para>Start symbol of a grammar file is <literal>Grammar</literal>.</para>
+
+        <formalpara>
+          <title>Sections</title>
+          <para>A grammar file is divided into a parser section and a scanner
+            section. Sections have a header and a body. Headers adjusts global options
+            that apply to the whole body. The body is comprised of a set of rules. The rules within
+            both sections should proceed from large element to small elements, i.e. the
+            start symbol should be specified first, and terminal symbols should be
+            specified last. For that reason, the parser section precedes the scanner
+            section. </para></formalpara>
+
+        <formalpara>
+          <title>Parser section</title>
+          <para>The parser section defines the context-free structure of the input
+            stream. The section header identifies that parser section, no other options
+            are given. The section body specifies a list of rules, each of them comprised
+            of a symbol and a regular expression. These rules define the context-free
+            grammar that parses the input stream. The symbol of the first rule is the
+            start symbol of the grammar. </para></formalpara>
+
+        <formalpara>
+          <title>Scanner section</title>
+          <para>The scanner section defines the regular structure of the input
+            stream. The section header specifies white symbols, i.e. terminal symbols
+            to be removed from the input stream; these symbols are never returned to
+            the parser. Typical examples for white symbols are white space and comments.
+            The section body is comprised of a list of rules, each of them comprised of
+            a symbol and a regular expression.</para></formalpara>
+
+        <formalpara>
+          <title>Priorities</title>
+          <para>Specifies how to resolve conflicts between two terminals that match
+            the same input. A typical example is a keyword like <literal>begin</literal> and an
+            <literal>identifier</literal> terminal that also matches the input <literal>begin</literal>.
+            Traditionally, scanner generators use priorities to resolve this conflict: if the input
+            <literal>begin</literal> is found, the terminal defined first will be matched. This behavior
+            is useful for programming languages like Java where a keyword is not a valid identifier:
+            just define the keywords before the identifier and you scanner will never match an identifier
+            if there is also a keyword for the respective input.</para></formalpara>
+
+        <formalpara>
+          <title>No Priorities</title>
+          <para>Specify <literal>nopriorities</literal> if you don't want to resolve scanner
+            conflicts based on their priority. In this case, Mork will try to resolve the conflict
+            by choosing appropriate scanner modes. Example: in XML, the <literal>Name</literal>
+            terminal conflicts with the <literal>Nmtoken</literal>. This conflict must not be solved
+            by priorities because the scanner needs to match both terminals. Mork ensures that
+            no parser state can shift both terminals and adds both terminals to different scanner modes.
+            The generated parser automatically switches it's scanner into the mode that matches all
+            terminals currently shiftable.</para></formalpara>
+
+
+      </sect2>
+
+
+      <sect2>
+        <title>Symbols</title>
+
+        <para>The syntax of input streams is defined in terms of symbols. Any symbol
+          has a language which is defined by the parser and scanner section. A language
+          is a set of strings. The set might be empty, it might include the empty
+          string, and in may cases, the set in infinite. A symbol is said to match the
+          current input, if the current input starts with an element of its language. Otherwise,
+          the symbol does not match. Example: a symbol  <literal>Integer</literal> typically
+          matches <literal>57...</literal>, but not <literal>xyz...</literal>. </para>
+
+        <figure>
+          <title>Symbols</title>
+          <programlisting>
+            Symbol              ::= StringSymbol | IdentifierSymbol ;
+            StringSymbol        ::= StringLiteral ;
+            IdentifierSymbol    ::= Identifier ;
+            Rule                ::= Subject "::=" RegExpr ";" ;
+            Subject             ::= Symbol ;
+          </programlisting>
+        </figure>
+
+        <formalpara>
+          <title>Symbols</title>
+          <para>A symbol is a string symbol or an identifier symbol. The language of a
+            string symbol is defined implicitly by its string, whereas the language of
+            an identifier symbol is defined explicitly by one or more regular expressions.
+            Symbols are case-sensitive.</para></formalpara>
+
+        <formalpara>
+          <title>String symbol</title>
+          <para>A string symbol is specified like a Java string literal. The language of a
+            string symbol is the string itself. For example, a string symbol <literal>"foo"</literal>
+            matches the string <literal>foo</literal>, nothing else. String symbols may contain all
+            escapes known from Java. It is an error to use different escapes to denote the same string.
+            For examples, Mork issues an error if you use both <literal>"foo\n"</literal>
+            and <literal>"foo\x0a"</literal> in a grammar file.</para></formalpara>
+
+        <formalpara>
+          <title>Identifier symbols</title>
+          <para>An identifier symbol is specified like a Java identifier. For any
+            identifier symbol used in the parser section, the must be at least one
+            rule. Let <literal>A ::= w1; A ::= w2; .. A ::= wn;</literal> be the set of all rules
+            with subject <literal>A</literal>. The language of <literal>A</literal> is defined by
+            the regular expression <literal>(w1) | (w2) ... | (wn)</literal>. </para></formalpara>
+
+        <formalpara>
+          <title>Rules</title>
+          <para>Rules define identifier symbols. The symbol on the left side of a
+            rule is called the subject of the rule. The subject must be an identifier
+            symbol. Regular expression in the parser may refer to any symbol, include
+            those defined later in the parser section and to symbols defined in the
+            scanner section. Regular expressions in the scanner section may not refer
+            to symbols in the parser section; they may refer to symbols in the scanner
+            section as long as not recursion is introduced. The same subject may be defined
+            by multiple rules, but all rules must be specified in the same section.
+          </para></formalpara>
+
+        <formalpara>
+          <title>Inline symbols</title>
+          <para>A symbol defined in the scanner section and not referred from the parser section
+            is called an inline symbol. Inline symbols are used to simplify rules in the scanner section
+            (by factoring out common parts), they are not considered terminals. As a consequence, inline
+            symbols cannot be have attributes.
+          </para></formalpara>
+
+        <formalpara>
+          <title>Conflicts</title>
+          <para>A conflict arises if a given input can be matched by two or more
+            symbols. The parser section is tested for conflicts at compile-time. If Mork
+            does not report conflicts, all conflicts, if any, have been resolved.
+          </para></formalpara>
+
+        <formalpara>
+          <title>Conflicts on nonterminals</title>
+          <para>Mork issues an error message for all conflicts on nonterminal
+            symbols. The user must change the rules in the parser section to resolve
+            the conflict. There is currently no way to resolve conflicts by additional
+            declarations, e.g. operator precedence.</para></formalpara>
+
+        <formalpara>
+          <title>Conflicts on terminals</title>
+          <para>In contrast to nonterminals, all conflicts on terminal symbols are
+            resolved automatically. This conflict resolution follows the scheme used
+            most frequently by scanner tools: (1) if conflicting matches have different
+            lengths, the symbol with the longest match is applied; (2) otherwise, the
+            symbol defined first is applied. String symbols are considered to be defined
+            before identifier symbols. </para></formalpara>
+
+        <formalpara>
+          <title>Example</title>
+          <para>The input <literal>if</literal> can typically be matched by the symbol
+            <literal>Identifier</literal> and the string symbol <literal>"if"</literal>. Mork
+            matches the <literal>"if"</literal> symbols because its definition proceeds the
+            definition of the <literal>Identifier</literal> symbol.</para></formalpara>
+
+      </sect2>
+
+      <sect2>
+        <title>Regular expression</title>
+
+        <para>Regular expressions define languages.</para>
+
+        <figure>
+          <title>Regular expression syntax</title>
+          <programlisting>
+            RegExpr             ::= Choice ;
+            Choice              ::= Choice "|" Sequence | Sequence ;
+            Sequence            ::= (Factor | Restriction)* ;
+            Restriction         ::= Factor "-" Factor;
+            Factor              ::= Operation | Reference | Range | "(" RegExpr ")" ;
+            Operation           ::= Star | Plus | Option | Times | Not ;
+
+            Star                ::= Factor "*" ;
+            Plus                ::= Factor "+" ;
+            Option              ::= Factor "?" ;
+            Times               ::= Factor ":" IntegerLiteral ;
+            Not                 ::= Factor "!" ;
+
+            Reference           ::= Symbol ;
+
+            Range               ::= Atom (".." Atom)? ;
+            Atom                ::= CharacterLiteral | Code ;
+            Code                ::= IntegerLiteral ;
+          </programlisting>
+        </figure>
+
+        <formalpara>
+          <title>Regular Expression</title>
+          <para>A regular expression defines a language, which is a set of strings.
+            In the parser section, regular expressions define context-free languages;
+            in the scanner section, regular expressions define regular expressions.
+            A regular expression is said to match a string if the string is an element
+            of the language. </para></formalpara>
+
+        <formalpara>
+          <title>Choice</title>
+          <para>A choice is a list of one or more sequences. A choice matches a string
+            if one of its sequences matches the string. Formally, the language of an
+            choice is the union of the languages of its sequences.
+            Example: <literal>A ::= "a" | "b";</literal> matches <literal>a</literal> or
+            <literal>b</literal>.</para></formalpara>
+
+        <formalpara>
+          <title>Sequence</title>
+          <para>A sequence is a list of zero or more factors or restrictions. A sequence matches
+            any string that is the concatenation of strings matched by its factors. Formally,
+            the language of a sequence is the set of concatenations of element,
+            one element taken from any of its factors. An empty sequence matches
+            the empty string. Example: <literal>A ::= "a" "b";</literal> matches
+            <literal>ab</literal>.</para></formalpara>
+
+        <formalpara>
+          <title>Restrictions</title>
+          <para>A restriction matches a string if the left factor matches the string and the right
+            factory does not match the string. This is useful, for example, to specify block
+            comments: <literal>comment ::= "/*" any* - (any* "*/" any*) "*/" ;</literal>.
+            Note that the syntax for restrictions does not permit <literal>A - B - C</literal> because
+            the precedence is not obvious. Use <literal>A - (B - C)</literal> or
+            <literal>(A - B) - C</literal> instead.
+          </para></formalpara>
+
+        <formalpara>
+          <title>Operation</title>
+          <para>Operations are specified in postfix notation, giving priority to the
+            inner-most operator. The factor left of an operator is called its operand.
+            The following operations are available:</para></formalpara>
+
+        <itemizedlist>
+          <listitem><formalpara><title>Plus</title>
+            <para>A loop. Matches any string that is the concatenation of at
+              least one string matched by the operand. Example:
+              <literal>A ::= "a"+;</literal> matches <literal>a</literal>,
+              <literal>aa</literal>, <literal>aaa</literal> etc.
+            </para></formalpara></listitem>
+          <listitem><formalpara><title>Star</title>
+            <para>Optional loop; matches any string that is the concatenation
+              of zero or more strings matched by the operand. Example:
+              <literal>A ::= "a"*;</literal> matches empty string,
+              <literal>a</literal>, <literal>aa</literal>, etc.
+            </para></formalpara></listitem>
+          <listitem><formalpara><title>Option</title>
+            <para>Matches the empty string and any string matched by
+              the operand. Example: <literal>A ::= "a"?;</literal> matches
+              the empty string and <literal>a</literal>.
+            </para></formalpara></listitem>
+          <listitem><formalpara><title>Times</title>
+            <para>Matches any string that is the concatenation of the given
+              number of strings matched by the operand. Example:
+              <literal>A ::= "a":4; </literal> matches <literal>aaaa</literal>.
+            </para></formalpara></listitem>
+          <listitem><formalpara><title>Not</title>
+            <para>matches the inverted character set of the operand. It is an error
+              to apply this operator to an operand which is not a character set.
+              A character set is a regular expression with only ranges and choices.
+              Example: <literal>A ::= 'a'..'z'!;</literal> matches any character which
+              is not a lower case letter. Advanced note: not inverts ranges, not languages;
+              otherwise, <literal>'a'!</literal> would match any string except <literal>a</literal>,
+              e.g. <literal>aa</literal>, <literal>aaa</literal>, etc. To invert languages
+              use restrictions with an unmatchable left factory.</para></formalpara></listitem>
+        </itemizedlist>
+
+        <formalpara>
+          <title>Reference</title>
+          <para>Matches any string matched by the specified symbol. It is an error
+            to reference parser symbols from the scanner section. References to scanner symbols
+            from the scanner section are valid as long as no recursion is introduced; these symbols
+            are automatically inlined, i.e. the symbol is replaced by it's definition.
+          </para></formalpara>
+
+        <formalpara>
+          <title>Ranges</title>
+          <para>A range <literal>a..z</literal> matches any character <literal>x</literal> with
+            <literal>a &lt;= x &lt;= z</literal>. A single boundary range <literal>a</literal>
+            abbreviates the range <literal>a..a</literal>.  An empty range is a range where the upper
+            bound is smaller than its lower bound. Empty ranges are legal, they match nothing.
+          </para></formalpara>
+
+        <formalpara>
+          <title>Atom</title>
+          <para>An atom matches the Unicode character it denotes. The character can
+            be specified by a character literal or by a Unicode number.
+          </para></formalpara>
+
+        <formalpara>
+          <title>Translation into BNF</title>
+          <para>The following substitutions are used by Mork to turn regular expression
+            rules into plain context-free grammar rules. This is used to translate the
+            parser section into a context-free grammar. Substitutions have been chosen
+            to avoid nonterminal conflicts. In particular, the substitution of empty
+            loops <literal>Lst ::= Item*</literal> into <literal>Lst::= ;  Lst::= Item Lst;</literal>
+            is not used, even though the rules are less complicated.</para></formalpara>
+
+        <para>
+          <programlisting>
+            A ::= B | C   ->  A ::= B;   A ::= C;
+            A ::= B C? D; ->  A ::= B D; A ::= B C D;
+            A ::= B+;     ->  A ::= X;   X ::= X B;   X ::= B;
+            A ::= B*;     ->  A ::= B*?;
+            ->  A ::= X;   A ::= ;      X ::= X B; X ::= B;
+          </programlisting></para>
+
+        <para>Notes: (1) The plus operator introduces new internal symbols.
+          (2) Negation is not mentioned here, because it is illegal in the parser
+          section.</para>
+
+        <formalpara>
+          <title>Example</title>
+          <para>The rule <literal>New ::= "new" Name "(" (Object ("," Object)*)? ")";</literal> is
+            internally turned to:
+            <programlisting>
+              New ::= "new" Name "(" Object ")" ;
+              New ::= "new" Name "(" Object "," Object ")" ;
+              New ::= "new" Name "(" Object Lst ")" ;
+              Lst ::= Lst "," Object ;
+              Lst ::= "," Object ;
+            </programlisting></para></formalpara>
+
+      </sect2>
+
+      <sect2>
+        <title>Lexical structure</title>
+
+        <para>Grammar files essentially follow the lexical conventions of Java.
+          The only major difference is the <literal>EndOfLineComment</literal>.</para>
+
+        <figure>
+          <title>Lexical structure</title>
+          <programlisting>
+            WhiteSpace         ::= ( ' ' | '\t' | '\n' | '\f' | '\r' )+ ;
+            EndOfLineComment   ::= '/' '/' ('\n' | '\r')!* ('\n' | '\r') ;
+            TraditionalComment ::= '/' '*' ('*'! | '*' '/'!)* '*' '/' ;
+
+
+            IntegerLiteral     ::= '0'
+            | '1'..'9' '0'..'9'*
+            | '0' ('x'|'X')
+            ('0'..'9' | 'a'..'f' | 'A'..'F')+
+            | '0' ('0'..'7')+ ;
+
+            StringLiteral      ::= '"' (('\\' 0..65535)
+            | ('\\' | '"' | '\n' | '\r')!)+ '"' ;
+
+            CharacterLiteral   ::= '\'' (('\\' 0..65535) |
+            ('\\' |'\'' |'\n' | '\r')!)+ '\'' ;
+
+            Identifier ::=
+            ( 0x0024..0x0024 | 0x0041..0x005a | 0x005f..0x005f |
+            0x0061..0x007a | 0x00a2..0x00a5 | 0x00aa..0x00aa |
+            0x00b5..0x00b5 | 0x00ba..0x00ba | 0x00c0..0x00d6 |
+            0x00d8..0x00f6 | 0x00f8..0x00ff )
+            ( 0x0000..0x0008 | 0x000e..0x001b | 0x0024..0x0024 |
+            0x0030..0x0039 | 0x0041..0x005a | 0x005f..0x005f |
+            0x0061..0x007a | 0x007f..0x009f | 0x00a2..0x00a5 |
+            0x00aa..0x00aa | 0x00b5..0x00b5 | 0x00ba..0x00ba |
+            0x00c0..0x00d6 | 0x00d8..0x00f6 | 0x00f8..0x00ff )* ;
+          </programlisting>
+        </figure>
+
+        <para>Differences from Java:</para>
+        <itemizedlist>
+          <listitem><formalpara><title><literal>EndOfLineComment</literal></title>
+            <para><literal>EndOfLineComment</literal> start with the hash character <literal>#</literal>.
+              Double slashes <literal>//</literal> known from Java <literal>EndOfLineComment</literal>s have
+              a different meaning (they are used in paths).</para></formalpara></listitem>
+          <listitem><formalpara><title>Documentation comments</title>
+            <para>Documentation comments are not distinguished from block comments.
+            </para></formalpara></listitem>
+          <listitem><formalpara><title>literals</title>
+            <para>Floating-point and boolean literals are not available;
+              type suffixes in <literal>IntegerLiterals</literal> are not available.
+            </para></formalpara></listitem>
+          <listitem><formalpara><title>keywords</title>
+            <para>The set of keywords is different from Java. For examples, <literal>start</literal>
+              is a keyword within specification files, whereas <literal>for</literal> is an identifier,
+              not a keyword.</para></formalpara></listitem>
+          <listitem><formalpara><title>identifier</title>
+            <para>Identifiers are restricted to Unicode characters with a
+              character code &lt;= 255.</para></formalpara></listitem>
+          <listitem><formalpara><title>Unicode preprocessing</title>
+            <para>Prior to scanning, no Unicode preprocessing is performed. Thus,
+              a token in general may not contain Unicode escapes. However, the
+              definition of character and string literals has been extended to
+              support Unicode escapes.</para></formalpara></listitem>
+        </itemizedlist>
+
+      </sect2>
+
+      <sect2>
+        <title>Scanner modes</title>
+
+        <para>A scanner mode is a set of terminals. Whenever matching a string, the scanner
+          matches only terminals in the current mode. Scanner modes are completely transparent, usually,
+          there is no need to care about them: at compile-time, scanner modes are computed automatically,
+          there is no need to manually declare scanner modes. At runtime, the parser automatically switches
+          to the appropriate scanner mode, there is no need to manually set the scanner mode. For most
+          grammar files, the resulting scanner has exactly one mode (containing all terminals). Mork's XML
+          grammar gives an example for a scanner with more than one mode. </para>
+
+        <para>TODO: more</para>
+
+      </sect2>
+
+
+    </sect1>
+
+    <sect1>
+      <title>XML syntax</title>
+
+      <formalpara>
+        <title>Attributes</title>
+        <para><indexterm><primary>Attributes</primary></indexterm>Unfortunately, the term attribute is
+          ambiguous: compiler tool attributes denote values attached to symbols, whereas XML attributes denote
+          name-value pairs attached to elements. The term attribute will be used throughout this manual if
+          the context allows to distinguish between compiler tool attributes and XML attributes. In most
+          cases attribute stands for compiler tool attributes - except in this section.</para></formalpara>
+
+      <para>XML syntax is specified by a document type definition. It is comprised of
+        a list of element declarations and attribute definitions. A detailed description
+        can be found in chapter 3 of the XML specification
+        (<ulink url="http://www.w3.org/TR/REC-xml">http://www.w3.org/TR/REC-xml</ulink>).
+      </para>
+
+      <formalpara>
+        <title>Naming convention</title>
+        <para>My naming convention for DTD files is as follows: The base name is the
+          name of the language specified in the file. The first letter is lowercase
+          because this is what I know from DocBook. The file name extension is
+          <literal>.dtd</literal> (all lower case on every platform). Examples:
+          <literal>docbook.dtd</literal> for a syntax definition of DocBook,
+          <literal>config.dtd</literal> for the syntax of configuration files.
+        </para></formalpara>
+
+      <formalpara>
+        <title>Status</title>
+        <para>Support for XML syntax was introduced in Mork 0.3.0 and is in its early
+          stages. Here are the major current limitations:
+          <itemizedlist>
+            <listitem><para>no mixed content</para></listitem>
+            <listitem><para>no any content</para></listitem>
+            <listitem><para>no namespace support</para></listitem>
+          </itemizedlist>
+          Element content is fully validated, but attribute content is not.</para>
+      </formalpara>
+
+      <formalpara>
+        <title>Mapping</title>
+        <para>Mapper files refer to elements by the element's name. Attributes are
+          referenced by the associated element, an dollar sign, and the attribute name.
+          Example: given that DTD fragment
+          <programlisting><![CDATA[
+    <!ELEMENT foo (someElements)>
+    <!ATTLIST foo bar CDATA #IMPLIED>
+  ]]></programlisting>
+          you can map the element <literal>foo</literal> and its attribute <literal>bar</literal> like this:
+          <programlisting>
+            foo      => Constructor1;
+            foo$bar  => Constructor2;
+          </programlisting>
+        </para></formalpara>
+
+      <formalpara>
+        <title>Terminals</title>
+        <para>Attributes are considered terminals, thus, you can use <literal>[text]</literal> to obtain
+          the attribute's value. In addition there is a terminal <literal>PCDATA</literal> that matches the
+          content of elements defined as <literal>PCDATA</literal>.</para></formalpara>
+
+      <formalpara>
+        <title>Start symbol</title>
+        <para>The first symbol defined in DTD file is the start symbol. </para></formalpara>
+
+      <formalpara>
+        <title>Implementation</title>
+        <para>Use the <literal>-lst</literal> option to check the parser generated by Mork.
+        </para></formalpara>
+
+      <formalpara>
+        <title>Example</title>
+        <para>The <literal>config</literal> example in <literal>mork/examples/config</literal> demonstrates
+          most of the available features.</para></formalpara>
+    </sect1>
+  </chapter>
+
+  <chapter>
+    <title>Mapper files</title>
+
+    <formalpara>
+      <title>Mapping</title>
+      <para>Turning input streams into objects is called <emphasis>mapping</emphasis>
+        <indexterm significance="preferred"><primary>mapping</primary></indexterm>. Mapping turns data from
+        a character representation into an object representation. Initially, data is represented as a
+        sequence of characters without structure. This representation is appropriate to edit, store or
+        transfer data. In contrast, the object representation the input stream is mapped to is appropriate
+        to process the data. For example, numbers are represented by <literal>int</literal>s and list are
+        represented by <literal>List</literal> objects. The purpose of mapping is to turn input streams into
+        the representation most appropriate to process the data. Note: the object representation is similar
+        to abstract syntax trees generated by some compiler tools, but the classes underlying individual
+        objects can be freely chosen and objects are not restricted to trees. </para></formalpara>
+
+    <figure>
+      <title>Mapping</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="mapping.jpg" format="JPG"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <formalpara>
+      <title>Steps</title>
+      <para>Mapping is comprised of two steps. In step one, the input stream is syntactically analyzed.
+        This includes scanning and parsing and results in a syntax tree. This step turns that input
+        stream from a character representation into a tree representation. The tree representation is
+        used because it's most appropriate to check the syntax of the input stream. Step two takes the
+        syntax tree and maps it into objects. This step computed attributes and includes semantic
+        analysis like identifier resolution and type checking. </para></formalpara>
+
+    <formalpara>
+      <title>Mapper</title>
+      <para>Mapping is performed by an mapper object. A mapper is invoked for an input stream, performs
+        scanning, parsing and semantic analysis and returns the objects resulting from the last step.
+        A mapper is similar to an <literal>ObjectInputStream</literal>, they both kind of de-serializes
+        objects and they are both objects themselves. However, a mapper de-serializes from a human-readable
+        stream, whereas an <literal>ObjectInputStream</literal> de-serialize from an machine-readable stream.
+      </para></formalpara>
+
+    <formalpara>
+      <title>Mapper files</title>
+      <para>A mapper file is a text file that defines a mapper.
+        <indexterm significance="preferred"><primary>mapping</primary></indexterm>It defines the syntax of
+        an input stream by referencing a syntax file and it defines how to map syntax trees into objects.
+        Mork translates mapper files into Java classes. </para></formalpara>
+
+    <formalpara>
+      <title>Naming conventions</title>
+      <para>Mork does not restrict the name of mapper files. My naming convention for mapper files is
+        as follows. The base name is <literal>Mapper</literal> if an application needs a single mapper
+        only. Otherwise, the name of the syntax is preprended, starting with a capital letter. The file
+        name extension is <literal>.map</literal> (all lower case on every platform). Example 1: Each of
+        Mork's example applications has a single mapper only. Consequently, all example mapper file have
+        the <literal>Mapper.map</literal>. Example 2: Mork itself has three mappers:
+        <literal>GrammarMapper</literal>, <literal>MapperMapper</literal> and
+        <literal>DtdMapper.map</literal>. They map grammar files, mapper files and dtd files. Note:
+        mapper file names should start with a capital letter because their are translated into Java class
+        files, and the naming convention for classes is to start with a capital letter.
+      </para></formalpara>
+
+    <formalpara>
+      <title>Outline</title>
+      <para>This chapter is about mapper files. Its sections are structured along the main entities of
+        mapper files. A section typically starts with a formal syntax specification, followed by an
+        informal description of the respective entity. Sections try to be complete, even if forward
+        references are necessary. Note: the full syntax specification for mapper files is given in the
+        appendix, the formal syntax specification at the start of a section are taken from this appendix.
+      </para></formalpara>
+
+    <formalpara>
+      <title>Lexical structure</title>
+      <para>Grammar files and mapper files have the same lexical structure. A description was given
+        in the previous chapter, it's not repeated here.</para></formalpara>
+
+
+    <formalpara>
+      <title>Meta</title>
+      <para>In some sense, syntax files as described in the previous chapter are simple because
+        there is nothing special compared to other compiler tools. Defining mapper files should also be
+        simple because it is basically a simple association. However, this chapter probably turns out to
+        be more difficult because (1) the mapping concept differs from other tools and thus needs
+        more explanations and (2) this chapter of the manual is incomplete. </para></formalpara>
+
+
+    <sect1>
+      <title>Overall structure</title>
+
+      <figure>
+        <title>Overall structure</title>
+        <programlisting>
+          Mapper              ::= MapperName SyntaxFile Imports Definitions ;
+          MapperName          ::= "mapper" Name ";" ;
+          SyntaxFile          ::= Grammar | Dtd ;
+          Grammar             ::= "grm" "=" StringLiteral ";" ;
+          Dtd                 ::= "dtd" "=" StringLiteral ";" ;
+          Imports             ::= Import* ;
+          Import              ::= "import" PackageName ":" Class ("," Class)* ";";
+          Class               ::= Identifier ("->" Identifier)? ;
+          PackageName         ::= Name ;
+          Name                ::= Identifier ("." Identifier)* ;
+        </programlisting>
+      </figure>
+
+      <formalpara>
+        <title>Overview</title>
+        <para>Start symbol of the mapper file grammar is <literal>Mapper</literal>.
+          <literal>Definitions</literal> form the core of mapper files, they associates symbols
+          defined in <literal>SyntaxFile</literal> with Java classes declared in
+          <literal>Imports</literal>.</para></formalpara>
+
+      <sect2>
+        <title>Mapper name</title>
+
+        <formalpara>
+          <title>Purpose</title>
+          <para>The mapper name specifies a fully qualified name for the mapper. The name has to
+            follow Java's rules for fully qualified class names. When generating a mapper, the name is used
+            as a prefix for the various classes resulting from the generation. When running an application,
+            the mapper name is used to locate and load these classes. The name is fully qualified, i.e. the
+            mapper package is always included. Thus, the mapper name is like Java package declaration combined
+            with a class definition combined into a single statement. </para></formalpara>
+
+        <formalpara>
+          <title>File names vs. class names</title>
+          <para>Java distinguishes class names and file names (for class files): A class name is
+            not necessarily the name of the class file with the byte code for this class. For example,
+            you can define a (non-public) Java class <literal>Foo</literal> in a Java file
+            <literal>Bar.java</literal>. The Java compiler will generate a file <literal>Bar.class</literal>
+            which defines a class <literal>Foo</literal>. Mork implements the same behavior for mappers:
+            Defining a mapper <literal>Foo</literal> in a mapper file <literal>Bar.map</literal> results
+            in a Java class file <literal>Foo.class</literal> defining a class <literal>Bar</literal>.
+          </para></formalpara>
+
+      </sect2>
+
+      <sect2>
+        <title>Syntax file</title>
+
+        <formalpara>
+          <title>Syntax File</title>
+          <para><literal>SyntaxFile</literal> refers to the file defining the mapper's syntax.
+            <literal>StringLiteral</literal> is the file name. A relative file name is interpreted
+            relative to the location of the mapper file, not relative to the current directory.
+            The character separating directories in the file name is <literal>/</literal>, regardless of
+            the platform you run Mork on. Thus, it is illegal to use backslashes on Windows. Rationale:
+            make mapper file platform independent.</para></formalpara>
+
+      </sect2>
+
+      <sect2>
+        <title>Import declarations</title>
+
+        <formalpara>
+          <title>Purpose</title>
+          <para><literal>Imports</literal> resemble Java import declarations: Import declarations specify
+            classes to be referenced by simple identifiers, without the package that contains the class. The
+            purpose of both Java and Mork import declarations is to simplify references to classes with long
+            qualified names. Qualified names can get quite long, especially because Java naming conventions
+            suggest a unique vendor name as part of the package name.</para></formalpara>
+
+        <formalpara>
+          <title>Imported classes</title>
+          <para>An import declaration <literal>import p:X -> Y;</literal> (where <literal>p</literal> is a
+            package name and <literal>X</literal> is a simple identifier) declares the imported class
+            <literal>Y</literal>. The imported class <literal>Y</literal> is a reference to the class
+            <literal>p.X</literal>. <literal>import p:X;</literal> is equivalent to
+            <literal>import p:X -> X;</literal>.</para></formalpara>
+
+        <formalpara>
+          <title>Restrictions</title>
+          <para>To import a class, the following conditions have to be met:
+            <itemizedlist>
+              <listitem><para>There is exactly one imported class <literal>Y</literal>.
+              </para></listitem>
+              <listitem><para><literal>p.X</literal> has been properly compiled and is available
+                on the <literal>CLASSPATH</literal>.</para></listitem>
+              <listitem><para><literal>p.X</literal> is a class. It is an error to import primitive
+                types or interface types.</para></listitem>
+              <listitem><para><literal>p.X</literal> is a public; it must not have private or
+                default (i.e. package) visibility.</para></listitem>
+              <listitem><para>Classes in unnamed packages are not supported. To
+                import a class, it has to be member of a package.</para></listitem>
+              <listitem><para>Nested classes are not supported, only top-level classes
+                may be imported.</para></listitem>
+            </itemizedlist></para></formalpara>
+
+        <formalpara>
+          <title>Document dependencies</title>
+          <para>The purpose of Mork import declarations goes beyond Java's import declarations: they are
+            meant to document all dependencies of a mapper file. To realize this, mapper files allows to
+            reference classes by simple identifiers only, qualified names are not allowed. Thus it is
+            impossible to reference a class without mentioning the class in an import declaration.
+          </para></formalpara>
+
+        <formalpara>
+          <title>No import on demand</title>
+          <para>In contrast to Java, <literal>import *</literal> - aka import on demand - is not
+            supported. E.g. Mork rejects <literal>import java.util.*</literal>). Rationale for this
+            restriction: document dependencies, every class used in a mapper file has to be declared
+            explicitly by an import declaration. To reduce the typing resulting from this strategy,
+            you can import multiple classes from the same package without repeating the package name.
+          </para></formalpara>
+
+        <formalpara>
+          <title>No implicit imports</title>
+          <para>Mork has nothing like Java's implicit <literal>import java.lang.*</literal>.
+            Thus, Mork requires an <literal>import java.lang: Integer</literal> before the
+            <literal>Integer</literal> class can be referenced. In addition, classes from the mapper's
+            package have to be explicitly imported. Example: <literal>import foo: Bar;</literal> is
+            required to reference <literal>foo.Bar</literal> even if the mapper package is
+            <literal>foo</literal>. Once again, the rationale is to document dependencies.
+          </para></formalpara>
+
+      </sect2>
+    </sect1>
+
+    <sect1>
+      <title>Constructors</title>
+
+      <figure>
+        <title>Constructors</title>
+        <programlisting>
+          Constructor         ::= ClassRef | MemberRef | Internal | Copy;
+          ClassRef            ::= Identifier ;
+          MemberRef           ::= Identifier "." Identifier ;
+          Internal            ::= "[" Identifier "]" ;
+          Copy                ::= "(" Identifier ")" ;
+        </programlisting>
+      </figure>
+
+      <formalpara>
+        <title>Definition</title>
+        <para>A constructor creates an object or throws an exception. A constructor is a generalization
+          of a Java constructor. It is either a normal constructor or a special constructor. A normal
+          constructor is a Java constructor or a Java member (i.e. methods or a fields). Thus, most Java
+          classes define a set of constructors. A Java constructor is referenced by its class, a
+          member constructor is referenced that a class and an identifier. Note that classes are referenced
+          by simple identifiers, qualified class names are not supported. (See the section about import
+          declarations for more details).  Besides normal constructors, Mork provides two kind of special
+          constructors: internal constructors and copy constructors.
+        </para></formalpara>
+
+      <formalpara>
+        <title>Unused constructors</title>
+        <para>A constructors is invoked even if the result is never used. This is useful if the constructors
+          has side-effects (maybe side-effects on arguments), and the return type is void or the result
+          is not used.</para></formalpara>
+
+      <para>A constructor is characterized by its:
+        <itemizedlist>
+          <listitem><para>name</para></listitem>
+          <listitem><para>argument type list</para></listitem>
+          <listitem><para>result type</para></listitem>
+          <listitem><para>exceptions</para></listitem>
+        </itemizedlist></para>
+
+      <formalpara>
+        <title>Static typing</title>
+        <para>Argument and return types are known at compile time. This type information is used by
+          Mork to perform static type checking. At runtime, all values passed to or returned from a
+          constructor are guarantied to be assignable to/from the specified type. It is impossible to
+          get runtime type mismatches here because of an illegal constructor invocation.</para></formalpara>
+
+      <sect2>
+        <title>Normal constructors</title>
+
+        <formalpara>
+          <title>Java constructors</title>
+          <para><itemizedlist>
+            <listitem><formalpara><title>name</title>
+              <para>A public Java constructor of an imported class <literal>C</literal> defines a
+                constructor with the name <literal>C</literal>.</para></formalpara></listitem>
+            <listitem><formalpara><title>arguments</title>
+              <para><literal>C</literal> takes the same arguments as the Java constructor.
+              </para></formalpara></listitem>
+            <listitem><formalpara><title>result</title>
+              <para><literal>C</literal> returns the object created by the Java constructor.
+              </para></formalpara></listitem>
+            <listitem><formalpara><title>exceptions</title>
+              <para><literal>C</literal> throws all exceptions (both checked and unchecked)
+                thrown by the Java constructor.</para></formalpara></listitem>
+          </itemizedlist></para></formalpara>
+
+        <formalpara>
+          <title>Java methods</title>
+          <para><itemizedlist>
+            <listitem><formalpara><title>name</title>
+              <para>A public Java method <literal>m</literal> of an imported class <literal>C</literal>
+                defines a constructor with the name <literal>C.m</literal>.
+              </para></formalpara></listitem>
+            <listitem><formalpara><title>arguments</title>
+              <para><literal>C.m</literal> takes the same arguments as the Java method; non-static
+                methods take an additional argument of type C as the first argument.
+              </para></formalpara></listitem>
+            <listitem><formalpara><title>result</title>
+              <para><literal>C.m</literal> returns the result of the Java method call. For non-static
+                methods the constructor invokes the Java method on the object passed as first argument.
+              </para></formalpara></listitem>
+            <listitem><formalpara><title>exceptions</title>
+              <para><literal>C.m</literal> throws all exceptions (both checked and unchecked)
+                thrown by <literal>C.m</literal>.</para></formalpara></listitem>
+          </itemizedlist></para></formalpara>
+
+        <formalpara>
+          <title>Java fields</title>
+          <para><itemizedlist>
+            <listitem><formalpara><title>name</title>
+              <para>A public Java field <literal>F</literal> of a imported class <literal>C</literal>
+                defines a constructor <literal>C.F</literal>.</para></formalpara></listitem>
+            <listitem><formalpara><title>arguments</title>
+              <para>If <literal>C.F</literal> is a static field, <literal>C.F</literal> takes no
+                arguments. Otherwise, <literal>C.F</literal> takes an argument of type <literal>C</literal>.
+              </para></formalpara></listitem>
+            <listitem><formalpara><title>result</title>
+              <para>If <literal>C.F</literal> is a static field, <literal>C.F</literal> returns the
+                value of the static field. Otherwise, <literal>C.F</literal> returns the value of the field
+                of the argument object.</para></formalpara></listitem>
+            <listitem><formalpara><title>exceptions</title>
+              <para>C.F throws a <literal>NullPointerException</literal> is a non-static field is invoked
+                with a null argument.</para></formalpara></listitem>
+          </itemizedlist></para></formalpara>
+
+        <formalpara>
+          <title>Example</title>
+          <para>TODO</para></formalpara>
+
+      </sect2>
+
+      <sect2>
+        <title>Special constructors</title>
+
+        <formalpara>
+          <title>Internal constructors</title>
+          <para>Internal constructors provide access to internal variables maintained by
+            the scanner. Only terminal symbols can use internal constructors, it is an error
+            to trigger an internal constructor for a non-terminal symbol. Internal constructors
+            are specified within array brackets. The following list shows the available
+            internal constructors, what the constructor returns and the return type. None of
+            these constructors takes arguments and none of these constructors throws exceptions.
+          </para></formalpara>
+
+        <itemizedlist>
+          <listitem><formalpara><title>text</title>
+            <para>Returns a string object with the characters of the current terminal
+              symbol. For example, <literal>42</literal> might be the text returned for an
+              <literal>Integer</literal> terminal symbol. Return type is String.</para>
+          </formalpara></listitem>
+          <listitem><formalpara><title><literal>ofs</literal></title>
+            <para>Returns an Integer value with the current source offset. The first
+              offset is 0. Return type is Integer.</para></formalpara></listitem>
+          <listitem><formalpara><title>line</title>
+            <para>Returns an Integer value with the current source line. The first
+              line is 1. Return type is Integer.</para></formalpara></listitem>
+          <listitem><formalpara><title>column</title>
+            <para>Returns an Integer value with the current source column. The first
+              column is 1. Return type is Integer.</para></formalpara></listitem>
+        </itemizedlist>
+
+        <formalpara>
+          <title>Copy constructors</title>
+          <para>A copy constructor is specified by a class name within brackets.
+            The specified name must be the simple name of a class imported in the
+            section header. This notation resembles the Java cast operator. The copy
+            constructor does nothing, in particular, no constructor is invoked. Copy
+            constructors are useful to work around some argument passing problems.
+            Copy constructors should become obsolete by solving these problems.
+          </para></formalpara>
+
+      </sect2>
+
+      <sect2>
+        <title>Exceptions</title>
+
+        <formalpara>
+          <title>Purpose</title>
+          <para>Constructors may throw checked and unchecked exceptions. An unchecked exception
+            is an exception derived from <literal>java.lang.RuntimeException</literal> or
+            <literal>java.lang.Error</literal>). Otherwise, it is a checked exception. Technically,
+            a constructor may throw exceptions of any type, whenever it sees fit; there are no
+            restrictions imposed by Mork. However, I suggest using exceptions as outlines in the
+            section.</para></formalpara>
+
+        <sect3>
+          <title>Unchecked exceptions</title>
+
+          <para>Unchecked exceptions should be thrown if a constructor detects an internal error.
+            An internal error is something that "should not happen", an inconsistent/unexpected state.
+            An internal error can be avoided by the programmer. If not, it's a bug. A
+            <literal>NullPointerException</literal> usually indicate an internal error. </para>
+
+          <formalpara>
+            <title>Example</title>
+            <para><literal>java.lang.Integer.parseInt</literal> throws the unchecked exception
+              <literal>NumberFormatException</literal>. If the mapper syntax imposes the correct
+              number syntax on the strings passed to <literal>parseInt</literal>, the method can be
+              used as a constructor. If a <literal>NumberFormatException</literal> occurs, this is a
+              bug in the application, because the string passed to <literal>parseInt</literal> is
+              assumed to be a valid number.</para></formalpara>
+
+        </sect3>
+
+        <sect3>
+          <title>Checked exceptions</title>
+
+          <formalpara>
+            <title>Usage</title>
+            <para>A constructor should use checked exceptions to impose constraints on the input.
+              Whenever the input (i.e. the arguments passed to the constructors) violates a constraint,
+              a checked exception should be thrown. You are free to check whatever constraint you wish.
+              A mapper catches checked exceptions and turns the exception's message into an error
+              message. Typically, this message is show to the end-user.</para></formalpara>
+
+          <formalpara>
+            <title>Semantic errors</title>
+            <para>Compiler text books use the term semantic error if some constraint on the input
+              stream has been violated. The classic semantic errors are "undefined identifiers" and
+              "type mismatches". </para></formalpara>
+
+          <formalpara>
+            <title>Example 1</title>
+            <para><literal>java.lang.Class.forName</literal> throws the checked exception
+              <literal>ClassNotFoundException</literal>. When used as a constructor, this is reported
+              as a semantic error. </para></formalpara>
+
+          <formalpara>
+            <title>Example 2</title>
+            <para>Consider a calculator and an end-user entering the term <literal>1/0</literal>. The
+              <literal>div</literal> method below issues the appropriate error message by throwing
+              a <literal>GenericException</literal>. (<literal>GenericException</literal> is a
+              general-purpose checked exception provided by Mork.) Without testing for 0 in the method
+              body, the <literal>1/0</literal> would result in an internal error of the calculator because
+              <literal>left/right</literal> would triggers the (unchecked!) exception
+              <literal>ArithmeticException</literal> if <literal>right == 0</literal>.
+              <programlisting>
+                package foo;
+
+                import net.sf.beezle.mork.util.GenericException;
+
+                public class bar {
+                public static int div(int left, int right) throws GenericException {
+                if (right == 0) {
+                throw new GenericException("division by zero");
+                }
+                return left/right;
+                }
+                }
+              </programlisting>
+            </para></formalpara>
+
+          <formalpara>
+            <title>Note</title>
+            <para>Imposing constrains on constructor arguments sounds like Java's
+              <literal>IllegalArgumentExceptions</literal>. This exception usually indicates an internal
+              error: some Java code has invoked a constructor with illegal arguments. In contrast, a semantic
+              error is a checked exception, it is not considered an internal error. The difference to an
+              <literal>IllegalArgumentException</literal> is, that applications cannot prevent semantic errors:
+              arguments are attributes, and attributes stem (directly or indirectly) from end-user's input.
+              Unlike Java code, end-user input cannot be controlled by the application. </para></formalpara>
+
+        </sect3>
+
+      </sect2>
+
+    </sect1>
+
+    <sect1>
+      <title>Attributes</title>
+
+      <formalpara>
+        <title>Overview</title>
+        <para>An attribute associates a symbols with a constructor. A simple attribute is defined
+          by <literal>Foo => Bar</literal>, where <literal>Foo</literal> is a symbol and
+          <literal>Bar</literal> is the name of a constructor. Basically, a mapper file is a list of
+          attribute definitions, attributes form the core of the file, </para></formalpara>
+
+      <figure>
+        <title>Attribute syntax</title>
+        <programlisting>
+          Definitions         ::= Group* ;
+          Group               ::= Symbol Attribute+ ;
+          Symbol              ::= StringSymbol | IdentifierSymbol ;
+          StringSymbol        ::= StringLiteral ;
+          IdentifierSymbol    ::= Identifier ;
+          Attribute           ::= AttributeName "=>" Constructor Visibility;
+          AttributeName       ::= (":" Identifier)? ;
+        </programlisting>
+      </figure>
+
+      <sect2>
+        <title>Definition</title>
+
+        <formalpara>
+          <title>Attribute</title>
+          <para>An attribute is defined by (1) a symbol, (2) an attribute name, (3) a constructor
+            name and (4) visibility. The attribute is said to be attached to its symbol. Symbol and
+            constructor name are most important here, they define the actual mapping. In contrast, it's
+            common not to specify an <literal>AttributeName</literal> and a <literal>Visibility</literal>.
+            The constructor name (<literal>Constructor</literal>) may be overloaded. For example, a
+            constructor name <literal>foo</literal> might refer to a constructor
+            <literal>foo(String)</literal> and <literal>foo(List)</literal>.</para></formalpara>
+
+        <formalpara>
+          <title>Attribute groups</title>
+          <para>Attributes attached to the same symbol may be grouped. This is for your convenience,
+            the effect is the same as to isolated attribute definitions.</para></formalpara>
+
+        <formalpara>
+          <title>Attribute name</title>
+          <para><literal>AttributeName</literal> defines a name that can be used to refer to the
+            attribute in visibility declarations. Every attribute has a name, if it is not supplied
+            in the attribute definition, the name defaults to the name of the symbol the attribute is
+            attached to. Attribute names have to be unique throughout a mapper file.</para></formalpara>
+
+        <formalpara>
+          <title>Main attributes</title>
+          <para>A main attribute is an attribute whose name equals the name of the symbol it is
+            attached to. Since attribute names have to be unique, a given symbol has at most one
+            main attribute. Main attributes play a key role in defining implicit visibility.
+          </para></formalpara>
+
+        <formalpara>
+          <title>Visibility</title>
+          <para><literal>Visibility</literal> defines constructors where the attribute is passed as
+            an argument.</para></formalpara>
+
+        <formalpara>
+          <title>Argument passing</title>
+          <para>The argument list passed to a constructor is defined by the visibility of all attributes
+            defined in a mapper file. This differs from the Java mechanism where arguments are specified
+            explicitly by an argument list. </para></formalpara>
+
+      </sect2>
+
+      <sect2>
+        <title>Compile-time</title>
+
+        <para>At compile-time, Mork computes various values for each attribute: the type,
+          the argument list, and the constructor.</para>
+
+        <formalpara>
+          <title>Type</title>
+          <para>Objects are guaranteed to be of the attribute type. Attribute type is a Java type.
+            The type of an attribute is used to perform static type checking and to resolve overloaded
+            constructor names. In this sense, the attribute type is similar to the type of a local variable
+            in Java. However, the attribute type is not explicitly declared: The type <literal>t</literal>
+            of an attribute with constructor name <literal>N</literal> is computed as follows:<orderedlist>
+              <listitem><para>Determine the list <literal>C</literal> of all constructors with name
+                <literal>N</literal>. In may cases, <literal>C</literal> has a single element
+                only. Otherwise, <literal>N</literal> is overloaded.</para></listitem>
+              <listitem><para>Determine the list <literal>T</literal> of all return types of the
+                constructors in <literal>C</literal>.</para></listitem>
+              <listitem><para>Replace all primitive types in <literal>T</literal> by the
+                corresponding wrapper type. For example, replaced <literal>int</literal>
+                by <literal>Integer</literal>.</para></listitem>
+              <listitem><para>The attribute type <literal>t</literal> is the most special Java
+                class type that is assignable from each element in <literal>T</literal>.
+              </para></listitem>
+            </orderedlist>
+            Notes:
+            (1) The attribute type is always a reference type, the above steps never
+            result in a primitive type. (2) The attribute type is always a class type,
+            the above steps never result in an interface type. Interface types had to be
+            excluded because they would introduce ambiguities to the algorithm.
+          </para></formalpara>
+
+        <formalpara>
+          <title>Example</title>
+          <para>Consider the attribute <literal>X => a;</literal> and two constructors
+            <literal>String a(String)</literal> and <literal>int a(int)</literal>. The attribute type is
+            <literal>Object</literal>, because Object is the common supertype of <literal>String</literal>
+            and <literal>Integer</literal>.</para></formalpara>
+
+        <formalpara>
+          <title>Argument list</title>
+          <para>The argument list is a list of attributes with cardinality. The visibility
+            section describes how the argument list is computed. TODO</para></formalpara>
+
+        <formalpara>
+          <title>Attribute constructor</title>
+          <para>An attribute's constructor is obtained by using the argument list to resolve overloaded
+            constructor names: A constructor name is resolved to a constructor <literal>F</literal> if the
+            argument list can be converted to the constructor's argument list. It is an error if there is
+            no such <literal>F</literal> or if <literal>F</literal> is not unique. This is the same mechanism
+            used in Java, the argument type decides, if the constructor name is ambiguous.
+            Note that overloading is resolved at compile-time, using static type information. It's not
+            possible to choose the constructor at runtime, using the actual argument type(s).
+          </para></formalpara>
+
+        <formalpara>
+          <title>Argument list conversion</title>
+          <para>Argument list conversion adjusts an argument list to match the formal argument list of
+            the attribute constructor. Conversion re-orders and unwrap arguments if necessary. The
+            conversion algorithm takes a list of actual arguments and transforms it to a list of converted
+            arguments:
+            <itemizedlist>
+              <listitem><para>Choose the first formal argument F of the constructor.
+              </para></listitem>
+              <listitem><para>Choose the leftmost argument A from the actual argument
+                list such that A can be converted to F.</para></listitem>
+              <listitem><para>If no such A is found, the actual argument list cannot
+                be converted. Otherwise, remove A from the actual argument list an
+                append the converted type for A to the converted argument list.
+              </para></listitem>
+              <listitem><para>Repeat the previous steps for all remaining formal
+                arguments.</para></listitem>
+              <listitem><para>Conversion is succeeds, if all actual arguments have been
+                moved to the converted arguments.</para></listitem>
+            </itemizedlist>Argument conversion is explained in the visibility
+            section.</para></formalpara>
+
+        <formalpara>
+          <title>Argument order</title>
+          <para>A given symbol may have any number of attributes. The ordering of objects
+            resulting at runtime follows the ordering of attribute definitions in the mapper file.
+            This implies that the array returned from running a mapper is ordered according the
+            attribute sequence for the start symbol.</para></formalpara>
+
+      </sect2>
+
+      <sect2>
+        <title>Runtime</title>
+
+        <formalpara>
+          <title>Runtime vs compile-time</title>
+          <para>Symbols and attributes are compile-time entities. They define how to create their
+            respective runtime entity: syntax tree nodes and objects. Each syntax tree node has a
+            defining symbol, and each object has a defining constructor.</para></formalpara>
+
+        <formalpara>
+          <title>Runtime effect</title>
+          <para>A syntax tree node for a given symbol <literal>S</literal> is mapped into objects by
+            invoking the constructors of all attributes attached to <literal>S</literal>. Example: an
+            attribute <literal>Foo => Bar;</literal> defines that the symbol <literal>Foo</literal> is
+            mapped to the object returned by the constructor <literal>Bar</literal>. Whenever a mapper
+            identifies a <literal>Foo</literal> syntax tree node, the <literal>Bar</literal> constructor
+            is invoked. The constructor returns an object which is passes to other constructors as
+            defined by the attributes visibility.</para></formalpara>
+
+        <formalpara>
+          <title>Runtime effect</title>
+          <para>At runtime, syntax tree nodes are mapped into objects. Consider a symbol
+            <literal>S</literal>. At runtime, each syntax tree node of <literal>S</literal> is
+            augmented with the objects that result from invoking all constructors
+            triggered for symbol. </para></formalpara>
+
+        <formalpara>
+          <title>Wrapper objects</title>
+          <para>If a constructor returns a primitive value, this is automatically wrapped by the
+            appropriate wrapper object. This wrapping is reflected in the above rules to compute the
+            attribute type. For example, <literal>int</literal> values are wrapped by
+            <literal>Integer</literal> objects. Automatic wrapping corresponds with automatic
+            unwrapping for constructor arguments. In effect, wrapping and unwrapping is transparent
+            for constructor definitions. Within Java code, you can freely choose to work with primitive
+            values or wrapper values. </para></formalpara>
+
+      </sect2>
+    </sect1>
+
+    <sect1>
+      <title>Visibility</title>
+
+      <para>Mork uses visibilities rules because most of the argument passing is trivial and known
+        implicitly. Visibility rules just specify where trivial argument passing does not apply.
+      </para>
+
+      <para>TODO: This section is a collection of fragments.
+        Visibility is very experimental and subject to change.</para>
+
+      <figure>
+        <title>Visibility syntax</title>
+        <programlisting>
+          Visibility          ::= Implicit | Explicit ;
+          Implicit            ::= ";" ;
+          Explicit            ::= ":" (">" Path)* ";" ;
+        </programlisting>
+      </figure>
+
+      <para>
+        Visibility defines to what constructor an object is passed as an argument.
+        It is specified by modifiers and a list of views. Most argument
+        passing is specified by modifiers, paths deals with special situations.
+      </para>
+
+      <formalpara>
+        <title>Empty visibility</title>
+        <para>The constructor of an attribute is invoked, even if it has an empty explicit visibility.
+          Empty explicit visibility is useful if the constructor has side-effects on its arguments.
+        </para></formalpara>
+
+      <formalpara>
+        <title>Argument types and argument values</title>
+        <para>An argument type is not the same as a Java type, because an argument
+          value is not (always) the same as a Java value! In fact, any number of Java
+          values might make up a single argument value. In many cases, an argument
+          value is comprised of exactly one Java value. However, argument values
+          can consist of a list of objects. In order to encode this, the argument type
+          is comprised of two elements: a component type and a cardinality.
+        </para></formalpara>
+
+      <formalpara>
+        <title>Component type</title>
+        <para>The component type is a Java reference type, for example String or
+          Object. Each individual Java value within an argument value is assignable
+          to the component type. Note that the component type can not be a Java
+          primitive type like int or boolean. This is not a restriction because Mork
+          automatically uses wrapper classes. Note also, that reference types include
+          both arrays of primitive types and arrays of reference types. The Java
+          language defines arrays to be reference types.</para></formalpara>
+
+      <formalpara>
+        <title>Cardinality</title>
+        <para>The cardinality determines how many Java values make up an
+          argument value. </para></formalpara>
+
+      <itemizedlist>
+        <listitem><formalpara><title>value</title>
+          <para>Exactly one Java value. In this manual, C:1 denotes an argument
+            type with component type C and value cardinality.</para></formalpara>
+        </listitem>
+        <listitem><formalpara><title>option</title>
+          <para>None or one Java value. In this manual, C:? denotes an argument
+            type with component type C and option cardinality.</para></formalpara>
+        </listitem>
+        <listitem><formalpara><title>sequence</title>
+          <para>Any number of Java values, including zero. In this manual, C:*
+            denotes an argument type with component type C and sequence cardinality.
+          </para></formalpara></listitem>
+      </itemizedlist>
+
+      <formalpara>
+        <title>Conversion</title>
+        <para>Mappers pass argument values around, but constructors are defined
+          by Java programs and operate on Java objects. Constructors take Java values
+          as arguments and they return Java values as results. Thus, a mapper has
+          to convert between attribute values and Java values when transferring values
+          to and from constructors. The rules for these conversions are described in
+          the constructors section. </para></formalpara>
+
+      <formalpara>
+        <title>Argument conversion</title>
+        <para>Arguments are passed to constructors, which includes argument conversion.
+          At runtime, argument conversion might unwrap objects and create arrays
+          or lists. An argument A can be converted to a formal argument F if:
+          <itemizedlist>
+            <listitem>
+              <para>A has value or option cardinality and F is assignable from the
+                component type of A.</para></listitem>
+            <listitem>
+              <para>A has value or option cardinality and F is a primitive type
+                and the wrapper type for F is assignable from the component type of A.
+              </para></listitem>
+            <listitem>
+              <para>A has sequence cardinality and F is a assignable from a Java List
+                or F is assignable from the array type for the component type.</para>
+            </listitem>
+          </itemizedlist>
+        </para></formalpara>
+
+      <sect2>
+        <title>Paths</title>
+
+        <para>TODO: this section is a collection of fragments. Paths are still evolving and
+          subject to change.</para>
+
+        <formalpara>
+          <title>Purpose</title>
+          <para>Paths declare non-local visibility. They are special in two ways:
+            (1) a single path can select multiple values, and (2) paths can access
+            remote values.</para></formalpara>
+
+        <figure>
+          <title>Path syntax</title>
+          <programlisting>
+            Path                ::= ImplicitPath | LocalPath | NormalPath ;
+            ImplicitPath        ::= "\\\\*" ;
+            LocalPath           ::= Identifier ;
+            NormalPath          ::= Step+ ;
+            Step                ::= Move Identifier ;
+            Move                ::= Ups | Up | Downs | Down ;
+            Ups                 ::= "\\\\" ;
+            Up                  ::= "\\" ;
+            Downs               ::= "//" ;
+            Down                ::= "/" ;
+          </programlisting>
+        </figure>
+
+        <formalpara>
+          <title>Paths</title>
+          <para>A path is a sequence of steps, where a step is comprised of a move
+            and an identifier. The last identifier within a path is specifies an
+            attribute, all other identifiers specify symbols. The context of a path
+            is the attribute symbol, the path is used in.</para></formalpara>
+
+        <formalpara>
+          <title>Move</title>
+          <para>Move specify how to move in the syntax tree. Up and down moves
+            (<literal>\</literal> and <literal>/</literal>) specify a single step, ups and
+            downs moves (<literal>\\</literal> and <literal>//</literal>) specify repeated steps.
+          </para></formalpara>
+
+        <formalpara>
+          <title>Dead-end paths</title>
+          <para>A dead-end path is a path that does not reach any attributes, i.e. that does
+            not actually contribute to the visibility. <indexterm><primary>dead-end path</primary></indexterm>
+            It is an error to specify dead-end paths. Example: <literal>/X</literal> if a dead-end path when
+            applied to a symbol <literal>Y ::= Z Z; </literal>. TODO: what about the start symbols?
+          </para></formalpara>
+      </sect2>
+    </sect1>
+  </chapter>
+
+  <chapter>
+    <title>Compiling</title>
+
+    <formalpara>
+      <title>Overview</title>
+      <para>Mork generates mappers. Technically, this is done by translating ("compiling") mapper files
+        into class files. The mapper file is supplied by the user, it specifies the mapping of input
+        streams into Java objects as needed by the respective application. The generated class files are
+        Java class files, they follow the same rules as class files generated by the Java compiler.
+        Applications need these class files in their <literal>CLASSPATH</literal> to load and run
+        mappers.</para></formalpara>
+
+    <sect1>
+      <title>Invocation</title>
+
+      <formalpara>
+        <title>Prerequisites</title>
+        <para>Before running Mork, make sure to compile you Java source files. Mork checks classes
+          referenced in mapper files to perform type checking. These classes have to be properly compile
+          before running Mork: run <literal>javac</literal> on them. </para></formalpara>
+
+      <formalpara>
+        <title>Invocation</title>
+        <para><literal>"mork" option* file*</literal></para></formalpara>
+
+      <para>Mork is similar to <literal>javac</literal>: the user specifies a list of options followed
+        by a list of files to compile. Mork compiles the file in the given order.</para>
+
+      <formalpara>
+        <title>Example</title>
+        <para><literal>mork Foo.map</literal> compiles the mapper file, loading it from the current working
+          directory. A successful compilation results in a class file <literal>Foo.class</literal> (and some
+          other class files <literal>Foo*.class</literal>).</para></formalpara>
+
+      <formalpara>
+        <title><literal>CLASSPATH</literal></title>
+        <para>When invoking Mork on a file <literal>Foo.map</literal>, the
+          <literal>CLASSPATH</literal> has to contain all classes imported in the mapper file. For
+          example, if <literal>Foo.map</literal> imports a class <literal>mypkg.Bar</literal>, this
+          class has to be available via the <literal>CLASSPATH</literal> variable. Otherwise, Mork
+          reports an error, indicating that the class <literal>mypkg.Bar</literal> is not defined.
+        </para></formalpara>
+
+      <formalpara>
+        <title>Memory consumption</title>
+        <para>Running Mork on complex mapper files like the Java grammar needs a
+          substantial amount of memory. If Java runs out of memory (i.e. throws an
+          <literal>OutOfMemoryError</literal>), use the Java <literal>-Xmx</literal> option in
+          the launch script to increase the memory available to the virtual machine. Example
+          <literal>java -Xmx128M net.sf.beezle.mork.compiler.Main veryComplex.mork</literal>.
+        </para></formalpara>
+
+      <formalpara>
+        <title>Command-line arguments vs. mapper files</title>
+        <para>Mork is controlled by both mapper files command line options, but what setting
+          is specified where?  Logical settings go into the mapper files, i.e. setting affecting what input
+          is actually mapped into which object. The same mapper file always results in the same mapping, no
+          matter what options have been specified on the command line.  Physical settings go into the
+          command line: where the generated code is stored, or what additional output it generated. Or even
+          - in future version - optimization settings. </para></formalpara>
+
+    </sect1>
+
+    <sect1>
+      <title>Options</title>
+
+      <para>Options start with "-" followed by the option name. Options are
+        case-sensitive. Currently available options:</para>
+      <itemizedlist>
+        <listitem><formalpara><title><literal>-help</literal></title>
+          <para>Prints help about invoking Mork.</para>
+        </formalpara></listitem>
+        <listitem><formalpara><title><literal>-stat</literal></title>
+          <para>Prints statistics about mappers to standard output. Use this
+            option to see the size of the generated finite automatons and pushdown
+            automatons.</para></formalpara></listitem>
+        <listitem><formalpara><title><literal>-lst</literal></title>
+          <para>Generates listing files. If this option is given, Mork generates
+            a listing of each compiled file. The listing includes a
+            list of symbols, the mapper's grammar and the generated automatons
+            and can get very long. The listing for a file <literal>Foo.map</literal> is written
+            to the file <literal>Foo.lst</literal>. Use this option to find grammar conflicts.
+          </para></formalpara></listitem>
+        <listitem><formalpara><title><literal>-d</literal> directory</title>
+          <para>Sets the destination directory for generated class files. If a mapper
+            is part of a package, Mork puts the class files in a
+            sub directory reflecting the package name, creating directories as needed.</para>
+        </formalpara></listitem>
+        <listitem><formalpara><title><literal>-verbose</literal></title>
+          <para>Issues overall progress information to standard output. If compiling is slow,
+            this option can be used to locate which part of the mapper generation is slow.
+          </para></formalpara></listitem>
+        <listitem><formalpara><title><literal>-verbose:scanning</literal></title>
+          <para>Issues scanner progress information. Any token read by the
+            scanner is printed to standard output.</para></formalpara></listitem>
+        <listitem><formalpara><title><literal>-verbose:parsing</literal></title>
+          <para>Issues parser progress information. Any action performed
+            by the parser is printed to standard output. Use together with <literal>-lst</literal>,
+            this options helps to track down unexpected syntax errors.
+          </para></formalpara></listitem>
+        <listitem><formalpara><title><literal>-verbose:attribution</literal></title>
+          <para>Issues attribution progress information. Any computed attribute
+            is printed to standard output.</para></formalpara></listitem>
+      </itemizedlist>
+
+    </sect1>
+
+    <sect1>
+      <title>Re-compiling</title>
+
+      <para>When do you have to re-run Mork? Nothing surprising here, the rules
+        are similar to Java files and the Java compiler. A compiled mapper depends
+        on its mapper file and the signature of the referenced constructors. Thus,
+        re-compile a mapper if the mapper file (or the referenced syntax file) or
+        the signature of at least on of the referenced constructors has changed. Note
+        that changing a constructor without affecting the signature does not require
+        a re-compile.</para>
+
+      <para>Class file analyzer tools see constructor references as normal Java call,
+        no reflection is used. Thus, it is possible to use a to find class file dependencies.
+      </para>
+
+    </sect1>
+
+    <sect1>
+      <title>Ant</title>
+
+      <para>You might want to use Jakarta Ant to build your application. Here is an
+        how to invoke Mork on the file <literal>foo/Mapper.map</literal>.</para>
+
+      <programlisting>
+        <![CDATA[<target name="mork">
+<java classname="de.mlahrtme.mork.compiler.Main"
+      fork="yes"
+      failonerror="yes"
+      classpathref="classpath">
+  <arg value="-d"/>
+  <arg value="${build.classes}"/>
+  <arg value="foo/Mapper.map"/>
+</java>
+</target>
+]]></programlisting>
+    </sect1>
+  </chapter>
+
+  <chapter>
+    <title>Usage</title>
+
+    <para>This chapter explains how to work with mapper objects in your applications. The first
+      section outlines the most important steps. This is followed by a kind method reference
+      of the mapper class. Finally, the last section describes the runtime environment required to
+      use a mapper. </para>
+
+    <sect1>
+      <title>Overview</title>
+
+      <para>Using a mapper in an application involves creation and running. Suppose the mapper
+        name was <literal>foo.Mapper</literal>. The following code fragment create a
+        <literal>foo.Mapper</literal> instance and runs it on the file <literal>xy</literal>.
+      </para>
+
+      <example>
+        <title>Mapper usage</title>
+        <programlisting>
+          import net.sf.beezle.mork.mapping.Mapper;
+
+          Mapper mapper;
+          Object[] result;
+          int i;
+
+          mapper = new Mapper("foo.Mapper");
+          result = mapper.run("xy");
+          if (result != null) {
+          System.out.println("success");
+          for (i = 0; i &lt; result.length; i++) {
+          System.out.println("\t" + result[i]);
+          }
+          } else {
+          System.out.println("error(s), aborted");
+          }
+        </programlisting>
+      </example>
+
+      <para>If the file <literal>xy</literal> is mapped without errors, the returned object array
+        is printed. Otherwise, <literal>run</literal> prints an error message and returns
+        <literal>null</literal>. Except for Java IO problems, all error messages include the
+        current source position.</para>
+
+    </sect1>
+
+    <sect1>
+      <title>The <literal>Mapper</literal> class</title>
+
+      <para>The class <literal>net.sf.beezle.mork.mapping.Mapper</literal> forms the main API
+        used by applications. The following describes the most important constructors and methods.
+        This description is sufficient for normal use. See the API documentation for more details.
+      </para>
+
+      <formalpara>
+        <title><literal>Mapper</literal> vs. Generated classes</title>
+        <para>Note that <literal>Mapper</literal> is not a generated classes. How does this class know the
+          specific mapping? And what about the classes actually generated by Mork?
+          Simple - <literal>Mapper</literal> loads the generated classes. <literal>Mapper</literal>'s
+          purpose is to wrap the generated classes with a fancy API. And to reduce duplicated code since
+          major parts of the mapper code do not depend on the specific mapping. The generated classes
+          encapsulate the application-specific parts of the code, but the <literal>Mapper</literal>
+          class hides them from the application.</para></formalpara>
+
+      <formalpara>
+        <title>Advanced note</title>
+        <para>Note that the <literal>Mapper</literal> class solves a subtle circular dependency problem.
+          Suppose some class <literal>A</literal> in some application directly uses a class
+          <literal>G</literal> generated by running Mork on a mapper file <literal>M</literal>. To compile
+          <literal>A</literal>, <literal>G</literal> has to exist, and thus, <literal>M</literal> must have
+          been compiled. But run Mork on <literal>M</literal>, all Java classes <literal>C</literal> that
+          define constructors referenced from <literal>M</literal> must have been compiled. This is a
+          circular dependency if <literal>A</literal> defines constructors or if there is only a single
+          Java-compile step to compile all Java classes. The <literal>Mapper</literal> class works around
+          this problem by using Java reflection to refer to generated classes. As far as I know, there is no
+          performance drawback.</para></formalpara>
+
+      <formalpara>
+        <title>Threading</title>
+        <para>Mapper objects are not thread-safe. If your code uses multiple threads you have to
+          synchronize them to make sure that at most one thread at a time executes within a given mapper
+          object. </para></formalpara>
+
+      <sect2>
+        <title>Constructor</title>
+
+        <para>
+          <literal>Mapper(String name)</literal>
+        </para>
+
+        <para>Instantiates the mapper with the specified name. The <literal>name</literal> argument
+          specifies the mapper name as defined in the mapper file. You can create any number of mapper
+          objects, even instances with the same mapper name. However, most applications will use a single
+          mapper object since a given object may be run any number of times.</para>
+
+        <formalpara>
+          <title><literal>CLASSPATH</literal></title>
+          <para>The specified <literal>name</literal> is used to locate the mapper classes generated by
+            Mork. Class loading is performed using the class loader that loaded the <literal>Mapper</literal>
+            class. In most cases, this is the system class loader which searches the class along the
+            application's <literal>CLASSPATH</literal>. As a result, the same rules for setting the
+            <literal>CLASSPATH</literal> and placing class files apply to class files generated by Mork and
+            class files generated by the Java compiler.</para></formalpara>
+
+        <formalpara>
+          <title>Class loading</title>
+          <para>Generated classes a loaded on demand, they are not loaded unless actually used. In most
+            cases, they are loaded as part of one of the various <literal>run</literal> methods. The purpose
+            is to allow applications to instantiate all <literal>Mapper</literal> objects they might need
+            without wasting time to load classes not actually needed. Time for class loading is an issue
+            since generated classes might get quite large.</para></formalpara>
+
+        <formalpara>
+          <title><literal>IllegalStateException</literal></title>
+          <para>An <literal>IllegalStateException</literal> is thrown if the generated classes cannot be
+            loaded (e.g. because of an internal <literal>ClassNotFoundException</literal>). Usually, this
+            indicates a typo in the specified mapper name or a <literal>CLASSPATH</literal> problem. If you
+            get an <literal>IllegalStateException</literal>, check your <literal>CLASSPATH</literal> and make
+            sure that the mapper was compiled properly with the appropriate version of Mork. Note: an unchecked
+            exception is thrown because the caller is not expected to catch and recover from this problem. I
+            can see only good reason for catching the exceptions: to report an internal application error and
+            quit.</para></formalpara>
+
+      </sect2>
+
+      <sect2>
+        <title><literal>setErrorHander</literal></title>
+
+        <para><literal>setErrorHandler(net.sf.beezle.mork.mapping.ErrorHandler)</literal></para>
+
+        <para>Defines the error handler used by <literal>run</literal> to report errors. The
+          <literal>ErrorHandler</literal> documentation below explains the various types of errors.
+        </para>
+
+        <formalpara>
+          <title>Default error handler</title>
+          <para>If <literal>setErrorHandler</literal> is not used to explicitly define an error handler,
+            <literal>run</literal> uses a default error handler. The default error handler prints all errors
+            to <literal>System.err</literal>. All error messages includes the position where the problem
+            occurred.  This behavior is sufficient for may applications. Especially if you start with a new
+            application, it is save to ignore <literal>setErrorHandler</literal> an rely on the default error
+            handler. </para></formalpara>
+
+      </sect2>
+
+      <sect2>
+        <title><literal>setEnvironment</literal></title>
+
+        <para><literal>setEnvironment(Object)</literal></para>
+
+        <para>Defines the mapper's environment object. Use <literal>YourSymbol : [env];</literal> to access
+          this object from your mapper file.</para>
+
+      </sect2>
+
+      <sect2>
+        <title><literal>run</literal></title>
+
+        <para><literal>run(Object context, Reader src)</literal></para>
+
+        <para>Runs the mapper on the specified stream. <literal>run</literal> performs syntactic analysis
+          (i.e. scanning and parsing) and mapping into Java objects. If <literal>run</literal> does not
+          detect errors, it returns the Java objects of the start symbol. The context argument specifies a
+          name for the reader, <literal>context.toString()</literal> is used to report error positions and
+          is typically a file name. The <literal>src</literal> argument is internally wrapped by a buffer,
+          the is no need to pass some kind of buffered reader.</para>
+
+        <formalpara>
+          <title>Error handling</title>
+          <para>If <literal>run</literal> detects an error (e.g. a syntax errors), this problem is
+            reported to the errors handler defined via <literal>setErrorHandler</literal>. After reporting
+            the error, <literal>run</literal> is terminated, returning <literal>null</literal> to the caller.
+            Note that the first errors terminates <literal>run</literal>, there is currently no way to recover,
+            mapping result in one error at most.</para></formalpara>
+
+        <formalpara>
+          <title>Advanced issues</title>
+          <para>(1) A mapper can be run more than once, it is not necessary to create a new mapper to run it
+            on a second stream. (2) Run is not thread-save, the caller has to make sure that only one thread
+            enters the method at a given time. </para></formalpara>
+
+        <formalpara>
+          <title>Unchecked exceptions</title>
+          <para><literal>run</literal> does not catch unchecked exceptions thrown in constructors. Thus,
+            any unchecked exception thrown by a constructor causes the Java virtual machine to terminate
+            <literal>run</literal> abruptly and propagates the exception o the caller. In my opinion,
+            unchecked exceptions should not be catched. Usually, there is no way for an application to recover
+            from an unchecked exception because it is either some virtual machine problem (e.g. out of memory)
+            or an internal error in the application. In both bases the application should be terminated.
+          </para></formalpara>
+
+        <formalpara>
+          <title>Cyclic dependencies</title>
+          <para><literal>run</literal> throws an unchecked exception <literal>CyclicDependencies</literal>
+            if the attribute grammar used internally has a cyclic dependency. This indicates a problem
+            with the mapper specification, not with the stream processed by the mapper. To correct this problem,
+            the underlying map file has to be fixed. <literal>CyclicDependencies</literal> is an
+            unchecked exception because the application has to be fixed, applications are not expected to
+            recover from this problem.</para></formalpara>
+
+      </sect2>
+
+      <sect2>
+        <title><literal>run</literal></title>
+
+        <para><literal>public Object[] run(String fileName)</literal></para>
+
+        <para>Convenience method to map files. Opens <literal>fileName</literal> as a
+          <literal>FileReader</literal> and invokes <literal>run(Object context, Reader src)</literal>,
+          passing <literal>fileName</literal> and the <literal>FileReader</literal> object as argument.
+          As usual, a relative <literal>fileName</literal> is interpreted relative to the current working
+          directory. The <literal>FileReader</literal> object will always be closed when returning from the
+          method, even if the mapper throws an unchecked exception. </para>
+
+      </sect2>
+
+    </sect1>
+
+    <sect1>
+      <title>The <literal>ErrorHandler</literal> interface</title>
+
+      <para><literal>net.sf.beezle.mork.mapping.ErrorHandler</literal></para>
+
+      <para>Error handling is work in progress. If you have a choice, please rely on the
+        default error handling. Avoid implementing you own error handler since the interface
+        is expected to change. Similarly, this documentation is preliminary. It concentrates
+        on the various error types (which I consider more stables), it does not explain individual
+        methods of the interface. If you have to implement an error handler, the source code of
+        <literal>net.sf.beezle.mork.mapping.PrintStreamErrorHandler</literal> might provide
+        some help.</para>
+
+      <formalpara>
+        <title>Exceptions</title>
+        <para><literal>ErrorHandler</literal> distinguishes various error types, where each type of error
+          reported by a different exception. Different exceptions resemble the various modules involved in
+          mapping. Every module reports errors to the <literal>run</literal> method by throwing his individual
+          exception. <literal>run</literal> catches these exceptions and reports them to the registered error
+          handler. The following exceptions are distinguished:
+          <itemizedlist>
+            <listitem><formalpara><title><literal>IOException</literal></title>
+              <para>Indicates an IO problem in Java's IO classes. These classes feed characters to the
+                scanner.</para></formalpara></listitem>
+            <listitem><formalpara><title><literal>IllegalToken</literal></title>
+              <para>Indicates a scanner problem, aka a lexical error.</para></formalpara></listitem>
+            <listitem><formalpara><title><literal>SyntaxError</literal></title>
+              <para>Indicates a parser problem, aka a syntax error.</para></formalpara></listitem>
+            <listitem><formalpara><title><literal>SemanticError</literal></title>
+              <para>Indicates a problem while mapping into Java objects, aka a semantic error.
+              </para></formalpara></listitem>
+          </itemizedlist></para></formalpara>
+
+      <para>Note: The terms lexical error, syntax error and semantic error resemble compiler construction
+        terminology. These terms are kept even though they conflicts with Java terminology, where
+        errors usually indicate a problem in the virtual machine. Both <literal>SyntaxError</literal> and
+        <literal>SemanticError</literal> are derived from Java's <literal>java.lang.Exception</literal>
+        class.</para>
+
+      <formalpara>
+        <title>Position</title>
+        <para><literal>IllegalToken</literal>, <literal>SyntaxError</literal> and
+          <literal>SemanticError</literal> have a position field that stores the position in the input
+          stream where the problem occurred. The source code for <literal>PrintStreamErrorHandler</literal>
+          demonstrates how to use this field to report problems to the user.</para></formalpara>
+
+      <formalpara>
+        <title>Semantic errors</title>
+        <para>A <literal>SemanticError</literal> exception is thrown if a constructor invoked
+          by the mapper throws a checked exception. <literal>SemanticError</literal> has a field
+          with the original exception thrown by the constructor and the position of the symbol that
+          triggered the constructor. The term semantic error is compiler construction terminology.
+          A typical semantic error is an undefined identifier or a type mismatch. Constructors are
+          expected to check for semantic errors like undefined identifiers and throw a checked exception
+          to indicate problems. </para></formalpara>
+
+    </sect1>
+
+    <sect1>
+      <title>Deployment</title>
+
+      <para>As long as you applications on your development system, you can skip this section:
+        all Mork classes needed to run the application have been set up by installing Mork on
+        the development system. This section applies if you want to (manually or automatically)
+        deploy applications on a system where Mork is not installed.
+      </para>
+
+      <formalpara>
+        <title>Runtime environment</title>
+        <para>Two things have to be installed on a system to run an application: a Java runtime
+          environment, version 1.2 or higher, and the Mork classes in <literal>lib/mork.jar</literal>.
+          If the application is executed, Mork classes have to be available in its
+          <literal>CLASSPATH</literal>. This can be done by globally adding the jar file to the
+          <literal>CLASSPATH</literal> in some initialization script or by providing an application
+          launch script that defines the <literal>CLASSPATH</literal> for the application only.
+        </para></formalpara>
+
+      <formalpara>
+        <title>Optimizations</title>
+        <para><literal>lib/mork.jar</literal> includes quite a few classes that are need by Mork only,
+          their are not necessary to run applications. If you want to dig into re-compiling Mork, here
+          are some tips how to reduce the size of the jar file.
+          <itemizedlist>
+            <listitem><para>Omit classes from the library that are not used by a
+              mapper. Most notably, you don't need Mork's
+              <literal>compiler</literal> and <literal>classfile</literal>
+              packages. If possible, use a packaging tool to automatically remove
+              classes/methods not needed by your application. </para></listitem>
+            <listitem><para>Re-compile Mork without debug and line number information
+              (<literal>javac</literal>: omit the -g option, add the -O option).</para></listitem>
+            <listitem><para>Use a better compiler. For example, Jikes 0.53 produces
+              significantly smaller class files than Blackdown JDK 1.2 pre 2 <literal>javac</literal>.
+            </para></listitem>
+          </itemizedlist></para></formalpara>
+    </sect1>
+  </chapter>
+
+  <chapter>
+    <title>Source Code</title>
+
+    <sect1>
+      <title>Overview</title>
+
+      <formalpara>
+        <title>Version numbering</title>
+        <para>The version numbering scheme is <literal>major.minor</literal>. The minor number is
+          bumped for normal releases with normal, incremental improvements. The major number is bump for
+          milestones.</para></formalpara>
+
+      <figure>
+        <title>Directory structure</title>
+        <programlisting>
+          mork
+          |- src/de/mlhartme/mork   Mork library sources
+          |   |- compiler              compiler
+          |   |- xml                   XML syntax
+          |   |- mapping               map symbols to objects
+          |   |- semantics             attribute grammars
+          |   |- parser                push-down automatons
+          |   |- scanner               finite automatons
+          |   |- grammar               context-free grammars
+          |   |- regexpr               regular expressions
+          |   |- classfile             Java class files
+          |   |- reflect               reflection
+          |    - util                  data types, misc
+          |- examples      example applications
+          |- bin           launch scripts
+          |- lib           jar files
+          |- beezle        build system
+          |- tests
+          |   |- junit     JUnit test cases
+          |    - examples  some pathologic stuff
+          - doc           documentation
+          |- src          DocBook xml sources for the manual
+          |- html         HTML manual and javadocs
+          - print        pdf manual
+        </programlisting>
+      </figure>
+
+      <formalpara>
+        <title>Architecture</title>
+        <para>Basically, Mork is a Java class library together with some documentation, examples,
+          a build system (python) and some launch scripts. The packages in the class library a structured
+          into three layers, with lower layers having no dependencies on upper layers. The lowest layer is
+          general-purpose, it is not tied to compiler tools. The compiler tool layer is by far the biggest
+          part. Basically, it implements typical data types described in compiler construction text book.
+          This layer is not tied to Mork, you could use it to realize other compiler tools. The Mork layer
+          is the top-most layer, adding Mork-specific stuff.
+        </para></formalpara>
+
+      <figure>
+        <title>Architecture</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="library.jpg" format="JPG"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+    </sect1>
+
+    <sect1>
+      <title>Example applications</title>
+
+      <para>Mork includes a number of example applications. Every example is implemented in a
+        package of the example's name. Java's <literal>main</literal> method is always placed in
+        a class called Main. The following steps compile and run the example application
+        <literal>foo</literal>.
+        <itemizedlist>
+          <listitem><para>Optional: build <literal>javadoc</literal>:
+            <programlisting>
+              cd examples
+              mkdir foo/javadoc
+              javadoc -d foo/javadoc -sourcepath . foo
+            </programlisting></para></listitem>
+          <listitem><para>Compile the Java files:
+            <programlisting>
+              cd examples/foo
+              javac *.java
+            </programlisting></para></listitem>
+          <listitem><para>Compile the mapper:
+            <programlisting>
+              mork Mapper.map
+            </programlisting></para></listitem>
+          <listitem><para>Run it:
+            <programlisting>
+              java foo.Main
+            </programlisting>If the example needs arguments, a usage message will be printed.
+          </para></listitem>
+        </itemizedlist>
+      </para>
+
+      <formalpara>
+        <title>calc</title>
+        <para>The classic example for compiler tools:
+          calculate simple arithmetic expression.</para></formalpara>
+
+      <formalpara>
+        <title>command</title>
+        <para>The application described in the first steps chapter of this manual.
+        </para></formalpara>
+
+      <formalpara>
+        <title>interpreter</title>
+        <para>Interpreter for a simple language. The implementation instantiates
+          classes that resemble a kind of abstract syntax. The methods of these
+          classes implement the interpreter. Note that no symbol table is necessary,
+          and that variable references point directly to the referenced variable.
+        </para></formalpara>
+
+      <formalpara>
+        <title>compiler</title>
+        <para>Compiler for a simple language. The implementation instantiates
+          classes similar to those in the interpreter example. But instead of
+          interpretation methods, these classes have methods to generate Java
+          byte code.</para></formalpara>
+
+      <para>To compile and run a program <literal>Foo.prog</literal>, process
+        as follows. <itemizedlist>
+          <listitem><para><literal>java compiler.Main Foo.prog</literal></para></listitem>
+          <listitem><para><literal>java Foo</literal></para></listitem>
+        </itemizedlist></para>
+
+      <formalpara>
+        <title><literal>jp</literal></title>
+        <para>A parser for Java 2, version 1.2. For example, you can run
+          <literal>jp.Main examples/*/*.java</literal> to parse all examples.
+        </para></formalpara>
+
+      <formalpara>
+        <title><literal>config</literal></title>
+        <para>A configuration file in XML syntax.</para></formalpara>
+
+    </sect1>
+
+    <sect1>
+      <title>Building Mork</title>
+
+      <para>Suppose your Mork directory is <literal>/foo/mork</literal>. To build Mork, proceed as
+        follows:<orderedlist>
+          <listitem>
+            <para>Make sure you have installed Mork as described in the setup chapter.</para></listitem>
+          <listitem>
+            <para>Make sure the following software in installed on your machine:<itemizedlist>
+              <listitem><para>Mork 0.4. Needed to bootstrap Mork. </para></listitem>
+              <listitem><para>Python 2 or higher. Already included in most Linux distributions.
+                <ulink url="http://www.python.org/">Website</ulink>.
+                Adjust in mork/bin/p or mork/bin/p.bat to point to the python interpreter.
+              </para></listitem>
+            </itemizedlist></para></listitem>
+          <listitem><para>Optional: if you want to build the manual, make sure the following
+            software is installed (please check <literal>/foo/mork/python/mork/config.py</literal>
+            for addition version requirements of the various packages): <itemizedlist>
+              <listitem><para>Apache <literal>fop</literal>.
+                <ulink url="http://xml.apache.org/fop/">Website</ulink></para></listitem>
+              <listitem><para>DocBook XML DTD 4.1.
+                <ulink url="http://www.oasis-open.org/docbook/xml/">Website</ulink></para></listitem>
+              <listitem><para>DocBook Stylesheets
+                <ulink url="http://sourceforge.net/projects/docbook/">Website</ulink></para></listitem>
+            </itemizedlist></para></listitem>
+          <listitem><para>Optional: if you want to run the test suite, make sure the following
+            software is installed:<itemizedlist>
+              <listitem><para>JUnit 3.8. To run the test cases.
+                <ulink url="http://www.junit.org/">Website</ulink></para></listitem>
+              <listitem><para><literal>xercesSamples</literal> to validate the manual XML files.
+              </para></listitem>
+              <listitem><para><literal>aspell</literal>.
+                <ulink url="http://sourceforge.net/projects/aspell/">Website</ulink>.
+                Version .33.5 was used to check Mork 0.3.6</para></listitem>
+              <listitem><para><literal>xmlconf</literal> for XML parser tests</para></listitem>
+              <listitem><para><literal>PyChecker</literal>
+                <ulink url="http://sourceforge.net/projects/pychecker/">Website</ulink>.</para></listitem>
+            </itemizedlist></para></listitem>
+          <listitem><para>Add Mork's python directory to your python path:
+            <programlisting>
+              export PYTHONPATH=/foo/mork/python:$PYTHONPATH
+            </programlisting>Because of this variable, the following steps work anywhere, you
+            do not have to enter a particular working directory. </para></listitem>
+          <listitem><para>Adjust the build configuration file
+            <literal>/foo/mork/python/mork/config.py</literal>: <itemizedlist>
+              <listitem>
+                <para>Run the (experimental!) auto configuration mechanism to guess your
+                  configuration:<programlisting>
+                    python bin/configure.py
+                  </programlisting></para></listitem>
+              <listitem><para>Edit <literal>/foo/mork/python/mork/config.py</literal> and adjust the
+                individual variable to your environment. You do not have to adjust the variables for XML stuff
+                unless you want to build the manual,</para></listitem>
+            </itemizedlist></para></listitem>
+          <listitem><para>Build Mork:
+            <programlisting>
+              p mork.make.default
+            </programlisting></para></listitem>
+          <listitem><para>Optional: Build the manual:
+            <programlisting>
+              p mork.manual.default
+            </programlisting></para></listitem>
+          <listitem><para>Optional: Run the test cases:
+            <programlisting>
+              p mork.test.all
+            </programlisting></para></listitem>
+        </orderedlist></para>
+
+
+    </sect1>
+
+    <sect1>
+      <title>Miscellaneous</title>
+
+      <formalpara>
+        <title>Source conventions</title>
+        <para>
+          <itemizedlist>
+            <listitem><para>maximum line length: 100 characters</para></listitem>
+            <listitem><para>indentation: 4 spaces, not tabs</para></listitem>
+            <listitem><para>newline: Unix convention</para></listitem>
+            <listitem><para>a raw <literal>RuntimeException</literal> is thrown if an
+              inconsistent state, i.e. a bug, has been detected.</para></listitem>
+          </itemizedlist>
+        </para>
+      </formalpara>
+    </sect1>
+  </chapter>
+
+  <appendix>
+    <title>Mork syntax files</title>
+
+    <para>Mork is bootstrapped, the file listed in here are written in their own language.</para>
+
+    <formalpara>
+      <title><literal>grammar.grm</literal></title>
+      <para><literal>de/mlhartme/mork/compiler/grammar.grm</literal> defines
+        the syntax of grammar files. </para></formalpara>
+
+    <para><programlisting>
+      <!-- §{xml.includeSource(Files.join(Config.HOME, "src", "de", "mlhartme", "mork", "compiler", "grammar.grm"), Xml.HASH_HEAD) }: -->
+      <!-- TODO &grammarText; -->
+      <!-- §. -->
+    </programlisting></para>
+
+    <formalpara>
+      <title><literal>mapper.grm</literal></title>
+      <para><literal>de/mlhartme/mork/compiler/mapper.grm</literal> defines
+        the syntax of mapper files. </para></formalpara>
+
+    <para><programlisting>
+      <!-- §{xml.includeSource(Files.join(Config.HOME, "src", "de", "mlhartme", "mork", "compiler", "mapper.grm"), Xml.HASH_HEAD) }: -->
+      <!-- TODO &mapperText; -->
+      <!-- §. -->
+    </programlisting></para>
+
+  </appendix>
+
+  <index/>
 
 </book>
