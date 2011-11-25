@@ -1,41 +1,30 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
-<!-- §{xml.header("book", net.sf.beezle.mork.beezle.Config.DB_DTD)}: -->
-<!DOCTYPE book SYSTEM "file:/usr/share/sgml/docbook/xml-dtd-4.2-1.0-14/docbookx.dtd" [
-  <!ENTITY % GENERATED_ENTITIES SYSTEM "/home/mhm/java/mork/doc/src/entities.inc">
-  %GENERATED_ENTITIES;
-]>
-<!-- §. -->
-<book>
-  <!-- §{xml.includeXml("front.xml")}: -->
-&frontFile;
-<!-- §. -->
+<book version="5.0" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0CR7/xsd/docbook.xsd"
+      id="faq"
+>
+  <chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0CR7/xsd/docbook.xsd">
 
-  <!-- §{xml.includeXml("introduction.xml")}: -->
-&introductionFile;
-<!-- §. -->
-  <!-- §{xml.includeXml("setup.xml")}: -->
-&setupFile;
-<!-- §. -->
-  <!-- §{xml.includeXml("firststeps.xml")}: -->
-&firststepsFile;
-<!-- §. -->
-  <!-- §{xml.includeXml("syntax.xml")}: -->
-&syntaxFile;
-<!-- §. -->
-  <!-- §{xml.includeXml("mapper.xml")}: -->
-&mapperFile;
-<!-- §. -->
-  <!-- §{xml.includeXml("compilation.xml")}: -->
-&compilationFile;
-<!-- §. -->
-  <!-- §{xml.includeXml("usage.xml")}: -->
-&usageFile;
-<!-- §. -->
-  <!-- §{xml.includeXml("sources.xml")}: -->
-&sourcesFile;
-<!-- §. -->
-  <!-- §{xml.includeXml("back.xml")}: -->
-&backFile;
-<!-- §. -->
+  <title>Test</title>
+
+  <sect1>
+  <title>Preface</title>
+  </sect1>
+  </chapter>
+
+  <!-- xi:include href="front.xml" /-->
+  <xi:include href="introduction.xml" />
+
+
+  <!--
+  <xi:include href="setup.xml" />
+  <xi:include href="firststeps.xml" />
+  <xi:include href="syntax.xml" />
+  <xi:include href="mapper.xml" />
+  <xi:include href="compilation.xml" />
+  <xi:include href="usage.xml" />
+  <xi:include href="sources.xml" />
+  <xi:include href="back.xml" /-->
 
 </book>

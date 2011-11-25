@@ -167,7 +167,7 @@
               <goal>generate-html</goal>
             </goals>
             <configuration>
-              <sourceDirectory>src/doc</sourceDirectory>
+              <sourceDirectory>src/doc/src</sourceDirectory>
               <includes>main.xml</includes>
               <!-- <admonGraphicsPath>images/docbkx/</admonGraphicsPath>
               <calloutGraphicsPath>images/docbkx/callouts/</calloutGraphicsPath>-->

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
-<bookinfo>
+<bookinfo xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0CR7/xsd/docbook.xsd">
 <title>Mork</title>
 <subtitle>Compiler tool for Java</subtitle>
 <authorgroup>
@@ -10,25 +10,25 @@
 </authorgroup>
 <copyright>
   <year>
-<!-- Â§{years}: -->
+<!-- §{years}: -->
 1998-2003
-<!-- Â§. -->
+<!-- §. -->
   </year>
   <holder>
-<!-- Â§{author}: -->
+<!-- §{author}: -->
 Michael Hartmeier
-<!-- Â§. -->
+<!-- §. -->
   </holder>
 </copyright>
 
 <releaseinfo><remark>This document was generated
-<!-- Â§{xml.date()}: -->
+<!-- §{xml.date()}: -->
 Wednesday, January 15, 2003 10:47:33 PM CET
-<!-- Â§. -->
+<!-- §. -->
 (Mork
-<!-- Â§{version}: -->
+<!-- §{version}: -->
 0.6
-<!-- Â§. -->
+<!-- §. -->
 ).
 A PDF version is available at <literal>http://mork.sourceforge.net/src/doc/print</literal>.
 </remark></releaseinfo>
