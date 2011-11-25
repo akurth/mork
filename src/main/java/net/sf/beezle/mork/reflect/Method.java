@@ -64,7 +64,7 @@ public class Method extends Function implements Bytecodes {
      * specified name.
      * @param  cl      Class to look at
      * @param  name    the Function name to look for
-     * @param  result  retrieves all Methods found
+     * @result  retrieves all Methods found
      */
     public static Selection forName(Class cl, String name) {
         java.lang.reflect.Method[] all;
@@ -87,7 +87,7 @@ public class Method extends Function implements Bytecodes {
 
     /**
      * Creates a Method.
-     * @param  Java Method to wrap
+     * @param methInit Java Method to wrap
      */
     public Method(java.lang.reflect.Method methInit) {
         int modif;

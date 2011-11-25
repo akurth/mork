@@ -98,7 +98,7 @@ public class FA {
     /**
      * Inserts a new states to the automaton. New states are
      * allocated at the end.
-     * @param l label for the state created.
+     * @param label label for the state created.
      */
     public int add(Object label) {
         ensureCapacity(used);
@@ -147,7 +147,7 @@ public class FA {
     }
 
     /**
-     * @param start -1 to unset the start state
+     * @param state -1 to unset the start state
      */
     public void setStart(int state) {
         start = state;

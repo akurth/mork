@@ -220,7 +220,7 @@ public class OagTest extends TestCase {
     }
 
     /**
-     * @return symbol, occurrence, attrName
+     * @param result symbol, occurrence, attrName
      */
     public static void getRawOccurrence(Grammar grm, String occurrence, int prod, Object[] result) {
         int dot;

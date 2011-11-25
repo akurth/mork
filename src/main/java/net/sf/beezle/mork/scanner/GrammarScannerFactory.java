@@ -70,9 +70,6 @@ public class GrammarScannerFactory implements ScannerFactory {
 
     //-----------------------------------------------------------------
 
-    /**
-     * @param inlineSymbols   all symbols that became expanded
-     */
     public static GrammarScannerFactory create(
         FA fa, int errorSi, ParserTable parserTable, Rule[] all, IntBitSet whites,
         PrintStream verbose, PrintStream listing, int eofSymbol)
@@ -95,9 +92,6 @@ public class GrammarScannerFactory implements ScannerFactory {
         return new GrammarScannerFactory(fa.getStart(), modes.size(), eofSymbol, data);
     }
 
-    /**
-     * @param inlineSymbols   all symbols that became expanded
-     */
     public static GrammarScannerFactory createSimple(FA fa, int errorSi, IntBitSet terminals, int eofSymbol)
         throws GenericException {
         char[] data;

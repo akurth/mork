@@ -42,9 +42,9 @@ public class MapperCompiler implements Bytecodes {
     }
 
     /**
-     * @param mapperName      mapper name as specified in the map file.
-     * @param specFile        file that specified the mapper
-     * @param outputDir       "-d", points to a directory or null.
+     * @param mapperName        mapper name as specified in the map file.
+     * @param src               file that specified the mapper
+     * @param explicitOutputDir "-d", points to a directory or null.
      */
     public void run(Mapper mapper, String mapperName, File src, File explicitOutputDir) throws GenericException {
         String baseName;

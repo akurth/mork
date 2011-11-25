@@ -120,7 +120,6 @@ public class Composition extends Function {
     /**
      * Invokes the composed Functions. The computed argument
      * is computed by a call to the parameter Function.
-     * @param   arguments for base and parameter Functions.
      * @return  the result returned by the base Function.
      */
     @Override

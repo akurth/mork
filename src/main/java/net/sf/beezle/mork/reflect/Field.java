@@ -141,9 +141,8 @@ public class Field extends Function implements Bytecodes {
 
     /**
      * Reads this Field.
-     * @param    an array of length null, or an array with the Object
-     *           containing this Java Field
-     * @return   the Object stored in the Java Field
+     * @param vals  an array of length null, or an array with the Object containing this Java Field
+     * @return the Object stored in the Java Field
      */
     @Override
     public Object invoke(Object[] vals) {

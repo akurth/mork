@@ -81,7 +81,7 @@ public class Range extends RegExpr {
     public int hashCode() {
         return first;
     }
-    
+
     @Override
     public Object visit(Action action) {
         return action.range(first, last);
@@ -117,7 +117,6 @@ public class Range extends RegExpr {
 
     /**
      * @param ranges in-out argument
-     * @return List of ranges that don't overlap.
      *
      * TODO:
      * o  expensive, the list is modified ...

@@ -303,9 +303,8 @@ public class Grammar extends GrammarCore {
     }
 
     /**
-     * @param  result   symbols already reached - recursion must stop there.
+     * @param  result   out-argument: symbols already reached - recursion must stop there.
      * @param  recurse  all symbols to recurse. null: all
-     * @return is added to the parameter result
      */
     public void addReachable(int sym, IntBitSet result, IntBitSet recurse) {
         int prod;
