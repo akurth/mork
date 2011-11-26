@@ -163,6 +163,15 @@
           <sourceDirectory>src/site/manual</sourceDirectory>
           <includes>manual.xml</includes>
           <targetDirectory>${basedir}/target/site</targetDirectory>
+          <xincludeSupported>true</xincludeSupported>
+          <generatedSourceDirectory>${project.build.directory}/xinclude</generatedSourceDirectory>
+          <preProcess>
+            <tstamp>
+              <format property="now" pattern="yyyy-MM-d"/>
+            </tstamp>
+            <mkdir dir="${basedir}/target" />
+            <echo file="${basedir}/target/now.txt">${now}</echo>
+          </preProcess>
         </configuration>
         <executions>
           <execution>

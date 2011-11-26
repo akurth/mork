@@ -14,26 +14,12 @@
       </author>
     </authorgroup>
     <copyright>
-      <year>
-        <!-- §{years}: -->
-        1998-2003
-        <!-- §. -->
-      </year>
-      <holder>
-        Michael Hartmeier
-      </holder>
+      <holder>1&amp;1 Internet AG</holder>
     </copyright>
 
-    <releaseinfo><remark>This document was generated
-      <!-- §{xml.date()}: -->
-      Wednesday, January 15, 2003 10:47:33 PM CET
-      <!-- §. -->
-      (Mork
-      <!-- §{version}: -->
-      0.6
-      <!-- §. -->
-      ).
-    </remark></releaseinfo>
+    <releaseinfo>
+      <remark>This document was generated <xi:include href="../../../target/now.txt" parse="text" /> (Mork <?eval ${project.version}?>)</remark>
+    </releaseinfo>
 
     <legalnotice>
       <!-- This notice is the first paragraph of the legal notice used in -->
