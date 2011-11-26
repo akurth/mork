@@ -169,8 +169,8 @@
             <tstamp>
               <format property="now" pattern="yyyy-MM-d"/>
             </tstamp>
-            <mkdir dir="${basedir}/target" />
-            <echo file="${basedir}/target/now.txt">${now}</echo>
+            <mkdir dir="${project.build.directory}" />
+            <echo file="${project.build.directory}/now.txt">${now}</echo>
           </preProcess>
         </configuration>
         <executions>

@@ -18,7 +18,8 @@
     </copyright>
 
     <releaseinfo>
-      <remark>This document was generated <xi:include href="../../../target/now.txt" parse="text" /> (Mork <?eval ${project.version}?>)</remark>
+      <remark>This document was generated <xi:include href="../../../target/now.txt" parse="text" />
+        (Mork <?eval ${project.version}?>)</remark>
     </releaseinfo>
 
     <legalnotice>
