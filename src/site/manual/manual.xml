@@ -365,22 +365,19 @@
       <figure>
         <title>Source files</title>
         <programlisting>
-          <!-- §{xml.ls(Files.join(Config.HOME, "examples", "command"), new String[] { "*.java", "*.map", "*.grm" }) }: -->
-          command.grm    1108 bytes
-          Command.java    1104 bytes
-          Console.java    4670 bytes
-          Constant.java     644 bytes
-          Declarations.java    1785 bytes
-          Expression.java     530 bytes
-          Failure.java     557 bytes
-          Frontend.java    2823 bytes
-          Line.java    1021 bytes
-          Main.java    1217 bytes
-          Mapper.map     947 bytes
-          Reference.java     896 bytes
-          Variable.java    1061 bytes
-
-          <!-- §. -->
+          command.grm
+          Command.java
+          Console.java
+          Constant.java
+          Declarations.java
+          Expression.java
+          Failure.java
+          Frontend.java
+          Line.java
+          Main.java
+          Mapper.map
+          Reference.java
+          Variable.java
         </programlisting>
       </figure>
 
