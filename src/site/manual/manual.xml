@@ -329,11 +329,7 @@
 
       <figure>
         <title>jar command file</title>
-        <programlisting>
-          <!-- §{xml.includeSource(Files.join(Config.HOME, "examples", "command", "tests", "jar.cf"), Xml.HASH_HEAD) }: -->
-          <!-- TODO jarText; -->
-          <!-- §. -->
-        </programlisting>
+        <programlisting><xi:include href="../../examples/command/tests/jar.cf" parse="text" /></programlisting>
       </figure>
 
       <formalpara>
@@ -437,11 +433,7 @@
 
       <figure>
         <title>command.Main</title>
-        <programlisting>
-          <!-- §{xml.includeSource(Files.join(Config.HOME, "examples", "command", "Main.java"), Xml.JAVA_HEAD) }: -->
-          <!-- TODO &MainText; -->
-          <!-- §. -->
-        </programlisting>
+        <programlisting><xi:include href="../../examples/command/Main.java" parse="text" /></programlisting>
       </figure>
 
       <para><literal>Main.java</literal> defines the <literal>main</literal> method which implements the
@@ -484,11 +476,7 @@
 
       <figure>
         <title><literal>command.grm</literal></title>
-        <programlisting>
-          <!-- §{xml.includeSource(Files.join(Config.HOME, "examples", "command", "command.grm"), Xml.HASH_HEAD) }: -->
-          <!-- TODO &commandText; -->
-          <!-- §. -->
-        </programlisting>
+        <programlisting><xi:include href="../../examples/command/command.grm" parse="text" /></programlisting>
       </figure>
 
       <formalpara>
@@ -527,11 +515,7 @@
 
       <figure>
         <title><literal>Mapper.map</literal></title>
-        <programlisting>
-          <!-- §{xml.includeSource(Files.join(Config.HOME, "examples", "command", "Mapper.map"), Xml.HASH_HEAD) }: -->
-          <!-- TODO &MapperText; -->
-          <!-- §. -->
-        </programlisting>
+        <programlisting><xi:include href="../../examples/command/Mapper.map" parse="text" /></programlisting>
       </figure>
 
       <formalpara>
@@ -778,11 +762,7 @@
 
       <figure>
         <title><literal>Declarations.java</literal></title>
-        <programlisting>
-          <!-- §{xml.includeSource(Files.join(Config.HOME, "examples", "command", "Declarations.java"), Xml.JAVA_HEAD) }: -->
-          <!-- TODO &DeclarationsText; -->
-          <!-- §. -->
-        </programlisting>
+        <programlisting><xi:include href="../../examples/command/Declarations.java" parse="text" /></programlisting>
       </figure>
 
       <para>The next section includes another example for semantic errors.</para>
@@ -832,11 +812,7 @@
 
       <figure>
         <title><literal>Line.java</literal></title>
-        <programlisting>
-          <!-- §{xml.includeSource(Files.join(Config.HOME, "examples", "command", "Line.java"), Xml.JAVA_HEAD) }: -->
-          <!-- &LineText; -->
-          <!-- §. -->
-        </programlisting>
+        <programlisting><xi:include href="../../examples/command/Line.java" parse="text" /></programlisting>
       </figure>
 
       <formalpara>
@@ -852,11 +828,7 @@
 
       <figure>
         <title><literal>Reference.java</literal></title>
-        <programlisting>
-          <!-- §{xml.includeSource(Files.join(Config.HOME, "examples", "command", "Reference.java"), Xml.JAVA_HEAD) }: -->
-          <!-- TODO &ReferenceText; -->
-          <!-- §. -->
-        </programlisting>
+        <programlisting><xi:include href="../../examples/command/Reference.java" parse="text" /></programlisting>
       </figure>
 
       <formalpara>
@@ -2994,22 +2966,18 @@
       <para><literal>de/mlhartme/mork/compiler/grammar.grm</literal> defines
         the syntax of grammar files. </para></formalpara>
 
-    <para><programlisting>
-      <!-- §{xml.includeSource(Files.join(Config.HOME, "src", "de", "mlhartme", "mork", "compiler", "grammar.grm"), Xml.HASH_HEAD) }: -->
-      <!-- TODO &grammarText; -->
-      <!-- §. -->
-    </programlisting></para>
+    <para>
+      <programlisting><xi:include href="../../main/java/net/sf/beezle/mork/compiler/grammar.grm" parse="text" /></programlisting>
+    </para>
 
     <formalpara>
       <title><literal>mapper.grm</literal></title>
       <para><literal>de/mlhartme/mork/compiler/mapper.grm</literal> defines
         the syntax of mapper files. </para></formalpara>
 
-    <para><programlisting>
-      <!-- §{xml.includeSource(Files.join(Config.HOME, "src", "de", "mlhartme", "mork", "compiler", "mapper.grm"), Xml.HASH_HEAD) }: -->
-      <!-- TODO &mapperText; -->
-      <!-- §. -->
-    </programlisting></para>
+    <para>
+      <programlisting><xi:include href="../../main/java/net/sf/beezle/mork/compiler/mapper.grm" parse="text" /></programlisting>
+    </para>
 
   </appendix>
 
