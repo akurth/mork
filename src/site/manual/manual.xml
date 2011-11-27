@@ -72,7 +72,7 @@
         <title>Contact</title>
         <para><indexterm><primary>contact</primary></indexterm><indexterm><primary>feedback</primary>
         </indexterm>Please send your feedback to <email>michael.hartmeier@1und1.de</email>! Mork has a web page
-          at <ulink url="https://sourceforge.net/apps/trac/beezle/wiki/Mork">https://sourceforge.net/apps/trac/beezle/wiki/Mork</ulink>
+          at <link url="https://sourceforge.net/apps/trac/beezle/wiki/Mork">https://sourceforge.net/apps/trac/beezle/wiki/Mork</link>
         </para></formalpara>
 
     </sect1>
@@ -1308,7 +1308,7 @@
       <para>XML syntax is specified by a document type definition. It is comprised of
         a list of element declarations and attribute definitions. A detailed description
         can be found in chapter 3 of the XML specification
-        (<ulink url="http://www.w3.org/TR/REC-xml">http://www.w3.org/TR/REC-xml</ulink>).
+        (<link xlink:href="http://www.w3.org/TR/REC-xml">http://www.w3.org/TR/REC-xml</link>).
       </para>
 
       <formalpara>
@@ -2786,72 +2786,7 @@
     <sect1>
       <title>Building Mork</title>
 
-      <para>Suppose your Mork directory is <literal>/foo/mork</literal>. To build Mork, proceed as
-        follows:<orderedlist>
-          <listitem>
-            <para>Make sure you have installed Mork as described in the setup chapter.</para></listitem>
-          <listitem>
-            <para>Make sure the following software in installed on your machine:<itemizedlist>
-              <listitem><para>Mork 0.4. Needed to bootstrap Mork. </para></listitem>
-              <listitem><para>Python 2 or higher. Already included in most Linux distributions.
-                <ulink url="http://www.python.org/">Website</ulink>.
-                Adjust in mork/bin/p or mork/bin/p.bat to point to the python interpreter.
-              </para></listitem>
-            </itemizedlist></para></listitem>
-          <listitem><para>Optional: if you want to build the manual, make sure the following
-            software is installed (please check <literal>/foo/mork/python/mork/config.py</literal>
-            for addition version requirements of the various packages): <itemizedlist>
-              <listitem><para>Apache <literal>fop</literal>.
-                <ulink url="http://xml.apache.org/fop/">Website</ulink></para></listitem>
-              <listitem><para>DocBook XML DTD 4.1.
-                <ulink url="http://www.oasis-open.org/docbook/xml/">Website</ulink></para></listitem>
-              <listitem><para>DocBook Stylesheets
-                <ulink url="http://sourceforge.net/projects/docbook/">Website</ulink></para></listitem>
-            </itemizedlist></para></listitem>
-          <listitem><para>Optional: if you want to run the test suite, make sure the following
-            software is installed:<itemizedlist>
-              <listitem><para>JUnit 3.8. To run the test cases.
-                <ulink url="http://www.junit.org/">Website</ulink></para></listitem>
-              <listitem><para><literal>xercesSamples</literal> to validate the manual XML files.
-              </para></listitem>
-              <listitem><para><literal>aspell</literal>.
-                <ulink url="http://sourceforge.net/projects/aspell/">Website</ulink>.
-                Version .33.5 was used to check Mork 0.3.6</para></listitem>
-              <listitem><para><literal>xmlconf</literal> for XML parser tests</para></listitem>
-              <listitem><para><literal>PyChecker</literal>
-                <ulink url="http://sourceforge.net/projects/pychecker/">Website</ulink>.</para></listitem>
-            </itemizedlist></para></listitem>
-          <listitem><para>Add Mork's python directory to your python path:
-            <programlisting>
-              export PYTHONPATH=/foo/mork/python:$PYTHONPATH
-            </programlisting>Because of this variable, the following steps work anywhere, you
-            do not have to enter a particular working directory. </para></listitem>
-          <listitem><para>Adjust the build configuration file
-            <literal>/foo/mork/python/mork/config.py</literal>: <itemizedlist>
-              <listitem>
-                <para>Run the (experimental!) auto configuration mechanism to guess your
-                  configuration:<programlisting>
-                    python bin/configure.py
-                  </programlisting></para></listitem>
-              <listitem><para>Edit <literal>/foo/mork/python/mork/config.py</literal> and adjust the
-                individual variable to your environment. You do not have to adjust the variables for XML stuff
-                unless you want to build the manual,</para></listitem>
-            </itemizedlist></para></listitem>
-          <listitem><para>Build Mork:
-            <programlisting>
-              p mork.make.default
-            </programlisting></para></listitem>
-          <listitem><para>Optional: Build the manual:
-            <programlisting>
-              p mork.manual.default
-            </programlisting></para></listitem>
-          <listitem><para>Optional: Run the test cases:
-            <programlisting>
-              p mork.test.all
-            </programlisting></para></listitem>
-        </orderedlist></para>
-
-
+      <para>To build Mork, simply invoke "mvn clean install site"</para>
     </sect1>
 
     <sect1>
