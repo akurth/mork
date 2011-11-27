@@ -224,15 +224,14 @@
 
     <formalpara>
       <title>Quick start</title>
-      <para>The classic introduction for compiler tools is a calculator to compute expressions like
+      <para>A simple introduction for compiler tools is a calculator to compute expressions like
         <literal>68/2+8</literal> <!-- 42 -->. Mork provides a calculator example
         <indexterm><primary>calculator</primary></indexterm>, you can compile and run it as follows:
         <programlisting>
-          svn export https://beezle.svn.sourceforge.net/svnroot/beezle/mork/trunk/src/examples/calc
-          export CLASSPATH=.
-          javac -g calc/*.java
-          java -jar mork.jar calc/Mapper.map
-          java calc.Main
+          svn export https://beezle.svn.sourceforge.net/svnroot/beezle/mork/trunk/examples/calc
+          cd calc
+          mvn clean package
+          ./target/calc
         </programlisting>
       </para></formalpara>
 
@@ -277,17 +276,17 @@
 
       <figure>
         <title>jar command file</title>
-        <programlisting><xi:include href="../../examples/command/tests/jar.cf" parse="text" /></programlisting>
+        <programlisting><xi:include href="../../../examples/command/src/commands/jar.cf" parse="text" /></programlisting>
       </figure>
 
-      <formalpara>
-        <title>Front-ends</title>
-        <para>Running <literal>command</literal> on a command file opens a window that provides a
-          front-end to the respective command line tool. The front-end has fields for
-          all variables declared in the command file and provides two buttons to
-          start the command or to cancel without running the command. The following
-          figure shows the front-end corresponding to the above command file.
-        </para></formalpara>
+      <para>Get the command example, build and run it:
+        <programlisting>
+          svn export https://beezle.svn.sourceforge.net/svnroot/beezle/mork/trunk/examples/command
+          cd command
+          mvn clean package
+          ./target/command src/commands/jar.cf
+        </programlisting>
+      </para>
 
       <figure>
         <title>jar command screen shot</title>
@@ -299,9 +298,17 @@
       </figure>
 
       <formalpara>
+        <title>Front-ends</title>
+        <para>Running <literal>command</literal> on a command file opens a window that provides a
+          front-end to the respective command line tool. The front-end has fields for
+          all variables declared in the command file and provides two buttons to
+          start the command or to cancel without running the command. The following
+          figure shows the front-end corresponding to the above command file.
+        </para></formalpara>
+
+      <formalpara>
         <title>Source code</title>
-        <para><literal>command</literal>'s source code is located in <literal>examples/command</literal>,
-          the contents of this directory is listed below. It contains mostly Java files, Most of the Java
+        <para><literal>command</literal>'s source code contains mostly Java files. Most of the Java
           files will be touched in the course of this chapter. Maybe the two most important Java files
           are <literal>Main.java</literal> which implements the overall logic and
           <literal>Command.java</literal> which defines the <literal>command.Command</literal> class. The
@@ -313,19 +320,20 @@
       <figure>
         <title>Source files</title>
         <programlisting>
-          command.grm
-          Command.java
-          Console.java
-          Constant.java
-          Declarations.java
-          Expression.java
-          Failure.java
-          Frontend.java
-          Line.java
-          Main.java
-          Mapper.map
-          Reference.java
-          Variable.java
+          pom.xml
+          src/main/command.grm
+          src/main/Mapper.map
+          src/main/java/Command.java
+          src/main/java/Console.java
+          src/main/java/Constant.java
+          src/main/java/Declarations.java
+          src/main/java/Expression.java
+          src/main/java/Failure.java
+          src/main/java/Frontend.java
+          src/main/java/Line.java
+          src/main/java/Main.java
+          src/main/java/Reference.java
+          src/main/java/Variable.java
         </programlisting>
       </figure>
 
@@ -333,44 +341,6 @@
         <literal>command.grm</literal> and a mapper file <literal>Mapper.map</literal>. The grammar file
         defines the syntax of command files and the mapper file defines how to map a command files into an
         instance of <literal>command.Command</literal>.</para>
-
-      <formalpara>
-        <title><literal>Javadoc</literal></title>
-        <para>To have a closer look at the Java files you might want to generate the
-          <literal>javadoc</literal> documentation for examples ...
-          <programlisting>
-            cd examples
-            mkdir command/javadoc
-            javadoc -d command/javadoc -sourcepath . command
-          </programlisting></para></formalpara>
-
-
-      <formalpara>
-        <title>Compiling</title>
-        <para>To compile <literal>command</literal>, run <literal>javac</literal> on the Java files and
-          <literal>mork</literal> on the mapper file:
-          <programlisting>
-            cd examples
-            CLASSPATH=.
-            javac -g command/*.java
-            mork command/Mapper.map
-          </programlisting>
-          Mork translates both the mapper file and the grammar file into several Java class files.
-          Note that mapper files contains a reference to <literal>command.grm</literal>. Therefore, only
-          the file <literal>Mapper.map</literal> has to be specified when calling <literal>mork</literal>.
-        </para></formalpara>
-
-      <formalpara>
-        <title>Running</title>
-        <para>Running <literal>command</literal> takes one argument: the command file to be processed. You
-          can create your own command file or you can use one of the sample command files in the tests
-          directory. Run the <literal>jar</literal> command mentioned above as follows:
-          <programlisting>
-            cd examples/command/tests
-            java command.Main jar.cf
-          </programlisting>
-        </para></formalpara>
-
     </sect1>
 
     <sect1>
@@ -378,7 +348,7 @@
 
       <figure>
         <title>command.Main</title>
-        <programlisting><xi:include href="../../examples/command/Main.java" parse="text" /></programlisting>
+        <programlisting><xi:include href="../../../examples/command/src/main/java/command/Main.java" parse="text" /></programlisting>
       </figure>
 
       <para><literal>Main.java</literal> defines the <literal>main</literal> method which implements the
@@ -421,7 +391,7 @@
 
       <figure>
         <title><literal>command.grm</literal></title>
-        <programlisting><xi:include href="../../examples/command/command.grm" parse="text" /></programlisting>
+        <programlisting><xi:include href="../../../examples/command/src/main/command.grm" parse="text" /></programlisting>
       </figure>
 
       <formalpara>
@@ -460,7 +430,7 @@
 
       <figure>
         <title><literal>Mapper.map</literal></title>
-        <programlisting><xi:include href="../../examples/command/Mapper.map" parse="text" /></programlisting>
+        <programlisting><xi:include href="../../../examples/command/src/main/Mapper.map" parse="text" /></programlisting>
       </figure>
 
       <formalpara>
@@ -707,7 +677,7 @@
 
       <figure>
         <title><literal>Declarations.java</literal></title>
-        <programlisting><xi:include href="../../examples/command/Declarations.java" parse="text" /></programlisting>
+        <programlisting><xi:include href="../../../examples/command/src/main/java/command/Declarations.java" parse="text" /></programlisting>
       </figure>
 
       <para>The next section includes another example for semantic errors.</para>
@@ -757,7 +727,7 @@
 
       <figure>
         <title><literal>Line.java</literal></title>
-        <programlisting><xi:include href="../../examples/command/Line.java" parse="text" /></programlisting>
+        <programlisting><xi:include href="../../../examples/command/src/main/java/command/Line.java" parse="text" /></programlisting>
       </figure>
 
       <formalpara>
@@ -773,7 +743,7 @@
 
       <figure>
         <title><literal>Reference.java</literal></title>
-        <programlisting><xi:include href="../../examples/command/Reference.java" parse="text" /></programlisting>
+        <programlisting><xi:include href="../../../examples/command/src/main/java/command/Reference.java" parse="text" /></programlisting>
       </figure>
 
       <formalpara>
