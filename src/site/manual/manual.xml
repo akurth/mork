@@ -2,13 +2,12 @@
 <book version="5.0" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
       xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0CR7/xsd/docbook.xsd">
-  <bookinfo>
+  <info>
     <title>Mork</title>
     <subtitle>Compiler tool for Java</subtitle>
     <authorgroup>
       <author>
-        <firstname>Michael</firstname>
-        <surname>Hartmeier</surname>
+        <personname>Michael Hartmeier</personname>
       </author>
     </authorgroup>
     <copyright>
@@ -30,7 +29,7 @@
         of this manual provided the copyright notice and this permission notice are
         preserved on all copies.</para>
     </legalnotice>
-  </bookinfo>
+  </info>
 
   <chapter>
     <title>Introduction</title>
@@ -215,8 +214,10 @@
 
     <formalpara>
       <title>Install</title>
-      <para>There's no Mork distribution to download or install. Mork published to Maven central, you just'll just
-        add a dependency to your project (will be described later).
+      <para>There's no Mork distribution to download or install. Mork is published to Maven central, you'll just
+        add a dependency to your project (as described later).</para>
+    </formalpara>
+
   </chapter>
 
   <chapter>
