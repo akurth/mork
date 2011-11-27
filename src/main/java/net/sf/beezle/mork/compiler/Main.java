@@ -143,7 +143,7 @@ public class Main {
                     output.error(errorPos, e);
                 }
             } else if (opt.startsWith("-")) {
-                output.error(errorPos, "unkown option: " + opt);
+                output.error(errorPos, "unknown option: " + opt);
                 return null;
             } else {
                 break;
@@ -177,23 +177,18 @@ public class Main {
     public void printHelp() {
         output.normal("Mork compiler tool. ");
         output.normal("Version " + getVersion());
-        output.normal("Copyright (C) Michael Hartmeier 1998-2002");
+        output.normal("Copyright (C) Michael Hartmeier 1998-2011");
         output.normal("");
         output.normal(USAGE);
     }
 
-    /* TODO: conditional compilation -- Package is not available when compiling with gcj, use:
-       public String getVersion() {
-           return null;
-       }
-     */
     public String getVersion() {
         Package p;
 
         p = getClass().getPackage();
         if (p == null) {
             // mork has not been started from a jar file
-            return "(unkown)";
+            return "(unknown)";
         } else {
             return p.getSpecificationVersion()  + " (" + p.getImplementationVersion() + ")";
         }

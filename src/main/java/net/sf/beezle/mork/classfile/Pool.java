@@ -371,7 +371,7 @@ public class Pool implements Constants {
         case CONSTANT_UTF8:
             return fromUtf8(info, 3, bytesToU2(info, 1) + 3);
         default:
-            throw new RuntimeException("unkown id: " + info[0]);
+            throw new RuntimeException("unknown id: " + info[0]);
         }
     }
 
@@ -410,7 +410,7 @@ public class Pool implements Constants {
         case CONSTANT_UTF8:
             return -1;
         default:
-            throw new RuntimeException("unkown id: " + id);
+            throw new RuntimeException("unknown id: " + id);
         }
     }
 
@@ -430,7 +430,7 @@ public class Pool implements Constants {
         case CONSTANT_DOUBLE:
             return true;
         default:
-            throw new RuntimeException("unkown id: " + id);
+            throw new RuntimeException("unknown id: " + id);
         }
     }
 

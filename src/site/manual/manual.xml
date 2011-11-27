@@ -769,7 +769,7 @@
           What happens inside is straight forward: the declarations object is searched for the identifier.
           If the is a variable with the specified name, it is stored in the <literal>var</literal>
           field and the identifier resolution has succeeded. Otherwise, a semantic error
-          <literal>unkown identifier</literal> is issued by throwing an exception. </para></formalpara>
+          <literal>unknown identifier</literal> is issued by throwing an exception. </para></formalpara>
 
       <figure>
         <title><literal>Reference.java</literal></title>

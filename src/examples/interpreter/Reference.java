@@ -6,7 +6,7 @@ public class Reference extends Expression {
     public Reference(Declarations ctx, String name) throws SemanticError {
         var = ctx.find(name);
         if (var == null) {
-            throw new SemanticError("unkown variable: " + name);
+            throw new SemanticError("unknown variable: " + name);
         }
     }
 

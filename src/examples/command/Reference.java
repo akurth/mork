@@ -9,7 +9,7 @@ public class Reference extends Expression {
     public Reference(Declarations decls, String identifier) throws Failure {
         var = decls.lookup(identifier);
         if (var == null) {
-            throw new Failure("unkown identifier: " + identifier);
+            throw new Failure("unknown identifier: " + identifier);
         }
     }
 

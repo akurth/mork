@@ -33,8 +33,8 @@ public class Minimizer {
     private static final IntArrayList YES = new IntArrayList();
     private static final IntArrayList NO = new IntArrayList();
 
-    /** UNKOWN has to be the default initialization for reference-type array elements: null */
-    private static final IntArrayList UNKOWN = null;
+    /** UNKNOWN has to be the default initialization for reference-type array elements: null */
+    private static final IntArrayList UNKNOWN = null;
 
     private final FA fa;
 
@@ -46,8 +46,8 @@ public class Minimizer {
      * inv: leftSi > rightSi
      * YES: [leftSi][rightSi] is distinct
      * NO:  [leftSi][rightSi} not distinct
-     * UNKOWN: unkown
-     * else: distinct is unkown; if it turns out to be distinct, all pairs in the list are distinct
+     * UNKNOWN: unknown
+     * else: distinct is unknown; if it turns out to be distinct, all pairs in the list are distinct
      * @inv distinct[si].length = si
      */
     private final IntArrayList[][] distinct;
@@ -110,7 +110,7 @@ public class Minimizer {
             states = new IntBitSet();
             for (rightSi = 0; rightSi < leftSi; rightSi++) {
                 if (distinct[leftSi][rightSi] != YES) {
-                    // distinct may well be unkown -- this happens if some other state switches
+                    // distinct may well be unknown -- this happens if some other state switches
                     // to "NO", depending states are not notified
                     states.add(rightSi);
                 }
@@ -119,7 +119,7 @@ public class Minimizer {
             states.add(rightSi++);
             for (; rightSi < size; rightSi++) {
                 if (distinct[rightSi][leftSi] != YES) {
-                    // distinct may well be unkown -- this happens if some other state switches
+                    // distinct may well be unknown -- this happens if some other state switches
                     // to "NO", depending states are not notified
                     states.add(rightSi);
                 }
@@ -188,13 +188,13 @@ public class Minimizer {
         int leftEndSi, rightEndSi;
         Range leftRange, rightRange;
         IntArrayList tmp;
-        boolean foundUnkown;  // true, if a state with unkown distinct is found
+        boolean foundUnknown;  // true, if a state with unknown distinct is found
 
         maxLeftTi = fa.get(leftSi).size();
         if (maxLeftTi == 0) {
             throw new IllegalArgumentException("fa not complete");
         }
-        foundUnkown = false;
+        foundUnknown = false;
     leftTransitions:
         for (leftTi = 0; leftTi < maxLeftTi; leftTi++) {
             leftRange = (Range) fa.get(leftSi).getInput(leftTi);
@@ -213,7 +213,7 @@ public class Minimizer {
                         } else if (tmp == NO) {
                             // do nothing
                         } else {
-                            foundUnkown = true;
+                            foundUnknown = true;
                             // distinct for (leftEndSi, rightEndSi) is
                             // not known. Set (leftSi, rightSi) on its list.
                             tmp.add(pair(leftSi, rightSi));
@@ -230,7 +230,7 @@ public class Minimizer {
             }
             throw new IllegalArgumentException("not a cdfa");
         }
-        if (!foundUnkown) {
+        if (!foundUnknown) {
             // all follow upstates are "NO"
             distinct[leftSi][rightSi] = NO;
         }
@@ -245,7 +245,7 @@ public class Minimizer {
         tmp = distinct[leftSi][rightSi];
         if (tmp != YES) {
             distinct[leftSi][rightSi] = YES;
-            if (tmp != UNKOWN) {
+            if (tmp != UNKNOWN) {
                 max = tmp.size();
                 for (i = 0; i < max; i++) {
                     pair = tmp.get(i);
@@ -260,7 +260,7 @@ public class Minimizer {
 
         if (leftSi > rightSi) {
             tmp = distinct[leftSi][rightSi];
-            if (tmp == UNKOWN) {
+            if (tmp == UNKNOWN) {
                 tmp = new IntArrayList();
                 distinct[leftSi][rightSi] = tmp;
             }
@@ -269,7 +269,7 @@ public class Minimizer {
             return NO;
         } else {
             tmp = distinct[rightSi][leftSi];
-            if (tmp == UNKOWN) {
+            if (tmp == UNKNOWN) {
                 tmp = new IntArrayList();
                 distinct[rightSi][leftSi] = tmp;
             }

@@ -19,7 +19,7 @@ public class Variable {
             val = new String("");
             break;
         default:
-            throw new RuntimeException("unkown type: " + type);
+            throw new RuntimeException("unknown type: " + type);
         }
     }
 

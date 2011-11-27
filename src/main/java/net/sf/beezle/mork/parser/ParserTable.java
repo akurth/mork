@@ -33,40 +33,40 @@ import net.sf.beezle.mork.misc.StringArrayList;
 
 public class ParserTable implements Serializable {
     private static final int ACTION_BITS = 2;
-    
+
     /** largest operand value possible */
     private static final int MAX_OPERAND = 0xbfff; // TODO: 0x3fff?
-    
+
     /** Bit mask to obtain kind of action. */
     private static final int MASK  = 0x0003;
-    
-    
+
+
     //-----------------------------------------------------------------------
     // 'program for the parser'
-    
+
     /** initial state for PDA */
     private final char startState;
-    
+
     private final int symbolCount;
-    
+
     /**
      * Values in the table. [state * symbolCount + symbol]. Each value
      * stores   operand << ACTION_BITS | action.
      */
     private final char[] values;
-    
+
     /** length of productions; [production] */
     private final int[] lengths;
-    
+
     /** left-hand-side of productions. */
     private final int[] lefts;
-    
+
     /** index by states. TODO: final  */
     private char[] modes;
-    
+
     //---------------------------------------------------------------------
     // object compilation
-    
+
     /**
      * Constructor for compiled object.
      */
@@ -80,42 +80,42 @@ public class ParserTable implements Serializable {
         this.lefts = lefts;
         this.modes = modes;
     }
-    
+
     public ParserTable(
             char startState, int symbolCount, int stateCount,
             String[] packedValues, int[] lengths, int[] lefts, char[] modes) {
         this(startState, symbolCount, new char[stateCount * symbolCount], lengths, lefts, modes);
         unpackValues(packedValues);
     }
-    
+
     public void setModes(char[] modes) {
         this.modes = modes;
     }
-    
+
     //-----------------------------------------------------------------------
     // table creation
-    
+
     public ParserTable(int startState, int stateCount, int symbolCount, Grammar grm, char[] modes) throws GenericException {
         int i;
         int max;
-        
+
         if (stateCount >= MAX_OPERAND) {
             throw new GenericException("too may states");
         }
         this.startState = (char) startState;
         this.symbolCount = symbolCount;
         this.modes = modes;
-        
+
         values = new char[stateCount * symbolCount];
         for (i = 0; i < values.length; i++) {
             values[i] = createValue(Parser.SPECIAL, Parser.SPECIAL_ERROR);
         }
-        
+
         max = grm.getSymbolCount();
         if (max >= MAX_OPERAND) {
             throw new GenericException("too may symbols");
         }
-        
+
         max = grm.getProductionCount();
         lengths = new int[max];
         lefts = new int[max];
@@ -124,15 +124,15 @@ public class ParserTable implements Serializable {
             lefts[i] = grm.getLeft(i);
         }
     }
-    
+
     //------------------------------------------------------------------
     // building the table
-    
+
     public void addWhitespace(IntBitSet whites, Conflicts conflicts) {
         int sym;
         int state;
         int stateCount;
-        
+
         stateCount = getStateCount();
         for (sym = whites.first(); sym != -1; sym = whites.next(sym)) {
             for (state = 0; state < stateCount; state++) {
@@ -140,21 +140,21 @@ public class ParserTable implements Serializable {
             }
         }
     }
-    
+
     public void addReduce(int state, int term, int prod, Conflicts conflicts) {
         setTested(createValue(Parser.REDUCE, prod), state, term, conflicts);
     }
-    
+
     /** @param  sym  may be a nonterminal */
     public void addShift(int state, int sym, int nextState, Conflicts conflicts) {
         setTested(createValue(Parser.SHIFT, nextState), state, sym, conflicts);
     }
-    
+
     public void addAccept(int state, int eof) {
         // value is assigned uncheck, overwrites shift on EOF
         values[state * symbolCount + eof] = createValue(Parser.SPECIAL, Parser.SPECIAL_ACCEPT);
     }
-    
+
     private void setTested(int value, int state, int sym, Conflicts conflicts) {
         if (values[state * symbolCount + sym] == createValue(Parser.SPECIAL, Parser.SPECIAL_ERROR)) {
             values[state * symbolCount + sym] = (char) value;
@@ -162,21 +162,21 @@ public class ParserTable implements Serializable {
             conflicts.add(state, sym, value, (int) values[state * symbolCount + sym]);
         }
     }
-    
+
     private char createValue(int action) {
         return createValue(action, 0);
     }
-    
+
     private char createValue(int action, int operand) {
         return (char) (action | operand << ACTION_BITS);
     }
-    
+
     //-------------------------------------------------------
     // create a representation to store the table effiziently
-    
+
     /** has to be a unique value, i.e. something not produced by createValue. */
     private static final int COUNT_MARK = Parser.SKIP + 4;
-    
+
     public String[] packValues() {
         StringBuilder difs;
         StringBuilder vals;
@@ -184,7 +184,7 @@ public class ParserTable implements Serializable {
         int prev;
         int count;
         int v;
-        
+
         difs = new StringBuilder();
         vals = new StringBuilder();
         prev = 0;
@@ -206,13 +206,13 @@ public class ParserTable implements Serializable {
         }
         return packValue(difs, vals);
     }
-    
+
     private static final int MAX_UTF8_LENGTH = 0xffff - 2 / 3;
-    
+
     public String[] packValue(StringBuilder difs, StringBuilder vals) {
         List<String> lst = new ArrayList<String>();
         String[] array;
-        
+
         if (difs.length() != vals.length()) {
             throw new IllegalArgumentException();
         }
@@ -223,18 +223,18 @@ public class ParserTable implements Serializable {
         lst.toArray(array);
         return array;
     }
-    
+
     private static void split(StringBuilder str, int chunkLength, List<String> result) {
         int i;
         int max;
-        
+
         max = str.length();
         for (i = 0; i < max; i += chunkLength) {
             result.add(str.substring(i, Math.min(max, i + chunkLength)));
         }
     }
-    
-    
+
+
     private void unpackValues(String[] packed) {
         int chunk;
         int chunkCount;
@@ -246,7 +246,7 @@ public class ParserTable implements Serializable {
         char ch;
         int end;
         boolean marked;
-        
+
         idx = 0;
         marked = false;
         // this method takes about 1/20 of the time to load
@@ -275,11 +275,11 @@ public class ParserTable implements Serializable {
             }
         }
     }
-    
+
     private int sameValues(int ofs) {
         char cmp;
         int i;
-        
+
         cmp = values[ofs];
         for (i = ofs + 1; i < values.length; i++) {
             if (values[i] != cmp) {
@@ -288,59 +288,59 @@ public class ParserTable implements Serializable {
         }
         return values.length - ofs;
     }
-    
+
     //------------------------------------------------------------------
-    
+
     public int getSymbolCount() {
         return symbolCount;
     }
-    
+
     public int getStateCount() {
         return values.length / symbolCount;
     }
-    
+
     public int getStartState() {
         return startState;
     }
-    
+
     public int getProductionCount() {
         return lefts.length; // same as "return lengths.length;"
     }
-    
+
     public int getLeft(int prod) {
         return lefts[prod];
     }
-    
+
     public int getLength(int prod) {
         return lengths[prod];
     }
-    
+
     //-------------------------------------------------------------------
     // using the table
-    
+
     public int getAction(int value) {
         return value & MASK;
     }
-    
+
     public int getOperand(int value) {
         return value >>> ACTION_BITS;
     }
-    
+
     public int lookup(int state, int symbol) {
         return values[state * symbolCount + symbol];
     }
-    
+
     public int lookupShift(int state, int production) {
         return values[state * symbolCount + lefts[production]] >>> ACTION_BITS;
     }
-    
+
     public char getMode(int state) {
         return modes[state];
     }
-    
+
     public void print() {
         int i;
-        
+
         for (i = 0; i < values.length; i++) {
             if (i % 30 == 0) {
                 System.out.println();
@@ -348,14 +348,14 @@ public class ParserTable implements Serializable {
             System.out.print(" " + (int) values[i]);
         }
     }
-    
+
     public IntBitSet getShifts(int state) {
         int i;
         int value;
         IntBitSet result;
         int symbolCount;
         int action;
-        
+
         symbolCount = getSymbolCount();
         result = new IntBitSet();
         for (i = 0; i < symbolCount; i++) {
@@ -367,32 +367,32 @@ public class ParserTable implements Serializable {
         }
         return result;
     }
-    
-    
+
+
     public int[] getLengths() {
         int[] result;
         int i;
-        
+
         result = new int[getProductionCount()];
         for (i = 0; i < result.length; i++) {
             result[i] = getLength(i);
         }
         return result;
     }
-    
+
     public int[] getLefts() {
         int[] result;
         int i;
-        
+
         result = new int[getProductionCount()];
         for (i = 0; i < result.length; i++) {
             result[i] = getLeft(i);
         }
         return result;
     }
-    
+
     //---------------------------------------------------------------
-    
+
     public String toString(StringArrayList symbolTable) {
         int symbol;
         int state;
@@ -400,7 +400,7 @@ public class ParserTable implements Serializable {
         int symbolCount;
         StringBuilder result;
         int value;
-        
+
         stateCount = getStateCount();
         symbolCount = getSymbolCount();
         result = new StringBuilder();
@@ -410,7 +410,7 @@ public class ParserTable implements Serializable {
             result.append('\t');
         }
         result.append("\n\n");
-        
+
         for (state = 0; state < stateCount; state++) {
             result.append(state);
             result.append('\t');
@@ -431,7 +431,7 @@ public class ParserTable implements Serializable {
                         }
                         break;
                     default:
-                        throw new RuntimeException("unkown action: " + getAction(value));
+                        throw new RuntimeException("unknown action: " + getAction(value));
                 }
             }
             result.append('\n');

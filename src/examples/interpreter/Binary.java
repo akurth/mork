@@ -55,7 +55,7 @@ public class Binary extends Expression {
         case STR:
             return calcString();
         default:
-            throw new RuntimeException("unkown type: " + type);
+            throw new RuntimeException("unknown type: " + type);
         }
     }
 
@@ -85,7 +85,7 @@ public class Binary extends Expression {
             cmp = left.evalString().compareTo(right.evalString());
             break;
         default:
-            throw new RuntimeException("unkown type: " + left.getType());
+            throw new RuntimeException("unknown type: " + left.getType());
         }
 
         switch (op) { // same for string and int
@@ -128,7 +128,7 @@ public class Binary extends Expression {
         case ADD:
             return left.evalString() + right.evalString();
         default:
-            throw new RuntimeException("evalString: unkown op: " + op);
+            throw new RuntimeException("evalString: unknown op: " + op);
         }
     }
 }

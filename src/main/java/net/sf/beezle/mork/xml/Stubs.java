@@ -62,7 +62,7 @@ public class Stubs {
         case PLUS:
             return new Loop(re);
         default:
-            throw new IllegalArgumentException("unkown op: " + op);
+            throw new IllegalArgumentException("unknown op: " + op);
         }
     }
 

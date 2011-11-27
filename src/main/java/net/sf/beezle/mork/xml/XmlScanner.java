@@ -335,7 +335,7 @@ public class XmlScanner implements Symbols, Scanner {
 
         element = symbolTable.indexOf(str);
         if (element == -1) {
-            throw new IllegalToken(pos, "unkown element: " + str);
+            throw new IllegalToken(pos, "unknown element: " + str);
         }
         return element;
     }
