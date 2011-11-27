@@ -38,10 +38,9 @@ import net.sf.beezle.mork.semantics.Node;
 import net.sf.beezle.mork.semantics.Oag;
 
 /**
- * Wraps a stream to add mapping functionality. Implements the
- * analyzing parts a compiler or any other text processing programm:
- * scanner, parser and attribution. Mappers don't store symbol tables
- * because they would only be necessary for visualization.
+ * Maps streams into Objects by scanning. Implements the analyzing parts a compiler or any other text processing
+ * program: scanner, parser and attribution. Mappers don't store symbol tables because they would only be necessary
+ * for visualization.
  *
  * Technically, a <code>Mapper</code> is a translated <code>Mapping</code>.
  */
