@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding='UTF-8'?>
 <book version="5.0" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
       xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0CR7/xsd/docbook.xsd"
-      id="faq"
-    >
+      xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0CR7/xsd/docbook.xsd">
   <bookinfo>
     <title>Mork</title>
     <subtitle>Compiler tool for Java</subtitle>
@@ -164,15 +162,15 @@
         <listitem><formalpara>
           <title>Mapper</title>
           <para>Applications use a mapper as a black box: they just run it on some input stream to get
-            their objects instantiated. This is like de-serializing objects from file with arbitrary syntax
+            their objects instantiated. This is like de-serializing objects from a file with arbitrary syntax
           </para></formalpara></listitem>
         <listitem><formalpara>
           <title>Mapping</title>
-          <para>An attribute is defined my simply associating symbols with constructors. A set of
+          <para>An attribute is defined by simply associating symbols with constructors. A set of
             attributes defines a mapper. </para></formalpara></listitem>
         <listitem><formalpara>
           <title>Visibility</title>
-          <para>Visibility declarations can be used to make attributes available to almost any location
+          <para>Visibility declarations can be used to make attributes available to almost any node
             in the syntax tree. </para></formalpara></listitem>
         <listitem><formalpara>
           <title>Scanner</title>
@@ -184,31 +182,24 @@
             rules: EBNF and more.</para></formalpara></listitem>
         <listitem><formalpara>
           <title>Attribution</title>
-          <para>Well-defined attribute grammars: Any number of synthesized and
-            inherited attributes.
-          </para></formalpara></listitem>
+          <para>Ordered attribute grammars.</para></formalpara></listitem>
         <listitem><formalpara>
           <title>No embedded code</title>
-          <para>Clean separation of syntax and semantics: syntax goes into
-            the specification file, semantics into Java files.
-          </para></formalpara></listitem>
+          <para>Clean separation of syntax and semantics: syntax goes into the specification file, semantics into Java
+            files.</para></formalpara></listitem>
         <listitem><formalpara>
           <title>True compiler</title>
-          <para>Mork generates class file, not Java code: no Java-compile step is needed.
-          </para></formalpara></listitem>
+          <para>Mork generates class file, not Java code: no Java-compile step is needed.</para></formalpara></listitem>
         <listitem><formalpara>
           <title>Class file package</title>
-          <para>To generate Java class files. Includes features like automatic
-            stack size computation.</para></formalpara></listitem>
+          <para>To generate Java class files. Includes features like automatic stack size computation.</para></formalpara></listitem>
         <listitem><formalpara>
           <title>Examples</title>
-          <para>Mork includes an interpreter example, a compiler example that
-            generates bytecode, and a Java parser example.
-          </para></formalpara></listitem>
+          <para>Mork includes an interpreter example, a compiler example that generates bytecode, and a Java 1.2 parser
+            example.</para></formalpara></listitem>
         <listitem><formalpara>
           <title>Positional error messages</title>
-          <para>Throwing an exception reports the current position and the
-            exception message.</para></formalpara></listitem>
+          <para>Throwing an exception reports the current position and the exception message.</para></formalpara></listitem>
       </itemizedlist>
     </sect1>
   </chapter>
