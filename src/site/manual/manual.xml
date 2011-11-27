@@ -132,7 +132,7 @@
         <title>Development</title>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="development.jpg" format="JPG"/>
+            <imagedata fileref="development.svg" format="SVG"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -616,7 +616,7 @@
         <title>Argument passing</title>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="passing.jpg" format="JPG"/>
+            <imagedata fileref="passing.svg" format="SVG"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -1472,7 +1472,7 @@
       <title>Mapping</title>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="mapping.jpg" format="JPG"/>
+          <imagedata fileref="mapping.svg" format="SVG"/>
         </imageobject>
       </mediaobject>
     </figure>
@@ -2783,7 +2783,7 @@
         <title>Architecture</title>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="library.jpg" format="JPG"/>
+            <imagedata fileref="library.svg" format="SVG"/>
           </imageobject>
         </mediaobject>
       </figure>
