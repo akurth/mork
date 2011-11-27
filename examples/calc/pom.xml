@@ -29,7 +29,6 @@
             <phase>process-classes</phase>
             <configuration>
               <target>
-                <property name="map" value="src/main/Mapper.map" />
                 <java fork="true" dir="${basedir}" classname="net.sf.beezle.mork.compiler.Main" failonerror="true">
                   <classpath>
                     <pathelement path="${basedir}/target/classes" />
@@ -37,8 +36,7 @@
                   </classpath>
                   <arg value="-d" />
                   <arg path="${basedir}/target/classes" />
-                  <arg value="-lst" />
-                  <arg line="${map}" />
+                  <arg path="${basedir}/src/main/Mapper.map" />
                 </java>
               </target>
             </configuration>
