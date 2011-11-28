@@ -8,6 +8,12 @@
         groupId to net.sf.beezle.mork.
       </action>
       <action dev="mhm" type="update">
+        Changed examples into self-contained Maven projects.
+      </action>
+      <action dev="mhm" type="update">
+        Manual updates.
+      </action>
+      <action dev="mhm" type="update">
         Update Sushi 2.2 to 2.6.1.
       </action>
     </release>

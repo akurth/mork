@@ -209,7 +209,9 @@
     <formalpara>
       <title>Prerequisites</title>
       <para>Mork needs Java 6 or higher. JRE is fine, you don't need the JDK.</para>
-      <para>To checkout and run the example, you need Subversion installed.</para>
+      <para>To checkout and run the example, you need <link xlink:href="http://maven.apache.org/">Maven 3</link>
+        and <link xlink:href="http://subversion.apache.org/">Subversion</link> installed. Note that the example
+        have no scripts for windows, you have to manually launch them.</para>
     </formalpara>
 
     <formalpara>
@@ -2311,23 +2313,37 @@
     </sect1>
 
     <sect1>
-      <title>Ant</title>
+      <title>Maven</title>
 
-      <para>You might want to use Jakarta Ant to build your application. Here is an
-        how to invoke Mork on the file <literal>foo/Mapper.map</literal>.</para>
+      <para>You'll usually use Maven to build your application. Here's the approriate
+        configuration to invoke Mork on the file <literal>src/main/Mapper.map</literal>.</para>
 
-      <programlisting>
-        <![CDATA[<target name="mork">
-<java classname="de.mlahrtme.mork.compiler.Main"
-      fork="yes"
-      failonerror="yes"
-      classpathref="classpath">
-  <arg value="-d"/>
-  <arg value="${build.classes}"/>
-  <arg value="foo/Mapper.map"/>
-</java>
-</target>
-]]></programlisting>
+      <programlisting><![CDATA[<plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.7</version>
+        <executions>
+          <execution>
+            <id>mork</id>
+            <phase>process-classes</phase>
+            <configuration>
+              <target>
+                <java fork="true" dir="${basedir}" classname="net.sf.beezle.mork.compiler.Main" failonerror="true">
+                  <classpath>
+                    <pathelement path="${basedir}/target/classes" />
+                    <path refid="maven.compile.classpath" />
+                  </classpath>
+                  <arg value="-d" />
+                  <arg path="${basedir}/target/classes" />
+                  <arg path="${basedir}/src/main/Mapper.map" />
+                </java>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>]]></programlisting>
     </sect1>
   </chapter>
 
