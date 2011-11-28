@@ -19,15 +19,15 @@
 
   <groupId>net.sf.beezle.mork</groupId>
   <artifactId>mork</artifactId>
-  <version>0.7</version>
+  <version>0.8-SNAPSHOT</version>
 
   <packaging>jar</packaging>
   <inceptionYear>1998</inceptionYear>
 
   <scm>
-    <connection>scm:svn:https://beezle.svn.sourceforge.net/svnroot/beezle/mork/tags/mork-0.7</connection>
-    <developerConnection>scm:svn:https://beezle.svn.sourceforge.net/svnroot/beezle/mork/tags/mork-0.7</developerConnection>
-    <url>http://beezle.svn.sourceforge.net/viewvc/beezle/mork/tags/mork-0.7</url>
+    <connection>scm:svn:https://beezle.svn.sourceforge.net/svnroot/beezle/mork/trunk</connection>
+    <developerConnection>scm:svn:https://beezle.svn.sourceforge.net/svnroot/beezle/mork/trunk</developerConnection>
+    <url>http://beezle.svn.sourceforge.net/viewvc/beezle/mork/trunk</url>
   </scm>
 
   <dependencies>
