@@ -154,7 +154,7 @@ public class GrammarScannerFactory implements ScannerFactory {
                     pc++;
 
                     if (state.getEnd(ti) == errorSi) {
-                        table[pc] = GrammarScanner.ERROR_PC;
+                        table[pc] = Scanner.ERROR_PC;
                     } else {
                         // this cast is safe because max pc was tested above
                         table[pc] = (char) ofs[state.getEnd(ti)];
@@ -175,7 +175,7 @@ public class GrammarScannerFactory implements ScannerFactory {
         State state;
 
         if (!fa.isEnd(si)) {
-            return GrammarScanner.NO_TERMINAL;
+            return Scanner.NO_TERMINAL;
         }
         state = fa.get(si);
         label = (Label) state.getLabel();
@@ -184,9 +184,9 @@ public class GrammarScannerFactory implements ScannerFactory {
         }
         endSymbol = label.getSymbol(modeSymbols);
         if (endSymbol == -1) {
-            return GrammarScanner.NO_TERMINAL;
+            return Scanner.NO_TERMINAL;
         }
-        if (endSymbol >= GrammarScanner.NO_TERMINAL) {
+        if (endSymbol >= Scanner.NO_TERMINAL) {
             throw new GenericException(SCANNER_TOO_BIG);
         }
         return (char) endSymbol;
@@ -202,7 +202,7 @@ public class GrammarScannerFactory implements ScannerFactory {
     }
 
     public Scanner newInstance(Position pos, Reader src) {
-        return new GrammarScanner(start, modeCount, table, pos, src);
+        return new Scanner(start, modeCount, table, pos, src);
     }
 
     public int size() {
