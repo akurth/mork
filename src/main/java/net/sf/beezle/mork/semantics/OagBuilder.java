@@ -50,13 +50,13 @@ public class OagBuilder {
 
     public static Visits[] run(Ag ag, Layout layout, boolean verbose) throws GenericException {
         OagBuilder builder;
-        Graph[] dp;
-        Graph[] idp;
-        Graph[] ids;
+        Graph<AttributeOccurrence>[] dp;
+        Graph<AttributeOccurrence>[] idp;
+        Graph<Attribute>[] ids;
         int i;
-        List[][] as;
+        List<Attribute>[][] as;
         StringArrayList symbolTable;
-        Graph[] ds;
+        Graph<Attribute>[] ds;
         Graph[] edp;
         Visits[] visits;
 
@@ -152,19 +152,19 @@ public class OagBuilder {
      * @return array indexed by productions where each Relation contains pairs of
      *         AttributeOccurrences.
      */
-    public Graph[] createDP() {
-        Graph[] dp;
+    public Graph<AttributeOccurrence>[] createDP() {
+        Graph<AttributeOccurrence>[] dp;
         int i;
         int max;
         AttributionBuffer ab;
 
         dp = new Graph[semantics.getGrammar().getProductionCount()];
         for (i = 0; i < dp.length; i++) {
-            dp[i] = new Graph();
+            dp[i] = new Graph<AttributeOccurrence>();
         }
         max = semantics.getSize();
         for (i = 0; i < max; i++) {
-            ab = (AttributionBuffer) semantics.get(i);
+            ab = semantics.get(i);
             addDP(dp[ab.production], ab);
         }
         return dp;
@@ -186,7 +186,7 @@ public class OagBuilder {
      *
      * @param dp dependency relation
      */
-    public Graph[] createIDP(Graph<AttributeOccurrence>[] dp) {
+    public Graph<AttributeOccurrence>[] createIDP(Graph<AttributeOccurrence>[] dp) {
         Graph<AttributeOccurrence>[] idp;
         Graph<AttributeOccurrence>[] idpClosure;
         boolean[] touched;
@@ -199,7 +199,7 @@ public class OagBuilder {
         boolean modified;
         AttributeOccurrence newLeft;
         AttributeOccurrence newRight;
-        EdgeIterator iter;
+        EdgeIterator<AttributeOccurrence> iter;
 
         idp = new Graph[dp.length];
         idpClosure = new Graph[dp.length];
@@ -220,8 +220,8 @@ public class OagBuilder {
                     touched[q] = false;
                     iter = idpClosure[q].edges();
                     while (iter.step()) {
-                        left = (AttributeOccurrence) iter.left();
-                        right = (AttributeOccurrence) iter.right();
+                        left = iter.left();
+                        right = iter.right();
                         if (left.sameSymbolOccurrence(right)) {
                             for (p = 0; p < idp.length; p++) {
                                 for (ofs = 0; ofs <= grammar.getLength(p); ofs++) {
@@ -251,7 +251,7 @@ public class OagBuilder {
      *
      * @return Array indexed by symbols; relation with pairs of attributes.
      */
-    public Graph[] createIDS(Graph<AttributeOccurrence>[] idp) {
+    public Graph<Attribute>[] createIDS(Graph<AttributeOccurrence>[] idp) {
         int p;
         int i;
         Graph<Attribute>[] ids;
@@ -279,12 +279,12 @@ public class OagBuilder {
     /**
      * Computes Axy. (Definition 4).
      */
-    public List[][] createA(Graph[] ids) throws GenericException {
+    public List<Attribute>[][] createA(Graph[] ids) throws GenericException {
         Set<Attribute> internal;
         Set<Attribute> synthesized;
         Set<Attribute> inherited;
         int i;
-        List[][] result;
+        List<Attribute>[][] result;
 
         internal = new HashSet<Attribute>();
         inherited = new HashSet<Attribute>();
@@ -304,9 +304,9 @@ public class OagBuilder {
     /**
      * Computes DS, the completion of IDS using A. (Definition 5).
      */
-    public Graph[] createDS(Graph[] ids, List[][] a) {
+    public Graph<Attribute>[] createDS(Graph<Attribute>[] ids, List<Attribute>[][] a) {
         int i;
-        Graph[] ds;
+        Graph<Attribute>[] ds;
 
         ds = new Graph[ids.length];
         for (i = 0; i < ds.length; i++) {
@@ -315,17 +315,17 @@ public class OagBuilder {
         return ds;
     }
 
-    private Graph createDSx(Graph ids, List[] a) {
-        Graph ds;
+    private Graph<Attribute> createDSx(Graph<Attribute> ids, List<Attribute>[] a) {
+        Graph<Attribute> ds;
         int i;
-        List leftList;
+        List<Attribute> leftList;
         int leftSize;
-        List rightList;
+        List<Attribute> rightList;
         int rightSize;
         int left;
         int right;
 
-        ds = new Graph();
+        ds = new Graph<Attribute>();
         ds.addGraph(ids);
         for (i = 1; i < a.length; i++) {
             leftList = a[i];
@@ -341,7 +341,7 @@ public class OagBuilder {
         return ds;
     }
 
-    public Graph[] createEDP(Graph[] dp, Graph[] ds) {
+    public Graph[] createEDP(Graph[] dp, Graph<Attribute>[] ds) {
         int i;
         Graph[] eds;
 

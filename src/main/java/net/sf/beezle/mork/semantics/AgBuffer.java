@@ -350,7 +350,7 @@ public class AgBuffer implements Compare {
     public Occurrence calcOccurrence(Attribute start) {
         Occurrence occ;
 
-        occ = calcOccurrence(new ArrayList(), start);
+        occ = calcOccurrence(new ArrayList<Attribute>(), start);
         if (occ == null) {
             throw new IllegalStateException();
         }

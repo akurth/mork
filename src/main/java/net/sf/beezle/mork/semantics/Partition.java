@@ -31,7 +31,7 @@ import java.util.Set;
  * Helper class for OagBuilder
  */
 public class Partition {
-    public static List[] createA(Set synthesized, Set inherited, Graph idsX) throws GenericException {
+    public static List<Attribute>[] createA(Set synthesized, Set inherited, Graph idsX) throws GenericException {
         Graph closure;
         List done;
         List partitions;
