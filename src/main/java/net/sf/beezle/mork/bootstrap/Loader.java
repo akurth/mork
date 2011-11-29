@@ -54,7 +54,7 @@ public class Loader {
         File absolute;
 
         absolute = absoluteFile(new File(mapperFile).getParentFile(), file);
-        return (Syntax) load("net.sf.beezle.mork.bootstrap.GrammarMapper", absolute.getPath());
+        return (Syntax) load("net.sf.beezle.mork.bootstrap.SyntaxMapper", absolute.getPath());
     }
 
     // returns null if an error has been reported

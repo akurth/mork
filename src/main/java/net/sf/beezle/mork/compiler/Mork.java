@@ -46,7 +46,7 @@ public class Mork {
     /**
      * Maps grammar files into Syntax objects.
      */
-    private final MorkMapper grammarMapper;
+    private final MorkMapper syntaxMapper;
 
     /**
      * Helper objects to generate class files.
@@ -61,7 +61,7 @@ public class Mork {
     public Mork(Output output, Function mapperFn) {
         this.output = output;
         this.mapperMapper = new MorkMapper(this, "net.sf.beezle.mork.compiler.MapperMapper", mapperFn);
-        this.grammarMapper = new MorkMapper(this, "net.sf.beezle.mork.compiler.GrammarMapper");
+        this.syntaxMapper = new MorkMapper(this, "net.sf.beezle.mork.compiler.SyntaxMapper");
         this.compiler = new MapperCompiler(output);
         this.currentJob = null;
     }
@@ -108,7 +108,7 @@ public class Mork {
     // load syntax
 
     public Syntax loadSyntax(String fileName) throws GenericException, IllegalLiteral {
-        return loadSyntax(fileName, grammarMapper);
+        return loadSyntax(fileName, syntaxMapper);
     }
 
     private Syntax loadSyntax(String fileName, MorkMapper mapper) throws GenericException, IllegalLiteral {

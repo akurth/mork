@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-mapper net.sf.beezle.mork.compiler.GrammarMapper;
+mapper net.sf.beezle.mork.compiler.SyntaxMapper;
 
 syntax = "Syntax.syntax";
 
