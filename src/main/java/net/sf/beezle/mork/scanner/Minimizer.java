@@ -150,7 +150,7 @@ public class Minimizer {
             maxTi = fa.get(faSi).size();
             for (ti = 0; ti < maxTi; ti++) {
                 result.get(resultSi).add(
-                    old2new[fa.get(faSi).getEnd(ti)], fa.get(faSi).getInput(ti));
+                    old2new[fa.get(faSi).getEnd(ti)], (Range) fa.get(faSi).getInput(ti));
             }
         }
 

@@ -19,10 +19,10 @@ package net.sf.beezle.mork.scanner;
 
 import net.sf.beezle.mork.regexpr.Range;
 import net.sf.beezle.sushi.util.IntBitSet;
+
 /**
  * State in a NFA. A state is a label and a sequence of transitions.
  */
-
 public class State {
     /* 0 would cause endless loops in ensureCapacity. */
     private static final int INITIAL_TRANSITIONS = 16;
@@ -40,7 +40,7 @@ public class State {
      * The user data is the input to consume when following the
      * transition, null is interpreted as epsilon transition.
      */
-    private Object[] inputs;
+    private Range[] inputs;
 
     //--------------------------------------------------------------
 
@@ -48,7 +48,7 @@ public class State {
         label = labelInit;
         used = 0;
         ends = new int[INITIAL_TRANSITIONS];
-        inputs = new Object[INITIAL_TRANSITIONS];
+        inputs = new Range[INITIAL_TRANSITIONS];
     }
 
     public State(State orig, int relocation) {
@@ -60,7 +60,7 @@ public class State {
         for (i = 0; i < used; i++) {
             ends[i] = orig.ends[i] + relocation;
         }
-        inputs = new Object[orig.inputs.length];
+        inputs = new Range[orig.inputs.length];
         System.arraycopy(orig.inputs, 0, inputs, 0, used);
     }
 
@@ -69,7 +69,7 @@ public class State {
     private void ensureCapacity(int idx) {
         int size;
         int[] grownEnds;
-        Object[] grownInputs;
+        Range[] grownInputs;
 
         if (idx >= inputs.length) {
             size = inputs.length; // same as ends.length
@@ -86,7 +86,7 @@ public class State {
             System.arraycopy(ends, 0, grownEnds, 0, used);
             ends = grownEnds;
 
-            grownInputs = new Object[size];
+            grownInputs = new Range[size];
             System.arraycopy(inputs, 0, grownInputs, 0, used);
             inputs = grownInputs;
         }
@@ -125,10 +125,10 @@ public class State {
         for (ofs = 0; ofs < result.length; ofs++) {
             ti = tis.first();
             minTi = ti;
-            minRangeFirst = ((Range) getInput(ti)).getFirst();
+            minRangeFirst = getInput(ti).getFirst();
             ti = tis.next(ti);
             while (ti != -1) {
-                range = (Range) getInput(ti);
+                range = getInput(ti);
                 cmp = range.getFirst();
                 if (cmp < minRangeFirst) {
                     minRangeFirst = cmp;
@@ -150,7 +150,7 @@ public class State {
         return used;
     }
 
-    public int add(int state, Object input) {
+    public int add(int state, Range input) {
         ensureCapacity(used);
         ends[used] = state;
         inputs[used] = input;
@@ -162,7 +162,7 @@ public class State {
         return ends[transition];
     }
 
-    public Object getInput(int transition) {
+    public Range getInput(int transition) {
         checkTransition(transition);
         return inputs[transition];
     }
