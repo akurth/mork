@@ -130,11 +130,11 @@ public class Argument implements Compare {
         int i;
         int max;
         Argument arg;
-        List<Argument> sort;
+        List<Object> sort;
 
         max = args.size();
         seq = new ArrayList<Argument>();
-        sort = new ArrayList<Argument>();
+        sort = new ArrayList<Object>();
         for (i = 0; i < max; i++) {
             arg = args.get(i);
             if (arg.modifier == Path.MERGEABLE) {

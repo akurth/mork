@@ -61,9 +61,9 @@ public class Jsr implements Bytecodes {
         IntBitSet reached;
         int idx;
         Instruction instr;
-        List<?> empty;
+        List<Jsr> empty;
 
-        empty = new ArrayList<Object>();
+        empty = new ArrayList<Jsr>();
         todo = new IntBitSet();
         todo.add(start);
         reached = new IntBitSet();

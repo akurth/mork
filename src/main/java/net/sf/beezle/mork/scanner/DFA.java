@@ -49,7 +49,7 @@ public class DFA {
 
         Object tmp;
         int i, rangeCount;
-        List ranges;
+        List<Object> ranges;
         Range small, large;
 
         epsilonClosures = nfa.epsilonClosures();
@@ -69,7 +69,7 @@ public class DFA {
 
             // collect all possible transitions;
             // mark end states
-            ranges = new ArrayList();
+            ranges = new ArrayList<Object>();
             for (nfaIdx = closure.first(); nfaIdx != -1;
                  nfaIdx = closure.next(nfaIdx)) {
 

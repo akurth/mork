@@ -440,7 +440,7 @@ public class Code extends Attribute implements Constants {
         int tmp;
         int unreachable;
         IntBitSet todo;
-        List<?> jsrs;
+        List<Jsr> jsrs;
 
         jsrs = Jsr.findJsrs(this);
         startStack = new int[instructions.size()];
@@ -480,7 +480,7 @@ public class Code extends Attribute implements Constants {
         return result;
     }
 
-    private void fillStack(List<?> jsrs, IntBitSet todo, int[] startStack) {
+    private void fillStack(List<Jsr> jsrs, IntBitSet todo, int[] startStack) {
         int succSize;
         Instruction instr;
         int idx;

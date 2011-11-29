@@ -69,7 +69,7 @@ public class Expander extends Action {
 
     @Override
     public Object symbol(int symbol) {
-        List lst;
+        List<RegExpr> lst;
         int i;
         int max;
         RegExpr re;
@@ -81,7 +81,7 @@ public class Expander extends Action {
         }
         used.add(symbol);
 
-        lst = new ArrayList();
+        lst = new ArrayList<RegExpr>();
         for (i = 0; i < rules.length; i++) {
             if (rules[i].getLeft() == symbol) {
                 lst.add(rules[i].getRight());

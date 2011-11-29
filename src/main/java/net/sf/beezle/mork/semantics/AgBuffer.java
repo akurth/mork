@@ -268,7 +268,7 @@ public class AgBuffer implements Compare {
      * Never returns ALT.
      */
     private int localCompare(
-        Attribute left, Attribute right, AgBuffer rightSemantics, List nextLefts, List nextRights)
+        Attribute left, Attribute right, AgBuffer rightSemantics, List<Attribute> nextLefts, List<Attribute> nextRights)
     {
         State leftState;
         State rightState;
@@ -412,12 +412,12 @@ public class AgBuffer implements Compare {
     public Attribute createSequence(Attribute start, int seq, AgBuffer result) {
         Attribute attr;
 
-        attr = createSequence(start, seq, new ArrayList(), new ArrayList(), result);
+        attr = createSequence(start, seq, new ArrayList<State>(), new ArrayList<State>(), result);
         return attr;
     }
 
     private Attribute createSequence(
-        Attribute attr, int seq, List origStack, List clonedStack, AgBuffer result)
+        Attribute attr, int seq, List<State> origStack, List<State> clonedStack, AgBuffer result)
     {
         State orig;
         State clone;

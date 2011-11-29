@@ -35,10 +35,10 @@ public abstract class CompareBase extends TestCase implements Compare {
         attr = new Attribute(0, "dummy", new Type(String.class));
     }
 
-    public List attrs(int n) {
-        List l;
+    public List<Attribute> attrs(int n) {
+        List<Attribute> l;
 
-        l = new ArrayList();
+        l = new ArrayList<Attribute>();
         for (; n > 0; n--) {
             l.add(attr);
         }

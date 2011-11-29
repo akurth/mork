@@ -216,7 +216,7 @@ public class ArgumentTest extends CompareBase {
         sems = new AgBuffer((Attribute) null);
         attr = CopyBufferCompareTest.addTransport(sems, attrName, attrs, grammar);
         sems.setStart(attr);
-        arg = new Argument(Path.MERGEABLE, sems, new ArrayList()); // TODO: no sources
+        arg = new Argument(Path.MERGEABLE, sems, new ArrayList<Definition>()); // TODO: no sources
         args.add(arg);
         while (expected.size() <= expectedPos) {
             expected.add(new ArrayList());

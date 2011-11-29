@@ -53,15 +53,15 @@ public class Choice extends RegExpr {
     }
 
     public static Choice createNot(RegExpr expr) {
-        List ranges, result;
+        List<RegExpr> ranges, result;
         int i, max;
         RegExpr[] args;
 
-        ranges = new ArrayList();
+        ranges = new ArrayList<RegExpr>();
         if (!getRanges(expr, ranges)) {
             throw new IllegalArgumentException();
         }
-        result = new ArrayList();
+        result = new ArrayList<RegExpr>();
         result.add(Range.ALL);
         max = ranges.size();
         for (i = 0; i < max; i++) {

@@ -28,12 +28,12 @@ import java.util.List;
 public class InnerClasses extends Attribute {
     public static final String NAME = "InnerClasses";
 
-    public final List infos;
+    public final List<InnerClassesInfo> infos;
 
     public InnerClasses() {
         super(NAME);
 
-        infos = new ArrayList();
+        infos = new ArrayList<InnerClassesInfo>();
     }
 
     public InnerClasses(Input src) throws IOException {

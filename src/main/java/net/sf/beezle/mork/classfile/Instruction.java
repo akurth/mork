@@ -78,7 +78,7 @@ public class Instruction implements Constants {
     /**
      * @param code used to resolve labels
      */
-    public void getSuccessors(List jsrs, int idx, Code code, IntCollection result) {
+    public void getSuccessors(List<Jsr> jsrs, int idx, Code code, IntCollection result) {
         int i;
         IntArrayList tmp;
         int max;

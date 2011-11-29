@@ -188,7 +188,7 @@ public class Mapper implements Serializable {
 
     public Object[] run(File file) {
         try {
-            return run(file.toURL(), new FileReader(file));
+            return run(file.toURI().toURL(), new FileReader(file));
         } catch (MalformedURLException e) {
             System.err.println("malformed file name: " + file);
             return null;

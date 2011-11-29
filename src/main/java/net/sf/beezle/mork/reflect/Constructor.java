@@ -58,10 +58,10 @@ public class Constructor extends Function implements Bytecodes {
     public static Selection forClass(Class cl) {
         java.lang.reflect.Constructor[] constrs;
         int i;
-        List lst;
+        List<Function> lst;
         Function fn;
 
-        lst = new ArrayList();
+        lst = new ArrayList<Function>();
         constrs = cl.getConstructors();
         for (i = 0; i < constrs.length; i++) {
             fn = create(constrs[i]);

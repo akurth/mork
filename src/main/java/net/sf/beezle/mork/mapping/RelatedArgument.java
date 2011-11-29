@@ -32,7 +32,7 @@ public class RelatedArgument implements Compare {
      * @param args   normal argument, not related arguments
      * @return List of List of Arguments.
      */
-    public static List sort(List args) {
+    public static List<Object> sort(List<Object> args) {
         int i;
         int max;
         List result;  // List of Arguments
