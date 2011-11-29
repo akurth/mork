@@ -71,7 +71,7 @@ public class GrammarScanner implements Scanner {
         return src.createString();
     }
 
-    public int eat(int mode) throws IOException {
+    public int next(int mode) throws IOException {
         int pc;        // idx in data
         int c;
         int tmp;

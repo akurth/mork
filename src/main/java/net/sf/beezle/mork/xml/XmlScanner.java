@@ -98,7 +98,7 @@ public class XmlScanner implements Symbols, Scanner {
 
     private static final String EMPTY = "";
 
-    public int eat(int mode) throws IOException, IllegalToken {
+    public int next(int mode) throws IOException, IllegalToken {
         int element;
         int tmp;
         String current;

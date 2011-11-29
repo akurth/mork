@@ -92,7 +92,7 @@ public class DtdScanner implements Scanner, Symbols {
         return eofSymbol;
     }
 
-    public int eat(int mode) throws IOException, IllegalToken {
+    public int next(int mode) throws IOException, IllegalToken {
         int result;
 
         if (buffer.isEof()) {

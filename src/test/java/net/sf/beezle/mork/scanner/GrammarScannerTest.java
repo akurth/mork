@@ -147,7 +147,7 @@ public class GrammarScannerTest extends TestCase {
     private void scan(String what, int terminal, String text) throws IOException {
         int currentTerminal;
 
-        currentTerminal = scanner.eat(0);
+        currentTerminal = scanner.next(0);
         assertEquals("terminal " + what, terminal, currentTerminal);
         if (text != null) {
             assertEquals("text " + what, text, scanner.getText());

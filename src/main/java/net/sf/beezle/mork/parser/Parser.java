@@ -97,7 +97,7 @@ public class Parser {
                 state = table.getStartState();
                 push(state, null);      // this state is never poped; thus, null is ok:
                 while (true) {
-                    terminal = scanner.eat(table.getMode(state));
+                    terminal = scanner.next(table.getMode(state));
                     if (terminal == -1) {
                         pos = new Position();
                         scanner.getPosition(pos);

@@ -86,7 +86,7 @@ public class PEScanner implements Symbols, Scanner {
     //----------------------------------------------------------------------
 
     /** never returns PE_REFERENCE. */
-    public int eat(int mode) throws IOException {
+    public int next(int mode) throws IOException {
         int terminal;
         String name;
         Object replacement;
@@ -118,10 +118,10 @@ public class PEScanner implements Symbols, Scanner {
     private int doEat(int mode) throws IOException {
         if (everywhere) {
             // TODO: find conflicting terminals and correct them if necessary
-            return scanner.eat(mode);
+            return scanner.next(mode);
         } else {
             // TODO: doEat might return PE_REFENRECE resulting from error correction
-            return scanner.eat(mode);
+            return scanner.next(mode);
         }
     }
 
