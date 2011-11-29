@@ -160,19 +160,19 @@ public class Attribution implements Serializable {
         buf.append('\t');
         buf.append("" + function);
         buf.append("\n\t\t");
-        buf.append(toStringRef(resultOfs, resultAttr, symTab, grm));
+        buf.append(toStringRef(resultOfs, resultAttr));
         buf.append("\t<- ");
         for (i = 0; i < argsOfs.length; i++) {
             if (i > 0) {
                 buf.append(", ");
             }
-            buf.append(toStringRef(argsOfs[i], argsAttr[i], symTab, grm));
+            buf.append(toStringRef(argsOfs[i], argsAttr[i]));
         }
         buf.append('\n');
         return buf.toString();
     }
 
-    private static String toStringRef(int ofs, int attr, StringArrayList symTab, Grammar grm) {
+    private static String toStringRef(int ofs, int attr) {
         return "($" + (ofs + 1) + ")." + attr;
     }
 }

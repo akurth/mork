@@ -270,7 +270,7 @@ public class State implements Compare {
         return EQ;
     }
 
-    public State cloneAttributeTransport(Map<Attribute, Attribute> map, AgBuffer orig) {
+    public State cloneAttributeTransport(Map<Attribute, Attribute> map) {
         int i;
         int max;
         Alternative replacement;

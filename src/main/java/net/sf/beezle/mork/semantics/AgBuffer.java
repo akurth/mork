@@ -326,7 +326,7 @@ public class AgBuffer implements Compare {
             map.put(attr, new Attribute(attr.symbol, null, type));
         }
         for (State state : orig.states) {
-            newState = state.cloneAttributeTransport(map, orig);
+            newState = state.cloneAttributeTransport(map);
             states.add(newState);
         }
         attr = map.get(seed);

@@ -185,17 +185,17 @@ public class OagTest extends TestCase {
     public static List declareAttributes(Grammar grm, String[][][] allCalls) {
         int p;
         int i;
-        List attrs;
+        List<Attribute> attrs;
         Object[] tmp;
         int symbol;
         String name;
 
         tmp = new Object[3];
-        attrs = new ArrayList();
+        attrs = new ArrayList<Attribute>();
         for (p = 0; p < allCalls.length; p++) {
             for (i = 0; i < allCalls[p].length; i++) {
                 getRawOccurrence(grm, allCalls[p][i][0], p, tmp);
-                symbol = ((Integer) tmp[0]).intValue();
+                symbol = (Integer) tmp[0];
                 name = (String) tmp[2];
                 if (Attribute.find(attrs, symbol, name) == null) {
                     attrs.add(new Attribute(symbol, name));
@@ -205,17 +205,17 @@ public class OagTest extends TestCase {
         return attrs;
     }
 
-    public static AttributeOccurrence getOccurrence(List attrs, Grammar grm, String occurrence, int prod) {
+    public static AttributeOccurrence getOccurrence(List<Attribute> attrs, Grammar grm, String occurrence, int prod) {
         Object[] tmp;
         Attribute attr;
 
         tmp = new Object[3];
         getRawOccurrence(grm, occurrence, prod, tmp);
-        attr = Attribute.find(attrs, ((Integer) tmp[0]).intValue(), (String) tmp[2]);
+        attr = Attribute.find(attrs, (Integer) tmp[0], (String) tmp[2]);
         if (attr == null) {
             throw new IllegalArgumentException("undefined attribute occurrence: " + occurrence);
         }
-        return new AttributeOccurrence(attr, ((Integer) tmp[1]).intValue());
+        return new AttributeOccurrence(attr, (Integer) tmp[1]);
     }
 
     /**
@@ -251,8 +251,8 @@ public class OagTest extends TestCase {
             throw new IllegalArgumentException("undefined symbol: " + symbolName);
         }
         occ = getSymbolOccurrence(grm, prod, symbol, no - 1);
-        result[0] = new Integer(symbol);
-        result[1] = new Integer(occ);
+        result[0] = symbol;
+        result[1] = occ;
         result[2] = occurrence.substring(dot + 1);
     }
 

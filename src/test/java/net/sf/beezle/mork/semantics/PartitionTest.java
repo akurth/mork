@@ -31,23 +31,22 @@ public class PartitionTest extends TestCase {
     private static final String B = "B";
     private static final String C = "C";
     private static final String D = "D";
-    private static final String E = "E";
 
-    private List left;
-    private List right;
-    private Set inherited;
-    private Set synthesized;
-    private Graph relation;
+    private List<String> left;
+    private List<String> right;
+    private Set<String> inherited;
+    private Set<String> synthesized;
+    private Graph<String> relation;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
 
-        left = new ArrayList();
-        right = new ArrayList();
-        inherited = new HashSet();
-        synthesized = new HashSet();
-        relation = new Graph();
+        left = new ArrayList<String>();
+        right = new ArrayList<String>();
+        inherited = new HashSet<String>();
+        synthesized = new HashSet<String>();
+        relation = new Graph<String>();
     }
 
     //--- disconnected

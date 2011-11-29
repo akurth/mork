@@ -80,14 +80,14 @@ public class OagBuilder {
                 System.out.println(symbolTable.get(i) + ":");
                 System.out.println(" ids\t" + as(symbolTable, ids[i]));
                 System.out.println(" as\t");
-                print(symbolTable, as[i]);
+                print(as[i]);
                 System.out.println(" ds\t" + as(symbolTable, ds[i]));
             }
         }
         return visits;
     }
 
-    private static void print(StringArrayList symbolTable, List[] as) {
+    private static void print(List[] as) {
         int i;
         int j;
         int max;
