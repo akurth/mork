@@ -61,7 +61,6 @@
             <excludes>
               <exclude>**/MainFunctionalTest.java</exclude>
               <exclude>**/PartitionTest.java</exclude>
-              <exclude>**/XmlScannerTest.java</exclude>
             </excludes>
           </configuration>
         </plugin>
@@ -95,7 +94,7 @@
                 </java>
                 <echo>Bootstrap Pass 2</echo>
                 <fileset id="mapper.bs2" dir="${basedir}">
-                  <include name="src/main/java/**/compiler/*.map" />
+                  <include name="src/main/*.map" />
                 </fileset>
                 <pathconvert property="mapper.bs2" refid="mapper.bs2" pathsep=" " />
                 <java fork="true" dir="${basedir}" classname="net.sf.beezle.mork.compiler.Main" failonerror="true">
@@ -113,8 +112,7 @@
                 </java>
                 <echo>Bootstrap Pass 3</echo>
                 <fileset id="mapper.bs3" dir="${basedir}">
-                  <include name="src/main/java/**/*.map" />
-                  <exclude name="src/main/java/**/bootstrap/*.map" />
+                  <include name="src/main/*.map" />
                 </fileset>
                 <pathconvert property="mapper.bs3" refid="mapper.bs3" pathsep=" " />
                 <java fork="true" dir="${basedir}" classname="net.sf.beezle.mork.compiler.Main" failonerror="true">

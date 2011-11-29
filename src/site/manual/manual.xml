@@ -45,9 +45,8 @@
       <formalpara>
         <title>Status</title>
         <para>Mork is developed in my spare time. I consider Mork as beta code.
-          It has been tested for Mork itself (Mork is bootstrapped) and the example
-          applications - and nothing else. The syntax grammar part is stable. The
-          mapping part slowly matures. The XML syntax part is unstable. </para></formalpara>
+          It has been tested for Mork itself (Mork is bootstrapped) and the example applications -
+          and nothing else. The syntax part is stable. The mapping part slowly matures. </para></formalpara>
 
       <formalpara>
         <title>Conventions</title>
@@ -324,7 +323,7 @@
         <title>Source files</title>
         <programlisting>
           pom.xml
-          src/main/command.grm
+          src/main/Command.syntax
           src/main/Mapper.map
           src/main/java/Command.java
           src/main/java/Console.java
@@ -340,8 +339,8 @@
         </programlisting>
       </figure>
 
-      <para>Besides Java files, the source directory contains a grammar file
-        <literal>command.grm</literal> and a mapper file <literal>Mapper.map</literal>. The grammar file
+      <para>Besides Java files, the source directory contains a syntax file
+        <literal>command.grm</literal> and a mapper file <literal>Mapper.map</literal>. The syntax file
         defines the syntax of command files and the mapper file defines how to map a command files into an
         instance of <literal>command.Command</literal>.</para>
     </sect1>
@@ -385,11 +384,11 @@
     </sect1>
 
     <sect1>
-      <title>Grammar files</title>
+      <title>Syntax files</title>
 
       <formalpara>
-        <title>Grammar files</title>
-        <para><literal>command.grm</literal> defines the syntax of command files. A grammar file has a
+        <title>Syntax files</title>
+        <para><literal>command.grm</literal> defines the syntax of command files. A syntax file has a
           scanner section and a parser section.</para></formalpara>
 
       <figure>
@@ -428,7 +427,7 @@
         <title>Mapper files</title>
         <para><literal>Mapper.map</literal> defines how to turn command files into instances of
           <literal>command.Command</literal>. Running the mapper reads a command file, checks for
-          the appropriate syntax (defined in the grammar file) and maps the file into an instance of
+          the appropriate syntax (defined in the syntax file) and maps the file into an instance of
           <literal>command.Command</literal></para></formalpara>
 
       <figure>
@@ -811,9 +810,9 @@
           <para>This is probably the most challenging way to continue. In particular, visibility
             declarations are more difficult than you might expect from looking at examples that run out of
             the box. In addition, the documentation in the remaining chapters is still incomplete. In general,
-            I suggest starting new applications with a small grammar and just few classes you map to. If the
-            small mapper work, continue by adding a single class and growing the grammar/mapping accordingly.
-            Caution: if you first develop the complete grammar, then implement all your classes and then try
+            I suggest starting new applications with a small syntax and just few classes you map to. If the
+            small mapper work, continue by adding a single class and growing the syntax/mapping accordingly.
+            Caution: if you first develop the complete syntax, then implement all your classes and then try
             to define a mapping, its much more difficult to solve visibility problems.
           </para>
         </formalpara></listitem>
@@ -829,547 +828,432 @@
   <chapter>
     <title>Syntax files</title>
 
-    <formalpara><title>Syntax files</title>
+    <formalpara><title>About</title>
       <para>This chapter is about syntax files. A syntax file defines the structure of
-        an input stream. Mork reads syntax files when processing a mapper file. Mork supports
-        two types of syntax: grammar syntax and XML syntax. Grammar syntax is based on
-        context-free syntax, it allows to define the syntax of most programming languages.
-        XML syntax is more restricted, it allows to define the syntax of XML files only.
-        Examples: Java has a grammar syntax, whereas DocBook has an XML syntax.
+        an input stream. Mork reads syntax files when processing a mapper file. The syntax
+        is defined by a list of BNF-style rules. The list of rules is divided into a parser
+        section defining a pushdown automaton and a scanner section defining a finite
+        automaton.</para></formalpara>
+
+    <formalpara>
+      <title>Naming convention</title>
+      <para>My naming convention for syntax files is as follows. The base name of
+        a syntax file is the name of the language specified in the file, capitalized
+        like Java class names. The file name extension is <literal>.syntax</literal>.
+        Examples: <literal>Java.syntax</literal> for a Java syntax.
       </para></formalpara>
 
-    <para>When writing applications, you have to choose between grammar syntax or XML syntax.
-      Here are some pros and cons for using XML syntax:
-      <itemizedlist>
-        <listitem><para>Pro: XML syntax is easy to learn or grasp from examples.
-        </para></listitem>
-        <listitem><para>Pro: It easy for applications to read you file because
-          the appropriate XML tools are quite common.</para></listitem>
-        <listitem><para>Cons: XML is verbose and thus hard to read and write.
-          This is not a problems for simple configuration file. But the
-          more complex the XML file is, the harder it is to work with them.
-          If you want humans to use XML files without special XML editors, your syntax should
-          not be more complex than Apache Ant files (<literal>build.xml</literal>).
-          If you want to see examples for more complex syntax, have a look
-          XML stylesheets (XSL files) XML schema definitions (XSD files). In my
-          opinion, these files form a bad examples, they are too verbose
-          (and they even use "embedded" syntax for paths).
-        </para></listitem>
-      </itemizedlist>
-    </para>
+    <sect1>
+      <title>Overall structure</title>
+
+      <figure>
+        <title>Overall structure</title>
+        <programlisting>
+          Syntax              ::= Parser Scanner ;
+          Parser              ::= "[" "PARSER" "]" Rule+ ;
+          Scanner             ::= "[" "SCANNER" "]" Priorities WhiteOpt Rule* ;
+          Priorities          ::= UsePriorities | NoPriorities;
+          UsePriorities       ::= ;
+          NoPriorities        ::= "nopriorities;";
+          WhiteOpt            ::= ("white" "=" SymbolSet ";")? ;
+          SymbolSet           ::= ( Symbol ("," Symbol)* )? ;
+        </programlisting>
+      </figure>
+
+      <para>Start symbol of a syntax file is <literal>Syntax</literal>.</para>
+
+      <formalpara>
+        <title>Sections</title>
+        <para>A syntax file is divided into a parser section and a scanner
+          section. Sections have a header and a body. Headers adjusts global options
+          that apply to the whole body. The body is comprised of a set of rules. The rules within
+          both sections should proceed from large element to small elements, i.e. the
+          start symbol should be specified first, and terminal symbols should be
+          specified last. For that reason, the parser section precedes the scanner
+          section. </para></formalpara>
+
+      <formalpara>
+        <title>Parser section</title>
+        <para>The parser section defines the context-free structure of the input
+          stream. The section header identifies that parser section, no other options
+          are given. The section body specifies a list of rules, each of them comprised
+          of a symbol and a regular expression. These rules define the context-free
+          grammar that parses the input stream. The symbol of the first rule is the
+          start symbol of the grammar. </para></formalpara>
+
+      <formalpara>
+        <title>Scanner section</title>
+        <para>The scanner section defines the regular structure of the input
+          stream. The section header specifies white symbols, i.e. terminal symbols
+          to be removed from the input stream; these symbols are never returned to
+          the parser. Typical examples for white symbols are white space and comments.
+          The section body is comprised of a list of rules, each of them comprised of
+          a symbol and a regular expression.</para></formalpara>
+
+      <formalpara>
+        <title>Priorities</title>
+        <para>Specifies how to resolve conflicts between two terminals that match
+          the same input. A typical example is a keyword like <literal>begin</literal> and an
+          <literal>identifier</literal> terminal that also matches the input <literal>begin</literal>.
+          Traditionally, scanner generators use priorities to resolve this conflict: if the input
+          <literal>begin</literal> is found, the terminal defined first will be matched. This behavior
+          is useful for programming languages like Java where a keyword is not a valid identifier:
+          just define the keywords before the identifier and you scanner will never match an identifier
+          if there is also a keyword for the respective input.</para></formalpara>
+
+      <formalpara>
+        <title>No Priorities</title>
+        <para>Specify <literal>nopriorities</literal> if you don't want to resolve scanner
+          conflicts based on their priority. In this case, Mork will try to resolve the conflict
+          by choosing appropriate scanner modes. Example: in XML, the <literal>Name</literal>
+          terminal conflicts with the <literal>Nmtoken</literal>. This conflict must not be solved
+          by priorities because the scanner needs to match both terminals. Mork ensures that
+          no parser state can shift both terminals and adds both terminals to different scanner modes.
+          The generated parser automatically switches it's scanner into the mode that matches all
+          terminals currently shiftable.</para></formalpara>
+    </sect1>
 
 
     <sect1>
-      <title>Grammar syntax</title>
+      <title>Symbols</title>
 
-      <para>Grammar syntax is defined by a list of BNF-style rules. The list of rules is divided
-        into a parser section defining a pushdown automaton and a scanner section defining a finite
-        automaton. Grammar syntax is defined by grammar files.</para>
+      <para>The syntax of input streams is defined in terms of symbols. Any symbol
+        has a language which is defined by the parser and scanner section. A language
+        is a set of strings. The set might be empty, it might include the empty
+        string, and in may cases, the set in infinite. A symbol is said to match the
+        current input, if the current input starts with an element of its language. Otherwise,
+        the symbol does not match. Example: a symbol  <literal>Integer</literal> typically
+        matches <literal>57...</literal>, but not <literal>xyz...</literal>. </para>
+
+      <figure>
+        <title>Symbols</title>
+        <programlisting>
+          Symbol              ::= StringSymbol | IdentifierSymbol ;
+          StringSymbol        ::= StringLiteral ;
+          IdentifierSymbol    ::= Identifier ;
+          Rule                ::= Subject "::=" RegExpr ";" ;
+          Subject             ::= Symbol ;
+        </programlisting>
+      </figure>
 
       <formalpara>
-        <title>Naming convention</title>
-        <para>My naming convention for grammar files is as follows. The base name of
-          a grammar files is the name of the language specified in the file. The first
-          letter is lower case because that's consistent with dtd files and I prefer
-          lowercase names (even though this conflicts with Java's naming convention
-          for class names). The file name extension is <literal>.grm</literal> (all
-          lower case on every platform). Examples: <literal>java.grm</literal> for a Java
-          syntax. <literal>config.grm</literal> for the syntax of configuration files.
+        <title>Symbols</title>
+        <para>A symbol is a string symbol or an identifier symbol. The language of a
+          string symbol is defined implicitly by its string, whereas the language of
+          an identifier symbol is defined explicitly by one or more regular expressions.
+          Symbols are case-sensitive.</para></formalpara>
+
+      <formalpara>
+        <title>String symbol</title>
+        <para>A string symbol is specified like a Java string literal. The language of a
+          string symbol is the string itself. For example, a string symbol <literal>"foo"</literal>
+          matches the string <literal>foo</literal>, nothing else. String symbols may contain all
+          escapes known from Java. It is an error to use different escapes to denote the same string.
+          For examples, Mork issues an error if you use both <literal>"foo\n"</literal>
+          and <literal>"foo\x0a"</literal> in a syntax file.</para></formalpara>
+
+      <formalpara>
+        <title>Identifier symbols</title>
+        <para>An identifier symbol is specified like a Java identifier. For any
+          identifier symbol used in the parser section, the must be at least one
+          rule. Let <literal>A ::= w1; A ::= w2; .. A ::= wn;</literal> be the set of all rules
+          with subject <literal>A</literal>. The language of <literal>A</literal> is defined by
+          the regular expression <literal>(w1) | (w2) ... | (wn)</literal>. </para></formalpara>
+
+      <formalpara>
+        <title>Rules</title>
+        <para>Rules define identifier symbols. The symbol on the left side of a
+          rule is called the subject of the rule. The subject must be an identifier
+          symbol. Regular expression in the parser may refer to any symbol, include
+          those defined later in the parser section and to symbols defined in the
+          scanner section. Regular expressions in the scanner section may not refer
+          to symbols in the parser section; they may refer to symbols in the scanner
+          section as long as not recursion is introduced. The same subject may be defined
+          by multiple rules, but all rules must be specified in the same section.
         </para></formalpara>
 
-      <sect2>
-        <title>Overall structure</title>
+      <formalpara>
+        <title>Inline symbols</title>
+        <para>A symbol defined in the scanner section and not referred from the parser section
+          is called an inline symbol. Inline symbols are used to simplify rules in the scanner section
+          (by factoring out common parts), they are not considered terminals. As a consequence, inline
+          symbols cannot be have attributes.
+        </para></formalpara>
 
-        <figure>
-          <title>Overall structure</title>
-          <programlisting>
-            Grammar             ::= Parser Scanner ;
-            Parser              ::= "[" "PARSER" "]" Rule+ ;
-            Scanner             ::= "[" "SCANNER" "]" Priorities WhiteOpt Rule* ;
-            Priorities          ::= UsePriorities | NoPriorities;
-            UsePriorities       ::= ;
-            NoPriorities        ::= "nopriorities;";
-            WhiteOpt            ::= ("white" "=" SymbolSet ";")? ;
-            SymbolSet           ::= ( Symbol ("," Symbol)* )? ;
-          </programlisting>
-        </figure>
+      <formalpara>
+        <title>Conflicts</title>
+        <para>A conflict arises if a given input can be matched by two or more
+          symbols. The parser section is tested for conflicts at compile-time. If Mork
+          does not report conflicts, all conflicts, if any, have been resolved.
+        </para></formalpara>
 
-        <para>Start symbol of a grammar file is <literal>Grammar</literal>.</para>
+      <formalpara>
+        <title>Conflicts on nonterminals</title>
+        <para>Mork issues an error message for all conflicts on nonterminal
+          symbols. The user must change the rules in the parser section to resolve
+          the conflict. There is currently no way to resolve conflicts by additional
+          declarations, e.g. operator precedence.</para></formalpara>
 
-        <formalpara>
-          <title>Sections</title>
-          <para>A grammar file is divided into a parser section and a scanner
-            section. Sections have a header and a body. Headers adjusts global options
-            that apply to the whole body. The body is comprised of a set of rules. The rules within
-            both sections should proceed from large element to small elements, i.e. the
-            start symbol should be specified first, and terminal symbols should be
-            specified last. For that reason, the parser section precedes the scanner
-            section. </para></formalpara>
+      <formalpara>
+        <title>Conflicts on terminals</title>
+        <para>In contrast to nonterminals, all conflicts on terminal symbols are
+          resolved automatically. This conflict resolution follows the scheme used
+          most frequently by scanner tools: (1) if conflicting matches have different
+          lengths, the symbol with the longest match is applied; (2) otherwise, the
+          symbol defined first is applied. String symbols are considered to be defined
+          before identifier symbols. </para></formalpara>
 
-        <formalpara>
-          <title>Parser section</title>
-          <para>The parser section defines the context-free structure of the input
-            stream. The section header identifies that parser section, no other options
-            are given. The section body specifies a list of rules, each of them comprised
-            of a symbol and a regular expression. These rules define the context-free
-            grammar that parses the input stream. The symbol of the first rule is the
-            start symbol of the grammar. </para></formalpara>
-
-        <formalpara>
-          <title>Scanner section</title>
-          <para>The scanner section defines the regular structure of the input
-            stream. The section header specifies white symbols, i.e. terminal symbols
-            to be removed from the input stream; these symbols are never returned to
-            the parser. Typical examples for white symbols are white space and comments.
-            The section body is comprised of a list of rules, each of them comprised of
-            a symbol and a regular expression.</para></formalpara>
-
-        <formalpara>
-          <title>Priorities</title>
-          <para>Specifies how to resolve conflicts between two terminals that match
-            the same input. A typical example is a keyword like <literal>begin</literal> and an
-            <literal>identifier</literal> terminal that also matches the input <literal>begin</literal>.
-            Traditionally, scanner generators use priorities to resolve this conflict: if the input
-            <literal>begin</literal> is found, the terminal defined first will be matched. This behavior
-            is useful for programming languages like Java where a keyword is not a valid identifier:
-            just define the keywords before the identifier and you scanner will never match an identifier
-            if there is also a keyword for the respective input.</para></formalpara>
-
-        <formalpara>
-          <title>No Priorities</title>
-          <para>Specify <literal>nopriorities</literal> if you don't want to resolve scanner
-            conflicts based on their priority. In this case, Mork will try to resolve the conflict
-            by choosing appropriate scanner modes. Example: in XML, the <literal>Name</literal>
-            terminal conflicts with the <literal>Nmtoken</literal>. This conflict must not be solved
-            by priorities because the scanner needs to match both terminals. Mork ensures that
-            no parser state can shift both terminals and adds both terminals to different scanner modes.
-            The generated parser automatically switches it's scanner into the mode that matches all
-            terminals currently shiftable.</para></formalpara>
-
-
-      </sect2>
-
-
-      <sect2>
-        <title>Symbols</title>
-
-        <para>The syntax of input streams is defined in terms of symbols. Any symbol
-          has a language which is defined by the parser and scanner section. A language
-          is a set of strings. The set might be empty, it might include the empty
-          string, and in may cases, the set in infinite. A symbol is said to match the
-          current input, if the current input starts with an element of its language. Otherwise,
-          the symbol does not match. Example: a symbol  <literal>Integer</literal> typically
-          matches <literal>57...</literal>, but not <literal>xyz...</literal>. </para>
-
-        <figure>
-          <title>Symbols</title>
-          <programlisting>
-            Symbol              ::= StringSymbol | IdentifierSymbol ;
-            StringSymbol        ::= StringLiteral ;
-            IdentifierSymbol    ::= Identifier ;
-            Rule                ::= Subject "::=" RegExpr ";" ;
-            Subject             ::= Symbol ;
-          </programlisting>
-        </figure>
-
-        <formalpara>
-          <title>Symbols</title>
-          <para>A symbol is a string symbol or an identifier symbol. The language of a
-            string symbol is defined implicitly by its string, whereas the language of
-            an identifier symbol is defined explicitly by one or more regular expressions.
-            Symbols are case-sensitive.</para></formalpara>
-
-        <formalpara>
-          <title>String symbol</title>
-          <para>A string symbol is specified like a Java string literal. The language of a
-            string symbol is the string itself. For example, a string symbol <literal>"foo"</literal>
-            matches the string <literal>foo</literal>, nothing else. String symbols may contain all
-            escapes known from Java. It is an error to use different escapes to denote the same string.
-            For examples, Mork issues an error if you use both <literal>"foo\n"</literal>
-            and <literal>"foo\x0a"</literal> in a grammar file.</para></formalpara>
-
-        <formalpara>
-          <title>Identifier symbols</title>
-          <para>An identifier symbol is specified like a Java identifier. For any
-            identifier symbol used in the parser section, the must be at least one
-            rule. Let <literal>A ::= w1; A ::= w2; .. A ::= wn;</literal> be the set of all rules
-            with subject <literal>A</literal>. The language of <literal>A</literal> is defined by
-            the regular expression <literal>(w1) | (w2) ... | (wn)</literal>. </para></formalpara>
-
-        <formalpara>
-          <title>Rules</title>
-          <para>Rules define identifier symbols. The symbol on the left side of a
-            rule is called the subject of the rule. The subject must be an identifier
-            symbol. Regular expression in the parser may refer to any symbol, include
-            those defined later in the parser section and to symbols defined in the
-            scanner section. Regular expressions in the scanner section may not refer
-            to symbols in the parser section; they may refer to symbols in the scanner
-            section as long as not recursion is introduced. The same subject may be defined
-            by multiple rules, but all rules must be specified in the same section.
-          </para></formalpara>
-
-        <formalpara>
-          <title>Inline symbols</title>
-          <para>A symbol defined in the scanner section and not referred from the parser section
-            is called an inline symbol. Inline symbols are used to simplify rules in the scanner section
-            (by factoring out common parts), they are not considered terminals. As a consequence, inline
-            symbols cannot be have attributes.
-          </para></formalpara>
-
-        <formalpara>
-          <title>Conflicts</title>
-          <para>A conflict arises if a given input can be matched by two or more
-            symbols. The parser section is tested for conflicts at compile-time. If Mork
-            does not report conflicts, all conflicts, if any, have been resolved.
-          </para></formalpara>
-
-        <formalpara>
-          <title>Conflicts on nonterminals</title>
-          <para>Mork issues an error message for all conflicts on nonterminal
-            symbols. The user must change the rules in the parser section to resolve
-            the conflict. There is currently no way to resolve conflicts by additional
-            declarations, e.g. operator precedence.</para></formalpara>
-
-        <formalpara>
-          <title>Conflicts on terminals</title>
-          <para>In contrast to nonterminals, all conflicts on terminal symbols are
-            resolved automatically. This conflict resolution follows the scheme used
-            most frequently by scanner tools: (1) if conflicting matches have different
-            lengths, the symbol with the longest match is applied; (2) otherwise, the
-            symbol defined first is applied. String symbols are considered to be defined
-            before identifier symbols. </para></formalpara>
-
-        <formalpara>
-          <title>Example</title>
-          <para>The input <literal>if</literal> can typically be matched by the symbol
-            <literal>Identifier</literal> and the string symbol <literal>"if"</literal>. Mork
-            matches the <literal>"if"</literal> symbols because its definition proceeds the
-            definition of the <literal>Identifier</literal> symbol.</para></formalpara>
-
-      </sect2>
-
-      <sect2>
-        <title>Regular expression</title>
-
-        <para>Regular expressions define languages.</para>
-
-        <figure>
-          <title>Regular expression syntax</title>
-          <programlisting>
-            RegExpr             ::= Choice ;
-            Choice              ::= Choice "|" Sequence | Sequence ;
-            Sequence            ::= (Factor | Restriction)* ;
-            Restriction         ::= Factor "-" Factor;
-            Factor              ::= Operation | Reference | Range | "(" RegExpr ")" ;
-            Operation           ::= Star | Plus | Option | Times | Not ;
-
-            Star                ::= Factor "*" ;
-            Plus                ::= Factor "+" ;
-            Option              ::= Factor "?" ;
-            Times               ::= Factor ":" IntegerLiteral ;
-            Not                 ::= Factor "!" ;
-
-            Reference           ::= Symbol ;
-
-            Range               ::= Atom (".." Atom)? ;
-            Atom                ::= CharacterLiteral | Code ;
-            Code                ::= IntegerLiteral ;
-          </programlisting>
-        </figure>
-
-        <formalpara>
-          <title>Regular Expression</title>
-          <para>A regular expression defines a language, which is a set of strings.
-            In the parser section, regular expressions define context-free languages;
-            in the scanner section, regular expressions define regular expressions.
-            A regular expression is said to match a string if the string is an element
-            of the language. </para></formalpara>
-
-        <formalpara>
-          <title>Choice</title>
-          <para>A choice is a list of one or more sequences. A choice matches a string
-            if one of its sequences matches the string. Formally, the language of an
-            choice is the union of the languages of its sequences.
-            Example: <literal>A ::= "a" | "b";</literal> matches <literal>a</literal> or
-            <literal>b</literal>.</para></formalpara>
-
-        <formalpara>
-          <title>Sequence</title>
-          <para>A sequence is a list of zero or more factors or restrictions. A sequence matches
-            any string that is the concatenation of strings matched by its factors. Formally,
-            the language of a sequence is the set of concatenations of element,
-            one element taken from any of its factors. An empty sequence matches
-            the empty string. Example: <literal>A ::= "a" "b";</literal> matches
-            <literal>ab</literal>.</para></formalpara>
-
-        <formalpara>
-          <title>Restrictions</title>
-          <para>A restriction matches a string if the left factor matches the string and the right
-            factory does not match the string. This is useful, for example, to specify block
-            comments: <literal>comment ::= "/*" any* - (any* "*/" any*) "*/" ;</literal>.
-            Note that the syntax for restrictions does not permit <literal>A - B - C</literal> because
-            the precedence is not obvious. Use <literal>A - (B - C)</literal> or
-            <literal>(A - B) - C</literal> instead.
-          </para></formalpara>
-
-        <formalpara>
-          <title>Operation</title>
-          <para>Operations are specified in postfix notation, giving priority to the
-            inner-most operator. The factor left of an operator is called its operand.
-            The following operations are available:</para></formalpara>
-
-        <itemizedlist>
-          <listitem><formalpara><title>Plus</title>
-            <para>A loop. Matches any string that is the concatenation of at
-              least one string matched by the operand. Example:
-              <literal>A ::= "a"+;</literal> matches <literal>a</literal>,
-              <literal>aa</literal>, <literal>aaa</literal> etc.
-            </para></formalpara></listitem>
-          <listitem><formalpara><title>Star</title>
-            <para>Optional loop; matches any string that is the concatenation
-              of zero or more strings matched by the operand. Example:
-              <literal>A ::= "a"*;</literal> matches empty string,
-              <literal>a</literal>, <literal>aa</literal>, etc.
-            </para></formalpara></listitem>
-          <listitem><formalpara><title>Option</title>
-            <para>Matches the empty string and any string matched by
-              the operand. Example: <literal>A ::= "a"?;</literal> matches
-              the empty string and <literal>a</literal>.
-            </para></formalpara></listitem>
-          <listitem><formalpara><title>Times</title>
-            <para>Matches any string that is the concatenation of the given
-              number of strings matched by the operand. Example:
-              <literal>A ::= "a":4; </literal> matches <literal>aaaa</literal>.
-            </para></formalpara></listitem>
-          <listitem><formalpara><title>Not</title>
-            <para>matches the inverted character set of the operand. It is an error
-              to apply this operator to an operand which is not a character set.
-              A character set is a regular expression with only ranges and choices.
-              Example: <literal>A ::= 'a'..'z'!;</literal> matches any character which
-              is not a lower case letter. Advanced note: not inverts ranges, not languages;
-              otherwise, <literal>'a'!</literal> would match any string except <literal>a</literal>,
-              e.g. <literal>aa</literal>, <literal>aaa</literal>, etc. To invert languages
-              use restrictions with an unmatchable left factory.</para></formalpara></listitem>
-        </itemizedlist>
-
-        <formalpara>
-          <title>Reference</title>
-          <para>Matches any string matched by the specified symbol. It is an error
-            to reference parser symbols from the scanner section. References to scanner symbols
-            from the scanner section are valid as long as no recursion is introduced; these symbols
-            are automatically inlined, i.e. the symbol is replaced by it's definition.
-          </para></formalpara>
-
-        <formalpara>
-          <title>Ranges</title>
-          <para>A range <literal>a..z</literal> matches any character <literal>x</literal> with
-            <literal>a &lt;= x &lt;= z</literal>. A single boundary range <literal>a</literal>
-            abbreviates the range <literal>a..a</literal>.  An empty range is a range where the upper
-            bound is smaller than its lower bound. Empty ranges are legal, they match nothing.
-          </para></formalpara>
-
-        <formalpara>
-          <title>Atom</title>
-          <para>An atom matches the Unicode character it denotes. The character can
-            be specified by a character literal or by a Unicode number.
-          </para></formalpara>
-
-        <formalpara>
-          <title>Translation into BNF</title>
-          <para>The following substitutions are used by Mork to turn regular expression
-            rules into plain context-free grammar rules. This is used to translate the
-            parser section into a context-free grammar. Substitutions have been chosen
-            to avoid nonterminal conflicts. In particular, the substitution of empty
-            loops <literal>Lst ::= Item*</literal> into <literal>Lst::= ;  Lst::= Item Lst;</literal>
-            is not used, even though the rules are less complicated.</para></formalpara>
-
-        <para>
-          <programlisting>
-            A ::= B | C   ->  A ::= B;   A ::= C;
-            A ::= B C? D; ->  A ::= B D; A ::= B C D;
-            A ::= B+;     ->  A ::= X;   X ::= X B;   X ::= B;
-            A ::= B*;     ->  A ::= B*?;
-            ->  A ::= X;   A ::= ;      X ::= X B; X ::= B;
-          </programlisting></para>
-
-        <para>Notes: (1) The plus operator introduces new internal symbols.
-          (2) Negation is not mentioned here, because it is illegal in the parser
-          section.</para>
-
-        <formalpara>
-          <title>Example</title>
-          <para>The rule <literal>New ::= "new" Name "(" (Object ("," Object)*)? ")";</literal> is
-            internally turned to:
-            <programlisting>
-              New ::= "new" Name "(" Object ")" ;
-              New ::= "new" Name "(" Object "," Object ")" ;
-              New ::= "new" Name "(" Object Lst ")" ;
-              Lst ::= Lst "," Object ;
-              Lst ::= "," Object ;
-            </programlisting></para></formalpara>
-
-      </sect2>
-
-      <sect2>
-        <title>Lexical structure</title>
-
-        <para>Grammar files essentially follow the lexical conventions of Java.
-          The only major difference is the <literal>EndOfLineComment</literal>.</para>
-
-        <figure>
-          <title>Lexical structure</title>
-          <programlisting>
-            WhiteSpace         ::= ( ' ' | '\t' | '\n' | '\f' | '\r' )+ ;
-            EndOfLineComment   ::= '/' '/' ('\n' | '\r')!* ('\n' | '\r') ;
-            TraditionalComment ::= '/' '*' ('*'! | '*' '/'!)* '*' '/' ;
-
-
-            IntegerLiteral     ::= '0'
-            | '1'..'9' '0'..'9'*
-            | '0' ('x'|'X')
-            ('0'..'9' | 'a'..'f' | 'A'..'F')+
-            | '0' ('0'..'7')+ ;
-
-            StringLiteral      ::= '"' (('\\' 0..65535)
-            | ('\\' | '"' | '\n' | '\r')!)+ '"' ;
-
-            CharacterLiteral   ::= '\'' (('\\' 0..65535) |
-            ('\\' |'\'' |'\n' | '\r')!)+ '\'' ;
-
-            Identifier ::=
-            ( 0x0024..0x0024 | 0x0041..0x005a | 0x005f..0x005f |
-            0x0061..0x007a | 0x00a2..0x00a5 | 0x00aa..0x00aa |
-            0x00b5..0x00b5 | 0x00ba..0x00ba | 0x00c0..0x00d6 |
-            0x00d8..0x00f6 | 0x00f8..0x00ff )
-            ( 0x0000..0x0008 | 0x000e..0x001b | 0x0024..0x0024 |
-            0x0030..0x0039 | 0x0041..0x005a | 0x005f..0x005f |
-            0x0061..0x007a | 0x007f..0x009f | 0x00a2..0x00a5 |
-            0x00aa..0x00aa | 0x00b5..0x00b5 | 0x00ba..0x00ba |
-            0x00c0..0x00d6 | 0x00d8..0x00f6 | 0x00f8..0x00ff )* ;
-          </programlisting>
-        </figure>
-
-        <para>Differences from Java:</para>
-        <itemizedlist>
-          <listitem><formalpara><title><literal>EndOfLineComment</literal></title>
-            <para><literal>EndOfLineComment</literal> start with the hash character <literal>#</literal>.
-              Double slashes <literal>//</literal> known from Java <literal>EndOfLineComment</literal>s have
-              a different meaning (they are used in paths).</para></formalpara></listitem>
-          <listitem><formalpara><title>Documentation comments</title>
-            <para>Documentation comments are not distinguished from block comments.
-            </para></formalpara></listitem>
-          <listitem><formalpara><title>literals</title>
-            <para>Floating-point and boolean literals are not available;
-              type suffixes in <literal>IntegerLiterals</literal> are not available.
-            </para></formalpara></listitem>
-          <listitem><formalpara><title>keywords</title>
-            <para>The set of keywords is different from Java. For examples, <literal>start</literal>
-              is a keyword within specification files, whereas <literal>for</literal> is an identifier,
-              not a keyword.</para></formalpara></listitem>
-          <listitem><formalpara><title>identifier</title>
-            <para>Identifiers are restricted to Unicode characters with a
-              character code &lt;= 255.</para></formalpara></listitem>
-          <listitem><formalpara><title>Unicode preprocessing</title>
-            <para>Prior to scanning, no Unicode preprocessing is performed. Thus,
-              a token in general may not contain Unicode escapes. However, the
-              definition of character and string literals has been extended to
-              support Unicode escapes.</para></formalpara></listitem>
-        </itemizedlist>
-
-      </sect2>
-
-      <sect2>
-        <title>Scanner modes</title>
-
-        <para>A scanner mode is a set of terminals. Whenever matching a string, the scanner
-          matches only terminals in the current mode. Scanner modes are completely transparent, usually,
-          there is no need to care about them: at compile-time, scanner modes are computed automatically,
-          there is no need to manually declare scanner modes. At runtime, the parser automatically switches
-          to the appropriate scanner mode, there is no need to manually set the scanner mode. For most
-          grammar files, the resulting scanner has exactly one mode (containing all terminals). Mork's XML
-          grammar gives an example for a scanner with more than one mode. </para>
-
-        <para>TODO: more</para>
-
-      </sect2>
-
+      <formalpara>
+        <title>Example</title>
+        <para>The input <literal>if</literal> can typically be matched by the symbol
+          <literal>Identifier</literal> and the string symbol <literal>"if"</literal>. Mork
+          matches the <literal>"if"</literal> symbols because its definition proceeds the
+          definition of the <literal>Identifier</literal> symbol.</para></formalpara>
 
     </sect1>
 
     <sect1>
-      <title>XML syntax</title>
+      <title>Regular expression</title>
+
+      <para>Regular expressions define languages.</para>
+
+      <figure>
+        <title>Regular expression syntax</title>
+        <programlisting>
+          RegExpr             ::= Choice ;
+          Choice              ::= Choice "|" Sequence | Sequence ;
+          Sequence            ::= (Factor | Restriction)* ;
+          Restriction         ::= Factor "-" Factor;
+          Factor              ::= Operation | Reference | Range | "(" RegExpr ")" ;
+          Operation           ::= Star | Plus | Option | Times | Not ;
+
+          Star                ::= Factor "*" ;
+          Plus                ::= Factor "+" ;
+          Option              ::= Factor "?" ;
+          Times               ::= Factor ":" IntegerLiteral ;
+          Not                 ::= Factor "!" ;
+
+          Reference           ::= Symbol ;
+
+          Range               ::= Atom (".." Atom)? ;
+          Atom                ::= CharacterLiteral | Code ;
+          Code                ::= IntegerLiteral ;
+        </programlisting>
+      </figure>
 
       <formalpara>
-        <title>Attributes</title>
-        <para><indexterm><primary>Attributes</primary></indexterm>Unfortunately, the term attribute is
-          ambiguous: compiler tool attributes denote values attached to symbols, whereas XML attributes denote
-          name-value pairs attached to elements. The term attribute will be used throughout this manual if
-          the context allows to distinguish between compiler tool attributes and XML attributes. In most
-          cases attribute stands for compiler tool attributes - except in this section.</para></formalpara>
-
-      <para>XML syntax is specified by a document type definition. It is comprised of
-        a list of element declarations and attribute definitions. A detailed description
-        can be found in chapter 3 of the XML specification
-        (<link xlink:href="http://www.w3.org/TR/REC-xml">http://www.w3.org/TR/REC-xml</link>).
-      </para>
+        <title>Regular Expression</title>
+        <para>A regular expression defines a language, which is a set of strings.
+          In the parser section, regular expressions define context-free languages;
+          in the scanner section, regular expressions define regular expressions.
+          A regular expression is said to match a string if the string is an element
+          of the language. </para></formalpara>
 
       <formalpara>
-        <title>Naming convention</title>
-        <para>My naming convention for DTD files is as follows: The base name is the
-          name of the language specified in the file. The first letter is lowercase
-          because this is what I know from DocBook. The file name extension is
-          <literal>.dtd</literal> (all lower case on every platform). Examples:
-          <literal>docbook.dtd</literal> for a syntax definition of DocBook,
-          <literal>config.dtd</literal> for the syntax of configuration files.
+        <title>Choice</title>
+        <para>A choice is a list of one or more sequences. A choice matches a string
+          if one of its sequences matches the string. Formally, the language of an
+          choice is the union of the languages of its sequences.
+          Example: <literal>A ::= "a" | "b";</literal> matches <literal>a</literal> or
+          <literal>b</literal>.</para></formalpara>
+
+      <formalpara>
+        <title>Sequence</title>
+        <para>A sequence is a list of zero or more factors or restrictions. A sequence matches
+          any string that is the concatenation of strings matched by its factors. Formally,
+          the language of a sequence is the set of concatenations of element,
+          one element taken from any of its factors. An empty sequence matches
+          the empty string. Example: <literal>A ::= "a" "b";</literal> matches
+          <literal>ab</literal>.</para></formalpara>
+
+      <formalpara>
+        <title>Restrictions</title>
+        <para>A restriction matches a string if the left factor matches the string and the right
+          factory does not match the string. This is useful, for example, to specify block
+          comments: <literal>comment ::= "/*" any* - (any* "*/" any*) "*/" ;</literal>.
+          Note that the syntax for restrictions does not permit <literal>A - B - C</literal> because
+          the precedence is not obvious. Use <literal>A - (B - C)</literal> or
+          <literal>(A - B) - C</literal> instead.
         </para></formalpara>
 
       <formalpara>
-        <title>Status</title>
-        <para>Support for XML syntax was introduced in Mork 0.3.0 and is in its early
-          stages. Here are the major current limitations:
-          <itemizedlist>
-            <listitem><para>no mixed content</para></listitem>
-            <listitem><para>no any content</para></listitem>
-            <listitem><para>no namespace support</para></listitem>
-          </itemizedlist>
-          Element content is fully validated, but attribute content is not.</para>
-      </formalpara>
+        <title>Operation</title>
+        <para>Operations are specified in postfix notation, giving priority to the
+          inner-most operator. The factor left of an operator is called its operand.
+          The following operations are available:</para></formalpara>
+
+      <itemizedlist>
+        <listitem><formalpara><title>Plus</title>
+          <para>A loop. Matches any string that is the concatenation of at
+            least one string matched by the operand. Example:
+            <literal>A ::= "a"+;</literal> matches <literal>a</literal>,
+            <literal>aa</literal>, <literal>aaa</literal> etc.
+          </para></formalpara></listitem>
+        <listitem><formalpara><title>Star</title>
+          <para>Optional loop; matches any string that is the concatenation
+            of zero or more strings matched by the operand. Example:
+            <literal>A ::= "a"*;</literal> matches empty string,
+            <literal>a</literal>, <literal>aa</literal>, etc.
+          </para></formalpara></listitem>
+        <listitem><formalpara><title>Option</title>
+          <para>Matches the empty string and any string matched by
+            the operand. Example: <literal>A ::= "a"?;</literal> matches
+            the empty string and <literal>a</literal>.
+          </para></formalpara></listitem>
+        <listitem><formalpara><title>Times</title>
+          <para>Matches any string that is the concatenation of the given
+            number of strings matched by the operand. Example:
+            <literal>A ::= "a":4; </literal> matches <literal>aaaa</literal>.
+          </para></formalpara></listitem>
+        <listitem><formalpara><title>Not</title>
+          <para>matches the inverted character set of the operand. It is an error
+            to apply this operator to an operand which is not a character set.
+            A character set is a regular expression with only ranges and choices.
+            Example: <literal>A ::= 'a'..'z'!;</literal> matches any character which
+            is not a lower case letter. Advanced note: not inverts ranges, not languages;
+            otherwise, <literal>'a'!</literal> would match any string except <literal>a</literal>,
+            e.g. <literal>aa</literal>, <literal>aaa</literal>, etc. To invert languages
+            use restrictions with an unmatchable left factory.</para></formalpara></listitem>
+      </itemizedlist>
 
       <formalpara>
-        <title>Mapping</title>
-        <para>Mapper files refer to elements by the element's name. Attributes are
-          referenced by the associated element, an dollar sign, and the attribute name.
-          Example: given that DTD fragment
-          <programlisting><![CDATA[
-    <!ELEMENT foo (someElements)>
-    <!ATTLIST foo bar CDATA #IMPLIED>
-  ]]></programlisting>
-          you can map the element <literal>foo</literal> and its attribute <literal>bar</literal> like this:
-          <programlisting>
-            foo      => Constructor1;
-            foo$bar  => Constructor2;
-          </programlisting>
+        <title>Reference</title>
+        <para>Matches any string matched by the specified symbol. It is an error
+          to reference parser symbols from the scanner section. References to scanner symbols
+          from the scanner section are valid as long as no recursion is introduced; these symbols
+          are automatically inlined, i.e. the symbol is replaced by it's definition.
         </para></formalpara>
 
       <formalpara>
-        <title>Terminals</title>
-        <para>Attributes are considered terminals, thus, you can use <literal>[text]</literal> to obtain
-          the attribute's value. In addition there is a terminal <literal>PCDATA</literal> that matches the
-          content of elements defined as <literal>PCDATA</literal>.</para></formalpara>
-
-      <formalpara>
-        <title>Start symbol</title>
-        <para>The first symbol defined in DTD file is the start symbol. </para></formalpara>
-
-      <formalpara>
-        <title>Implementation</title>
-        <para>Use the <literal>-lst</literal> option to check the parser generated by Mork.
+        <title>Ranges</title>
+        <para>A range <literal>a..z</literal> matches any character <literal>x</literal> with
+          <literal>a &lt;= x &lt;= z</literal>. A single boundary range <literal>a</literal>
+          abbreviates the range <literal>a..a</literal>.  An empty range is a range where the upper
+          bound is smaller than its lower bound. Empty ranges are legal, they match nothing.
         </para></formalpara>
+
+      <formalpara>
+        <title>Atom</title>
+        <para>An atom matches the Unicode character it denotes. The character can
+          be specified by a character literal or by a Unicode number.
+        </para></formalpara>
+
+      <formalpara>
+        <title>Translation into BNF</title>
+        <para>The following substitutions are used by Mork to turn regular expression
+          rules into plain context-free grammar rules. This is used to translate the
+          parser section into a context-free grammar. Substitutions have been chosen
+          to avoid nonterminal conflicts. In particular, the substitution of empty
+          loops <literal>Lst ::= Item*</literal> into <literal>Lst::= ;  Lst::= Item Lst;</literal>
+          is not used, even though the rules are less complicated.</para></formalpara>
+
+      <para>
+        <programlisting>
+          A ::= B | C   ->  A ::= B;   A ::= C;
+          A ::= B C? D; ->  A ::= B D; A ::= B C D;
+          A ::= B+;     ->  A ::= X;   X ::= X B;   X ::= B;
+          A ::= B*;     ->  A ::= B*?;
+          ->  A ::= X;   A ::= ;      X ::= X B; X ::= B;
+        </programlisting></para>
+
+      <para>Notes: (1) The plus operator introduces new internal symbols.
+        (2) Negation is not mentioned here, because it is illegal in the parser
+        section.</para>
 
       <formalpara>
         <title>Example</title>
-        <para>The <literal>config</literal> example in <literal>mork/examples/config</literal> demonstrates
-          most of the available features.</para></formalpara>
+        <para>The rule <literal>New ::= "new" Name "(" (Object ("," Object)*)? ")";</literal> is
+          internally turned to:
+          <programlisting>
+            New ::= "new" Name "(" Object ")" ;
+            New ::= "new" Name "(" Object "," Object ")" ;
+            New ::= "new" Name "(" Object Lst ")" ;
+            Lst ::= Lst "," Object ;
+            Lst ::= "," Object ;
+          </programlisting></para></formalpara>
+
+    </sect1>
+
+    <sect1>
+      <title>Lexical structure</title>
+
+      <para>Syntax files essentially follow the lexical conventions of Java.
+        The only major difference is the <literal>EndOfLineComment</literal>.</para>
+
+      <figure>
+        <title>Lexical structure</title>
+        <programlisting>
+          WhiteSpace         ::= ( ' ' | '\t' | '\n' | '\f' | '\r' )+ ;
+          EndOfLineComment   ::= '/' '/' ('\n' | '\r')!* ('\n' | '\r') ;
+          TraditionalComment ::= '/' '*' ('*'! | '*' '/'!)* '*' '/' ;
+
+
+          IntegerLiteral     ::= '0'
+          | '1'..'9' '0'..'9'*
+          | '0' ('x'|'X')
+          ('0'..'9' | 'a'..'f' | 'A'..'F')+
+          | '0' ('0'..'7')+ ;
+
+          StringLiteral      ::= '"' (('\\' 0..65535)
+          | ('\\' | '"' | '\n' | '\r')!)+ '"' ;
+
+          CharacterLiteral   ::= '\'' (('\\' 0..65535) |
+          ('\\' |'\'' |'\n' | '\r')!)+ '\'' ;
+
+          Identifier ::=
+          ( 0x0024..0x0024 | 0x0041..0x005a | 0x005f..0x005f |
+          0x0061..0x007a | 0x00a2..0x00a5 | 0x00aa..0x00aa |
+          0x00b5..0x00b5 | 0x00ba..0x00ba | 0x00c0..0x00d6 |
+          0x00d8..0x00f6 | 0x00f8..0x00ff )
+          ( 0x0000..0x0008 | 0x000e..0x001b | 0x0024..0x0024 |
+          0x0030..0x0039 | 0x0041..0x005a | 0x005f..0x005f |
+          0x0061..0x007a | 0x007f..0x009f | 0x00a2..0x00a5 |
+          0x00aa..0x00aa | 0x00b5..0x00b5 | 0x00ba..0x00ba |
+          0x00c0..0x00d6 | 0x00d8..0x00f6 | 0x00f8..0x00ff )* ;
+        </programlisting>
+      </figure>
+
+      <para>Differences from Java:</para>
+      <itemizedlist>
+        <listitem><formalpara><title><literal>EndOfLineComment</literal></title>
+          <para><literal>EndOfLineComment</literal> start with the hash character <literal>#</literal>.
+            Double slashes <literal>//</literal> known from Java <literal>EndOfLineComment</literal>s have
+            a different meaning (they are used in paths).</para></formalpara></listitem>
+        <listitem><formalpara><title>Documentation comments</title>
+          <para>Documentation comments are not distinguished from block comments.
+          </para></formalpara></listitem>
+        <listitem><formalpara><title>literals</title>
+          <para>Floating-point and boolean literals are not available;
+            type suffixes in <literal>IntegerLiterals</literal> are not available.
+          </para></formalpara></listitem>
+        <listitem><formalpara><title>keywords</title>
+          <para>The set of keywords is different from Java. For examples, <literal>start</literal>
+            is a keyword within specification files, whereas <literal>for</literal> is an identifier,
+            not a keyword.</para></formalpara></listitem>
+        <listitem><formalpara><title>identifier</title>
+          <para>Identifiers are restricted to Unicode characters with a
+            character code &lt;= 255.</para></formalpara></listitem>
+        <listitem><formalpara><title>Unicode preprocessing</title>
+          <para>Prior to scanning, no Unicode preprocessing is performed. Thus,
+            a token in general may not contain Unicode escapes. However, the
+            definition of character and string literals has been extended to
+            support Unicode escapes.</para></formalpara></listitem>
+      </itemizedlist>
+
+    </sect1>
+
+    <sect1>
+      <title>Scanner modes</title>
+
+      <para>A scanner mode is a set of terminals. Whenever matching a string, the scanner
+        matches only terminals in the current mode. Scanner modes are completely transparent, usually,
+        there is no need to care about them: at compile-time, scanner modes are computed automatically,
+        there is no need to manually declare scanner modes. At runtime, the parser automatically switches
+        to the appropriate scanner mode, there is no need to manually set the scanner mode. For most
+        syntax files, the resulting scanner has exactly one mode (containing all terminals). </para>
+
+      <para>TODO: more</para>
+
     </sect1>
   </chapter>
 
@@ -1430,11 +1314,11 @@
         only. Otherwise, the name of the syntax is preprended, starting with a capital letter. The file
         name extension is <literal>.map</literal> (all lower case on every platform). Example 1: Each of
         Mork's example applications has a single mapper only. Consequently, all example mapper file have
-        the <literal>Mapper.map</literal>. Example 2: Mork itself has three mappers:
-        <literal>GrammarMapper</literal>, <literal>MapperMapper</literal> and
-        <literal>DtdMapper.map</literal>. They map grammar files, mapper files and dtd files. Note:
-        mapper file names should start with a capital letter because their are translated into Java class
-        files, and the naming convention for classes is to start with a capital letter.
+        the <literal>Mapper.map</literal>. Example 2: Mork itself has two mappers:
+        <literal>SyntaxMapper</literal> and <literal>MapperMapper</literal>. They map syntax files, mapper
+        files and dtd files. Note: mapper file names should start with a capital letter because their are
+        translated into Java class files, and the naming convention for classes is to start with a capital
+        letter.
       </para></formalpara>
 
     <formalpara>
@@ -1448,7 +1332,7 @@
 
     <formalpara>
       <title>Lexical structure</title>
-      <para>Grammar files and mapper files have the same lexical structure. A description was given
+      <para>Syntax files and mapper files have the same lexical structure. A description was given
         in the previous chapter, it's not repeated here.</para></formalpara>
 
 
@@ -1469,9 +1353,7 @@
         <programlisting>
           Mapper              ::= MapperName SyntaxFile Imports Definitions ;
           MapperName          ::= "mapper" Name ";" ;
-          SyntaxFile          ::= Grammar | Dtd ;
-          Grammar             ::= "grm" "=" StringLiteral ";" ;
-          Dtd                 ::= "dtd" "=" StringLiteral ";" ;
+          SyntaxFile          ::= "syntax" "=" StringLiteral ";" ;
           Imports             ::= Import* ;
           Import              ::= "import" PackageName ":" Class ("," Class)* ";";
           Class               ::= Identifier ("->" Identifier)? ;
@@ -2233,8 +2115,7 @@
 
       <formalpara>
         <title>Memory consumption</title>
-        <para>Running Mork on complex mapper files like the Java grammar needs a
-          substantial amount of memory. If Java runs out of memory (i.e. throws an
+        <para>If Java runs out of memory (i.e. throws an
           <literal>OutOfMemoryError</literal>), use the Java <literal>-Xmx</literal> option in
           the launch script to increase the memory available to the virtual machine. Example
           <literal>java -Xmx128M net.sf.beezle.mork.compiler.Main veryComplex.mork</literal>.
@@ -2677,9 +2558,8 @@
         <title>Directory structure</title>
         <programlisting>
           mork
-          |- src/de/mlhartme/mork   Mork library sources
+          |- src/main/java/net/sf/beezle/mork
           |   |- compiler              compiler
-          |   |- xml                   XML syntax
           |   |- mapping               map symbols to objects
           |   |- semantics             attribute grammars
           |   |- parser                push-down automatons
@@ -2689,17 +2569,9 @@
           |   |- classfile             Java class files
           |   |- reflect               reflection
           |    - util                  data types, misc
-          |- examples      example applications
-          |- bin           launch scripts
-          |- lib           jar files
-          |- beezle        build system
-          |- tests
-          |   |- junit     JUnit test cases
-          |    - examples  some pathologic stuff
-          - doc           documentation
-          |- src          DocBook xml sources for the manual
-          |- html         HTML manual and javadocs
-          - print        pdf manual
+          |- src/test/java             tests
+          |- src/site/manual           documentation
+           - examples                  example applications
         </programlisting>
       </figure>
 
@@ -2792,11 +2664,6 @@
         <para>A parser for Java 2, version 1.2. For example, you can run
           <literal>jp.Main examples/*/*.java</literal> to parse all examples.
         </para></formalpara>
-
-      <formalpara>
-        <title><literal>config</literal></title>
-        <para>A configuration file in XML syntax.</para></formalpara>
-
     </sect1>
 
     <sect1>
@@ -2828,22 +2695,16 @@
 
     <para>Mork is bootstrapped, the file listed in here are written in their own language.</para>
 
-    <formalpara>
-      <title><literal>grammar.grm</literal></title>
-      <para><literal>de/mlhartme/mork/compiler/grammar.grm</literal> defines
-        the syntax of grammar files. </para></formalpara>
+    <para><literal>Syntax.syntax</literal> defines the syntax of syntax files.
 
     <para>
-      <programlisting><xi:include href="../../main/java/net/sf/beezle/mork/compiler/grammar.grm" parse="text" /></programlisting>
+      <programlisting><xi:include href="../../main/Syntax.syntax" parse="text" /></programlisting>
     </para>
 
-    <formalpara>
-      <title><literal>mapper.grm</literal></title>
-      <para><literal>de/mlhartme/mork/compiler/mapper.grm</literal> defines
-        the syntax of mapper files. </para></formalpara>
+    <para><literal>Mapper.syntax</literal> defines the syntax of mapper files. </para>
 
     <para>
-      <programlisting><xi:include href="../../main/java/net/sf/beezle/mork/compiler/mapper.grm" parse="text" /></programlisting>
+      <programlisting><xi:include href="../../main/Mapper.syntax" parse="text" /></programlisting>
     </para>
 
   </appendix>

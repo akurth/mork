@@ -17,7 +17,7 @@
 
 mapper net.sf.beezle.mork.compiler.GrammarMapper;
 
-grm = "grammar.grm";
+grm = "Syntax.syntax";
 
 import net.sf.beezle.mork.regexpr:
     Choice, Loop, Sequence, Symbol, Range, Without;
