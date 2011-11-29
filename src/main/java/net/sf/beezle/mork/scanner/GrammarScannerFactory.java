@@ -71,8 +71,7 @@ public class GrammarScannerFactory implements ScannerFactory {
     //-----------------------------------------------------------------
 
     public static GrammarScannerFactory create(
-        FA fa, int errorSi, ParserTable parserTable, Rule[] all, IntBitSet whites,
-        PrintStream verbose, PrintStream listing, int eofSymbol)
+        FA fa, int errorSi, ParserTable parserTable, IntBitSet whites, PrintStream verbose, PrintStream listing, int eofSymbol)
             throws GenericException {
         List modes;  // list of IntSets
         char[] table;

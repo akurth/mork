@@ -45,7 +45,7 @@ public class GrammarSyntax extends Syntax {
     private boolean priorities;
     private IntBitSet whiteSymbols;
     private Rule[] scannerRules;
-    
+
     public GrammarSyntax(
         StringArrayList symbolTable, Rule[] parserRules,
         boolean priorities, IntBitSet whiteSymbols, Rule[] scannerRules)
@@ -130,8 +130,7 @@ public class GrammarSyntax extends Syntax {
             Modes.resolveScannerConflicts(builder.getFA(), scannerRules);
         }
         scannerFactory = GrammarScannerFactory.create(
-            builder.getFA(), builder.getErrorState(), parserTable, scannerRules,
-            whiteSymbols, output.verbose, output.listing, eof);
+            builder.getFA(), builder.getErrorState(), parserTable, whiteSymbols, output.verbose, output.listing, eof);
 
         output.statistics();
         output.statistics("scanner statistics");
