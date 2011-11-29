@@ -18,15 +18,123 @@
 package net.sf.beezle.mork.compiler;
 
 import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.grammar.GrammarBuilder;
+import net.sf.beezle.mork.grammar.Rule;
 import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.misc.StringArrayList;
+import net.sf.beezle.mork.parser.Conflicts;
+import net.sf.beezle.mork.parser.PDA;
 import net.sf.beezle.mork.parser.Parser;
+import net.sf.beezle.mork.parser.ParserTable;
+import net.sf.beezle.mork.scanner.FABuilder;
+import net.sf.beezle.mork.scanner.Modes;
+import net.sf.beezle.mork.scanner.ScannerFactory;
+import net.sf.beezle.sushi.util.IntBitSet;
 
-/** Scanner and parser specification. **/
-public abstract class Syntax {
-    public abstract Grammar getGrammar();
-    public abstract Parser translate(Output output) throws GenericException;
+/**
+ * Grammar syntax specification. Represents a grammar syntax file with
+ * parser and scanner section.
+ *
+ * Design issues: whitespace handling is performed in the parser, not in the
+ * scanner. This is because I might a features access the "[text]" of white space.
+ */
+public class Syntax {
+    public static final String LALR_CONFLICT = "lalr(1) conflicts (use the -lst option to obtain a listing of the automaton):\n";
 
-    public static final String LALR_CONFLICT =
-        "lalr(1) conflicts (use the -lst option to obtain a listing of the automaton):\n";
+    private Grammar grammar;
+    private boolean priorities;
+    private IntBitSet whiteSymbols;
+    private Rule[] scannerRules;
 
+    public Syntax(StringArrayList symbolTable, Rule[] parserRules, boolean priorities, IntBitSet whiteSymbols, Rule[] scannerRules) throws GenericException {
+        if (parserRules.length == 0) {
+            throw new IllegalArgumentException();
+        }
+        this.grammar = GrammarBuilder.createGrammar(parserRules, symbolTable);
+        this.priorities = priorities;
+        if (whiteSymbols != null) {
+            this.whiteSymbols = whiteSymbols;
+        } else {
+            this.whiteSymbols = new IntBitSet();
+        }
+        this.scannerRules = scannerRules;
+    }
+
+    public Grammar getGrammar() {
+        return grammar;
+    }
+
+    /**
+     * Translate specification.
+     *
+     * @return null for errors.
+     */
+    public Parser translate(Output output) throws GenericException {
+        FABuilder builder;
+        Conflicts conflicts;
+        PDA pda;
+        ParserTable parserTable;
+        ScannerFactory scannerFactory;
+        IntBitSet usedTerminals;
+        IntBitSet usedSymbols;
+        int symbolCount;
+        StringArrayList symbolTable;
+
+        output.verbose("processing parser section");
+
+        pda = new PDA(grammar, grammar.getStart());
+        conflicts = new Conflicts();
+        symbolCount = Math.max(grammar.getSymbolCount(), whiteSymbols.last() + 1);
+        parserTable = pda.createTable(conflicts, symbolCount);
+        parserTable.addWhitespace(whiteSymbols, conflicts);
+        symbolTable = grammar.getSymbolTable();
+        if (!conflicts.isEmpty()) {
+            output.error("TODO", LALR_CONFLICT + conflicts.toString(symbolTable));
+        }
+        if (output.listing != null) {
+            output.listing.println("\nSymbols:");
+            output.listing.println(symbolTable.toString());
+            output.listing.println("\nGrammar:");
+            output.listing.println(grammar.toString());
+            output.listing.println("\nAutomaton:");
+            pda.print(grammar, output.listing);
+        }
+        output.statistics();
+        output.statistics("parser statistics");
+        output.statistics("  states: " + pda.size());
+        output.statistics("  table: [symbols=" + parserTable.getSymbolCount()
+                      + "][states=" + parserTable.getStateCount() + "]");
+
+        // free memory before computing FA
+        pda = null;
+
+        output.verbose("processing scanner section");
+
+        usedTerminals = new IntBitSet();
+        grammar.getUsedTerminals(usedTerminals);
+        usedTerminals.addAll(whiteSymbols);
+
+        output.verbose("generating scanner");
+        builder = FABuilder.run(scannerRules, usedTerminals, symbolTable, output.verbose);
+        output.listing("inline symbols: " + builder.getInlines());
+
+        if (priorities) {
+            output.verbose("use priorities");
+            Modes.resolveScannerConflicts(builder.getFA(), scannerRules);
+        }
+        scannerFactory = ScannerFactory.create(
+            builder.getFA(), builder.getErrorState(), parserTable, whiteSymbols, output.verbose, output.listing);
+
+        output.statistics();
+        output.statistics("scanner statistics");
+        output.statistics("  fa states : " + builder.getFA().size());
+        output.statistics("  table: char[" + scannerFactory.size() + "]");
+        output.verbose("scanner done");
+
+        usedSymbols = new IntBitSet(whiteSymbols);
+        usedSymbols.addAll(builder.getInlines());
+        grammar.check(grammar.getStart(), usedSymbols, symbolTable.toList());
+
+        return new Parser(parserTable, scannerFactory);
+    }
 }

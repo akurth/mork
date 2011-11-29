@@ -17,7 +17,7 @@
 
 package net.sf.beezle.mork.bootstrap;
 
-import net.sf.beezle.mork.compiler.GrammarSyntax;
+import net.sf.beezle.mork.compiler.Syntax;
 import net.sf.beezle.mork.compiler.Specification;
 import net.sf.beezle.mork.reflect.Constructor;
 import net.sf.beezle.mork.reflect.Function;
@@ -50,11 +50,11 @@ public class Loader {
         return (Specification) load("net.sf.beezle.mork.bootstrap.MapperMapper", file);
     }
 
-    public static GrammarSyntax loadGrammar(String file) {
+    public static Syntax loadGrammar(String file) {
         File absolute;
 
         absolute = absoluteFile(new File(mapperFile).getParentFile(), file);
-        return (GrammarSyntax) load("net.sf.beezle.mork.bootstrap.GrammarMapper", absolute.getPath());
+        return (Syntax) load("net.sf.beezle.mork.bootstrap.GrammarMapper", absolute.getPath());
     }
 
     // returns null if an error has been reported

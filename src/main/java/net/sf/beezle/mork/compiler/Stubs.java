@@ -270,11 +270,9 @@ public class Stubs {
         }
     }
 
-    public static GrammarSyntax grammarSyntax(StringArrayList symbolTable, Rule[] parserRules,
-            boolean prio, IntBitSet whiteSymbols, Rule[] explScannerRules, List rawKeywords)
-        throws GenericException {
-        return new GrammarSyntax(symbolTable, parserRules, prio,
-                whiteSymbols, scannerRules(rawKeywords, explScannerRules));
+    public static Syntax createSyntax(StringArrayList symbolTable, Rule[] parserRules,
+            boolean prio, IntBitSet whiteSymbols, Rule[] explScannerRules, List rawKeywords) throws GenericException {
+        return new Syntax(symbolTable, parserRules, prio, whiteSymbols, scannerRules(rawKeywords, explScannerRules));
     }
 
     public static Object[] keyword(int symbol, String name) throws IllegalLiteral {

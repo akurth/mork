@@ -24,7 +24,7 @@ import net.sf.beezle.mork.bootstrap:
 import net.sf.beezle.mork.mapping:
     Import, Internal, Library, Path;
 import net.sf.beezle.mork.compiler:
-    GrammarSyntax, Specification, Stubs, Syntax;
+    Syntax, Specification, Stubs, Syntax;
 import net.sf.beezle.mork.semantics:
     BuiltIn;
 import java.lang:

@@ -24,7 +24,7 @@ import net.sf.beezle.mork.regexpr:
 import net.sf.beezle.mork.grammar:
     Rule;
 import net.sf.beezle.mork.compiler:
-    GrammarSyntax, Stubs;
+    Syntax, Stubs;
 import net.sf.beezle.mork.semantics:
     BuiltIn;
 import java.lang:
@@ -33,7 +33,7 @@ import java.lang:
 
 #
 # overall structure
-Syntax              => Stubs.grammarSyntax ;
+Syntax              => Stubs.createSyntax ;
  :grammarSymbolTable   => Stubs.symbolTable:
                          > Syntax
                          > //StringSymbol
