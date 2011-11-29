@@ -181,14 +181,14 @@ public class CopyBufferCompareTest extends CompareBase {
      * @param as  symbols with attribute b
      */
     private void create(String[] prods, String as, String bs) {
-        Grammar grm;
+        Grammar grammar;
 
-        grm = Grammar.forProductions(prods);
+        grammar = Grammar.forProductions(prods);
         sa = new AgBuffer((Attribute) null);
-        a = addTransport(sa, "a", as, grm);
+        a = addTransport(sa, "a", as, grammar);
         sa.setStart(a);
         sb = new AgBuffer((Attribute) null);
-        b = addTransport(sb, "b", bs, grm);
+        b = addTransport(sb, "b", bs, grammar);
         sb.setStart(b);
     }
 

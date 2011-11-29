@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArgumentTest extends CompareBase {
-    private Grammar grm;
+    private Grammar grammar;
     private List args;
     private List expected;
 
@@ -205,7 +205,7 @@ public class ArgumentTest extends CompareBase {
     }
 
     private void grammar(String[] prods) {
-        grm = Grammar.forProductions(prods);
+        grammar = Grammar.forProductions(prods);
     }
 
     private void arg(String attrName, String attrs, int expectedPos) {
@@ -213,7 +213,7 @@ public class ArgumentTest extends CompareBase {
         AgBuffer sems;
 
         sems = new AgBuffer((Attribute) null);
-        attr = CopyBufferCompareTest.addTransport(sems, attrName, attrs, grm);
+        attr = CopyBufferCompareTest.addTransport(sems, attrName, attrs, grammar);
         sems.setStart(attr);
         arg = new Argument(Path.MERGEABLE, sems, new ArrayList()); // TODO: no sources
         args.add(arg);
@@ -227,12 +227,12 @@ public class ArgumentTest extends CompareBase {
         List reversed;
         int i;
 
-        doSortAndMerge(args, expected, grm);
+        doSortAndMerge(args, expected, grammar);
         reversed = new ArrayList();
         for (i = args.size() - 1; i >= 0; i--) {
             reversed.add(args.get(i));
         }
-        doSortAndMerge(reversed, expected, grm);
+        doSortAndMerge(reversed, expected, grammar);
     }
 
     /** @param arguments   list of Arguments */

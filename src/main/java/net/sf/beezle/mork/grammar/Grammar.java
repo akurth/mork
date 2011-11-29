@@ -60,12 +60,12 @@ public class Grammar extends GrammarCore {
 
 
     public static Grammar forSymbols(String[][] symbols) {
-        Grammar grm;
+        Grammar grammar;
         int i, j;
         String s;
         int[] prod;
 
-        grm = new Grammar();
+        grammar = new Grammar();
         if (symbols.length > 0) {
             for (i = 0; i < symbols.length; i++) {
                 if (symbols[i].length == 0) {
@@ -74,18 +74,18 @@ public class Grammar extends GrammarCore {
                 prod = new int[symbols[i].length - 1];
                 for (j = 0; j <= prod.length; j++) {
                     s = symbols[i][j];
-                    if (grm.symbolTable.indexOf(s) == -1) {
-                        grm.symbolTable.add(s);
+                    if (grammar.symbolTable.indexOf(s) == -1) {
+                        grammar.symbolTable.add(s);
                     }
                     if (j > 0) {
-                        prod[j - 1] = grm.symbolTable.indexOf(s);
+                        prod[j - 1] = grammar.symbolTable.indexOf(s);
                     }
                 }
-                grm.add(grm.symbolTable.indexOf(symbols[i][0]), prod);
+                grammar.add(grammar.symbolTable.indexOf(symbols[i][0]), prod);
             }
-            grm.start = grm.symbolTable.indexOf(symbols[0][0]);
+            grammar.start = grammar.symbolTable.indexOf(symbols[0][0]);
         }
-        return grm;
+        return grammar;
     }
 
     public Grammar() {

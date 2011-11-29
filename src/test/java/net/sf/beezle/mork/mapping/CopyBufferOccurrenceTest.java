@@ -178,10 +178,10 @@ public class CopyBufferOccurrenceTest extends TestCase {
      * All symbols name have to be single characters.
      */
     private void create(String[] prods, String as) {
-        Grammar grm;
+        Grammar grammar;
 
-        grm = Grammar.forProductions(prods);
+        grammar = Grammar.forProductions(prods);
         sems = new AgBuffer((Attribute) null);
-        start = CopyBufferCompareTest.addTransport(sems, "a", as, grm);
+        start = CopyBufferCompareTest.addTransport(sems, "a", as, grammar);
     }
 }

@@ -10,6 +10,9 @@
         Changed terminology: grammar files are syntax files now.
       </action>
       <action dev="mlhartme" type="update">
+        Changed References to syntax files in Mapper file from "grm" to "syntax".
+      </action>
+      <action dev="mlhartme" type="update">
         Changed naming convention for syntax files: capitalized with extension .syntax.
       </action>
       <action dev="mlhartme" type="update">

@@ -17,7 +17,7 @@
 
 mapper calc.Mapper;
 
-grm = "Expression.syntax";
+syntax = "Expression.syntax";
 
 import calc:
     Main;

@@ -17,7 +17,7 @@
 
 mapper net.sf.beezle.mork.compiler.tests.sideeffect.Mapper;
 
-grm = "Sideeffect.syntax";
+syntax = "Sideeffect.syntax";
 
 import sideeffect: Main;
 

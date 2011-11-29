@@ -17,7 +17,7 @@
 
 mapper net.sf.beezle.mork.compiler.MapperMapper;
 
-grm = "Mapper.syntax";
+syntax = "Mapper.syntax";
 
 import net.sf.beezle.mork.mapping:
     Import, Internal, Library, Path;

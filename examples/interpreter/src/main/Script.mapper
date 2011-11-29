@@ -1,6 +1,6 @@
 mapper interpreter.Mapper;
 
-grm = "Script.syntax";
+syntax = "Script.syntax";
 
 import interpreter:
     Assign, Binary, Block, Const, Declarations, Expression, If, Input,

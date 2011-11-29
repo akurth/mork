@@ -32,7 +32,7 @@ import net.sf.beezle.mork.semantics.Pusher;
 public class CopyBufferPushUpTest extends TestCase {
     private Attribute seed;
     private AgBuffer sems;
-    private Grammar grm;
+    private Grammar grammar;
 
     public void testDirect() {
         create(new String[] {
@@ -134,7 +134,7 @@ public class CopyBufferPushUpTest extends TestCase {
         Oag ag;
         Ag trueSems;
 
-        sems = Pusher.run(false, seed, new IntBitSet(), grm);
+        sems = Pusher.run(false, seed, new IntBitSet(), grammar);
         System.out.println("sems raw");
         System.out.println(sems.toString());
 
@@ -153,8 +153,8 @@ public class CopyBufferPushUpTest extends TestCase {
     private void create(String[] prods) {
         int sym;
 
-        grm = Grammar.forProductions(prods);
-        sym = grm.getSymbolTable().indexOf("a");
+        grammar = Grammar.forProductions(prods);
+        sym = grammar.getSymbolTable().indexOf("a");
         if (sym == -1) {
             throw new IllegalArgumentException("missing seed symbol: a");
         }

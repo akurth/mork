@@ -1,6 +1,6 @@
 mapper command.Mapper;
 
-grm = "Command.syntax";
+syntax = "Command.syntax";
 
 import command:
     Command, Declarations, Line, Constant, Reference, Variable;

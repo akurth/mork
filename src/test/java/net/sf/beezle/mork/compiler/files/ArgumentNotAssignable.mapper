@@ -1,6 +1,6 @@
 mapper ArgumentNotAssignable;
 
-grm = "Ab.syntax";
+syntax = "Ab.syntax";
 
 import net.sf.beezle.mork.compiler:
   MainFunctionalTest;

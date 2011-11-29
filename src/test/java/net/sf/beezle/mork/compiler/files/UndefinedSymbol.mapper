@@ -1,6 +1,6 @@
 mapper UndefinedSymbol;
 
-grm = "Ab.syntax";
+syntax = "Ab.syntax";
 
 import java.lang: String;
 

@@ -1,4 +1,4 @@
 mapper InvalidGrammar;
 
-grm = "Invalid.syntax";
+syntax = "Invalid.syntax";
 

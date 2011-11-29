@@ -139,7 +139,7 @@ public class OagTest extends TestCase {
         Ag sems;
         String[] tmp;
         String[][][] allCalls;
-        Grammar grm;
+        Grammar grammar;
         List attrs;
 
         prods = new String[rules.length];
@@ -149,11 +149,11 @@ public class OagTest extends TestCase {
             prods[r] = tmp[0];
             allCalls[r] = getCalls(tmp);
         }
-        grm = Grammar.forProductions(prods);
-        attrs = declareAttributes(grm, allCalls);
-        sems = new Ag(grm);
+        grammar = Grammar.forProductions(prods);
+        attrs = declareAttributes(grammar, allCalls);
+        sems = new Ag(grammar);
         for (r = 0; r < rules.length; r++) {
-            addCalls(sems, attrs, grm, r, allCalls[r]);
+            addCalls(sems, attrs, grammar, r, allCalls[r]);
         }
         return sems;
     }
