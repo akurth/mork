@@ -18,7 +18,6 @@
 package net.sf.beezle.mork.bootstrap;
 
 import net.sf.beezle.mork.compiler.Syntax;
-import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.semantics.BuiltIn;
 import net.sf.beezle.mork.semantics.IllegalLiteral;
 
@@ -26,7 +25,7 @@ import net.sf.beezle.mork.semantics.IllegalLiteral;
  * Helper functions referred by bootstrap mappers.
  */
 public class Stubs04 {
-    public static Syntax loadGrammar(String fileName) throws IllegalLiteral {
-        return Loader.loadGrammar(BuiltIn.parseString(fileName));
+    public static Syntax loadSyntax(String fileName) throws IllegalLiteral {
+        return Loader.loadSyntax(BuiltIn.parseString(fileName));
     }
 }

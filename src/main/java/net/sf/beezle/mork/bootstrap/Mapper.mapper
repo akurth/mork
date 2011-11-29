@@ -48,7 +48,7 @@ SyntaxFile          => (Syntax):
                          > \\Mapper//Symbol
                          > \\Mapper//AttributeName
                          > \\Mapper//Attribute;
-Grammar             => Stubs04.loadGrammar;
+Grammar             => Stubs04.loadSyntax;
 Imports             => Library:
                          > \\Mapper//ClassRef
                          > \\Mapper//MemberRef

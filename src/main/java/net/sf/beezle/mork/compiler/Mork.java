@@ -107,7 +107,7 @@ public class Mork {
     //--------------------------------------------------------------------------------
     // load syntax
 
-    public Syntax loadGrammar(String fileName) throws GenericException, IllegalLiteral {
+    public Syntax loadSyntax(String fileName) throws GenericException, IllegalLiteral {
         return loadSyntax(fileName, grammarMapper);
     }
 

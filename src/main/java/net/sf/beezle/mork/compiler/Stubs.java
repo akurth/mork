@@ -72,8 +72,8 @@ public class Stubs {
     }
 
     // TODO: as long as the context has no type I need this helper
-    public static Syntax loadGrammar(Object mork, String fileName) throws GenericException, IllegalLiteral {
-        return ((Mork) mork).loadGrammar(fileName);
+    public static Syntax loadSyntax(Object mork, String fileName) throws GenericException, IllegalLiteral {
+        return ((Mork) mork).loadSyntax(fileName);
     }
 
     public static char toChar(int num) throws GenericException {

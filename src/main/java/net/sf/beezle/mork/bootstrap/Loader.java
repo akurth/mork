@@ -50,7 +50,7 @@ public class Loader {
         return (Specification) load("net.sf.beezle.mork.bootstrap.MapperMapper", file);
     }
 
-    public static Syntax loadGrammar(String file) {
+    public static Syntax loadSyntax(String file) {
         File absolute;
 
         absolute = absoluteFile(new File(mapperFile).getParentFile(), file);

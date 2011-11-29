@@ -47,7 +47,7 @@ SyntaxFile          => (Syntax):
                          > \\Mapper//Symbol
                          > \\Mapper//AttributeName
                          > \\Mapper//Attribute;
-Grammar             => Stubs.loadGrammar;
+Grammar             => Stubs.loadSyntax;
   :Mork             => [env]: > Grammar;
 Imports             => Library:
                          > \\Mapper//ClassRef
