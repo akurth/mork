@@ -20,7 +20,7 @@
 #
 # overall structure
 
-Grammar             ::= Parser Scanner ;
+Syntax              ::= Parser Scanner ;
 Parser              ::= "[" "PARSER" "]" Rule+ ;
 Scanner             ::= "[" "SCANNER" "]" Priorities WhiteOpt Rule* ;
 Priorities          ::= UsePriorities | NoPriorities;

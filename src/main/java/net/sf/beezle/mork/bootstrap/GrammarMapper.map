@@ -33,9 +33,9 @@ import java.lang:
 
 #
 # overall structure
-Grammar             => Stubs.grammarSyntax ;
+Syntax              => Stubs.grammarSyntax ;
  :grammarSymbolTable   => Stubs.symbolTable:
-                         > Grammar
+                         > Syntax
                          > //StringSymbol
                          > //IdentifierSymbol;
 SymbolSet           => Stubs.symbolSet;
@@ -48,13 +48,13 @@ NoPriorities        => Boolean.FALSE;
 StringSymbol        => Stubs.symbolRef:
                          > \\*
                          > Keyword ;
- :Keyword           => Stubs.keyword: > \\Grammar;
+ :Keyword           => Stubs.keyword: > \\Syntax;
 IdentifierSymbol    => Stubs.symbolRef;
 
 #
 # regular expressions
 
-Rule                => Rule: >\\Parser\\Grammar > \\Scanner\\Grammar;  # TODO
+Rule                => Rule: >\\Parser\\Syntax > \\Scanner\\Syntax;  # TODO
 Choice              => Choice.createLeftOptional;
 Sequence            => Sequence;
 Restriction         => Without;
