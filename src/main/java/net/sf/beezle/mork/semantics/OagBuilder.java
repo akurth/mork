@@ -352,28 +352,28 @@ public class OagBuilder {
         return eds;
     }
 
-    private Graph createEDPx(int p, Graph dp, Graph[] ds) {
-        Graph edsP;
+    private Graph<AttributeOccurrence> createEDPx(int p, Graph<AttributeOccurrence> dp, Graph<Attribute>[] ds) {
+        Graph<AttributeOccurrence> edsP;
         int ofs;
         int maxOfs;
         int symbol;
-        EdgeIterator iter;
+        EdgeIterator<Attribute> iter;
 
-        edsP = new Graph();
+        edsP = new Graph<AttributeOccurrence>();
         edsP.addGraph(dp);
         maxOfs = semantics.getGrammar().getLength(p);
         for (ofs = 0; ofs <= maxOfs; ofs++) {
             symbol = semantics.getGrammar().getSymbol(p, ofs);
             iter = ds[symbol].edges();
             while (iter.step()) {
-                edsP.addEdge(new AttributeOccurrence((Attribute) iter.left(), ofs - 1),
-                          new AttributeOccurrence((Attribute) iter.right(), ofs - 1));
+                edsP.addEdge(new AttributeOccurrence(iter.left(), ofs - 1),
+                        new AttributeOccurrence(iter.right(), ofs - 1));
             }
         }
         return edsP;
     }
 
-    public Visits[] createVisits(Graph[] edp, List[][] as) throws GenericException {
+    public Visits[] createVisits(Graph<AttributeOccurrence>[] edp, List<Attribute>[][] as) throws GenericException {
         int p;
         Visits[] visits;
 

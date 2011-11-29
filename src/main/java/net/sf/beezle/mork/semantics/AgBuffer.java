@@ -421,7 +421,7 @@ public class AgBuffer implements Compare {
     {
         State orig;
         State clone;
-        List nextAttrs;
+        List<Attribute> nextAttrs;
         IntArrayList nextOfss;
         IntArrayList nextSeqs;
         int alt;
@@ -438,7 +438,7 @@ public class AgBuffer implements Compare {
                 clone = (State) clonedStack.get(idx);
             } else {
                 clone = State.cloneEmpty(orig);
-                nextAttrs = new ArrayList();
+                nextAttrs = new ArrayList<Attribute>();
                 nextOfss = new IntArrayList();
                 nextSeqs = new IntArrayList();
                 orig.getSequence(seq, nextAttrs, nextOfss, nextSeqs, this);
