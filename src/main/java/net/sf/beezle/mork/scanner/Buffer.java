@@ -31,13 +31,10 @@ import java.io.Reader;
  *
  * Mark() is used to mark the complete token; get/setPos() is used in between by ScannerTable.
  *
- * Buffer dtorage is devided into pages.
+ * Buffer storage is devided into pages.
  */
 
 public class Buffer {
-    /** this object is thrown to indicate the end of the input stream */
-    public static final GenericException EOF = new GenericException("eof");
-
     /**
      * True if src.read() has returned -1. Does not necessarily meant that this buffer
      * is EOF as well.
@@ -149,13 +146,13 @@ public class Buffer {
         return srcEof && (getOfs() == pages.getSize());
     }
 
-    /** @throws Buffer.EOF for to indicate eof */
-    public int read() throws IOException, GenericException {
+    /** @return character or Scanner.EOF */
+    public int read() throws IOException {
         if (pageOfs == pageUsed) {
             switch (pages.read(pageNo, pageUsed)) {
                 case -1:
                     srcEof = true;
-                    throw EOF;
+                    return Scanner.EOF;
                 case 0:
                     pageUsed = pages.getUsed(pageNo);
                     break;
@@ -170,18 +167,6 @@ public class Buffer {
             }
         }
         return pageData[pageOfs++];
-    }
-
-    // this method is more expensive than plain read()
-    public int readOrEof() throws IOException {
-        try {
-            return read();
-        } catch (GenericException e) {
-            if (e != Buffer.EOF) {
-                throw new RuntimeException("unexpected GenericException " + e);
-            }
-            return -1;
-        }
     }
 
     //-------------------------------

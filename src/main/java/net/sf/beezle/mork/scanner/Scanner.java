@@ -51,13 +51,12 @@ public class Scanner {
         src.open(pos, reader);
     }
 
-    // TODO: expensive; not in interface
     public String getRemainingInput() throws IOException {
         int c;
         StringBuilder buffer;
 
         buffer = new StringBuilder();
-        for (c = src.readOrEof(); c != -1; c = src.readOrEof()) {
+        for (c = src.read(); c != -1; c = src.read()) {
             buffer.append((char) c);
         }
         return buffer.toString();
@@ -91,35 +90,24 @@ public class Scanner {
         endCount = 0;
         count = 0;
         pc = start;
-        try {
-            do {
-                tmp = table[pc + mode];
-                pc += modeCount;
-                if (tmp != NO_TERMINAL) {
-                    endTerminal = tmp;
-                    endCount = count;
-                }
-                c = src.read();
-                count++;
-                while (c > table[pc]) {
-                    pc += 2;
-                }
-                pc = table[pc + 1];
-            } while (pc != ERROR_PC);
-        } catch (GenericException e) {
-            if (e != Buffer.EOF) {
-                throw new IllegalStateException("unexpected GenericException " + e);
+        do {
+            tmp = table[pc + mode];
+            pc += modeCount;
+            if (tmp != NO_TERMINAL) {
+                endTerminal = tmp;
+                endCount = count;
             }
-            if (!src.wasEof()) {
-                throw new IllegalStateException();
+            c = src.read();
+            if (c == Scanner.EOF) {
+                src.reset(endCount);
+                return endTerminal == ERROR ? EOF : endTerminal;
             }
-            src.reset(endCount);
-            if (endTerminal == ERROR) {
-                return EOF;
-            } else {
-                return endTerminal;
+            count++;
+            while (c > table[pc]) {
+                pc += 2;
             }
-        }
+            pc = table[pc + 1];
+        } while (pc != ERROR_PC);
         src.reset(endCount);
         return endTerminal;
     }

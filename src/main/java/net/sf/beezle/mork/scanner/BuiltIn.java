@@ -32,15 +32,15 @@ public class BuiltIn {
         int prev;
         int count;
 
-        c = r.readOrEof();
+        c = r.read();
         if (c == '/') {
-            c2 = r.readOrEof();
+            c2 = r.read();
             if (c2 == '*') {          // comment / * * /
                 count = 3;
-                c = r.readOrEof();
+                c = r.read();
                 do {
                     prev = c;
-                    c = r.readOrEof();
+                    c = r.read();
                     count++;
                     if (c == -1) {
                         return -1;
@@ -50,7 +50,7 @@ public class BuiltIn {
             } else if (c2 == '/') {   // comment / /
                 count = 2;
                 while (c != '\n') { // '/' at the first time - doesn't matter
-                    c = r.readOrEof();
+                    c = r.read();
                     if (c == -1) {
                         break;
                     }
@@ -64,9 +64,9 @@ public class BuiltIn {
             count = 0;
             while (Character.isWhitespace((char) c)) {
                 count++;
-                c = r.readOrEof();
+                c = r.read();
             }
-            return (count == 0)? -1 : count;
+            return count == 0 ? -1 : count;
         }
     }
 
@@ -77,36 +77,36 @@ public class BuiltIn {
         int count;
         int c;
 
-        c = r.readOrEof();
+        c = r.read();
         if (c == '0') {
-            c = r.readOrEof();
+            c = r.read();
             if ((c == 'x') || (c == 'X')) {
-                c = r.readOrEof();
+                c = r.read();
                 count = 2;
                 // hexadecimal
                 while (((c >= '0') && (c <= '9'))
                        || ((c >= 'a') && (c <= 'f'))
                        || ((c >= 'A') && (c <= 'F'))) {
                     count++;
-                    c = r.readOrEof();
+                    c = r.read();
                 }
-                return (count == 2)? 1 /* not -1 ! */ : count;
+                return count == 2 ? 1 /* not -1 ! */ : count;
             } else {
                 count = 1;
                 // octal
                 while ((c >= '0') && (c <= '7')) {
                     count++;
-                    c = r.readOrEof();
+                    c = r.read();
                 }
                 return count;
             }
         } else if ((c >= '1') && (c <= '9')) {
             count = 1;
-            c = r.readOrEof();
+            c = r.read();
             // decimal
             while ((c >= '0') && (c <= '9')) {
                 count++;
-                c = r.readOrEof();
+                c = r.read();
             }
             return count;
         } else {
@@ -121,14 +121,14 @@ public class BuiltIn {
         int c;
         int count;
 
-        c = r.readOrEof();
+        c = r.read();
         if (!Character.isJavaIdentifierStart((char) c)) {
             return -1;
         }
         count = 1;
-        c = r.readOrEof();
+        c = r.read();
         while (Character.isJavaIdentifierPart((char) c)) {
-            c = r.readOrEof();
+            c = r.read();
             count++;
         }
         return count;
@@ -140,17 +140,17 @@ public class BuiltIn {
     public static int stringLiteral(Buffer src) throws IOException {
         int c, count;
 
-        c = src.readOrEof();
+        c = src.read();
         if (c != '"') {
             return -1;
         }
         count = 1;
         do {
-            c = src.readOrEof();
+            c = src.read();
             if (c =='\\') {
                 // read over escaped character
-                c = src.readOrEof();
-                c = src.readOrEof();
+                c = src.read();
+                c = src.read();
                 // if EOF was read, result is -1, so +=2 does no harm
                 count += 2;
             }
@@ -170,17 +170,17 @@ public class BuiltIn {
     public static int characterLiteral(Buffer src) throws IOException {
         int c, count;
 
-        c = src.readOrEof();
+        c = src.read();
         if (c != '\'') {
             return -1;
         }
         count = 1;
         do {
-            c = src.readOrEof();
+            c = src.read();
             if (c == '\\') {
                 // read over escaped character
-                c = src.readOrEof();
-                c = src.readOrEof();
+                c = src.read();
+                c = src.read();
                 // if EOF was read, result is -1, so += 2 does no harm
                 count += 2;
             }

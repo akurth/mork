@@ -92,8 +92,7 @@ public class BufferTest extends TestCase {
         buffer.open(pos, src);
     }
 
-    private void readPosition(int newlineCount) throws IOException, GenericException {
-        int c;
+    private void readPosition(int newlineCount) throws IOException {
         int i;
         int startLine;
         int startOfs;
@@ -101,7 +100,7 @@ public class BufferTest extends TestCase {
         startLine = pos.getLine();
         startOfs = pos.getOffset();
         for (i = 0; i < newlineCount; i++) {
-            c = buffer.read();
+            buffer.read();
         }
         buffer.mark();
         assertEquals(startLine + newlineCount, pos.getLine());
@@ -113,13 +112,13 @@ public class BufferTest extends TestCase {
 
         str = buffer.createString();
         buffer.assertInvariant();
-        assertEquals(-1, buffer.readOrEof());
+        assertEquals(-1, buffer.read());
         buffer.assertInvariant();
         assertTrue(buffer.wasEof());
         buffer.assertInvariant();
         assertEquals(str, buffer.createString());
         buffer.assertInvariant();
-        assertEquals(-1, buffer.readOrEof());
+        assertEquals(-1, buffer.read());
         buffer.assertInvariant();
         assertEquals(str, buffer.createString());
         buffer.assertInvariant();
@@ -143,7 +142,7 @@ public class BufferTest extends TestCase {
             max = str.length();
             for (i = ofs; i < endOfs; i++) {
                 assertEquals(startOfs + i, buffer.getOfs());
-                assertEquals(str.charAt(i), buffer.readOrEof());
+                assertEquals(str.charAt(i), buffer.read());
                 buffer.assertInvariant();
             }
             assertEquals(str, buffer.createString());
