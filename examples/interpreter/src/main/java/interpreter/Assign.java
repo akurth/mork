@@ -1,8 +1,8 @@
 package interpreter;
 
 public class Assign extends Statement {
-    private Variable var;
-    private Expression expr;
+    private final Variable var;
+    private final Expression expr;
 
     public Assign(Reference ref, Expression exprInit) throws SemanticError {
         var = ref.getVar();

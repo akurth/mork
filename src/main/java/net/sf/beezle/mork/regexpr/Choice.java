@@ -23,19 +23,12 @@ import java.util.List;
 /** Left | Right, a little bit more general. */
 
 public class Choice extends RegExpr {
-    private RegExpr[] body;
+    private final RegExpr[] body;
 
     //----------------------------------------------------------------
 
-    /**
-     * Zero alternatives, can't be matched.
-     */
-    public Choice() {
-        this(new RegExpr[] {});
-    }
-
-    public Choice(RegExpr one) {  // somewhat artificial
-        this(new RegExpr[] { one });
+    public Choice(RegExpr ... body) {
+        this.body = body;
     }
 
     public static RegExpr createRightOptional(RegExpr left, RegExpr right) {
@@ -52,14 +45,6 @@ public class Choice extends RegExpr {
         } else {
             return new Choice(left, right);
         }
-    }
-
-    public Choice(RegExpr left, RegExpr right) {
-        this(new RegExpr[] { left, right });
-    }
-
-    public Choice(RegExpr[] body) {
-        this.body = body;
     }
 
 

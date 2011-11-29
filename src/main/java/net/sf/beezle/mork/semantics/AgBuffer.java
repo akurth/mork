@@ -36,7 +36,7 @@ public class AgBuffer implements Compare {
     /**
      * List of States
      */
-    private List<State> states;
+    private final List<State> states;
 
     private Attribute start;
 

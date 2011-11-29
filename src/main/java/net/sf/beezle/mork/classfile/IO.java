@@ -132,7 +132,7 @@ public class IO {
             throw new IllegalArgumentException();
         }
         dest.write((byte) (u2 >> 8));
-        dest.write((byte) (u2 >> 0));
+        dest.write((byte) u2);
     }
 
     /** int c  simplifies checking, casting */
@@ -141,7 +141,7 @@ public class IO {
             throw new IllegalArgumentException();
         }
         dest.write((byte) (s2 >> 8));
-        dest.write((byte) (s2 >> 0));
+        dest.write((byte) s2);
     }
 
     /** int c  simplifies checking, casting */
@@ -149,6 +149,6 @@ public class IO {
         dest.write((byte) (u4 >> 24));
         dest.write((byte) (u4 >> 16));
         dest.write((byte) (u4 >>  8));
-        dest.write((byte) (u4 >>  0));
+        dest.write((byte) u4);
     }
 }

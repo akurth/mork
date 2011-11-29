@@ -33,16 +33,16 @@ import java.lang.reflect.InvocationTargetException;
 
 public class Composition extends Function {
     /** Base Function. The main function to be invoked */
-    private Function base;
+    private final Function base;
 
     /** Parameter Function. It computes an argument for base */
-    private Function para;
+    private final Function para;
 
     /** Computed argument. Which argument of base is computed by para */
-    private int idx;
+    private final int idx;
 
-    private int baseParaCount;
-    private int paraParaCount;
+    private final int baseParaCount;
+    private final int paraParaCount;
 
     /**
      * Create a Composition.

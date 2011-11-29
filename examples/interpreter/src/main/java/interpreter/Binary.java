@@ -1,10 +1,10 @@
 package interpreter;
 
 public class Binary extends Expression {
-    private int type;
-    private int op;
-    private Expression left;
-    private Expression right;
+    private final int type;
+    private final int op;
+    private final Expression left;
+    private final Expression right;
 
     public static final int[][] OPS = {
         { NONE, INT, STR },  // add

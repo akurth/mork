@@ -1,7 +1,7 @@
 package interpreter;
 
 public class Block extends Statement {
-    private Statement[] stmts;
+    private final Statement[] stmts;
 
     public Block(Statement[] stmts) {
         this.stmts = stmts;

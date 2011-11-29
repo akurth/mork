@@ -249,7 +249,7 @@ public class Pool implements Constants {
         i = value.intValue();
         return new byte[] { CONSTANT_INTEGER,
                                 (byte) (i >> 24), (byte) (i >> 16),
-                                (byte) (i >>  8), (byte) (i >>  0) };
+                                (byte) (i >>  8), (byte) i };
     }
 
     private byte[] createFloatBytes(Float value) {
@@ -258,7 +258,7 @@ public class Pool implements Constants {
         i = Float.floatToIntBits(value.floatValue());
         return new byte[] { CONSTANT_FLOAT,
                                 (byte) (i >> 24), (byte) (i >> 16),
-                                (byte) (i >>  8), (byte) (i >>  0) };
+                                (byte) (i >>  8), (byte) i };
     }
 
     private byte[] createLongBytes(Long value) {
@@ -269,7 +269,7 @@ public class Pool implements Constants {
                                 (byte) (l >> 56), (byte) (l >> 48),
                                 (byte) (l >> 40), (byte) (l >> 32),
                                 (byte) (l >> 24), (byte) (l >> 16),
-                                (byte) (l >>  8), (byte) (l >>  0) };
+                                (byte) (l >>  8), (byte) l };
     }
 
     private byte[] createDoubleBytes(Double value) {
@@ -280,7 +280,7 @@ public class Pool implements Constants {
                                 (byte) (l >> 56), (byte) (l >> 48),
                                 (byte) (l >> 40), (byte) (l >> 32),
                                 (byte) (l >> 24), (byte) (l >> 16),
-                                (byte) (l >>  8), (byte) (l >>  0) };
+                                (byte) (l >>  8), (byte) l };
     }
 
     private byte[] createNameAndTypeBytes(NameAndType nt) {
@@ -383,7 +383,7 @@ public class Pool implements Constants {
         return ((bytes[ofs + 0] & 0xff) << 24)
              | ((bytes[ofs + 1] & 0xff) << 16)
              | ((bytes[ofs + 2] & 0xff) <<  8)
-             | ((bytes[ofs + 3] & 0xff) <<  0);
+             | ((bytes[ofs + 3] & 0xff));
     }
 
     private static long bytesToU8(byte[] bytes, int ofs) {
@@ -453,12 +453,12 @@ public class Pool implements Constants {
                 switch (c & 0xe0) {
                 case 0xc0:
                     // 2 bytes for 0x0000 or 0x0080 .. 0x07ff
-                    c = ((c & 0x1f) << 6) | ((info[i + 1] & 0x3f) << 0);
+                    c = ((c & 0x1f) << 6) | (info[i + 1] & 0x3f);
                     i += 2;
                     break;
                 case 0xe0:
                     // 3 bytes for 0x0800 .. 0xffff
-                    c = ((c & 0x1f) << 12) | ((info[i + 1] & 0x3f) <<  6) | ((info[i + 2] & 0x3f) <<  0);
+                    c = ((c & 0x1f) << 12) | ((info[i + 1] & 0x3f) <<  6) | ((info[i + 2] & 0x3f));
                     i += 3;
                     break;
                 default:
@@ -496,7 +496,7 @@ public class Pool implements Constants {
         result = new byte[1 + 2 + len];
         result[0] = CONSTANT_UTF8;
         result[1] = (byte) (len >> 8);
-        result[2] = (byte) (len >> 0);
+        result[2] = (byte) len;
         len = 3;  // used for current position
         for (i = 0; i < max; i++) {
             c = str.charAt(i);

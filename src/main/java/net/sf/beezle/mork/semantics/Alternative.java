@@ -23,13 +23,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Alternative implements Compare {
-    public int production;
+    public final int production;
 
     /** ofs -1: left hand side */
-    public int resultOfs;
+    public final int resultOfs;
 
-    private IntArrayList argsOfs;
-    private ArrayList<Attribute> argsCopy;
+    private final IntArrayList argsOfs;
+    private final ArrayList<Attribute> argsCopy;
 
     public Alternative(Alternative orig) {
         this(orig.production, orig.resultOfs);
