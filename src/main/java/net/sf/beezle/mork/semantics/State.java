@@ -301,7 +301,7 @@ public class State implements Compare {
 
     //----------------------------------------------------------------------------
 
-    public Occurrence calcOccurrence(AgBuffer copyBuffer, List stack) {
+    public Occurrence calcOccurrence(AgBuffer copyBuffer, List<Attribute> stack) {
         Alternative ab;
         int i;
         int j;
@@ -332,7 +332,7 @@ public class State implements Compare {
 
     //-----------------------
 
-    public static State merge(Map mapping, List copies) {
+    public static State merge(Map<Attribute, Merger> mapping, List<State> copies) {
         State first;
         State result;
         int c;
@@ -347,7 +347,7 @@ public class State implements Compare {
         if (copies.size() == 0) {
             throw new IllegalStateException();
         }
-        first = (State) copies.get(0);
+        first = copies.get(0);
         result = new State(Merger.map(mapping, first.getAttribute()));
         attribSize = first.alternatives.size();
         copiesSize = copies.size();
@@ -355,7 +355,7 @@ public class State implements Compare {
             firstAb = first.alternatives.get(a);
             destAb = new Alternative(firstAb.production, firstAb.resultOfs);
             for (c = 0; c < copiesSize; c++) {
-                current = (State) copies.get(c);
+                current = copies.get(c);
                 srcAb = current.alternatives.get(a);
                 addMappedArguments(srcAb, destAb, mapping);
             }
@@ -365,7 +365,7 @@ public class State implements Compare {
     }
 
     // TODO: move to Alternative
-    private static Alternative addMappedArguments(Alternative ab, Alternative dest, Map mapping) {
+    private static Alternative addMappedArguments(Alternative ab, Alternative dest, Map<Attribute, Merger> mapping) {
         int i;
         int max;
         Attribute attr;
@@ -383,8 +383,7 @@ public class State implements Compare {
     //-----------------------------------------------------------------
 
     public void getSequence(int seq,
-        List nextAttrs, IntArrayList nextOfss, IntArrayList nextSeqs, AgBuffer cb)
-    {
+                            List<Attribute> nextAttrs, IntArrayList nextOfss, IntArrayList nextSeqs, AgBuffer cb) {
         int i;
         int max;
 

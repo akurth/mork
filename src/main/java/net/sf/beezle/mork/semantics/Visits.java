@@ -41,14 +41,14 @@ public class Visits {
         AttributeOccurrence right;
         int i;
         int max;
-        Graph visitRelation;  // Attribute, AttributionBuffer, or Integer
-        Set all;
+        Graph<Object> visitRelation;  // Attribute, AttributionBuffer, or Integer
+        Set<AttributionBuffer> all;
         Object leftMapped;
         Object rightMapped;
         Object obj;
-        List lst;
+        List<Object> lst;
 
-        visitRelation = new Graph();
+        visitRelation = new Graph<Object>();
 
         // attributions first - to enforce textual order
         all = new LinkedHashSet<AttributionBuffer>();

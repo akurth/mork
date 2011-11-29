@@ -279,7 +279,7 @@ public class OagBuilder {
     /**
      * Computes Axy. (Definition 4).
      */
-    public List<Attribute>[][] createA(Graph[] ids) throws GenericException {
+    public List<Attribute>[][] createA(Graph<Attribute>[] ids) throws GenericException {
         Set<Attribute> internal;
         Set<Attribute> synthesized;
         Set<Attribute> inherited;
