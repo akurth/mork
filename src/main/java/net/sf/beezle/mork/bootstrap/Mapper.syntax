@@ -22,9 +22,8 @@
 
 Mapper              ::= MapperName SyntaxFile Imports Definitions ;
 MapperName          ::= "mapper" Name ";" ;
-SyntaxFile          ::= Grammar | Dtd ;
+SyntaxFile          ::= Grammar ;
 Grammar             ::= "grm" "=" StringLiteral ";" ;
-Dtd                 ::= "dtd" "=" StringLiteral ";" ;
 Imports             ::= Import* ;
 Import              ::= "import" PackageName ":" Class ("," Class)* ";";
 Class               ::= Identifier ("->" Identifier)? ;

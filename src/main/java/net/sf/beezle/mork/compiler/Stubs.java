@@ -77,11 +77,6 @@ public class Stubs {
         return ((Mork) mork).loadGrammar(fileName);
     }
 
-    // TODO: as long as the context has no type I need this helper
-    public static Syntax loadDtd(Object mork, String fileName) throws GenericException, IllegalLiteral {
-        return ((Mork) mork).loadDtd(fileName);
-    }
-
     public static char toChar(int num) throws GenericException {
         if ((num < 0) || (num > Character.MAX_VALUE)) {
             throw new GenericException(INVALID_CHARACTER, "" + num);

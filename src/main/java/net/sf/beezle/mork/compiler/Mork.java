@@ -47,11 +47,6 @@ public class Mork {
     private final MorkMapper grammarMapper;
 
     /**
-     * Maps dtd files into Syntax objects.
-     */
-    private final MorkMapper dtdMapper;
-
-    /**
      * Helper objects to generate class files.
      */
     private final MapperCompiler compiler;
@@ -65,7 +60,6 @@ public class Mork {
         this.output = output;
         this.mapperMapper = new MorkMapper(this, "net.sf.beezle.mork.compiler.MapperMapper", mapperFn);
         this.grammarMapper = new MorkMapper(this, "net.sf.beezle.mork.compiler.GrammarMapper");
-        this.dtdMapper = new MorkMapper(this, "net.sf.beezle.mork.xml.DtdMapper");
         this.compiler = new MapperCompiler(output);
         this.currentJob = null;
     }
@@ -110,10 +104,6 @@ public class Mork {
 
     public Syntax loadGrammar(String fileName) throws GenericException, IllegalLiteral {
         return loadSyntax(fileName, grammarMapper);
-    }
-
-    public Syntax loadDtd(String fileName) throws GenericException, IllegalLiteral {
-        return loadSyntax(fileName, dtdMapper);
     }
 
     private Syntax loadSyntax(String fileName, MorkMapper mapper) throws GenericException, IllegalLiteral {

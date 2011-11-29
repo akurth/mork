@@ -1315,8 +1315,8 @@
         name extension is <literal>.map</literal> (all lower case on every platform). Example 1: Each of
         Mork's example applications has a single mapper only. Consequently, all example mapper file have
         the <literal>Mapper.map</literal>. Example 2: Mork itself has two mappers:
-        <literal>SyntaxMapper</literal> and <literal>MapperMapper</literal>. They map syntax files, mapper
-        files and dtd files. Note: mapper file names should start with a capital letter because their are
+        <literal>SyntaxMapper</literal> and <literal>MapperMapper</literal>. They map syntax files and
+        mapper files. Note: mapper file names should start with a capital letter because their are
         translated into Java class files, and the naming convention for classes is to start with a capital
         letter.
       </para></formalpara>

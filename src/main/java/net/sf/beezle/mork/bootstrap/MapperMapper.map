@@ -49,7 +49,6 @@ SyntaxFile          => (Syntax):
                          > \\Mapper//AttributeName
                          > \\Mapper//Attribute;
 Grammar             => Stubs04.loadGrammar;
-Dtd                 => Stubs04.loadDtd;
 Imports             => Library:
                          > \\Mapper//ClassRef
                          > \\Mapper//MemberRef

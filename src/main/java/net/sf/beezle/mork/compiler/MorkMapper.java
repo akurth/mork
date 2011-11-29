@@ -84,24 +84,7 @@ public class MorkMapper extends Mapper {
         name = source.getPath();
         mork.output.verbose("mapping " + name);
         setLogging(mork.output.verboseParsing, mork.output.verboseAttribution);
-        if (source.getName().endsWith(".dtd")) {
-            // TODO: ugly hack
-            try {
-                src = new FileReader(source);
-            } catch (FileNotFoundException e) {
-                mork.output.error(name, "file not found");
-                return null;
-            }
-            src = new PushbackReader(src);
-            try {
-                ((PushbackReader) src).unread('2');
-            } catch (IOException e) {
-                throw new RuntimeException();
-            }
-            results = run(source, src);
-        } else {
-            results = run(name);
-        }
+        results = run(name);
         mork.output.verbose("finished mapping " + name);
         if (results == null) {
             return null;

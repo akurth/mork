@@ -29,8 +29,4 @@ public class Stubs04 {
     public static Syntax loadGrammar(String fileName) throws GenericException, IllegalLiteral {
         return Loader.loadGrammar(BuiltIn.parseString(fileName));
     }
-
-    public static Syntax loadDtd(String fileName) throws GenericException {
-        throw new GenericException("DTD syntax not supported in bootstrap version");
-    }
 }
