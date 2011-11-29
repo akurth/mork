@@ -44,10 +44,10 @@ public class ScannerTest extends TestCase {
     private Scanner scanner;
 
     public void testSimple() throws GenericException, IOException {
-        table(new RegExpr[] {
+        table(
             keyword("Hello"),
             keyword("World")
-        });
+        );
 
         input("HelloWorld");
 
@@ -57,12 +57,10 @@ public class ScannerTest extends TestCase {
     }
 
     public void testSimpleWithout() throws GenericException, IOException {
-        table(new RegExpr[] {
-                new Without(new Range((char) 0, (char) 65535),
-                            new Range((char) 'a')),
-                new Without(new Range((char) 0, (char) 65535),
-                            new Range((char) 'b'))
-        });
+        table(
+                new Without(new Range((char) 0, (char) 65535), new Range('a')),
+                new Without(new Range((char) 0, (char) 65535), new Range('b'))
+        );
 
         input("bbb");
 
@@ -81,16 +79,16 @@ public class ScannerTest extends TestCase {
     }
 
     public void testWithoutXY() throws GenericException, IOException {
-        table(new RegExpr[] {
+        table(
                 new Sequence(keyword("K"), new Without(Loop.createStar(any()), keyword("xy")))
-        });
+        );
 
         input("K/**");
         scan("comment", 0, "K/**");
     }
 
     public void testWithout() throws GenericException, IOException {
-        table(new RegExpr[] {
+        table(
             new Sequence(new RegExpr[] {
                 keyword("/*"),
                 new Without(Loop.createStar(any()),
@@ -99,7 +97,7 @@ public class ScannerTest extends TestCase {
                             })),
                 keyword("*/")
             })
-        });
+        );
 
         input("/**//* *//***//* /*//* **/");
 
@@ -113,14 +111,14 @@ public class ScannerTest extends TestCase {
     }
 
     public void testXmlWithout() throws GenericException, IOException {
-        table(new RegExpr[] {
+        table(
             new Sequence(new RegExpr[] {
                 new Without(new Sequence(any(), Loop.createStar(any())),
                             new Sequence(new RegExpr[] {
                                 Loop.createStar(any()), keyword("]]>"), Loop.createStar(any())
                             }))
             })
-        });
+        );
 
         input("abc");
         scan("chardata", 0, "abc");
@@ -153,7 +151,7 @@ public class ScannerTest extends TestCase {
         }
     }
 
-    private void table(RegExpr[] token) throws GenericException, IOException {
+    private void table(RegExpr ... token) throws GenericException, IOException {
         IntBitSet terminals;
         int i;
         Rule[] rules;
