@@ -122,12 +122,12 @@ public class Selection {
     //----------------------------------------------------------------------
 
     public Selection restrictArgumentType(int arg, Class type) {
-        List lst;
+        List<Function> lst;
         int i;
         Class tmp;
         Class[] paras;
 
-        lst = new ArrayList();
+        lst = new ArrayList<Function>();
         for (i = 0; i < functions.length; i++) {
             paras = functions[i].getParameterTypes();
             if (arg < paras.length) {
@@ -142,10 +142,10 @@ public class Selection {
     }
 
     public Selection restrictArgumentCount(int count) {
-        List lst;
+        List<Function> lst;
         int i;
 
-        lst = new ArrayList();
+        lst = new ArrayList<Function>();
         for (i = 0; i < functions.length; i++) {
             if (functions[i].getParameterTypes().length == count) {
                 lst.add(functions[i]);

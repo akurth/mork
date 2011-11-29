@@ -285,7 +285,7 @@ public class Stubs {
     }
 
     public static Rule[] scannerRules(List rawKeywords, Rule[] rules) throws GenericException {
-        List keywords;
+        List<Rule> keywords;
         IntBitSet doneSymbols;
         int i;
         int max;

@@ -49,9 +49,9 @@ public class Binary extends Expression {
     public Object eval() {
         switch (type) {
         case BOOL:
-            return new Boolean(calcBool());
+            return calcBool();
         case INT:
-            return new Integer(calcInt());
+            return calcInt();
         case STR:
             return calcString();
         default:

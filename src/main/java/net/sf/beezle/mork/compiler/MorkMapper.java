@@ -134,10 +134,9 @@ public class MorkMapper extends Mapper {
             throw new GenericException("return type mismatch, expected: "+ resultType.getName());
         }
         tmp = fn.getExceptionTypes();
-        for (int i = 0; i < tmp.length; i++) {
-            if (!(RuntimeException.class.isAssignableFrom(tmp[i]) || Error.class.isAssignableFrom(tmp[i]))) {
-                throw new GenericException("mapper method must not throw checked exception: " +
-                                               tmp[i]);
+        for (Class<?> c : tmp) {
+            if (!(RuntimeException.class.isAssignableFrom(c) || Error.class.isAssignableFrom(c))) {
+                throw new GenericException("mapper method must not throw checked exception: " + c);
             } else {
                 // ok
             }

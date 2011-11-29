@@ -117,8 +117,8 @@ public class InstructionEncoding implements Bytecodes, Constants {
         switch (b) {
         case IINC:
             args = new Object[2];
-            args[0] = new Integer(src.readU2());
-            args[1] = new Integer(src.readS2());
+            args[0] = src.readU2();
+            args[1] = src.readS2();
             break;
         case ILOAD:
         case FLOAD:
@@ -132,7 +132,7 @@ public class InstructionEncoding implements Bytecodes, Constants {
         case DSTORE:
         case RET:
             // TODO: don't hard-wire constants
-            args = new Object[] { new Integer(src.readU2()) };
+            args = new Object[] { src.readU2() };
             break;
         default:
             throw new RuntimeException("illegal iinc");

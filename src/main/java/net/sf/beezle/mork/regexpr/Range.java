@@ -152,11 +152,11 @@ public class Range extends RegExpr {
     }
 
     public static void remove(List here, Range operand) {
-        List result;
+        List<Range> result;
         int i, max;
         Range tmp;
 
-        result = new ArrayList();
+        result = new ArrayList<Range>();
         max = here.size();
         for (i = 0; i < max; i++) {
             tmp = (Range) here.get(i);
@@ -173,7 +173,7 @@ public class Range extends RegExpr {
     /**
      * only valid if this.and(operand) is not empty!
      */
-    public void remove(Range operand, List result) {
+    public void remove(Range operand, List<Range> result) {
         // a piece left of operand
         // |--this--|
         //     |--op--|

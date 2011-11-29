@@ -366,7 +366,7 @@ public class AgBuffer implements Compare {
             return Occurrence.ONE;
         }
         stack.add(start);
-        occ = state.calcOccurrence(this, stack, start);
+        occ = state.calcOccurrence(this, stack);
         stack.remove(stack.size() - 1);
         return occ;
     }

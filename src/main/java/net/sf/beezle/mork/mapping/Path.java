@@ -319,13 +319,11 @@ public class Path {
     @Override
     public String toString() {
         StringBuilder builder;
-        List<String> lst;
 
-        lst = grammar.getSymbolTable().toList();
         builder = new StringBuilder();
-        for (int i = 0; i < stoppers.length; i++) {
+        for (IntBitSet stopper : stoppers) {
             builder.append(" ");
-            builder.append(stoppers[i].toString(lst));
+            builder.append(stopper);
         }
         return builder.toString();
     }

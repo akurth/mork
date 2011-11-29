@@ -66,7 +66,7 @@ public class Pusher {
 
         // states.size() grows
         for (i = 0; i < states.size(); i++) {
-            state = (State) states.get(i);
+            state = states.get(i);
             attr = state.getAttribute();
             if (i == 0 || !border.contains(attr.symbol)) {
                 max = grammar.getUserCount(attr.symbol);
@@ -87,7 +87,7 @@ public class Pusher {
         int idx;
         int ofs;
 
-        child = (State) states.get(attrIdx);
+        child = states.get(attrIdx);
         childAttr = child.getAttribute();
         prod = grammar.getUser(childAttr.symbol, user);
         symbol = grammar.getLeft(prod);
@@ -111,7 +111,7 @@ public class Pusher {
 
         // states.size() grows
         for (i = 0; i < states.size(); i++) {
-            attr = ((State) states.get(i)).getAttribute();
+            attr = states.get(i).getAttribute();
             if (i == 0 || !border.contains(attr.symbol)) {
                 max = grammar.getAlternativeCount(attr.symbol);
                 for (alt = 0; alt < max; alt++) {
@@ -130,7 +130,7 @@ public class Pusher {
         int max;
         int ofs;
 
-        parent = (State) states.get(attrIdx);
+        parent = states.get(attrIdx);
         parentAttr = parent.getAttribute();
         prod = grammar.getAlternative(parentAttr.symbol, alt);
         max = grammar.getLength(prod);
@@ -152,7 +152,7 @@ public class Pusher {
 
         max = states.size();
         for (i = ofs; i < max; i++) {
-            state = (State) states.get(i);
+            state = states.get(i);
             if (state.getAttribute().symbol == symbol) {
                 return state;
             }

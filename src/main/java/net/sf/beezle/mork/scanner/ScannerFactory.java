@@ -90,9 +90,9 @@ public class ScannerFactory {
     public static ScannerFactory createSimple(FA fa, int errorSi, IntBitSet terminals)
         throws GenericException {
         char[] data;
-        List modes;  // list of IntSets
+        List<IntBitSet> modes;
 
-        modes = new ArrayList();
+        modes = new ArrayList<IntBitSet>();
         modes.add(new IntBitSet(terminals));
         data = createTable(fa, errorSi, modes);
         return new ScannerFactory(fa.getStart(), 1, data);

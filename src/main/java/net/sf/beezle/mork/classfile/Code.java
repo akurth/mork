@@ -343,10 +343,10 @@ public class Code extends Attribute implements Constants {
         emitGeneric(opcode, new Object[] {});
     }
     public void emit(int opcode, int arg) {
-        emitGeneric(opcode, new Object[] { new Integer(arg) });
+        emitGeneric(opcode, new Object[] { arg });
     }
     public void emit(int opcode, int arg0, int arg1) {
-        emitGeneric(opcode, new Object[] { new Integer(arg0), new Integer(arg1) });
+        emitGeneric(opcode, new Object[] { arg0, arg1 });
     }
 
     public void emit(int opcode, String arg) {
@@ -366,11 +366,11 @@ public class Code extends Attribute implements Constants {
     }
 
     public void emit(int opcode, int a, int b, int c, IntArrayList d) {
-        emitGeneric(opcode, new Object[] { new Integer(a), new Integer(b), new Integer(c), d });
+        emitGeneric(opcode, new Object[] { a, b, c, d });
     }
 
     public void emit(int opcode, int a, IntArrayList b, IntArrayList c) {
-        emitGeneric(opcode, new Object[] { new Integer(a), b, c });
+        emitGeneric(opcode, new Object[] { a, b, c });
     }
 
     //------------------------------------------------------------------------------
@@ -397,10 +397,10 @@ public class Code extends Attribute implements Constants {
         fixupGeneric(fixup, opcode, new Object[] {});
     }
     public void fixup(int fixup, int opcode, int arg) {
-        fixupGeneric(fixup, opcode, new Object[] { new Integer(arg) });
+        fixupGeneric(fixup, opcode, new Object[] { arg });
     }
     public void fixup(int fixup, int opcode, int arg0, int arg1) {
-        fixupGeneric(fixup, opcode, new Object[] { new Integer(arg0), new Integer(arg1) });
+        fixupGeneric(fixup, opcode, new Object[] { arg0, arg1 });
     }
 
     public void fixup(int fixup, int opcode, String arg) {
@@ -420,12 +420,11 @@ public class Code extends Attribute implements Constants {
     }
 
     public void fixup(int fixup, int opcode, int a, int b, int c, IntArrayList d) {
-        fixupGeneric(fixup, opcode, new Object[] {
-            new Integer(a), new Integer(b), new Integer(c), d });
+        fixupGeneric(fixup, opcode, new Object[] { a, b, c, d });
     }
 
     public void fixup(int fixup, int opcode, int a, IntArrayList b, IntArrayList c) {
-        fixupGeneric(fixup, opcode, new Object[] { new Integer(a), b, c });
+        fixupGeneric(fixup, opcode, new Object[] { a, b, c });
     }
 
 

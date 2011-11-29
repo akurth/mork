@@ -143,9 +143,9 @@ public class Transport {
     }
 
     public static Object createSequenceOption(Object obj) {
-        List result;
+        List<Object> result;
 
-        result = new ArrayList();
+        result = new ArrayList<Object>();
         if (obj != Option.TAG) {
             result.add(obj);
         }

@@ -301,21 +301,21 @@ public class State implements Compare {
 
     //----------------------------------------------------------------------------
 
-    public Occurrence calcOccurrence(AgBuffer copyBuffer, List stack, Attribute start) {
+    public Occurrence calcOccurrence(AgBuffer copyBuffer, List stack) {
         Alternative ab;
         int i;
         int j;
         int max;
-        List seq;
-        List alt;
+        List<Occurrence> seq;
+        List<Occurrence> alt;
         Attribute next;
         Occurrence occ;
 
-        alt = new ArrayList();
+        alt = new ArrayList<Occurrence>();
         for (i = 0; i < alternatives.size(); i++) {
             ab = alternatives.get(i);
             max = ab.getArgCount();
-            seq = new ArrayList();
+            seq = new ArrayList<Occurrence>();
             for (j = 0; j < max; j++) {
                 next = ab.getArgAttribute(j);
                 if (stack.indexOf(next) == -1) {
@@ -395,7 +395,7 @@ public class State implements Compare {
     }
 
     private static void getSequence(Alternative ab, int seq,
-        List nextAttrs, IntArrayList nextOfss, IntArrayList nextSeqs, AgBuffer cb)
+        List<Attribute> nextAttrs, IntArrayList nextOfss, IntArrayList nextSeqs, AgBuffer cb)
     {
         int i;
         int max;

@@ -68,9 +68,8 @@ public class MainFunctionalTest extends TestCase {
         // because it is expected to be the current directory and if I remove it,
         // relative file names no longer work.
         all = tmpDir.listFiles();
-        for (int i = 0; i < all.length; i++) {
-            // remove existing directory
-            rmRf(all[i]);
+        for (File f : all) {
+            rmRf(f);
         }
 
         name = "src/test/java";
@@ -236,11 +235,6 @@ public class MainFunctionalTest extends TestCase {
         assertTrue("listing file exists: " + file, file.exists());
     }
 
-    /**
-     * @param output  out arguments, receiving command output
-     *
-     * @return standard output and error out
-     */
     private void run(String[] args) {
         ByteArrayOutputStream fakedOut;
         ByteArrayOutputStream fakedErr;
@@ -255,8 +249,8 @@ public class MainFunctionalTest extends TestCase {
     }
 
     private void runWithFiles(String[] names, String[] args) throws IOException {
-        for (int i = 0; i < names.length; i++) {
-            copy(new File(dataDir, names[i]), new File(tmpDir, names[i]));
+        for (String name : names) {
+            copy(new File(dataDir, name), new File(tmpDir, name));
         }
         run(args);
     }
@@ -286,8 +280,8 @@ public class MainFunctionalTest extends TestCase {
 
         if (file.isDirectory()) {
             lst = file.listFiles();
-            for (int i = 0; i < lst.length; i++) {
-                rmRf(lst[i]);
+            for (File child : lst) {
+                rmRf(child);
             }
         }
         if (!file.delete()) {

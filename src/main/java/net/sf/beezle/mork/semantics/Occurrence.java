@@ -78,7 +78,7 @@ public class Occurrence {
         }
     }
 
-    public static Occurrence alternate(List occs) {
+    public static Occurrence alternate(List<Occurrence> occs) {
         int i;
         int size;
         Occurrence occ;

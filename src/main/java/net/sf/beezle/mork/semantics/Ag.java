@@ -56,7 +56,7 @@ public class Ag {
     // internal attribute
     public void add(Attribute a, int no) {
         internals.add(a);
-        internals.add(new Integer(no));
+        internals.add(no);
     }
 
     //---------------------------------------------
