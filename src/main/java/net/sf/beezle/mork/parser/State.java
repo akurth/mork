@@ -97,7 +97,7 @@ public class State {
             return false;
         }
     }
-    
+
     @Override
     public int hashCode() {
         return core.size();
@@ -175,10 +175,10 @@ public class State {
 
             // calc lookback
 
-            if (sh.isSymbol(env.grm) && env.grm.isNonterminal(sh.symbol)) {
-                maxAlt = env.grm.getAlternativeCount(sh.symbol);
+            if (sh.isSymbol(env.grammar) && env.grammar.isNonterminal(sh.symbol)) {
+                maxAlt = env.grammar.getAlternativeCount(sh.symbol);
                 for (alt = 0; alt < maxAlt; alt++) {
-                    prod = env.grm.getAlternative(sh.symbol, alt);
+                    prod = env.grammar.getAlternative(sh.symbol, alt);
                     end = trace(env, prod);
                     if (env != null) {
                         r = end.findReduce(prod);
@@ -198,7 +198,7 @@ public class State {
         pos = shifts.iterator();
         while (pos.hasNext()) {
             sh = pos.next();
-            if (!(sh.isSymbol(env.grm) && env.grm.isNonterminal(sh.symbol))) {
+            if (!(sh.isSymbol(env.grammar) && env.grammar.isNonterminal(sh.symbol))) {
                 // negative test - eof!
                 result.add(sh.symbol);
             }
@@ -270,9 +270,9 @@ public class State {
         Shift t;
 
         state = this;
-        len = env.grm.getLength(prod);
+        len = env.grammar.getLength(prod);
         for (ofs = 0; ofs < len; ofs++) {
-            t = state.findShift(env.grm.getRight(prod, ofs));
+            t = state.findShift(env.grammar.getRight(prod, ofs));
             if (t == null) {
                 return false;
             }
@@ -288,9 +288,9 @@ public class State {
         Shift t;
 
         state = this;
-        len = env.grm.getLength(prod);
+        len = env.grammar.getLength(prod);
         for (ofs = 0; ofs < len; ofs++) {
-            t = state.findShift(env.grm.getRight(prod, ofs));
+            t = state.findShift(env.grammar.getRight(prod, ofs));
             if (t == null) {
                 return null;
             }

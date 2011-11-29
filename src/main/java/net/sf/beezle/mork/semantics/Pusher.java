@@ -35,7 +35,7 @@ public class Pusher {
     private final List states;
 
     private final IntBitSet border;
-    private final Grammar grm;
+    private final Grammar grammar;
 
     public static AgBuffer run(boolean down, Attribute seed, IntBitSet border, Grammar grm) {
         Pusher pusher;
@@ -51,11 +51,11 @@ public class Pusher {
         return new AgBuffer(pusher.states);
     }
 
-    private Pusher(Attribute seed, IntBitSet border, Grammar grm) {
+    private Pusher(Attribute seed, IntBitSet border, Grammar grammar) {
         this.states = new ArrayList();
         this.states.add(new State(seed));
         this.border = border;
-        this.grm = grm;
+        this.grammar = grammar;
     }
 
     private void pushUp() {
@@ -70,7 +70,7 @@ public class Pusher {
             state = (State) states.get(i);
             attr = state.getAttribute();
             if (i == 0 || !border.contains(attr.symbol)) {
-                max = grm.getUserCount(attr.symbol);
+                max = grammar.getUserCount(attr.symbol);
                 for (user = 0; user < max; user++) {
                     pushUp(user, i);
                 }
@@ -91,16 +91,16 @@ public class Pusher {
 
         child = (State) states.get(attrIdx);
         childAttr = child.getAttribute();
-        prod = grm.getUser(childAttr.symbol, user);
-        symbol = grm.getLeft(prod);
-        max = grm.getUserOfsCount(childAttr.symbol, user);
+        prod = grammar.getUser(childAttr.symbol, user);
+        symbol = grammar.getLeft(prod);
+        max = grammar.getUserOfsCount(childAttr.symbol, user);
         for (idx = 0; idx < max; idx++) {
             parent = findState(1, symbol);
             if (parent == null) {
-                parent = new State(true, new Attribute(symbol, "transport"), grm);
+                parent = new State(true, new Attribute(symbol, "transport"), grammar);
                 states.add(parent);
             }
-            ofs = grm.getUserOfs(childAttr.symbol, user, idx);
+            ofs = grammar.getUserOfs(childAttr.symbol, user, idx);
             parent.addUpTransport(prod, ofs, childAttr);
         }
     }
@@ -115,7 +115,7 @@ public class Pusher {
         for (i = 0; i < states.size(); i++) {
             attr = ((State) states.get(i)).getAttribute();
             if (i == 0 || !border.contains(attr.symbol)) {
-                max = grm.getAlternativeCount(attr.symbol);
+                max = grammar.getAlternativeCount(attr.symbol);
                 for (alt = 0; alt < max; alt++) {
                     pushDown(alt, i);
                 }
@@ -134,13 +134,13 @@ public class Pusher {
 
         parent = (State) states.get(attrIdx);
         parentAttr = parent.getAttribute();
-        prod = grm.getAlternative(parentAttr.symbol, alt);
-        max = grm.getLength(prod);
+        prod = grammar.getAlternative(parentAttr.symbol, alt);
+        max = grammar.getLength(prod);
         for (ofs = 0; ofs < max; ofs++) {
-            symbol = grm.getRight(prod, ofs);
+            symbol = grammar.getRight(prod, ofs);
             child = findState(1, symbol);
             if (child == null) {
-                child = new State(false, new Attribute(symbol, "transport"), grm);
+                child = new State(false, new Attribute(symbol, "transport"), grammar);
                 states.add(child);
             }
             child.addDownTransport(prod, ofs, parentAttr);

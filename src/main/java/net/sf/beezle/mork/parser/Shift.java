@@ -64,14 +64,14 @@ public class Shift {
         // read implies
         end.addReadImplies(env, readImplies);
 
-        if (isSymbol(env.grm) && env.grm.isNonterminal(symbol)) {
+        if (isSymbol(env.grammar) && env.grammar.isNonterminal(symbol)) {
             // read init
             end.addReadInit(env, readInit);
 
             // follow implies
-            maxAlt = env.grm.getAlternativeCount(symbol);
+            maxAlt = env.grammar.getAlternativeCount(symbol);
             for (alt = 0; alt < maxAlt; alt++) {
-                prod = env.grm.getAlternative(symbol, alt);
+                prod = env.grammar.getAlternative(symbol, alt);
                 lst = new ArrayList<Shift>();
                 if (start.trace(env, prod, lst)) {
                     for (i = lst.size() - 1; i >= 0; i--) {
@@ -194,12 +194,12 @@ public class Shift {
         }
         result.append(" }");
     }
-    
+
     @Override
     public int hashCode() {
         return symbol;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         return this == obj;

@@ -32,7 +32,7 @@ public class PDA {
 
     // environment for computation; final but the objects
     // change over time
-    public final Grammar grm;      // grammar
+    public final Grammar grammar;      // grammar
     public final IntBitSet nullable;  // nullable symbols
     public final List<State> states;      // states built so far
 
@@ -41,14 +41,14 @@ public class PDA {
 
     //----------------------------------------------------------------
 
-    public PDA(Grammar grm, int start) {
+    public PDA(Grammar grammar, int start) {
         List<Shift> allShifts;
 
-        this.grm = grm;
+        this.grammar = grammar;
         this.nullable = new IntBitSet();
         this.states = new ArrayList<State>();
         this.start = start;
-        this.grm.addRemoveable(nullable);
+        this.grammar.addRemoveable(nullable);
 
         calcLR0();
         allShifts = new ArrayList<Shift>();
@@ -61,7 +61,7 @@ public class PDA {
      * Pseudo-symbol, indicates end-of-file (or an empty word if lookahead is seen as a set of words of length <= 1)
      */
     public int getEofSymbol() {
-        return grm.getSymbolCount();
+        return grammar.getSymbolCount();
     }
 
     //-------------------------------------------------------------------
@@ -148,7 +148,7 @@ public class PDA {
 
         max = states.size();
         eof = getEofSymbol();
-        result = new ParserTable(0, max, lastSymbol + 1 /* +1 for EOF */, eof, grm, null);
+        result = new ParserTable(0, max, lastSymbol + 1 /* +1 for EOF */, eof, grammar, null);
         for (i = 0; i < max; i++) {
             getState(i).addActions(this, result, conflicts);
         }

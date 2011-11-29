@@ -73,8 +73,8 @@ public class Item implements Comparable<Item> {
     //-----------------------------------------------------------------
 
     public int getShift(PDA env) {
-        if (dot < env.grm.getLength(production)) {
-            return env.grm.getRight(production, dot);
+        if (dot < env.grammar.getLength(production)) {
+            return env.grammar.getRight(production, dot);
         } else {
             return -1;
         }
@@ -98,9 +98,9 @@ public class Item implements Comparable<Item> {
     public static void addExpansion(PDA env, int symbol, Collection<Item> result) {
         int alt, maxAlt;
 
-        maxAlt = env.grm.getAlternativeCount(symbol);
+        maxAlt = env.grammar.getAlternativeCount(symbol);
         for (alt = 0; alt < maxAlt; alt++) {
-            result.add(new Item(env.grm.getAlternative(symbol, alt), 0));
+            result.add(new Item(env.grammar.getAlternative(symbol, alt), 0));
         }
     }
 
@@ -111,16 +111,16 @@ public class Item implements Comparable<Item> {
         int ofs, len;
 
         result = new StringBuilder();
-        result.append(symbolTable.getOrIndex(env.grm.getLeft(production)));
+        result.append(symbolTable.getOrIndex(env.grammar.getLeft(production)));
         result.append("\t::=");
-        len = env.grm.getLength(production);
+        len = env.grammar.getLength(production);
         for (ofs = 0; ofs < len; ofs++) {
             result.append(' ');
             if (ofs == dot) {
                 result.append(". ");
             }
             result.append(symbolTable.getOrIndex(
-                              env.grm.getRight(production, ofs)));
+                              env.grammar.getRight(production, ofs)));
         }
         if (ofs == dot) {
             result.append(" .");
