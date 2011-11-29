@@ -15,7 +15,7 @@
     <dependency>
       <groupId>net.sf.beezle.mork</groupId>
       <artifactId>mork</artifactId>
-      <version>0.7</version>
+      <version>0.8-SNAPSHOT</version>
     </dependency>
   </dependencies>
   <build>
