@@ -20,7 +20,7 @@ mapper net.sf.beezle.mork.bootstrap.MapperMapper;
 grm = "Mapper.syntax";
 
 import net.sf.beezle.mork.bootstrap:
-    Stubs04;
+    Loader;
 import net.sf.beezle.mork.mapping:
     Import, Internal, Library, Path;
 import net.sf.beezle.mork.compiler:
@@ -48,7 +48,7 @@ SyntaxFile          => (Syntax):
                          > \\Mapper//Symbol
                          > \\Mapper//AttributeName
                          > \\Mapper//Attribute;
-Grammar             => Stubs04.loadSyntax;
+Grammar             => Loader.loadSyntax;
 Imports             => Library:
                          > \\Mapper//ClassRef
                          > \\Mapper//MemberRef

@@ -24,6 +24,8 @@ import net.sf.beezle.mork.reflect.Constructor;
 import net.sf.beezle.mork.reflect.Function;
 import net.sf.beezle.mork.reflect.Method;
 import net.sf.beezle.mork.reflect.Selection;
+import net.sf.beezle.mork.semantics.BuiltIn;
+import net.sf.beezle.mork.semantics.IllegalLiteral;
 
 import java.io.File;
 
@@ -41,10 +43,10 @@ public class Loader {
         return (Specification) load("net.sf.beezle.mork.bootstrap.MapperMapper", file);
     }
 
-    public static Syntax loadSyntax(String file) {
+    public static Syntax loadSyntax(String fileName) throws IllegalLiteral {
         File absolute;
 
-        absolute = Mork.absoluteFile(new File(mapperFile).getParentFile(), file);
+        absolute = Mork.absoluteFile(new File(mapperFile).getParentFile(), BuiltIn.parseString(fileName));
         return (Syntax) load("net.sf.beezle.mork.bootstrap.SyntaxMapper", absolute.getPath());
     }
 
