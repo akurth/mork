@@ -31,8 +31,7 @@ public class PDA {
     public final int start;
 
     /**
-     * Pseudo-symbol, indicates end-of-file (or an empty word
-     * if lookahead is seen as a set of words of length <= 1)
+     * Pseudo-symbol, indicates end-of-file (or an empty word if lookahead is seen as a set of words of length <= 1)
      */
     public final int eof;
 
@@ -146,8 +145,8 @@ public class PDA {
         ParserTable result;
         int i, max;
 
-        result = new ParserTable(0, states.size(), lastSymbol + 1 /* +1 for EOF */, grm, null);
         max = states.size();
+        result = new ParserTable(0, max, lastSymbol + 1 /* +1 for EOF */, grm, null);
         for (i = 0; i < max; i++) {
             getState(i).addActions(this, result, conflicts);
         }
