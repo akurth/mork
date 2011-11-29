@@ -22,9 +22,8 @@ package net.sf.beezle.mork.regexpr;
 /** Left | Right, a little bit more general.  TODO: rename to Restriction? */
 
 public class Without extends RegExpr {
-    private RegExpr left;
-
-    private RegExpr right;
+    private final RegExpr left;
+    private final RegExpr right;
 
     //----------------------------------------------------------------
 

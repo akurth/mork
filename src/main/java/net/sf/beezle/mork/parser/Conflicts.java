@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Conflicts extends Exception {
-    private List<int[]> conflicts;
+    private final List<int[]> conflicts;
 
     public Conflicts() {
         conflicts = new ArrayList<int[]>();

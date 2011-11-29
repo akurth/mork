@@ -37,12 +37,12 @@ import java.util.List;
 public class Expander extends Action {
     private IllegalSymbols exception;
 
-    private Rule[] rules;
+    private final Rule[] rules;
 
     /** symbols actually used for expanding */
-    private IntBitSet used;
+    private final IntBitSet used;
 
-    private IntBitSet expanding;
+    private final IntBitSet expanding;
 
     public Expander(Rule[] rules) {
         this.rules = rules;

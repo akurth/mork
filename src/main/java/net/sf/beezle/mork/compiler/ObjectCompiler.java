@@ -36,12 +36,12 @@ import java.util.List;
  */
 public class ObjectCompiler implements Bytecodes, Constants {
     private Code dest;
-    private CustomCompiler[] customs;
-    private int buffer;  // buffer variable in code
-    private ClassDef destClass;
+    private final CustomCompiler[] customs;
+    private final int buffer;  // buffer variable in code
+    private final ClassDef destClass;
 
     /** code objects currently pushed. Initialls empty. */
-    private List<Object> stack;
+    private final List<Object> stack;
 
     /** number of helper methods created. */
     private int helperMethods;

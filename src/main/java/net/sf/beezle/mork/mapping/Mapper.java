@@ -45,7 +45,7 @@ import java.net.URL;
  * Technically, a <code>Mapper</code> is a translated <code>Mapping</code>.
  */
 public class Mapper implements Serializable {
-    private String name;
+    private final String name;
     private Parser parser;  // null: not loaded
     private Oag oag;  // undefined if not loaded
     private PrintStream logParsing;

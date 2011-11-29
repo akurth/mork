@@ -4,7 +4,7 @@ import net.sf.beezle.mork.classfile.Bytecodes;
 import net.sf.beezle.mork.classfile.Code;
 
 public abstract class Type implements Bytecodes {
-    private String name;
+    private final String name;
 
     public Type(String name) {
         this.name = name;

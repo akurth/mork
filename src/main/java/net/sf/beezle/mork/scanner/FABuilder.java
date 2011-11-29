@@ -43,14 +43,12 @@ public class FABuilder extends Action {
 
     // temporary state during run()
     private IllegalSymbols exception;
-    private IntBitSet terminals;
 
     /**
      * Translates only those rules where the left-hand.side is contained
      * in the specified terminals set. The remaining rules are used for inlining.
      */
-    public static FABuilder run(
-        Rule[] rules, IntBitSet terminals, StringArrayList symbolTable, PrintStream verbose)
+    public static FABuilder run(Rule[] rules, IntBitSet terminals, StringArrayList symbolTable, PrintStream verbose)
             throws GenericException {
         String str;
         FA alt;
@@ -62,7 +60,7 @@ public class FABuilder extends Action {
         Minimizer minimizer;
 
         expander = new Expander(rules);
-        builder = new FABuilder(terminals);
+        builder = new FABuilder();
         builder.fa = (FA) new Choice().visit(builder);
         if (builder.exception != null) {
             throw new RuntimeException();
@@ -126,8 +124,7 @@ public class FABuilder extends Action {
 
     //----------------
 
-    private FABuilder(IntBitSet terminals) {
-        this.terminals = terminals;
+    private FABuilder() {
         this.exception = null;
 
         // errorSi and fa will be assigned by run():

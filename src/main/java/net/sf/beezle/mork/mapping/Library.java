@@ -40,7 +40,7 @@ import net.sf.beezle.mork.reflect.Selection;
  * o move into reflect package? merge Type and Selection?
  */
 public class Library {
-    private Import[] body;
+    private final Import[] body;
 
     public Library(Import[] body) {
         this.body = body;

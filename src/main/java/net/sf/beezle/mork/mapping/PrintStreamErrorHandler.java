@@ -34,16 +34,16 @@ public class PrintStreamErrorHandler implements ErrorHandler {
     /**
      * Where to send error messages.
      */
-    private PrintStream dest;
+    private final PrintStream dest;
 
-    private List errors;
+    private final List<Object> errors;
 
     /**
      * @param dest may be null
      */
     public PrintStreamErrorHandler(PrintStream dest) {
         this.dest = dest;
-        this.errors = new ArrayList();
+        this.errors = new ArrayList<Object>();
     }
 
     /**

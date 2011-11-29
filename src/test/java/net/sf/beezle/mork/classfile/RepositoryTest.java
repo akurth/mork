@@ -26,8 +26,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 public class RepositoryTest {
-    private World world;
-    private Repository repository;
+    private final World world;
+    private final Repository repository;
 
     public RepositoryTest() throws IOException {
         world = new World();

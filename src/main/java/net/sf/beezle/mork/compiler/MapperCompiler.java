@@ -148,7 +148,7 @@ public class MapperCompiler implements Bytecodes {
     //------------------------------------------------------------------
     // declarations how to compile the various classes
 
-    private static CustomCompiler[] customs = {
+    private static final CustomCompiler[] customs = {
         null,  // reserved for function compiler
         new GenericCompiler(net.sf.beezle.mork.grammar.Rule.class,
             new String[] { "left", "right" }),

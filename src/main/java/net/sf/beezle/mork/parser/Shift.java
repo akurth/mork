@@ -31,12 +31,12 @@ public class Shift {
     public final int symbol;
     public final State end;
 
-    private IntBitSet readInit;     // DR: directly reads
-    private Set<Shift> readImplies;       // READS: set of Shifts
+    private final IntBitSet readInit;     // DR: directly reads
+    private final Set<Shift> readImplies;       // READS: set of Shifts
     private IntBitSet read;         // read
 
     // read is followImplies
-    private Set<Shift> followImplies;    // INCLUDES: set of Shifts
+    private final Set<Shift> followImplies;    // INCLUDES: set of Shifts
     private IntBitSet follow;      // follow
 
     public Shift(int symbolInit, State endInit) {

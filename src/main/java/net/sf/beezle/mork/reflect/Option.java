@@ -36,9 +36,9 @@ public class Option extends Function implements Bytecodes {
 
 
     /** Java Method wrapped by this Function. */
-    private int optional;
-    private Function with;
-    private Class[] parameterTypes;
+    private final int optional;
+    private final Function with;
+    private final Class[] parameterTypes;
 
     //------------------------------------------------------------
     // creation

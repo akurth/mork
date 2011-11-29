@@ -43,10 +43,10 @@ public class FunctionCompiler extends CustomCompiler implements Bytecodes {
      */
     private static final int MAX_SIZE = 800;
 
-    private String className;
+    private final String className;
 
     /** Generated classes; list of InvocationCode instances. */
-    private List<InvocationCode> classes;
+    private final List<InvocationCode> classes;
 
     /** null or last element of classes. */
     private InvocationCode current;

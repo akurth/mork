@@ -29,7 +29,7 @@ import net.sf.beezle.mork.semantics.Type;
  */
 public class Internal {
     /** reference to the internal constructor */
-    private int no;
+    private final int no;
 
     public static final String NO_SUCH_INTERNAL = "internal constructor not found";
 

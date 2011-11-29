@@ -31,8 +31,8 @@ public class Instruction implements Constants {
      * Only valid when reading and writing instructions.
      */
     public int ofs;
-    public InstructionType type;
-    public Object[] arguments;
+    public final InstructionType type;
+    public final Object[] arguments;
 
     public Instruction(int ofsInit, InstructionType typeInit, Object[] argumentsInit) {
         ofs = ofsInit;

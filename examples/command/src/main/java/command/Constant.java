@@ -1,7 +1,7 @@
 package command;
 
 public class Constant extends Expression {
-    private String str;
+    private final String str;
 
     public Constant(String str) {
         this.str = str;

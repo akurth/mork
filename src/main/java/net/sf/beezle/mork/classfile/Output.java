@@ -26,18 +26,18 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class Output implements Constants {
-    private ByteArrayOutputStream bufferDest;
-    private OutputStream finalDest;
+    private final ByteArrayOutputStream bufferDest;
+    private final OutputStream finalDest;
     /** finalDest or bufferDest */
     private OutputStream dest;
     private Code context;
     private int codeStart;  // only defined within code context
     /** pairs of globalOfs, value */
-    private IntArrayList fixups;
+    private final IntArrayList fixups;
 
     public char minor;
     public char major;
-    private Pool constants;
+    private final Pool constants;
 
     public static void save(ClassDef c, File file) throws IOException {
         FileOutputStream stream;

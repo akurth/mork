@@ -4,8 +4,8 @@ import net.sf.beezle.mork.classfile.Bytecodes;
 import net.sf.beezle.mork.classfile.Code;
 
 public class Program implements Bytecodes {
-    private Block body;
-    private Declarations[] scopes;
+    private final Block body;
+    private final Declarations[] scopes;
 
     public Program(Declarations[] scopes, Block body) {
         this.scopes = scopes;

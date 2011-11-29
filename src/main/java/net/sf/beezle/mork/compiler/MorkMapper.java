@@ -41,7 +41,7 @@ public class MorkMapper extends Mapper {
     /**
      * Overrides mapper if != null
      */
-    private Function mapperFn;
+    private final Function mapperFn;
 
     public MorkMapper(Mork mork, String mapperName) {
         this(mork, mapperName, null);

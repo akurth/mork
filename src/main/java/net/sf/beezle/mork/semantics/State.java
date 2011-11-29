@@ -35,13 +35,13 @@ import java.util.Map;
  */
 public class State implements Compare {
     /** inv: seed or size() > 0.  Productions are sorted! */
-    private List<Alternative> alternatives;
+    private final List<Alternative> alternatives;
 
     // TODO: private
     public int minOcc;
     public int maxOcc;
 
-    public Attribute transportAttribute;
+    public final Attribute transportAttribute;
 
     public State(Attribute attribute) {
         this.transportAttribute = attribute;

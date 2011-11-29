@@ -24,7 +24,7 @@ import net.sf.beezle.mork.misc.StringArrayList;
  */
 
 public class Symbol extends RegExpr {
-    private int symbol;
+    private final int symbol;
 
     public Symbol(int symbolInit) {
         symbol = symbolInit;

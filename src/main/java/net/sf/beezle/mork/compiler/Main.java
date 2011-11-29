@@ -42,7 +42,7 @@ public class Main {
     }
 
     // global options.
-    private Output output;
+    private final Output output;
     private Function mapperFn;
 
     public Main(Output output) {

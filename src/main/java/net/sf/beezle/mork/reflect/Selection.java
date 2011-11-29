@@ -30,7 +30,7 @@ import java.util.List;
  */
 
 public class Selection {
-    private Function[] functions;
+    private final Function[] functions;
 
     public Selection() {
         functions = new Function[0];

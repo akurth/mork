@@ -9,7 +9,7 @@ public class Line {
      * Concatenating these expressions forms the command line
      * to be executed.
      */
-    private Expression[] expressions;
+    private final Expression[] expressions;
 
     public Line(Expression[] expressions) {
         this.expressions = expressions;

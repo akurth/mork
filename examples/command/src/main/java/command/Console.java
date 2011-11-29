@@ -17,8 +17,8 @@ import javax.swing.JScrollPane;
  */
 
 public class Console extends JDialog implements ActionListener {
-    private JButton ok;
-    private JTextArea area;
+    private final JButton ok;
+    private final JTextArea area;
 
     /** Encapsualtes the process handling stuff */
     public Console() {

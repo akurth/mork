@@ -1,8 +1,8 @@
 package interpreter;
 
 public class Script {
-    private Declarations decls;
-    private Statement stmt;
+    private final Declarations decls;
+    private final Statement stmt;
 
     public Script(Declarations declsInit, Statement stmtInit) {
         decls = declsInit;

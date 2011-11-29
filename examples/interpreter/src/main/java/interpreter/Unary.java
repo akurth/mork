@@ -1,9 +1,9 @@
 package interpreter;
 
 public class Unary extends Expression {
-    private int type;
-    private int op;
-    private Expression body;
+    private final int type;
+    private final int op;
+    private final Expression body;
 
     public static final int[][] OPS = {
         { NONE, INT, NONE },  // add   <=

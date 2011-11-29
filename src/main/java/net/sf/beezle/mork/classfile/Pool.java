@@ -33,13 +33,13 @@ public class Pool implements Constants {
      * Public representation of constant pool entries.
      * List of Objects. Corresponds to the bytes field.
      */
-    private List<Object> objects;
+    private final List<Object> objects;
 
     /**
      * Private representation of constant pool entries. Same decoding
      * as used in the class file. List of byte[].
      */
-    private List<byte[]> bytes;
+    private final List<byte[]> bytes;
 
 
     public Pool() {

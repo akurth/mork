@@ -44,8 +44,8 @@ public class Definition {
 
     private Attribute attribute;
 
-    private List<Argument> isolated;
-    private List<Argument> mergeable;
+    private final List<Argument> isolated;
+    private final List<Argument> mergeable;
 
     // TODO: use {1}, {2} if GenericException support it
     public static final String ARGUMENT_NOT_ASSIGNABLE =

@@ -1,8 +1,8 @@
 package interpreter;
 
 public class While extends Statement {
-    private Expression test;
-    private Statement body;
+    private final Expression test;
+    private final Statement body;
 
     public While(Expression testInit, Statement bodyInit) throws SemanticError {
         test = testInit;

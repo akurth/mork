@@ -1,7 +1,7 @@
 package interpreter;
 
 public class Declarations {
-    private Variable[] vars;
+    private final Variable[] vars;
 
     public Declarations(Variable[] varsInit) {
         vars = varsInit;

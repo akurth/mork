@@ -48,12 +48,12 @@ import java.util.Map;
  */
 
 public class InvocationCode implements Bytecodes {
-    private Code code;
-    private IntArrayList labels;
-    private int switchFixup;
+    private final Code code;
+    private final IntArrayList labels;
+    private final int switchFixup;
 
-    private ClassRef destRef;
-    private MethodRef destConstr;
+    private final ClassRef destRef;
+    private final MethodRef destConstr;
 
     private static final ClassRef THROWABLE_REF = new ClassRef(Throwable.class);
     private static final ClassRef EXCEPT_REF = new ClassRef(InvocationTargetException.class);

@@ -1,8 +1,8 @@
 package interpreter;
 
 public class Variable {
-    private String name;
-    private int type;
+    private final String name;
+    private final int type;
     private Object val;
 
     public Variable(int typeInit, String nameInit) {

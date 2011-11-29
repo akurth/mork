@@ -28,13 +28,13 @@ import java.util.List;
 
 public class PreSymbol {
     /** productions for this symbol */
-    private IntArrayList alternatives;
+    private final IntArrayList alternatives;
 
     /** productions using this symbol. */
-    private IntArrayList users;
+    private final IntArrayList users;
 
     /** ofsets in the using productions. List of IntArrayLists. */
-    private List<IntArrayList> userOfs;
+    private final List<IntArrayList> userOfs;
 
     public PreSymbol() {
         alternatives = new IntArrayList();

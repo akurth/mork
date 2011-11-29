@@ -30,7 +30,7 @@ public class MethodDef extends Definition {
     public String name;
     public ClassRef[] argumentTypes;
     public ClassRef returnType;
-    public List<Attribute> attributes;
+    public final List<Attribute> attributes;
 
     public MethodDef() {
         attributes = new ArrayList<Attribute>();
