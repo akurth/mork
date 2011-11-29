@@ -39,8 +39,8 @@ import net.sf.beezle.mork.regexpr.Without;
  * TODO: factor out the stuff common with XmlScannerTest.
  */
 
-public class GrammarScannerTest extends TestCase {
-    private GrammarScannerFactory factory;
+public class ScannerTest extends TestCase {
+    private ScannerFactory factory;
     private Scanner scanner;
 
     public void testSimple() throws GenericException, IOException {
@@ -167,7 +167,7 @@ public class GrammarScannerTest extends TestCase {
         }
         builder = FABuilder.run(rules, terminals, new StringArrayList(), null);
         Modes.resolveScannerConflicts(builder.getFA(), rules);
-        factory = GrammarScannerFactory.createSimple(builder.getFA(), builder.getErrorState(), terminals);
+        factory = ScannerFactory.createSimple(builder.getFA(), builder.getErrorState(), terminals);
     }
 
     private void input(String input) throws IOException {

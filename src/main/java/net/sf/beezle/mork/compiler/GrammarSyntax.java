@@ -29,7 +29,7 @@ import net.sf.beezle.mork.parser.PDA;
 import net.sf.beezle.mork.parser.Parser;
 import net.sf.beezle.mork.parser.ParserTable;
 import net.sf.beezle.mork.scanner.FABuilder;
-import net.sf.beezle.mork.scanner.GrammarScannerFactory;
+import net.sf.beezle.mork.scanner.ScannerFactory;
 import net.sf.beezle.mork.scanner.Modes;
 
 /**
@@ -79,7 +79,7 @@ public class GrammarSyntax extends Syntax {
         Conflicts conflicts;
         PDA pda;
         ParserTable parserTable;
-        GrammarScannerFactory scannerFactory;
+        ScannerFactory scannerFactory;
         IntBitSet usedTerminals;
         IntBitSet usedSymbols;
         int symbolCount;
@@ -127,7 +127,7 @@ public class GrammarSyntax extends Syntax {
             output.verbose("use priorities");
             Modes.resolveScannerConflicts(builder.getFA(), scannerRules);
         }
-        scannerFactory = GrammarScannerFactory.create(
+        scannerFactory = ScannerFactory.create(
             builder.getFA(), builder.getErrorState(), parserTable, whiteSymbols, output.verbose, output.listing);
 
         output.statistics();
