@@ -34,7 +34,6 @@ import net.sf.beezle.mork.reflect.Arrays;
 /**
  * Turn object into bytecode to create the object. Serializes an object into a class.
  */
-
 public class ObjectCompiler implements Bytecodes, Constants {
     private Code dest;
     private CustomCompiler[] customs;

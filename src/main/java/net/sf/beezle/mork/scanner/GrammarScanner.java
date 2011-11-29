@@ -21,11 +21,11 @@ import java.io.IOException;
 import java.io.Reader;
 
 import net.sf.beezle.mork.misc.GenericException;
+
 /**
  * A token stream, input for parsers. Adds filter functionality to
  * regular expressions.
  */
-
 public class GrammarScanner implements Scanner {
     // this should be a value with a short representation in a Utf8 String
     // because it is saved as part of a String
@@ -38,15 +38,15 @@ public class GrammarScanner implements Scanner {
 
     private final int start;
     private final int modeCount;
-    private final char[] data;
+    private final char[] table;
     private final int eofSymbol;
     private final Buffer src;
 
-    public GrammarScanner(int start, int modeCount, int eofSymbol, char[] data, Position pos, Reader reader) {
+    public GrammarScanner(int start, int modeCount, int eofSymbol, char[] table, Position pos, Reader reader) {
         this.start = start;
         this.modeCount = modeCount;
         this.eofSymbol = eofSymbol;
-        this.data = data;
+        this.table = table;
         this.src = new Buffer();
         src.open(pos, reader);
     }
@@ -87,7 +87,7 @@ public class GrammarScanner implements Scanner {
         pc = start;
         try {
             do {
-                tmp = data[pc + mode];
+                tmp = table[pc + mode];
                 pc += modeCount;
                 if (tmp != NO_TERMINAL) {
                     endTerminal = tmp;
@@ -95,10 +95,10 @@ public class GrammarScanner implements Scanner {
                 }
                 c = src.read();
                 count++;
-                while (c > data[pc]) {
+                while (c > table[pc]) {
                     pc += 2;
                 }
-                pc = data[pc + 1];
+                pc = table[pc + 1];
             } while (pc != ERROR_PC);
         } catch (GenericException e) {
             if (e != Buffer.EOF) {

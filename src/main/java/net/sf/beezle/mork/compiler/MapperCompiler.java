@@ -165,7 +165,7 @@ public class MapperCompiler implements Bytecodes {
         new GenericCompiler(net.sf.beezle.mork.parser.Parser.class,
             new String[] { "table", "scannerFactory"}),
         new GenericCompiler(net.sf.beezle.mork.scanner.GrammarScannerFactory.class,
-            new String[] { "start", "modeCount", "eofSymbol", "data" }),
+            new String[] { "start", "modeCount", "eofSymbol", "table" }),
         new GenericCompiler(net.sf.beezle.mork.xml.XmlScannerFactory.class,
             new String[] { "symbolTable", "eofSymbol", "attrs"}),
         new GenericCompiler(net.sf.beezle.mork.xml.Attribute.class,

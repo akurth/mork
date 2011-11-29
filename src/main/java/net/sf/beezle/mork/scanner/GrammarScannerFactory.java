@@ -64,7 +64,7 @@ public class GrammarScannerFactory implements ScannerFactory {
      *   slightly slower. It seems that lower ranges should be testet first.
      * o the Java ranges has states with more than 60 ranges ...
      */
-    private final char[] data;
+    private final char[] table;
 
     private final int eofSymbol;
 
@@ -75,7 +75,7 @@ public class GrammarScannerFactory implements ScannerFactory {
         PrintStream verbose, PrintStream listing, int eofSymbol)
             throws GenericException {
         List modes;  // list of IntSets
-        char[] data;
+        char[] table;
 
         if (listing != null) {
             listing.println("Scanner\n");
@@ -88,8 +88,8 @@ public class GrammarScannerFactory implements ScannerFactory {
         if (verbose != null) {
             verbose.println("building table fa");
         }
-        data = createData(fa, errorSi, modes);
-        return new GrammarScannerFactory(fa.getStart(), modes.size(), eofSymbol, data);
+        table = createTable(fa, errorSi, modes);
+        return new GrammarScannerFactory(fa.getStart(), modes.size(), eofSymbol, table);
     }
 
     public static GrammarScannerFactory createSimple(FA fa, int errorSi, IntBitSet terminals, int eofSymbol)
@@ -99,20 +99,18 @@ public class GrammarScannerFactory implements ScannerFactory {
 
         modes = new ArrayList();
         modes.add(new IntBitSet(terminals));
-        data = createData(fa, errorSi, modes);
+        data = createTable(fa, errorSi, modes);
         return new GrammarScannerFactory(fa.getStart(), 1, eofSymbol, data);
     }
 
-    private static char[] createData(FA fa, int errorSi, List modes) throws GenericException {
-        char[] data;
+    private static char[] createTable(FA fa, int errorSi, List modes) throws GenericException {
+        char[] table;
         int ti, si;
         int maxTi, maxSi;
         State state;
         Range range;
         int pc;
         int[] ofs;  // index by si; contains pc for this state
-        int start;
-        int endSymbol;
         int modeCount;
         int i;
 
@@ -134,9 +132,8 @@ public class GrammarScannerFactory implements ScannerFactory {
         }
 
         // copy fa into data
-        data = new char[pc];
+        table = new char[pc];
         pc = 0;
-        start = ofs[fa.getStart()];
         for (si = 0; si < maxSi; si++) {
             if (si != errorSi) {
                 if (ofs[si] != pc) {
@@ -144,7 +141,7 @@ public class GrammarScannerFactory implements ScannerFactory {
                 }
                 state = fa.get(si);
                 for (i = 0; i < modeCount; i++) {
-                    data[pc] = getEndSymbol(fa, si, (IntBitSet) modes.get(i));
+                    table[pc] = getEndSymbol(fa, si, (IntBitSet) modes.get(i));
                     pc++;
                 }
 
@@ -156,23 +153,23 @@ public class GrammarScannerFactory implements ScannerFactory {
                 for (ti = 0; ti < maxTi; ti++) {
                     range = (Range) state.getInput(ti);
 
-                    data[pc] = range.getLast();
+                    table[pc] = range.getLast();
                     pc++;
 
                     if (state.getEnd(ti) == errorSi) {
-                        data[pc] = GrammarScanner.ERROR_PC;
+                        table[pc] = GrammarScanner.ERROR_PC;
                     } else {
                         // this cast is safe because max pc was tested above
-                        data[pc] = (char) ofs[state.getEnd(ti)];
+                        table[pc] = (char) ofs[state.getEnd(ti)];
                     }
                     pc++;
                 }
             }
         }
-        if (pc != data.length) {
+        if (pc != table.length) {
             throw new RuntimeException();
         }
-        return data;
+        return table;
     }
 
     private static char getEndSymbol(FA fa, int si, IntBitSet modeSymbols) throws GenericException {
@@ -198,21 +195,21 @@ public class GrammarScannerFactory implements ScannerFactory {
         return (char) endSymbol;
     }
 
-    public GrammarScannerFactory(int start, int modeCount, int eofSymbol, char[] data) {
+    public GrammarScannerFactory(int start, int modeCount, int eofSymbol, char[] table) {
         if (start == -1) {
             throw new IllegalArgumentException();
         }
         this.start = start;
         this.modeCount = modeCount;
-        this.data = data;
+        this.table = table;
         this.eofSymbol = eofSymbol;
     }
 
     public Scanner newInstance(Position pos, Reader src) {
-        return new GrammarScanner(start, modeCount, eofSymbol, data, pos, src);
+        return new GrammarScanner(start, modeCount, eofSymbol, table, pos, src);
     }
 
     public int size() {
-        return data.length;
+        return table.length;
     }
 }
