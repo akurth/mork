@@ -17,8 +17,6 @@
 
 package net.sf.beezle.mork.compiler;
 
-import java.lang.reflect.InvocationTargetException;
-
 import net.sf.beezle.mork.classfile.Bytecodes;
 import net.sf.beezle.mork.classfile.ClassRef;
 import net.sf.beezle.mork.classfile.Code;
@@ -27,6 +25,8 @@ import net.sf.beezle.mork.reflect.Field;
 import net.sf.beezle.mork.reflect.Function;
 import net.sf.beezle.mork.reflect.Method;
 import net.sf.beezle.mork.reflect.Selection;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Compiling an object compiles it fields. The reverse process

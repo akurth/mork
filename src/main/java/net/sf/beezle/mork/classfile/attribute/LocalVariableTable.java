@@ -17,13 +17,13 @@
 
 package net.sf.beezle.mork.classfile.attribute;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.beezle.mork.classfile.Input;
 import net.sf.beezle.mork.classfile.LocalVariableInfo;
 import net.sf.beezle.mork.classfile.Output;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LocalVariableTable extends Attribute {
     public static final String NAME = "LocalVariableTable";

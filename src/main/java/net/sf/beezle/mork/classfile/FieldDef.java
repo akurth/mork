@@ -17,9 +17,10 @@
 
 package net.sf.beezle.mork.classfile;
 
+import net.sf.beezle.mork.classfile.attribute.Attribute;
+
 import java.io.IOException;
 import java.util.Set;
-import net.sf.beezle.mork.classfile.attribute.Attribute;
 
 public class FieldDef extends Definition {
     public final Set<Access> accessFlags;
@@ -33,7 +34,7 @@ public class FieldDef extends Definition {
         this.type = type;
         this.attributes = new Attribute[0];
     }
-    
+
     public FieldDef(Input src) throws IOException {
         int i;
         String descriptor;
@@ -63,7 +64,7 @@ public class FieldDef extends Definition {
     public FieldRef reference(ClassRef owner) {
         return new FieldRef(owner, name, type);
     }
-    
+
     @Override
     public String toString() {
         return Access.toPrefix(accessFlags) + type + " " + name;

@@ -17,10 +17,10 @@
 
 package net.sf.beezle.mork.compiler;
 
+import junit.framework.TestCase;
 import net.sf.beezle.mork.misc.GenericException;
 
 import java.io.File;
-import junit.framework.TestCase;
 
 public class JobTest extends TestCase {
     private Job a;

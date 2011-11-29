@@ -17,11 +17,6 @@
 
 package net.sf.beezle.mork.compiler;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.sf.beezle.sushi.util.IntBitSet;
-
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.grammar.IllegalSymbols;
 import net.sf.beezle.mork.grammar.Rule;
@@ -36,6 +31,10 @@ import net.sf.beezle.mork.regexpr.Range;
 import net.sf.beezle.mork.regexpr.Sequence;
 import net.sf.beezle.mork.semantics.BuiltIn;
 import net.sf.beezle.mork.semantics.IllegalLiteral;
+import net.sf.beezle.sushi.util.IntBitSet;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Helper functions referred by Mapper.mapper. These methods brigde gaps

@@ -17,14 +17,14 @@
 
 package net.sf.beezle.mork.semantics;
 
+import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.sushi.util.IntBitSet;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-
-import net.sf.beezle.mork.grammar.Grammar;
-import net.sf.beezle.mork.misc.GenericException;
-import net.sf.beezle.sushi.util.IntBitSet;
 
 /**
  * Attribute grammar, supports >=0 synthesized and inherited attributes.

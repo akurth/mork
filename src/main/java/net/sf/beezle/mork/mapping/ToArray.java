@@ -17,20 +17,19 @@
 
 package net.sf.beezle.mork.mapping;
 
+import net.sf.beezle.mork.classfile.Bytecodes;
+import net.sf.beezle.mork.classfile.ClassRef;
+import net.sf.beezle.mork.classfile.Code;
+import net.sf.beezle.mork.classfile.MethodRef;
+import net.sf.beezle.mork.compiler.Util;
+import net.sf.beezle.mork.reflect.Arrays;
+import net.sf.beezle.mork.reflect.Function;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Array;
 import java.util.List;
-
-import net.sf.beezle.mork.classfile.Bytecodes;
-import net.sf.beezle.mork.classfile.ClassRef;
-import net.sf.beezle.mork.classfile.Code;
-import net.sf.beezle.mork.classfile.MethodRef;
-
-import net.sf.beezle.mork.compiler.Util;
-import net.sf.beezle.mork.reflect.Arrays;
-import net.sf.beezle.mork.reflect.Function;
 
 /**
  * Invokation creates an array initialized with the List passed as an

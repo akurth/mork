@@ -18,6 +18,7 @@
 package net.sf.beezle.mork.compiler.tests.env;
 
 import net.sf.beezle.mork.mapping.Mapper;
+
 import java.io.StringReader;
 
 /**

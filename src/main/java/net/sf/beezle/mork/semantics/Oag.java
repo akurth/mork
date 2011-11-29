@@ -17,13 +17,13 @@
 
 package net.sf.beezle.mork.semantics;
 
-import java.io.PrintStream;
-import java.io.Serializable;
-
 import net.sf.beezle.mork.parser.Parser;
 import net.sf.beezle.mork.parser.ParserTable;
 import net.sf.beezle.mork.parser.TreeBuilder;
 import net.sf.beezle.mork.scanner.Scanner;
+
+import java.io.PrintStream;
+import java.io.Serializable;
 
 /**
  * Ordered attribute grammar.

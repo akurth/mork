@@ -18,11 +18,12 @@
 package net.sf.beezle.mork.mapping;
 
 import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.semantics.Ag;
+import net.sf.beezle.mork.semantics.AgBuffer;
 import net.sf.beezle.mork.semantics.Attribute;
 import net.sf.beezle.mork.semantics.Compare;
-import net.sf.beezle.mork.semantics.AgBuffer;
-import net.sf.beezle.mork.semantics.Ag;
 import net.sf.beezle.mork.semantics.Type;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,7 +77,7 @@ public class Argument implements Compare {
      */
     public static Argument merge(int symbol, Definition target, List<Argument> arguments) {
         AgBuffer buffer;
-        List<AgBuffer> argBuffers; 
+        List<AgBuffer> argBuffers;
         int i;
         int max;
         Attribute start;

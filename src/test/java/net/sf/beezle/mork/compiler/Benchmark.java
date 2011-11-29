@@ -17,10 +17,10 @@
 
 package net.sf.beezle.mork.compiler;
 
+import net.sf.beezle.mork.mapping.Mapper;
+
 import java.io.File;
 import java.io.IOException;
-
-import net.sf.beezle.mork.mapping.Mapper;
 
 public class Benchmark {
     public static void main(String[] args) {

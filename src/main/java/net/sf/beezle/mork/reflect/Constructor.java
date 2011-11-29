@@ -17,6 +17,11 @@
 
 package net.sf.beezle.mork.reflect;
 
+import net.sf.beezle.mork.classfile.Bytecodes;
+import net.sf.beezle.mork.classfile.ClassRef;
+import net.sf.beezle.mork.classfile.Code;
+import net.sf.beezle.mork.classfile.MethodRef;
+
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
@@ -26,11 +31,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.sf.beezle.mork.classfile.Bytecodes;
-import net.sf.beezle.mork.classfile.ClassRef;
-import net.sf.beezle.mork.classfile.Code;
-import net.sf.beezle.mork.classfile.MethodRef;
 
 /**
  * Wraps a Java Constructor to make it useable as a Function.

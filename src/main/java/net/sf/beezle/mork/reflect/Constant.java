@@ -17,14 +17,14 @@
 
 package net.sf.beezle.mork.reflect;
 
+import net.sf.beezle.mork.classfile.Bytecodes;
+import net.sf.beezle.mork.classfile.ClassRef;
+import net.sf.beezle.mork.classfile.Code;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-
-import net.sf.beezle.mork.classfile.Bytecodes;
-import net.sf.beezle.mork.classfile.ClassRef;
-import net.sf.beezle.mork.classfile.Code;
 
 /**
  * Wraps an Object to make is useable as a constant Function, i.e.

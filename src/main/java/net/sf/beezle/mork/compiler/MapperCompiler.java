@@ -17,21 +17,20 @@
 
 package net.sf.beezle.mork.compiler;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
 import net.sf.beezle.mork.classfile.Access;
 import net.sf.beezle.mork.classfile.Bytecodes;
 import net.sf.beezle.mork.classfile.ClassDef;
 import net.sf.beezle.mork.classfile.ClassRef;
 import net.sf.beezle.mork.classfile.Code;
 import net.sf.beezle.mork.classfile.Output;
-
 import net.sf.beezle.mork.mapping.Mapper;
 import net.sf.beezle.mork.misc.GenericException;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 
 public class MapperCompiler implements Bytecodes {

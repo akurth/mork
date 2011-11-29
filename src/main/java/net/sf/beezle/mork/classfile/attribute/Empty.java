@@ -17,10 +17,10 @@
 
 package net.sf.beezle.mork.classfile.attribute;
 
-import java.io.IOException;
-
 import net.sf.beezle.mork.classfile.Input;
 import net.sf.beezle.mork.classfile.Output;
+
+import java.io.IOException;
 
 public abstract class Empty extends Attribute {
     public Empty(String name, Input src) throws IOException {
@@ -44,7 +44,7 @@ public abstract class Empty extends Attribute {
         dest.writeUtf8(name);
         dest.writeU4(0);
     }
-    
+
     @Override
     public String toString() {
         return name + " attribute";

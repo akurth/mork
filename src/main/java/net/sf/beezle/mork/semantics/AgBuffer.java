@@ -17,14 +17,14 @@
 
 package net.sf.beezle.mork.semantics;
 
+import net.sf.beezle.mork.mapping.Transport;
+import net.sf.beezle.sushi.util.IntArrayList;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import net.sf.beezle.mork.mapping.Transport;
-import net.sf.beezle.sushi.util.IntArrayList;
 
 /**
  * Attribute grammar, supports >=0 synthesized and inherited attributes.

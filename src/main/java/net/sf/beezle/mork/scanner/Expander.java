@@ -17,11 +17,6 @@
 
 package net.sf.beezle.mork.scanner;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.sf.beezle.sushi.util.IntBitSet;
-
 import net.sf.beezle.mork.grammar.IllegalSymbols;
 import net.sf.beezle.mork.grammar.Rule;
 import net.sf.beezle.mork.regexpr.Action;
@@ -32,6 +27,10 @@ import net.sf.beezle.mork.regexpr.RegExpr;
 import net.sf.beezle.mork.regexpr.Sequence;
 import net.sf.beezle.mork.regexpr.Symbol;
 import net.sf.beezle.mork.regexpr.Without;
+import net.sf.beezle.sushi.util.IntBitSet;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /** stores the result from visiting a node */
 

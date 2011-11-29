@@ -17,12 +17,11 @@
 
 package net.sf.beezle.mork.semantics;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.sushi.util.IntBitSet;
 
-import net.sf.beezle.mork.grammar.Grammar;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Attribute grammar, supports >=0 synthesized and inherited attributes.

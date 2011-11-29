@@ -17,16 +17,15 @@
 
 package net.sf.beezle.mork.semantics;
 
-import java.util.ArrayList;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.sushi.graph.CyclicDependency;
+import net.sf.beezle.sushi.graph.EdgeIterator;
+import net.sf.beezle.sushi.graph.Graph;
+import net.sf.beezle.sushi.util.Util;
+
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
-import net.sf.beezle.mork.misc.GenericException;
-import net.sf.beezle.sushi.graph.CyclicDependency;
-import net.sf.beezle.sushi.graph.Graph;
-import net.sf.beezle.sushi.graph.EdgeIterator;
-import net.sf.beezle.sushi.util.Util;
 
 /**
  * Build visit sequence for ordered attribute grammar. Based on the paper
@@ -50,7 +49,7 @@ public class Visits {
         List lst;
 
         visitRelation = new Graph();
-        
+
         // attributions first - to enforce textual order
         all = new LinkedHashSet<AttributionBuffer>();
         sems.getProduction(prod, all);

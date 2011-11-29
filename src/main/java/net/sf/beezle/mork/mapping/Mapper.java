@@ -17,6 +17,11 @@
 
 package net.sf.beezle.mork.mapping;
 
+import net.sf.beezle.mork.parser.Parser;
+import net.sf.beezle.mork.scanner.Position;
+import net.sf.beezle.mork.semantics.Node;
+import net.sf.beezle.mork.semantics.Oag;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,11 +36,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import net.sf.beezle.mork.parser.Parser;
-import net.sf.beezle.mork.scanner.Position;
-import net.sf.beezle.mork.semantics.Node;
-import net.sf.beezle.mork.semantics.Oag;
 
 /**
  * Maps streams into Objects by scanning. Implements the analyzing parts a compiler or any other text processing

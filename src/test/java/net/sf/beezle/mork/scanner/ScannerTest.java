@@ -17,13 +17,7 @@
 
 package net.sf.beezle.mork.scanner;
 
-import java.io.IOException;
-import java.io.StringReader;
-
 import junit.framework.TestCase;
-
-import net.sf.beezle.sushi.util.IntBitSet;
-
 import net.sf.beezle.mork.grammar.Rule;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.misc.StringArrayList;
@@ -33,6 +27,10 @@ import net.sf.beezle.mork.regexpr.Range;
 import net.sf.beezle.mork.regexpr.RegExpr;
 import net.sf.beezle.mork.regexpr.Sequence;
 import net.sf.beezle.mork.regexpr.Without;
+import net.sf.beezle.sushi.util.IntBitSet;
+
+import java.io.IOException;
+import java.io.StringReader;
 
 /**
  * TODO: more tests.

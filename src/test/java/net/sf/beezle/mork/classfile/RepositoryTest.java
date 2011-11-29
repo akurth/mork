@@ -17,18 +17,18 @@
 
 package net.sf.beezle.mork.classfile;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
-import org.junit.Test;
 import net.sf.beezle.sushi.fs.World;
+import org.junit.Test;
 
 import java.io.IOException;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class RepositoryTest {
     private World world;
     private Repository repository;
-    
+
     public RepositoryTest() throws IOException {
         world = new World();
         repository = new Repository();
@@ -37,15 +37,15 @@ public class RepositoryTest {
 
     @Test
     public void resolvePrimitive() throws Exception {
-        assertNull(repository.lookup("byte"));        
+        assertNull(repository.lookup("byte"));
     }
-    
+
     @Test
     public void resolveInterfaceMethod() throws Exception {
         ClassDef oo;
         MethodRef m;
-        
-        oo = repository.lookup("java.io.ObjectOutput");        
+
+        oo = repository.lookup("java.io.ObjectOutput");
         assertNotNull(oo);
         m = new MethodRef(oo.reference(), false, ClassRef.VOID, "writeUTF", ClassRef.STRING);
         assertNotNull(m.resolve(repository));

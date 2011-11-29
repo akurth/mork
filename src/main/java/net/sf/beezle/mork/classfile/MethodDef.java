@@ -17,13 +17,13 @@
 
 package net.sf.beezle.mork.classfile;
 
+import net.sf.beezle.mork.classfile.attribute.Attribute;
+import net.sf.beezle.mork.classfile.attribute.Exceptions;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import net.sf.beezle.mork.classfile.attribute.Attribute;
-import net.sf.beezle.mork.classfile.attribute.Exceptions;
 
 public class MethodDef extends Definition {
     public Set<Access> accessFlags;
@@ -74,7 +74,7 @@ public class MethodDef extends Definition {
         }
         return new ArrayList<ClassRef>();
     }
-    
+
     public Code getCode() {
         for (Attribute a : attributes) {
             if (a instanceof Code) {
@@ -83,7 +83,7 @@ public class MethodDef extends Definition {
         }
         return null;
     }
-    
+
     public MethodRef reference(ClassRef owner, boolean ifc) {
         return new MethodRef(owner, ifc, returnType, name, argumentTypes);
     }

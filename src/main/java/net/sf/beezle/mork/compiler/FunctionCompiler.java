@@ -17,17 +17,16 @@
 
 package net.sf.beezle.mork.compiler;
 
+import net.sf.beezle.mork.classfile.Bytecodes;
+import net.sf.beezle.mork.classfile.Code;
+import net.sf.beezle.mork.reflect.Function;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import net.sf.beezle.mork.classfile.Bytecodes;
-import net.sf.beezle.mork.classfile.Code;
-
-import net.sf.beezle.mork.reflect.Function;
 
 /**
  * Generates classes derived from CompiledFunctionBase classes. Generates zero, one (or multiple

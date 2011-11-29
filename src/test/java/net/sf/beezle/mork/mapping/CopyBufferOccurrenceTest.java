@@ -19,8 +19,8 @@ package net.sf.beezle.mork.mapping;
 
 import junit.framework.TestCase;
 import net.sf.beezle.mork.grammar.Grammar;
-import net.sf.beezle.mork.semantics.Attribute;
 import net.sf.beezle.mork.semantics.AgBuffer;
+import net.sf.beezle.mork.semantics.Attribute;
 import net.sf.beezle.mork.semantics.Occurrence;
 
 public class CopyBufferOccurrenceTest extends TestCase {

@@ -17,10 +17,10 @@
 
 package net.sf.beezle.mork.semantics;
 
+import net.sf.beezle.sushi.util.IntArrayList;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import net.sf.beezle.sushi.util.IntArrayList;
 
 public class Alternative implements Compare {
     public int production;
@@ -213,12 +213,12 @@ public class Alternative implements Compare {
         buf.append(')');
         return buf.toString();
     }
-    
+
     @Override
     public int hashCode() {
         return production;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         return this == obj;

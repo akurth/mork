@@ -17,12 +17,12 @@
 
 package net.sf.beezle.mork.classfile;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.beezle.sushi.util.IntArrayList;
 import net.sf.beezle.sushi.util.IntBitSet;
 import net.sf.beezle.sushi.util.IntCollection;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A jsr/ret subroutine. Used to compute the instructions that can

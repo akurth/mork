@@ -19,8 +19,8 @@ package net.sf.beezle.mork.mapping;
 
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.misc.GenericException;
-import net.sf.beezle.mork.semantics.Attribute;
 import net.sf.beezle.mork.semantics.Ag;
+import net.sf.beezle.mork.semantics.Attribute;
 import net.sf.beezle.mork.semantics.NodeFactory;
 import net.sf.beezle.mork.semantics.Type;
 

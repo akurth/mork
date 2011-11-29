@@ -17,10 +17,10 @@
 
 package net.sf.beezle.mork.grammar;
 
+import net.sf.beezle.sushi.util.IntArrayList;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import net.sf.beezle.sushi.util.IntArrayList;
 
 /**
  * Helper class to instantiate symbols.

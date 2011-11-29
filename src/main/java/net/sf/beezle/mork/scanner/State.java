@@ -17,9 +17,8 @@
 
 package net.sf.beezle.mork.scanner;
 
-import net.sf.beezle.sushi.util.IntBitSet;
-
 import net.sf.beezle.mork.regexpr.Range;
+import net.sf.beezle.sushi.util.IntBitSet;
 /**
  * State in a NFA. A state is a label and a sequence of transitions.
  */

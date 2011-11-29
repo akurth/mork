@@ -17,15 +17,14 @@
 
 package net.sf.beezle.mork.scanner;
 
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import net.sf.beezle.sushi.util.IntBitSet;
-
 import net.sf.beezle.mork.grammar.Rule;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.parser.ParserTable;
+import net.sf.beezle.sushi.util.IntBitSet;
+
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Modes {
     public static void setNone(ParserTable table) throws GenericException {

@@ -17,13 +17,13 @@
 
 package net.sf.beezle.mork.classfile;
 
+import net.sf.beezle.sushi.util.IntArrayList;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-
-import net.sf.beezle.sushi.util.IntArrayList;
 
 public class Output implements Constants {
     private ByteArrayOutputStream bufferDest;

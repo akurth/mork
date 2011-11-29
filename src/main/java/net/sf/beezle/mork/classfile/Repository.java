@@ -17,6 +17,9 @@
 
 package net.sf.beezle.mork.classfile;
 
+import net.sf.beezle.sushi.fs.Node;
+import net.sf.beezle.sushi.fs.file.FileNode;
+
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -24,9 +27,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-
-import net.sf.beezle.sushi.fs.Node;
-import net.sf.beezle.sushi.fs.file.FileNode;
 
 /** A set of class definitions */
 public class Repository {
@@ -42,14 +42,14 @@ public class Repository {
         this.defs = new HashMap<String, ClassDef>();
         this.lazy = new ArrayList<Node>();
     }
-    
+
     private Node getDir(Node file) throws IOException {
         return file.isFile() && (file instanceof FileNode) ? ((FileNode) file).openZip() : file;
     }
-    
+
     public void addAll(Node file) throws IOException {
         Node dir;
-        
+
         file.checkExists();
         dir = getDir(file);
         for (Node node : dir.find("**/*.class")) {
@@ -95,16 +95,16 @@ public class Repository {
 
     public ClassDef lookup(ClassDef c) throws IOException {
         ClassDef def;
-        
+
         def = lookup(c.getName());
-        if (def != null && def.accessFlags.equals(c.accessFlags) && def.superClass.equals(c.superClass) 
+        if (def != null && def.accessFlags.equals(c.accessFlags) && def.superClass.equals(c.superClass)
                 && def.interfaces.equals(c.interfaces)) {
             return def;
         } else {
             return null;
         }
     }
-    
+
     public void dump(PrintStream dest) {
         for (ClassDef def : defs.values()) {
             dest.println(def.toString());
@@ -113,7 +113,7 @@ public class Repository {
 
     public void diff(Repository rightSet, PrintStream info) throws IOException {
         ClassDef tmp;
-        
+
         for (ClassDef left : defs.values()) {
             if (rightSet.lookup(left) == null) {
                 info.println("- " + left.toSignatureString());
@@ -131,7 +131,7 @@ public class Repository {
             }
         }
     }
-    
+
     public void defines(List<Reference> pblic, List<Reference> prvate) {
         ClassRef owner;
 
@@ -146,13 +146,13 @@ public class Repository {
             }
         }
     }
-    
+
     public static void diffBody(ClassDef left, ClassDef right, PrintStream info) {
         List<FieldDef> removedFields;
-        List<FieldDef> addedFields; 
+        List<FieldDef> addedFields;
         List<MethodDef> removedMethods;
-        List<MethodDef> addedMethods; 
-        
+        List<MethodDef> addedMethods;
+
         removedFields = new ArrayList<FieldDef>();
         addedFields = new ArrayList<FieldDef>();
         for (FieldDef lf : left.fields) {
@@ -179,7 +179,7 @@ public class Repository {
             }
         }
 
-        if (removedFields.size() > 0 || addedFields.size() > 0 
+        if (removedFields.size() > 0 || addedFields.size() > 0
                 || removedMethods.size() > 0 || addedMethods.size() > 0) {
             info.println("* " + left.toSignatureString());
             for (FieldDef f : removedFields) {
@@ -196,13 +196,13 @@ public class Repository {
             }
         }
     }
-    
+
     public void ref(List<Usage> result) {
         Code code;
         java.util.Set<Reference> refs;
         ClassRef owner;
         MethodRef from;
-        
+
         for (ClassDef def : defs.values()) {
             owner = def.reference();
             for (MethodDef m : def.methods) {

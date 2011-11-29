@@ -17,19 +17,19 @@
 
 package net.sf.beezle.mork.classfile;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 public class AccessTest {
     @Test
     public void flags() {
         Set<Access> all;
-        
+
         all = Access.fromFlags((char) 0x0c, false);
         assertEquals(new HashSet<Access>(Arrays.asList(Access.STATIC, Access.PROTECTED)), all);
         assertEquals((char) 0x0c, Access.toFlags(all));

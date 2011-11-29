@@ -17,14 +17,13 @@
 
 package net.sf.beezle.mork.mapping;
 
-import net.sf.beezle.sushi.util.IntBitSet;
-
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.misc.StringArrayList;
-import net.sf.beezle.mork.semantics.Attribute;
 import net.sf.beezle.mork.semantics.AgBuffer;
+import net.sf.beezle.mork.semantics.Attribute;
 import net.sf.beezle.mork.semantics.State;
 import net.sf.beezle.mork.semantics.Type;
+import net.sf.beezle.sushi.util.IntBitSet;
 
 public class CopyBufferCompareTest extends CompareBase {
     private Attribute a;

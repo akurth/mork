@@ -17,8 +17,6 @@
 
 package net.sf.beezle.mork.compiler;
 
-import net.sf.beezle.sushi.util.IntBitSet;
-
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.grammar.GrammarBuilder;
 import net.sf.beezle.mork.grammar.Rule;
@@ -29,8 +27,9 @@ import net.sf.beezle.mork.parser.PDA;
 import net.sf.beezle.mork.parser.Parser;
 import net.sf.beezle.mork.parser.ParserTable;
 import net.sf.beezle.mork.scanner.FABuilder;
-import net.sf.beezle.mork.scanner.ScannerFactory;
 import net.sf.beezle.mork.scanner.Modes;
+import net.sf.beezle.mork.scanner.ScannerFactory;
+import net.sf.beezle.sushi.util.IntBitSet;
 
 /**
  * Grammar syntax specification. Represents a grammar syntax file with

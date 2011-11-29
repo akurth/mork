@@ -17,10 +17,10 @@
 
 package net.sf.beezle.mork.reflect;
 
+import net.sf.beezle.mork.classfile.Code;
+
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
-
-import net.sf.beezle.mork.classfile.Code;
 
 /**
  * <p> Interface for anything that can be invoked. Every function

@@ -17,15 +17,15 @@
 
 package net.sf.beezle.mork.semantics;
 
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.sushi.graph.EdgeIterator;
+import net.sf.beezle.sushi.graph.Graph;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import net.sf.beezle.mork.misc.GenericException;
-import net.sf.beezle.sushi.graph.Graph;
-import net.sf.beezle.sushi.graph.EdgeIterator;
 
 /**
  * Helper class for OagBuilder

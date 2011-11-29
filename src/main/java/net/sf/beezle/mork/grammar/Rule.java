@@ -19,6 +19,7 @@ package net.sf.beezle.mork.grammar;
 
 import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.mork.regexpr.RegExpr;
+
 import java.io.Serializable;
 
 /**

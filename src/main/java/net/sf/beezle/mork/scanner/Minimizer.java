@@ -17,10 +17,9 @@
 
 package net.sf.beezle.mork.scanner;
 
+import net.sf.beezle.mork.regexpr.Range;
 import net.sf.beezle.sushi.util.IntArrayList;
 import net.sf.beezle.sushi.util.IntBitSet;
-
-import net.sf.beezle.mork.regexpr.Range;
 
 /**
  * Minimization of a finite automaton. Requires a complete depterministic

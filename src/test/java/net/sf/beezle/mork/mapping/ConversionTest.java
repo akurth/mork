@@ -20,6 +20,7 @@ package net.sf.beezle.mork.mapping;
 import net.sf.beezle.mork.reflect.Method;
 import net.sf.beezle.mork.reflect.Selection;
 import net.sf.beezle.mork.semantics.Type;
+
 import java.util.List;
 
 public class ConversionTest extends CompareBase {

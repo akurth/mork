@@ -17,15 +17,14 @@
 
 package net.sf.beezle.mork.mapping;
 
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.scanner.Position;
+import net.sf.beezle.sushi.util.IntBitSet;
+
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.sf.beezle.sushi.util.IntBitSet;
-
-import net.sf.beezle.mork.misc.GenericException;
-import net.sf.beezle.mork.scanner.Position;
 
 /**
  * ErrorHandler that prints messages to the PrintStream specified in the constructor.

@@ -17,11 +17,6 @@
 
 package net.sf.beezle.mork.compiler;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-
 import net.sf.beezle.mork.classfile.Access;
 import net.sf.beezle.mork.classfile.Bytecodes;
 import net.sf.beezle.mork.classfile.ClassDef;
@@ -30,6 +25,11 @@ import net.sf.beezle.mork.classfile.Code;
 import net.sf.beezle.mork.classfile.Constants;
 import net.sf.beezle.mork.classfile.MethodRef;
 import net.sf.beezle.mork.reflect.Arrays;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * Turn object into bytecode to create the object. Serializes an object into a class.

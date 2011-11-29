@@ -17,10 +17,10 @@
 
 package net.sf.beezle.mork.scanner;
 
+import net.sf.beezle.mork.misc.GenericException;
+
 import java.io.IOException;
 import java.io.Reader;
-
-import net.sf.beezle.mork.misc.GenericException;
 
 /**
  * A token stream, input for parsers.

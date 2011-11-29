@@ -17,14 +17,13 @@
 
 package net.sf.beezle.mork.reflect;
 
-import java.lang.reflect.InvocationTargetException;
-
 import net.sf.beezle.mork.classfile.Bytecodes;
 import net.sf.beezle.mork.classfile.ClassRef;
 import net.sf.beezle.mork.classfile.Code;
 import net.sf.beezle.mork.classfile.FieldRef;
-
 import net.sf.beezle.mork.compiler.Util;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * I can't implement Option by feeding an Option-Value because I want to offer explicit definitions

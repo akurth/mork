@@ -17,11 +17,10 @@
 
 package net.sf.beezle.mork.mapping;
 
-import java.io.IOException;
-
+import net.sf.beezle.mork.scanner.Position;
 import net.sf.beezle.sushi.util.IntBitSet;
 
-import net.sf.beezle.mork.scanner.Position;
+import java.io.IOException;
 
 /**
  * <code>Mapper.run()</code> reports errors by taking the registered error handler and

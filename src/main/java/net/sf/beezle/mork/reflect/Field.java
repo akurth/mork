@@ -17,17 +17,17 @@
 
 package net.sf.beezle.mork.reflect;
 
+import net.sf.beezle.mork.classfile.Bytecodes;
+import net.sf.beezle.mork.classfile.ClassRef;
+import net.sf.beezle.mork.classfile.Code;
+import net.sf.beezle.mork.classfile.FieldRef;
+
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Modifier;
-
-import net.sf.beezle.mork.classfile.Bytecodes;
-import net.sf.beezle.mork.classfile.ClassRef;
-import net.sf.beezle.mork.classfile.Code;
-import net.sf.beezle.mork.classfile.FieldRef;
 
 /**
  * A Function that reads a Java Field. Both static and non-static fields

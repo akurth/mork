@@ -17,11 +17,7 @@
 
 package net.sf.beezle.mork.mapping;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.beezle.mork.classfile.ClassRef;
-
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.reflect.Composition;
 import net.sf.beezle.mork.reflect.Function;
@@ -29,6 +25,9 @@ import net.sf.beezle.mork.reflect.Option;
 import net.sf.beezle.mork.reflect.Selection;
 import net.sf.beezle.mork.semantics.Attribute;
 import net.sf.beezle.mork.semantics.Type;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Convert, wrap/unwrap, re-arrange.

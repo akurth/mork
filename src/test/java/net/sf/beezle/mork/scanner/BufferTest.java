@@ -17,12 +17,12 @@
 
 package net.sf.beezle.mork.scanner;
 
+import junit.framework.TestCase;
 import net.sf.beezle.mork.misc.GenericException;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-import junit.framework.TestCase;
 
 /**
  * Test GrammarScanner.

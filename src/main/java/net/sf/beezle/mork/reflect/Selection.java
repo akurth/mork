@@ -17,12 +17,12 @@
 
 package net.sf.beezle.mork.reflect;
 
+import net.sf.beezle.mork.classfile.ClassRef;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-
-import net.sf.beezle.mork.classfile.ClassRef;
 
 /**
  * A collection of functions. Immutable. Argument- and return-types

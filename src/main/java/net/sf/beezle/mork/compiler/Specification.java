@@ -17,11 +17,6 @@
 
 package net.sf.beezle.mork.compiler;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.sf.beezle.sushi.util.IntBitSet;
-
 import net.sf.beezle.mork.mapping.Definition;
 import net.sf.beezle.mork.mapping.Mapper;
 import net.sf.beezle.mork.mapping.Path;
@@ -31,6 +26,10 @@ import net.sf.beezle.mork.parser.Parser;
 import net.sf.beezle.mork.semantics.Ag;
 import net.sf.beezle.mork.semantics.Attribute;
 import net.sf.beezle.mork.semantics.Oag;
+import net.sf.beezle.sushi.util.IntBitSet;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Specifies a mapper, thus, a Mapping object is a Mapper before translation.

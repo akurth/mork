@@ -17,9 +17,9 @@
 
 package net.sf.beezle.mork.classfile;
 
-import java.io.IOException;
-
 import net.sf.beezle.sushi.util.IntArrayList;
+
+import java.io.IOException;
 
 /**
  * Type of an instruction.

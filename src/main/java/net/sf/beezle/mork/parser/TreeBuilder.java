@@ -18,7 +18,8 @@
 package net.sf.beezle.mork.parser;
 
 import net.sf.beezle.mork.scanner.Scanner;
-import net.sf.beezle.mork.semantics.SemanticError; // TODO: ugly dependency
+import net.sf.beezle.mork.semantics.SemanticError;
+
 import java.io.IOException;
 
 /**

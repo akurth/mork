@@ -17,14 +17,14 @@
 
 package net.sf.beezle.mork.classfile;
 
+import net.sf.beezle.mork.classfile.attribute.Attribute;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import net.sf.beezle.mork.classfile.attribute.Attribute;
 
 /**
  * A class file. A class file defines a Java class.
@@ -99,15 +99,15 @@ public class ClassDef extends Definition {
     public String getName() {
         return thisClass.name;
     }
-    
+
     public MethodDef lookupMethod(MethodDef lm) {
         return lookupMethod(lm.accessFlags, lm.name, lm.argumentTypes, lm.returnType, lm.getExceptions());
     }
 
-    public MethodDef lookupMethod(Set<Access> accessFlags, String name, ClassRef[] argumentTypes, ClassRef returnType, 
+    public MethodDef lookupMethod(Set<Access> accessFlags, String name, ClassRef[] argumentTypes, ClassRef returnType,
             List<ClassRef> exceptions) {
         for (MethodDef m : methods) {
-            if (m.accessFlags.equals(accessFlags) && m.name.equals(name) 
+            if (m.accessFlags.equals(accessFlags) && m.name.equals(name)
                     && Arrays.equals(m.argumentTypes, argumentTypes)
                     && m.returnType.equals(returnType)
                     && m.getExceptions().equals(exceptions)) {
@@ -116,7 +116,7 @@ public class ClassDef extends Definition {
         }
         return null;
     }
-    
+
     public MethodDef lookupMethod(String name, ClassRef[] argumentTypes) {
         for (MethodDef m : methods) {
             if (m.name.equals(name) && Arrays.equals(m.argumentTypes, argumentTypes)) {
@@ -125,7 +125,7 @@ public class ClassDef extends Definition {
         }
         return null;
     }
-    
+
     public FieldDef lookupField(FieldDef field) {
         return lookupField(field.accessFlags, field.name, field.type);
     }
@@ -138,7 +138,7 @@ public class ClassDef extends Definition {
         }
         return null;
     }
-    
+
     public FieldDef lookupField(String name) {
         for (FieldDef f : fields) {
             if (f.name.equals(name)) {
@@ -147,7 +147,7 @@ public class ClassDef extends Definition {
         }
         return null;
     }
-    
+
     //-------------------------------------------------------------
 
     /**
@@ -191,7 +191,7 @@ public class ClassDef extends Definition {
     public ClassRef reference() {
         return thisClass;
     }
-    
+
     public FieldDef addField(Set<Access> access, ClassRef type, String name) {
         FieldDef f;
 

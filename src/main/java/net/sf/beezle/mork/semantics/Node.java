@@ -17,9 +17,9 @@
 
 package net.sf.beezle.mork.semantics;
 
-import java.io.PrintStream;
-
 import net.sf.beezle.mork.scanner.Position;
+
+import java.io.PrintStream;
 
 /**
  * Node of the syntax tree. A stupid data contained for Semantics.

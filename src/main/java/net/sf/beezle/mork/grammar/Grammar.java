@@ -17,16 +17,15 @@
 
 package net.sf.beezle.mork.grammar;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.sushi.util.IntArrayList;
-import net.sf.beezle.sushi.util.IntBitSet;
-
 import net.sf.beezle.sushi.util.IntBitRelation;
+import net.sf.beezle.sushi.util.IntBitSet;
 import net.sf.beezle.sushi.util.Util;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Context free grammar. Symbols are coded as ints. Preferred variable name for symbols is sym.

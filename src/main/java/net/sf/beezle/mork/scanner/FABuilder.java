@@ -17,10 +17,6 @@
 
 package net.sf.beezle.mork.scanner;
 
-import java.io.PrintStream;
-
-import net.sf.beezle.sushi.util.IntBitSet;
-
 import net.sf.beezle.mork.grammar.IllegalSymbols;
 import net.sf.beezle.mork.grammar.Rule;
 import net.sf.beezle.mork.misc.GenericException;
@@ -29,6 +25,9 @@ import net.sf.beezle.mork.regexpr.Action;
 import net.sf.beezle.mork.regexpr.Choice;
 import net.sf.beezle.mork.regexpr.Range;
 import net.sf.beezle.mork.regexpr.RegExpr;
+import net.sf.beezle.sushi.util.IntBitSet;
+
+import java.io.PrintStream;
 
 /** stores the result from visiting a node */
 

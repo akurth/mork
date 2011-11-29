@@ -17,9 +17,6 @@
 
 package net.sf.beezle.mork.mapping;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.beezle.mork.compiler.Syntax;
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.misc.GenericException;
@@ -29,6 +26,9 @@ import net.sf.beezle.mork.semantics.Occurrence;
 import net.sf.beezle.mork.semantics.Pusher;
 import net.sf.beezle.mork.semantics.Type;
 import net.sf.beezle.sushi.util.IntBitSet;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Visibility of some Definition, kind of an Argument builder.
@@ -101,7 +101,7 @@ public class Path {
             int modifier, Definition source, List<Definition> targets, int[] moves, IntBitSet[] stoppers) throws GenericException {
         Path path;
         int count;
-        
+
         path = new Path(syntax.getGrammar(), modifier, source, targets, moves, stoppers);
         count = path.translate();
         if (count == 0 && source.getAttribute().symbol != syntax.getGrammar().getStart()) {
@@ -320,7 +320,7 @@ public class Path {
     public String toString() {
         StringBuilder builder;
         List<String> lst;
-        
+
         lst = grammar.getSymbolTable().toList();
         builder = new StringBuilder();
         for (int i = 0; i < stoppers.length; i++) {

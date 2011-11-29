@@ -17,14 +17,13 @@
 
 package net.sf.beezle.mork.parser;
 
+import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.sushi.util.IntBitSet;
+
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.sf.beezle.sushi.util.IntBitSet;
-
-import net.sf.beezle.mork.grammar.Grammar;
-import net.sf.beezle.mork.misc.GenericException;
 
 public class PDA {
     /** start symbol */

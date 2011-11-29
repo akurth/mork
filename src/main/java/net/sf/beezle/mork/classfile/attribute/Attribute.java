@@ -17,11 +17,11 @@
 
 package net.sf.beezle.mork.classfile.attribute;
 
-import java.io.IOException;
-
 import net.sf.beezle.mork.classfile.Code;
 import net.sf.beezle.mork.classfile.Input;
 import net.sf.beezle.mork.classfile.Output;
+
+import java.io.IOException;
 
 public abstract class Attribute {
     public final String name;

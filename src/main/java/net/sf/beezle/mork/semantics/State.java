@@ -17,15 +17,15 @@
 
 package net.sf.beezle.mork.semantics;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.mapping.Transport;
 import net.sf.beezle.mork.reflect.Function;
 import net.sf.beezle.mork.reflect.Identity;
 import net.sf.beezle.sushi.util.IntArrayList;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Attribute grammar, supports >=0 synthesized and inherited attributes.
@@ -155,7 +155,7 @@ public class State implements Compare {
 
     //---------------------------------------------------------------------------
     private static final Function TMP_FUNCTION = new Identity("tmp", Object.class);
-    
+
     public void createSemanticsBuffer(Ag sems, Transport transport) {
         int i;
         int max;

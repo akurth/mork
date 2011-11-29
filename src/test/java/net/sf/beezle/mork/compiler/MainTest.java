@@ -17,9 +17,8 @@
 
 package net.sf.beezle.mork.compiler;
 
-import net.sf.beezle.mork.misc.GenericException;
-
 import junit.framework.TestCase;
+import net.sf.beezle.mork.misc.GenericException;
 
 /**
  * Test parsing command line options.

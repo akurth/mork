@@ -17,13 +17,12 @@
 
 package net.sf.beezle.mork.parser;
 
+import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.sushi.util.IntBitSet;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-
-import net.sf.beezle.sushi.util.IntBitSet;
-
-import net.sf.beezle.mork.grammar.Grammar;
 
 public class Reduce {
     public final int production;
@@ -63,12 +62,12 @@ public class Reduce {
 
         return buffer.toString();
     }
-    
+
     @Override
     public int hashCode() {
         return production;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         return this == obj;

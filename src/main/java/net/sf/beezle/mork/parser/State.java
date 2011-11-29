@@ -17,6 +17,10 @@
 
 package net.sf.beezle.mork.parser;
 
+import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.misc.StringArrayList;
+import net.sf.beezle.sushi.util.IntBitSet;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,10 +29,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
-import net.sf.beezle.mork.grammar.Grammar;
-import net.sf.beezle.mork.misc.StringArrayList;
-import net.sf.beezle.sushi.util.IntBitSet;
 
 /** LR-PDAs are generated using these states */
 

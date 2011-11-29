@@ -19,6 +19,7 @@ package net.sf.beezle.mork.semantics;
 
 import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.mork.reflect.Function;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +79,7 @@ public class AttributionBuffer {
     public int hashCode() {
         return production;
     }
-    
+
     @Override
     public String toString() {
         StringBuilder buf;

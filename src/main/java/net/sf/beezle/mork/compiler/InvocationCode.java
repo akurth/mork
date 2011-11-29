@@ -17,11 +17,6 @@
 
 package net.sf.beezle.mork.compiler;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
-
 import net.sf.beezle.mork.classfile.Access;
 import net.sf.beezle.mork.classfile.Bytecodes;
 import net.sf.beezle.mork.classfile.ClassDef;
@@ -35,6 +30,11 @@ import net.sf.beezle.mork.classfile.Output;
 import net.sf.beezle.mork.classfile.attribute.Exceptions;
 import net.sf.beezle.mork.reflect.Function;
 import net.sf.beezle.sushi.util.IntArrayList;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 
 /**
  * Generates bytecode for invoke methods. Must not be saved without functions.

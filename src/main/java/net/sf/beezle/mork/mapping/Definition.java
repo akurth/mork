@@ -17,9 +17,6 @@
 
 package net.sf.beezle.mork.mapping;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.reflect.Function;
@@ -29,6 +26,9 @@ import net.sf.beezle.mork.semantics.Attribute;
 import net.sf.beezle.mork.semantics.AttributeOccurrence;
 import net.sf.beezle.mork.semantics.AttributionBuffer;
 import net.sf.beezle.mork.semantics.Type;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Definition of an attribute,

@@ -17,13 +17,14 @@
 
 package net.sf.beezle.mork.semantics;
 
+import junit.framework.TestCase;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.sushi.graph.Graph;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import junit.framework.TestCase;
 
 public class PartitionTest extends TestCase {
     private static final String A = "A";

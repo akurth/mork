@@ -17,12 +17,11 @@
 
 package net.sf.beezle.mork.scanner;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import net.sf.beezle.mork.regexpr.Range;
 import net.sf.beezle.sushi.util.IntBitSet;
 
-import net.sf.beezle.mork.regexpr.Range;
+import java.util.ArrayList;
+import java.util.List;
 
 /** Create determinitic automatons. */
 

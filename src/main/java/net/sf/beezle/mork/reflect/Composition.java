@@ -17,10 +17,10 @@
 
 package net.sf.beezle.mork.reflect;
 
-import java.lang.reflect.InvocationTargetException;
-
 import net.sf.beezle.mork.classfile.ClassRef;
 import net.sf.beezle.mork.classfile.Code;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
   * Composition of two functions. Invokation first invokes the

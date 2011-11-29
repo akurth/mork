@@ -17,10 +17,10 @@
 
 package net.sf.beezle.mork.classfile;
 
+import net.sf.beezle.sushi.fs.Node;
+
 import java.io.IOException;
 import java.io.InputStream;
-
-import net.sf.beezle.sushi.fs.Node;
 
 /**
  * A context to read a class file. The context is comprised of an

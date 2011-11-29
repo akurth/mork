@@ -17,9 +17,9 @@
 
 package net.sf.beezle.mork.classfile.attribute;
 
-import java.io.IOException;
-
 import net.sf.beezle.mork.classfile.Input;
+
+import java.io.IOException;
 
 public class Synthetic extends Empty {
     public static final String NAME = "Synthetic";

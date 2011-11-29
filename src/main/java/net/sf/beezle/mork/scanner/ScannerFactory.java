@@ -17,16 +17,15 @@
 
 package net.sf.beezle.mork.scanner;
 
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.parser.ParserTable;
+import net.sf.beezle.mork.regexpr.Range;
+import net.sf.beezle.sushi.util.IntBitSet;
+
 import java.io.PrintStream;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.sf.beezle.sushi.util.IntBitSet;
-
-import net.sf.beezle.mork.misc.GenericException;
-import net.sf.beezle.mork.parser.ParserTable;
-import net.sf.beezle.mork.regexpr.Range;
 
 /**
  * <p>An immutable FA. Instances are used for acual scanning. I would call

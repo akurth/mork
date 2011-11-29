@@ -18,6 +18,7 @@
 package net.sf.beezle.mork.mapping;
 
 import net.sf.beezle.mork.semantics.Compare;
+
 import java.util.ArrayList;
 import java.util.List;
 

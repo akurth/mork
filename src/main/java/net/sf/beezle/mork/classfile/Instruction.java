@@ -17,11 +17,11 @@
 
 package net.sf.beezle.mork.classfile;
 
-import java.io.IOException;
-import java.util.List;
-
 import net.sf.beezle.sushi.util.IntArrayList;
 import net.sf.beezle.sushi.util.IntCollection;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Stupid data container.

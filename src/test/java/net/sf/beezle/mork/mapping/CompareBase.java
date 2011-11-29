@@ -17,16 +17,14 @@
 
 package net.sf.beezle.mork.mapping;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import junit.framework.TestCase;
-
-import net.sf.beezle.sushi.util.IntArrayList;
-
 import net.sf.beezle.mork.semantics.Attribute;
 import net.sf.beezle.mork.semantics.Compare;
 import net.sf.beezle.mork.semantics.Type;
+import net.sf.beezle.sushi.util.IntArrayList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class CompareBase extends TestCase implements Compare {
     protected Attribute attr;

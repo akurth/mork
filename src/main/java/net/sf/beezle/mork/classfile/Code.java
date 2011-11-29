@@ -17,19 +17,19 @@
 
 package net.sf.beezle.mork.classfile;
 
+import net.sf.beezle.mork.classfile.attribute.Attribute;
+import net.sf.beezle.sushi.util.IntArrayList;
+import net.sf.beezle.sushi.util.IntBitSet;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
-import net.sf.beezle.mork.classfile.attribute.Attribute;
-import net.sf.beezle.sushi.util.IntArrayList;
-import net.sf.beezle.sushi.util.IntBitSet;
-
 public class Code extends Attribute implements Constants {
     public static final Logger LOGGER = Logger.getLogger(Code.class.getName());
-    
+
     public int locals;
 
     public List<Instruction> instructions;
@@ -113,7 +113,7 @@ public class Code extends Attribute implements Constants {
             }
         }
     }
-    
+
     /**
      * @return number of instructions.
      */

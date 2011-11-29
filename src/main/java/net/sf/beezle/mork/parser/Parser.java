@@ -17,15 +17,15 @@
 
 package net.sf.beezle.mork.parser;
 
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.Reader;
-
 import net.sf.beezle.mork.mapping.ErrorHandler;
 import net.sf.beezle.mork.scanner.Position;
 import net.sf.beezle.mork.scanner.Scanner;
 import net.sf.beezle.mork.scanner.ScannerFactory;
 import net.sf.beezle.mork.semantics.SemanticError;
+
+import java.io.IOException;
+import java.io.PrintStream;
+import java.io.Reader;
 
 /**
  * Push down automaton, performing LR parsing

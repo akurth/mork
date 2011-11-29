@@ -18,7 +18,6 @@
 package net.sf.beezle.mork.compiler;
 
 import net.sf.beezle.mork.classfile.Code;
-
 import net.sf.beezle.mork.reflect.Function;
 
 public abstract class CompiledFunctionBase extends Function {
