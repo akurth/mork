@@ -20,6 +20,8 @@ package net.sf.beezle.mork.compiler;
 import junit.framework.TestCase;
 import net.sf.beezle.mork.misc.GenericException;
 
+import java.io.IOException;
+
 /**
  * Test parsing command line options.
  */
@@ -43,32 +45,32 @@ public class MainTest extends TestCase {
         assertEquals(Main.HELP, main.run(new String[] { "-help" }));
     }
 
-    public void testNoJobForHelp() throws GenericException {
+    public void testNoJobForHelp() throws IOException {
         jobs = main.parseOptions(new String[] { "-help" });
         assertEquals(0, jobs.length);
     }
 
-    public void testOneJob() throws GenericException {
+    public void testOneJob() throws IOException {
         jobs = main.parseOptions(new String[] { "a" });
         assertEquals(1, jobs.length);
         assertEquals(new Job("a"), jobs[0]);
     }
 
-    public void testTwoJobs() throws GenericException {
+    public void testTwoJobs() throws IOException {
         jobs = main.parseOptions(new String[] { "a", "b" });
         assertEquals(2, jobs.length);
         assertEquals(new Job("a"), jobs[0]);
         assertEquals(new Job("b"), jobs[1]);
     }
 
-    public void testListing() throws GenericException {
+    public void testListing() throws IOException {
         jobs = main.parseOptions(new String[] { "-lst", "a", "b" });
         assertEquals(2, jobs.length);
         assertEquals(new Job(null, true, "a"), jobs[0]);
         assertEquals(new Job(null, true, "b"), jobs[1]);
     }
 
-    public void testOutputPath() throws GenericException {
+    public void testOutputPath() throws IOException {
         jobs = main.parseOptions(new String[] { "-d", ".", "a", "b" });
         assertEquals(2, jobs.length);
         assertEquals(new Job(".", false, "a"), jobs[0]);

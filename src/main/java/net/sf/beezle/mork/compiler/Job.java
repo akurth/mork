@@ -17,9 +17,9 @@
 
 package net.sf.beezle.mork.compiler;
 
-import net.sf.beezle.mork.misc.GenericException;
-
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * A compile job. TODO: invoke mork from here; parsing the command line results
@@ -45,11 +45,11 @@ public class Job {
     /**
      * @param srcName name of the source file.
      */
-    public Job(String srcName) throws GenericException {
+    public Job(String srcName) throws IOException {
         this(null, false, srcName);
     }
 
-    public Job(String outputPathName, boolean listing, String srcName) throws GenericException {
+    public Job(String outputPathName, boolean listing, String srcName) throws IOException {
         String baseName;
 
         if (outputPathName == null) {
@@ -57,7 +57,7 @@ public class Job {
         } else {
             this.outputPath = new File(outputPathName);
             if (!outputPath.isDirectory()) {
-                throw new GenericException("no such directory: " + outputPath);
+                throw new FileNotFoundException("no such directory: " + outputPath);
             }
         }
 

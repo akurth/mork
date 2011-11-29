@@ -25,6 +25,7 @@ import net.sf.beezle.mork.semantics.BuiltIn;
 import net.sf.beezle.mork.semantics.IllegalLiteral;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Global state, instances represent globale options. The this class forms a Java API
@@ -95,6 +96,9 @@ public class Mork {
             compiler.run(result, spec.getMapperName(), currentJob.source, currentJob.outputPath);
         } catch (GenericException e) {
             output.error(currentJob.source.getName(), e);
+            return false;
+        } catch (IOException e) {
+            output.error(currentJob.source.getName(), e.getMessage());
             return false;
         }
         return true;

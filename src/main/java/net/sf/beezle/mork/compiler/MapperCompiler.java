@@ -45,7 +45,7 @@ public class MapperCompiler implements Bytecodes {
      * @param src               file that specified the mapper
      * @param explicitOutputDir "-d", points to a directory or null.
      */
-    public void run(Mapper mapper, String mapperName, File src, File explicitOutputDir) throws GenericException {
+    public void run(Mapper mapper, String mapperName, File src, File explicitOutputDir) throws IOException {
         String baseName;
         File outputDir;  // directory to write all class files to
 
@@ -86,7 +86,7 @@ public class MapperCompiler implements Bytecodes {
     }
 
     /** creates new directory if necessary. */
-    public File outputDir(File src, File explicitOutputDir, String mapperName) throws GenericException {
+    public File outputDir(File src, File explicitOutputDir, String mapperName) throws IOException {
         File outputDir;
         int prev;
         int idx;
@@ -102,7 +102,7 @@ public class MapperCompiler implements Bytecodes {
                 subDir = new File(outputDir, mapperName.substring(prev, idx));
                 if (!subDir.isDirectory()) {
                     if (!subDir.mkdir()) {
-                        throw new GenericException("cannot create directory: " + subDir);
+                        throw new IOException("cannot create directory: " + subDir);
                     }
                 }
                 prev = idx + 1;

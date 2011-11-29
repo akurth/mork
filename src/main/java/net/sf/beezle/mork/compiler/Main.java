@@ -20,6 +20,7 @@ package net.sf.beezle.mork.compiler;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.reflect.Function;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -155,8 +156,8 @@ public class Main {
         for (int j = i; j < args.length; j++) {
             try {
                 jobs[j - i] = new Job(outputPath, listing, args[j]);
-            } catch (GenericException e) {
-                output.error(errorPos, e);
+            } catch (IOException e) {
+                output.error(errorPos, e.getMessage());
                 return null;
             }
         }
@@ -164,7 +165,7 @@ public class Main {
     }
 
     public static final String USAGE =
-      "usage: \"mork\" option* mapfile*\n"
+      "usage: \"mork\" option* mapperfile*\n"
     + "option:\n"
     + " -help                 print this message and quit\n"
     + " -stat                 print mapper statistics\n"

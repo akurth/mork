@@ -18,22 +18,22 @@
 package net.sf.beezle.mork.compiler;
 
 import junit.framework.TestCase;
-import net.sf.beezle.mork.misc.GenericException;
 
 import java.io.File;
+import java.io.IOException;
 
 public class JobTest extends TestCase {
     private Job a;
     private Job b;
 
-    public void testFields() throws GenericException {
+    public void testFields() throws IOException {
         a = new Job(".", false, "a");
         assertEquals(new File("a"), a.source);
         assertEquals(new File("."), a.outputPath);
         assertNull(a.listing);
     }
 
-    public void testListing() throws GenericException {
+    public void testListing() throws IOException {
         a = new Job(null, true, "a");
         assertNotNull(a.listing);
         assertTrue(!a.listing.equals(a.source));
@@ -50,7 +50,7 @@ public class JobTest extends TestCase {
         assertTrue(a.listing.getName().endsWith(Job.LST_SUFFIX));
     }
 
-    public void testEqual() throws GenericException {
+    public void testEqual() throws IOException {
         a = new Job("a");
         b = new Job("a");
         assertEquals(a, b);
@@ -64,7 +64,7 @@ public class JobTest extends TestCase {
         assertEquals(a, b);
     }
 
-    public void testOutputDiff() throws GenericException {
+    public void testOutputDiff() throws IOException {
         a = new Job(".", true, "a");
         b = new Job(new File(".").getParent(), true, "a");
         assertTrue(!a.equals(b));
@@ -78,13 +78,13 @@ public class JobTest extends TestCase {
         assertTrue(!a.equals(b));
     }
 
-    public void testSourceDiff() throws GenericException {
+    public void testSourceDiff() throws IOException {
         a = new Job("a");
         b = new Job("b");
         assertTrue(!a.equals(b));
     }
 
-    public void testFlagDiff() throws GenericException {
+    public void testFlagDiff() throws IOException {
         a = new Job(null, true, "a");
         b = new Job(null, false, "a");
         assertTrue(!a.equals(b));

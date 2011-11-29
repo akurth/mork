@@ -18,7 +18,6 @@
 package calc;
 
 import net.sf.beezle.mork.mapping.Mapper;
-import net.sf.beezle.mork.misc.GenericException;
 
 /**
  * Calculate simple expression.
@@ -50,9 +49,9 @@ public class Main {
         return left * right;
     }
 
-    public static int div(int left, int right) throws GenericException {
+    public static int div(int left, int right) throws Exception {
         if (right == 0) {
-            throw new GenericException("division by zero");
+            throw new Exception("division by zero");
         }
         return left / right;
     }

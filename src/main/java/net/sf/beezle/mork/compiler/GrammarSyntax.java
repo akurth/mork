@@ -45,12 +45,9 @@ public class GrammarSyntax extends Syntax {
     private IntBitSet whiteSymbols;
     private Rule[] scannerRules;
 
-    public GrammarSyntax(
-        StringArrayList symbolTable, Rule[] parserRules,
-        boolean priorities, IntBitSet whiteSymbols, Rule[] scannerRules)
-        throws GenericException {
+    public GrammarSyntax(StringArrayList symbolTable, Rule[] parserRules, boolean priorities, IntBitSet whiteSymbols, Rule[] scannerRules) throws GenericException {
         if (parserRules.length == 0) {
-            throw new GenericException("empty parser section, at least one rule is needed");
+            throw new IllegalArgumentException();
         }
         this.grammar = GrammarBuilder.createGrammar(parserRules, symbolTable);
         this.priorities = priorities;
