@@ -340,7 +340,7 @@
       </figure>
 
       <para>Besides Java files, the source directory contains a syntax file
-        <literal>command.grm</literal> and a mapper file <literal>Mapper.map</literal>. The syntax file
+        <literal>Command.syntax</literal> and a mapper file <literal>Mapper.map</literal>. The syntax file
         defines the syntax of command files and the mapper file defines how to map a command files into an
         instance of <literal>command.Command</literal>.</para>
     </sect1>
@@ -388,12 +388,12 @@
 
       <formalpara>
         <title>Syntax files</title>
-        <para><literal>command.grm</literal> defines the syntax of command files. A syntax file has a
+        <para><literal>Command.syntax</literal> defines the syntax of command files. A syntax file has a
           scanner section and a parser section.</para></formalpara>
 
       <figure>
-        <title><literal>command.grm</literal></title>
-        <programlisting><xi:include href="../../../examples/command/src/main/command.grm" parse="text" /></programlisting>
+        <title><literal>Command.syntax</literal></title>
+        <programlisting><xi:include href="../../../examples/command/src/main/Command.syntax" parse="text" /></programlisting>
       </figure>
 
       <formalpara>

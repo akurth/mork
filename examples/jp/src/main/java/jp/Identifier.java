@@ -2,7 +2,7 @@ package jp;
 
 /**
  * Prints character ranges for Java Identifier. Output was used
- * to define Identifier in java.grm
+ * to define Identifier in Java.syntax
  */
 
 public class Identifier {

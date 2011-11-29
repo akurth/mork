@@ -113,7 +113,7 @@ public class MainFunctionalTest extends TestCase {
         File file;
 
         runWithFiles(
-            new String[] { "Empty.map", "ab.grm" },
+            new String[] { "Empty.map", "Ab.syntax" },
             new String[] { "Empty.map" }
         );
         assertTrue("stdout", !stdout.equals(""));
@@ -160,7 +160,7 @@ public class MainFunctionalTest extends TestCase {
         File[] files;
 
         runWithFiles(
-            new String[] { "InvalidGrammar.map", "invalid.grm" },
+            new String[] { "InvalidGrammar.map", "Invalid.syntax" },
             new String[] { "InvalidGrammar.map" }
         );
         assertTrue("stdout", !stdout.equals(""));
@@ -175,17 +175,17 @@ public class MainFunctionalTest extends TestCase {
     // check individual error messages
 
     public void testUndefinedSymbol() throws IOException {
-        assertError("UndefinedSymbol.map", "ab.grm", Stubs.UNDEFINED_SYMBOL);
+        assertError("UndefinedSymbol.map", "Ab.syntax", Stubs.UNDEFINED_SYMBOL);
     }
 
     public void testArgumentNotAssigable() throws IOException {
-        assertError("ArgumentNotAssignable.map", "ab.grm", Definition.ARGUMENT_NOT_ASSIGNABLE);
+        assertError("ArgumentNotAssignable.map", "Ab.syntax", Definition.ARGUMENT_NOT_ASSIGNABLE);
     }
     public static void noArguments() {
     }
 
     public void testArgumentTypeMismatch() throws IOException {
-        assertError("ArgumentTypeMissmatch.map", "ab.grm", Conversion.ARGUMENT_TYPE_MISMATCH);
+        assertError("ArgumentTypeMissmatch.map", "Ab.syntax", Conversion.ARGUMENT_TYPE_MISMATCH);
     }
     public static String ab(int a) {
         return null;
@@ -222,7 +222,7 @@ public class MainFunctionalTest extends TestCase {
         File file;
 
         runWithFiles(
-            new String[] { "Empty.map", "ab.grm" },
+            new String[] { "Empty.map", "Ab.syntax" },
             new String[] { "-lst", "Empty.map" }
         );
         assertTrue("stdout <" + stdout + ">", !stdout.equals(""));

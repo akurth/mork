@@ -1,5 +1,5 @@
 mapper jp.Mapper;
 
-grm = "java.grm";
+grm = "Java.syntax";
 
 # empty

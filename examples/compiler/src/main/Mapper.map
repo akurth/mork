@@ -1,6 +1,6 @@
 mapper compiler.Mapper;
 
-grm = "program.grm";
+grm = "Program.syntax";
 
 import compiler:
     Assign, Binary, Block, Declarations, If, Input, Number, Print, Program,

@@ -1,6 +1,6 @@
 mapper ArgumentTypeMismatch;
 
-grm = "ab.grm";
+grm = "Ab.syntax";
 
 import net.sf.beezle.mork.compiler:
   MainFunctionalTest;
