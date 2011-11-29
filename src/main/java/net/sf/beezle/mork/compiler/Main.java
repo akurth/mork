@@ -70,7 +70,7 @@ public class Main {
     }
 
     /** does not catch Throwable **/
-    public int runCore(String[] args) throws Throwable {
+    public int runCore(String[] args) {
         Mork mork;
         Job[] jobs;
         int i;

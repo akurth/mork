@@ -125,7 +125,7 @@ public class Argument implements Compare {
     /**
      * @param args  List of Arguments
      */
-    public static List<Argument> sortAndMergeArgs(Definition target, List<Argument> args) throws GenericException {
+    public static List<Argument> sortAndMergeArgs(Definition target, List<Argument> args) {
         List<Argument> seq;
         int i;
         int max;

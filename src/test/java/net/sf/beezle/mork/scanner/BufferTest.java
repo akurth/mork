@@ -77,7 +77,7 @@ public class BufferTest extends TestCase {
         readPosition(3);
     }
 
-    public void createPosition(int newlineCount) throws IOException, GenericException {
+    public void createPosition(int newlineCount) {
         StringBuffer sb;
         int i;
 

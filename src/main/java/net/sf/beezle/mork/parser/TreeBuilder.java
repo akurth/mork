@@ -30,5 +30,5 @@ public interface TreeBuilder {
 
     Object createTerminal(int terminal) throws IOException;
 
-    Object createNonterminal(int production) throws SemanticError, IOException;
+    Object createNonterminal(int production) throws SemanticError;
 }

@@ -44,7 +44,7 @@ public class Internal {
         }
     }
 
-    public Attribute translate(int symbol, Grammar grm) throws GenericException {
+    public Attribute translate(int symbol, Grammar grm) {
         Attribute attr;
         Type type;
 

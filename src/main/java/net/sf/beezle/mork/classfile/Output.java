@@ -273,7 +273,7 @@ public class Output implements Constants {
         return result;
     }
 
-    public void writeFixup(int fixup, int value) throws IOException {
+    public void writeFixup(int fixup, int value) {
         int i, max;
 
         max = fixups.size();

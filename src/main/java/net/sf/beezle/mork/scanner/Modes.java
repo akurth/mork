@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Modes {
-    public static void setNone(ParserTable table) throws GenericException {
+    public static void setNone(ParserTable table) {
         int max;
         char[] parserModes;
 

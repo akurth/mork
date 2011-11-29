@@ -409,8 +409,7 @@ public class ClassRef extends Reference implements Bytecodes, Constants {
      * @param  in  source to read from
      * @return the Class read
      */
-    public static Class<?> read(ObjectInput in)
-            throws java.io.IOException, ClassNotFoundException {
+    public static Class<?> read(ObjectInput in) throws java.io.IOException {
         byte dim;
         Class<?> cl;
         String name;

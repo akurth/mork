@@ -149,7 +149,7 @@ public class ScannerTest extends TestCase {
         }
     }
 
-    private void table(RegExpr ... token) throws GenericException, IOException {
+    private void table(RegExpr ... token) throws GenericException {
         IntBitSet terminals;
         int i;
         Rule[] rules;
@@ -166,7 +166,7 @@ public class ScannerTest extends TestCase {
         factory = ScannerFactory.createSimple(builder.getFA(), builder.getErrorState(), terminals);
     }
 
-    private void input(String input) throws IOException {
+    private void input(String input) {
         scanner = factory.newInstance(new Position(), new StringReader(input));
     }
 

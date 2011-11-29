@@ -26,7 +26,7 @@ import net.sf.beezle.mork.semantics.IllegalLiteral;
  * Helper functions referred by bootstrap mappers.
  */
 public class Stubs04 {
-    public static Syntax loadGrammar(String fileName) throws GenericException, IllegalLiteral {
+    public static Syntax loadGrammar(String fileName) throws IllegalLiteral {
         return Loader.loadGrammar(BuiltIn.parseString(fileName));
     }
 }
