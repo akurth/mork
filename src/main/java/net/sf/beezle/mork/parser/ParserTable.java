@@ -49,6 +49,8 @@ public class ParserTable implements Serializable {
 
     private final int symbolCount;
 
+    private final int eofSymbol;
+
     /**
      * Values in the table. [state * symbolCount + symbol]. Each value
      * stores   operand << ACTION_BITS | action.
@@ -71,10 +73,11 @@ public class ParserTable implements Serializable {
      * Constructor for compiled object.
      */
     public ParserTable(
-        char startState, int symbolCount, char[] values, int[] lengths, int[] lefts, char[] modes)
+        char startState, int symbolCount, int eofSymbol, char[] values, int[] lengths, int[] lefts, char[] modes)
     {
         this.startState = startState;
         this.symbolCount = symbolCount;
+        this.eofSymbol = eofSymbol;
         this.values = values;
         this.lengths = lengths;
         this.lefts = lefts;
@@ -82,20 +85,13 @@ public class ParserTable implements Serializable {
     }
 
     public ParserTable(
-            char startState, int symbolCount, int stateCount,
+            char startState, int symbolCount, int eofSymbol, int stateCount,
             String[] packedValues, int[] lengths, int[] lefts, char[] modes) {
-        this(startState, symbolCount, new char[stateCount * symbolCount], lengths, lefts, modes);
+        this(startState, symbolCount, eofSymbol, new char[stateCount * symbolCount], lengths, lefts, modes);
         unpackValues(packedValues);
     }
 
-    public void setModes(char[] modes) {
-        this.modes = modes;
-    }
-
-    //-----------------------------------------------------------------------
-    // table creation
-
-    public ParserTable(int startState, int stateCount, int symbolCount, Grammar grm, char[] modes) throws GenericException {
+    public ParserTable(int startState, int stateCount, int symbolCount, int eofSymbol, Grammar grm, char[] modes) throws GenericException {
         int i;
         int max;
 
@@ -104,6 +100,7 @@ public class ParserTable implements Serializable {
         }
         this.startState = (char) startState;
         this.symbolCount = symbolCount;
+        this.eofSymbol = eofSymbol;
         this.modes = modes;
 
         values = new char[stateCount * symbolCount];
@@ -123,6 +120,14 @@ public class ParserTable implements Serializable {
             lengths[i] = grm.getLength(i);
             lefts[i] = grm.getLeft(i);
         }
+    }
+
+    public int getEofSymbol() {
+        return eofSymbol;
+    }
+
+    public void setModes(char[] modes) {
+        this.modes = modes;
     }
 
     //------------------------------------------------------------------

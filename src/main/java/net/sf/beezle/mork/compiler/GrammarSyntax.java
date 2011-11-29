@@ -110,7 +110,7 @@ public class GrammarSyntax extends Syntax {
         output.statistics("  states: " + pda.size());
         output.statistics("  table: [symbols=" + parserTable.getSymbolCount()
                       + "][states=" + parserTable.getStateCount() + "]");
-        eof = pda.eof;
+        eof = pda.getEofSymbol();
 
         // free memory before computing FA
         pda = null;

@@ -227,6 +227,6 @@ public class XmlSyntax extends Syntax {
         output.statistics("  table: [symbols=" + table.getSymbolCount()
                           + "][states=" + table.getStateCount() + "]");
 
-        return new Parser(table, new XmlScannerFactory(symbolTable, pda.eof, attrs));
+        return new Parser(table, new XmlScannerFactory(symbolTable, pda.getEofSymbol(), attrs));
     }
 }

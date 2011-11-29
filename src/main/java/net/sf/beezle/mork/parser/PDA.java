@@ -30,12 +30,6 @@ public class PDA {
     /** start symbol */
     public final int start;
 
-    /**
-     * Pseudo-symbol, indicates end-of-file (or an empty word if lookahead is seen as a set of words of length <= 1)
-     */
-    public final int eof;
-
-
     // environment for computation; final but the objects
     // change over time
     public final Grammar grm;      // grammar
@@ -54,7 +48,6 @@ public class PDA {
         this.nullable = new IntBitSet();
         this.states = new ArrayList<State>();
         this.start = start;
-        this.eof = grm.getSymbolCount();
         this.grm.addRemoveable(nullable);
 
         calcLR0();
@@ -62,6 +55,13 @@ public class PDA {
         prepare(allShifts);
         calc(allShifts);
         finish();
+    }
+
+    /**
+     * Pseudo-symbol, indicates end-of-file (or an empty word if lookahead is seen as a set of words of length <= 1)
+     */
+    public int getEofSymbol() {
+        return grm.getSymbolCount();
     }
 
     //-------------------------------------------------------------------
@@ -77,7 +77,7 @@ public class PDA {
             state.expand(this);
         }
         end = getState(0).createShifted(this, start);
-        end.createShifted(this, eof);
+        end.createShifted(this, getEofSymbol());
     }
 
     private void prepare(List<Shift> shifts) {
@@ -144,9 +144,11 @@ public class PDA {
         // the initial syntaxnode created by the start action is ignoed!
         ParserTable result;
         int i, max;
+        int eof;
 
         max = states.size();
-        result = new ParserTable(0, max, lastSymbol + 1 /* +1 for EOF */, grm, null);
+        eof = getEofSymbol();
+        result = new ParserTable(0, max, lastSymbol + 1 /* +1 for EOF */, eof, grm, null);
         for (i = 0; i < max; i++) {
             getState(i).addActions(this, result, conflicts);
         }
