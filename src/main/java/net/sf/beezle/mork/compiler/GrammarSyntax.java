@@ -79,7 +79,6 @@ public class GrammarSyntax extends Syntax {
         Conflicts conflicts;
         PDA pda;
         ParserTable parserTable;
-        int eof;
         GrammarScannerFactory scannerFactory;
         IntBitSet usedTerminals;
         IntBitSet usedSymbols;
@@ -110,7 +109,6 @@ public class GrammarSyntax extends Syntax {
         output.statistics("  states: " + pda.size());
         output.statistics("  table: [symbols=" + parserTable.getSymbolCount()
                       + "][states=" + parserTable.getStateCount() + "]");
-        eof = pda.getEofSymbol();
 
         // free memory before computing FA
         pda = null;
@@ -130,7 +128,7 @@ public class GrammarSyntax extends Syntax {
             Modes.resolveScannerConflicts(builder.getFA(), scannerRules);
         }
         scannerFactory = GrammarScannerFactory.create(
-            builder.getFA(), builder.getErrorState(), parserTable, whiteSymbols, output.verbose, output.listing, eof);
+            builder.getFA(), builder.getErrorState(), parserTable, whiteSymbols, output.verbose, output.listing);
 
         output.statistics();
         output.statistics("scanner statistics");

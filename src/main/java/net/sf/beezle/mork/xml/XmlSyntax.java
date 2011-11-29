@@ -201,7 +201,6 @@ public class XmlSyntax extends Syntax {
         Conflicts conflicts;
         PDA pda;
         ParserTable table;
-        int eof;
         StringArrayList symbolTable;
 
         output.verbose("processing parser section");
@@ -227,6 +226,6 @@ public class XmlSyntax extends Syntax {
         output.statistics("  table: [symbols=" + table.getSymbolCount()
                           + "][states=" + table.getStateCount() + "]");
 
-        return new Parser(table, new XmlScannerFactory(symbolTable, pda.getEofSymbol(), attrs));
+        return new Parser(table, new XmlScannerFactory(symbolTable, attrs));
     }
 }

@@ -34,7 +34,6 @@ import java.io.Reader;
 
 public class XmlScanner implements Symbols, Scanner {
     private Buffer buffer;
-    private int eofSymbol;
 
     /** indexed by elements (not start- or end-tags) */
     private Attribute[][] attrs;
@@ -66,9 +65,8 @@ public class XmlScanner implements Symbols, Scanner {
 
     //-------------------------------------------------------------------
 
-    public XmlScanner(StringArrayList symbolTable, int eofSymbol, Attribute[][] attrs) {
+    public XmlScanner(StringArrayList symbolTable, Attribute[][] attrs) {
         this.symbolTable = symbolTable;
-        this.eofSymbol = eofSymbol;
         this.attrs = attrs;
 
         this.insertEnd = -1;
@@ -90,10 +88,6 @@ public class XmlScanner implements Symbols, Scanner {
         return text;
     }
 
-    public int getEofSymbol() {
-        return eofSymbol;
-    }
-
     //----------------------------------------------------------------------
 
     private static final String EMPTY = "";
@@ -111,7 +105,7 @@ public class XmlScanner implements Symbols, Scanner {
         }
 
         // handle the simple cases
-        if (terminal == eofSymbol) {
+        if (terminal == EOF) {
             return terminal;
         }
         if (insertAttribute()) {
@@ -144,7 +138,7 @@ public class XmlScanner implements Symbols, Scanner {
         }
 
         if (tmp == -1) {
-            terminal = eofSymbol;
+            terminal = EOF;
             position = null; // TODO
             text = EMPTY; // TODO
         } else if (tmp == TAG_START) {

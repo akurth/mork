@@ -66,12 +66,10 @@ public class GrammarScannerFactory implements ScannerFactory {
      */
     private final char[] table;
 
-    private final int eofSymbol;
-
     //-----------------------------------------------------------------
 
     public static GrammarScannerFactory create(
-        FA fa, int errorSi, ParserTable parserTable, IntBitSet whites, PrintStream verbose, PrintStream listing, int eofSymbol)
+        FA fa, int errorSi, ParserTable parserTable, IntBitSet whites, PrintStream verbose, PrintStream listing)
             throws GenericException {
         List modes;  // list of IntSets
         char[] table;
@@ -88,10 +86,10 @@ public class GrammarScannerFactory implements ScannerFactory {
             verbose.println("building table fa");
         }
         table = createTable(fa, errorSi, modes);
-        return new GrammarScannerFactory(fa.getStart(), modes.size(), eofSymbol, table);
+        return new GrammarScannerFactory(fa.getStart(), modes.size(), table);
     }
 
-    public static GrammarScannerFactory createSimple(FA fa, int errorSi, IntBitSet terminals, int eofSymbol)
+    public static GrammarScannerFactory createSimple(FA fa, int errorSi, IntBitSet terminals)
         throws GenericException {
         char[] data;
         List modes;  // list of IntSets
@@ -99,7 +97,7 @@ public class GrammarScannerFactory implements ScannerFactory {
         modes = new ArrayList();
         modes.add(new IntBitSet(terminals));
         data = createTable(fa, errorSi, modes);
-        return new GrammarScannerFactory(fa.getStart(), 1, eofSymbol, data);
+        return new GrammarScannerFactory(fa.getStart(), 1, data);
     }
 
     private static char[] createTable(FA fa, int errorSi, List modes) throws GenericException {
@@ -194,18 +192,17 @@ public class GrammarScannerFactory implements ScannerFactory {
         return (char) endSymbol;
     }
 
-    public GrammarScannerFactory(int start, int modeCount, int eofSymbol, char[] table) {
+    public GrammarScannerFactory(int start, int modeCount, char[] table) {
         if (start == -1) {
             throw new IllegalArgumentException();
         }
         this.start = start;
         this.modeCount = modeCount;
         this.table = table;
-        this.eofSymbol = eofSymbol;
     }
 
     public Scanner newInstance(Position pos, Reader src) {
-        return new GrammarScanner(start, modeCount, eofSymbol, table, pos, src);
+        return new GrammarScanner(start, modeCount, table, pos, src);
     }
 
     public int size() {

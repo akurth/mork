@@ -30,18 +30,15 @@ public class XmlScannerFactory implements ScannerFactory {
     /** indexed by elements (not start- or end-tags) */
     private final Attribute[][] attrs;
 
-    private final int eofSymbol;
-
-    public XmlScannerFactory(StringArrayList symbolTable, int eofSymbol, Attribute[][] attrs) {
+    public XmlScannerFactory(StringArrayList symbolTable, Attribute[][] attrs) {
         this.symbolTable = symbolTable;
-        this.eofSymbol = eofSymbol;
         this.attrs = attrs;
     }
 
     public Scanner newInstance(Position pos, Reader src) throws IOException {
         XmlScanner scanner;
 
-        scanner = new XmlScanner(symbolTable, eofSymbol, attrs);
+        scanner = new XmlScanner(symbolTable, attrs);
         scanner.open(pos, src);
         return scanner;
     }

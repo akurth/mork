@@ -39,13 +39,11 @@ public class GrammarScanner implements Scanner {
     private final int start;
     private final int modeCount;
     private final char[] table;
-    private final int eofSymbol;
     private final Buffer src;
 
-    public GrammarScanner(int start, int modeCount, int eofSymbol, char[] table, Position pos, Reader reader) {
+    public GrammarScanner(int start, int modeCount, char[] table, Position pos, Reader reader) {
         this.start = start;
         this.modeCount = modeCount;
-        this.eofSymbol = eofSymbol;
         this.table = table;
         this.src = new Buffer();
         src.open(pos, reader);
@@ -109,7 +107,7 @@ public class GrammarScanner implements Scanner {
             }
             src.reset(endCount);
             if (endTerminal == ERROR) {
-                return eofSymbol;
+                return EOF;
             } else {
                 return endTerminal;
             }

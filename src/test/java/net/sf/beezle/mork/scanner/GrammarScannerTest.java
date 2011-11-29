@@ -35,7 +35,6 @@ import net.sf.beezle.mork.regexpr.Sequence;
 import net.sf.beezle.mork.regexpr.Without;
 
 /**
- * Test GrammarScanner.
  * TODO: more tests.
  * TODO: factor out the stuff common with XmlScannerTest.
  */
@@ -142,7 +141,7 @@ public class GrammarScannerTest extends TestCase {
         return new Range((char) 0, (char) 65535);
     }
 
-    private static final int EOF = 2;
+    private static final int EOF = Scanner.EOF;
 
     private void scan(String what, int terminal, String text) throws IOException {
         int currentTerminal;
@@ -168,7 +167,7 @@ public class GrammarScannerTest extends TestCase {
         }
         builder = FABuilder.run(rules, terminals, new StringArrayList(), null);
         Modes.resolveScannerConflicts(builder.getFA(), rules);
-        factory = GrammarScannerFactory.createSimple(builder.getFA(), builder.getErrorState(), terminals, EOF);
+        factory = GrammarScannerFactory.createSimple(builder.getFA(), builder.getErrorState(), terminals);
     }
 
     private void input(String input) throws IOException {

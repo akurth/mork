@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.net.URL;
 import junit.framework.TestCase;
+import net.sf.beezle.mork.scanner.Scanner;
 
 /**
  * Test XmlScanner
@@ -572,7 +573,7 @@ public class XmlScannerTest extends TestCase {
              XmlSyntax.toAttribute(symbolTable, element, attribute), value);
     }
     private void eof() throws IOException {
-        scan("eof", scanner.getEofSymbol(), null);
+        scan("eof", Scanner.EOF, null);
     }
 
     private void scan(String what, int terminal, String text) throws IOException {
@@ -632,7 +633,7 @@ public class XmlScannerTest extends TestCase {
                 attrs[i] = new Attribute[0];
             }
         }
-        scanner = new XmlScanner(symbolTable, symbolTable.size(), attrs);
+        scanner = new XmlScanner(symbolTable, attrs);
         scanner.open(new Position(new URL(dataDir, "virtual.xml")), new StringReader(input));
         return scanner;
     }
