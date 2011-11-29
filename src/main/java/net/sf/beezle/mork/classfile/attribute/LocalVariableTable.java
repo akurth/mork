@@ -28,12 +28,12 @@ import java.util.List;
 public class LocalVariableTable extends Attribute {
     public static final String NAME = "LocalVariableTable";
 
-    public final List infos;
+    public final List<LocalVariableInfo> infos;
 
     public LocalVariableTable() {
         super(NAME);
 
-        infos = new ArrayList();
+        infos = new ArrayList<LocalVariableInfo>();
     }
 
     public LocalVariableTable(Input src) throws IOException {

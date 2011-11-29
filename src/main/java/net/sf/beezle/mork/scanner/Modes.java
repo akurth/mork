@@ -73,14 +73,14 @@ public class Modes {
         return modes;
     }
 
-    private static char chooseState(FA fa, List modes, IntBitSet shifts) {
+    private static char chooseState(FA fa, List<IntBitSet> modes, IntBitSet shifts) {
         int i;
         int max;
         IntBitSet test;
 
         max = modes.size();
         for (i = 0; i < max; i++) {
-            test = (IntBitSet) modes.get(i);
+            test = modes.get(i);
             test = new IntBitSet(test);
             test.addAll(shifts);
             if (hasConflicts(fa, test) == null) {

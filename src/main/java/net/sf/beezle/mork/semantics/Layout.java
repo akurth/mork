@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class Layout {
     /** List of List of Attributes. Indexed by symbols. */
-    private final List attrs;
+    private final List<List<Attribute>> attrs;
 
     public Layout() {
         attrs = new ArrayList();
@@ -94,9 +94,9 @@ public class Layout {
         if (locate(attr) == -1) {
             symbol = attr.symbol;
             while (attrs.size() <= symbol) {
-                attrs.add(new ArrayList());
+                attrs.add(new ArrayList<Attribute>());
             }
-            lst = (List) attrs.get(symbol);
+            lst = attrs.get(symbol);
             lst.add(attr);
         }
     }

@@ -27,14 +27,14 @@ import java.util.List;
 public class LineNumberTable extends Attribute {
     public static final String NAME = "LineNumberTable";
 
-    public final List pcs;
-    public final List lines;
+    public final List<Integer> pcs;
+    public final List<Integer> lines;
 
     public LineNumberTable() {
         super(NAME);
 
-        pcs = new ArrayList();
-        lines = new ArrayList();
+        pcs = new ArrayList<Integer>();
+        lines = new ArrayList<Integer>();
     }
 
     public LineNumberTable(Input src) throws IOException {
@@ -51,8 +51,8 @@ public class LineNumberTable extends Attribute {
             throw new RuntimeException("illegal LineNumberTable attribute");
         }
         for (i = 0; i < count; i++) {
-            pcs.add(new Integer(src.readIdx()));
-            lines.add(new Integer(src.readU2()));
+            pcs.add(src.readIdx());
+            lines.add((int) src.readU2());
         }
     }
 
@@ -68,8 +68,8 @@ public class LineNumberTable extends Attribute {
         len = pcs.size();
         dest.writeU2(len);
         for (i = 0; i < len; i++) {
-            dest.writeIdx(((Integer) pcs.get(i)).intValue());
-            dest.writeU2(((Integer) lines.get(i)).intValue());
+            dest.writeIdx(pcs.get(i));
+            dest.writeU2(lines.get(i));
         }
         dest.writeFixup(start, dest.getGlobalOfs() - (start + 4));
     }

@@ -31,7 +31,7 @@ import java.util.List;
  */
 public class Pusher {
     /** states to be pushed */
-    private final List states;
+    private final List<State> states;
 
     private final IntBitSet border;
     private final Grammar grammar;
@@ -51,7 +51,7 @@ public class Pusher {
     }
 
     private Pusher(Attribute seed, IntBitSet border, Grammar grammar) {
-        this.states = new ArrayList();
+        this.states = new ArrayList<State>();
         this.states.add(new State(seed));
         this.border = border;
         this.grammar = grammar;
@@ -86,7 +86,6 @@ public class Pusher {
         int max;
         int idx;
         int ofs;
-        State state;
 
         child = (State) states.get(attrIdx);
         childAttr = child.getAttribute();

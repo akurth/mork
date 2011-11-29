@@ -69,11 +69,11 @@ public class Method extends Function implements Bytecodes {
     public static Selection forName(Class cl, String name) {
         java.lang.reflect.Method[] all;
         int i;
-        List lst;
+        List<Function> lst;
         Function fn;
 
         all = cl.getDeclaredMethods();
-        lst = new ArrayList();
+        lst = new ArrayList<Function>();
         for (i = 0; i < all.length; i++) {
             if (name.equals(all[i].getName())) {
                 fn = create(all[i]);

@@ -122,7 +122,7 @@ public class Range extends RegExpr {
      * o  expensive, the list is modified ...
      * *  states that touch each other are not merged
      */
-    public static void normalizeRanges(List ranges) {
+    public static void normalizeRanges(List<Range> ranges) {
         int i, todo, max;
         Range current, op, and;
 
