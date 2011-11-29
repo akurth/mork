@@ -17,7 +17,7 @@
 
 mapper net.sf.beezle.mork.bootstrap.MapperMapper;
 
-grm = "mapper.grm";
+grm = "Mapper.syntax";
 
 import net.sf.beezle.mork.bootstrap:
     Stubs04;
