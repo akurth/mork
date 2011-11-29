@@ -17,7 +17,6 @@
 
 package net.sf.beezle.mork.mapping;
 
-import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.semantics.Ag;
 import net.sf.beezle.mork.semantics.AgBuffer;
 import net.sf.beezle.mork.semantics.Attribute;

@@ -18,8 +18,8 @@
 package net.sf.beezle.mork.bootstrap;
 
 import net.sf.beezle.mork.compiler.Mork;
-import net.sf.beezle.mork.compiler.Syntax;
 import net.sf.beezle.mork.compiler.Specification;
+import net.sf.beezle.mork.compiler.Syntax;
 import net.sf.beezle.mork.reflect.Constructor;
 import net.sf.beezle.mork.reflect.Function;
 import net.sf.beezle.mork.reflect.Method;

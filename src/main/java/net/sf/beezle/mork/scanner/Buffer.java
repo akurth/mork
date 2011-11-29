@@ -17,8 +17,6 @@
 
 package net.sf.beezle.mork.scanner;
 
-import net.sf.beezle.mork.misc.GenericException;
-
 import java.io.IOException;
 import java.io.Reader;
 

@@ -24,7 +24,6 @@ import net.sf.beezle.mork.classfile.ClassRef;
 import net.sf.beezle.mork.classfile.Code;
 import net.sf.beezle.mork.classfile.Output;
 import net.sf.beezle.mork.mapping.Mapper;
-import net.sf.beezle.mork.misc.GenericException;
 
 import java.io.File;
 import java.io.IOException;

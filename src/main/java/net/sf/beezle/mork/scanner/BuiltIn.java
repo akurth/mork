@@ -22,7 +22,6 @@ import java.io.IOException;
 /**
  * BuiltIn predicates.
  */
-
 public class BuiltIn {
     /**
      * Eat java comments and white space
