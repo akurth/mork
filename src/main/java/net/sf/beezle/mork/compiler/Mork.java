@@ -17,7 +17,6 @@
 
 package net.sf.beezle.mork.compiler;
 
-import net.sf.beezle.mork.bootstrap.Loader;
 import net.sf.beezle.mork.mapping.Mapper;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.reflect.Function;
@@ -117,11 +116,21 @@ public class Mork {
 
         fileName = BuiltIn.parseString(fileName);   // fileName use / on all platforms
         fileName = fileName.replace('/', File.separatorChar);
-        file = Loader.absoluteFile(currentJob.source.getParentFile(), fileName);
+        file = absoluteFile(currentJob.source.getParentFile(), fileName);
         syntax = (Syntax) mapper.invoke(file);
         if (syntax == null) {
             throw new GenericException("error(s) in syntax file - aborted");
         }
         return syntax;
+    }
+
+    public static File absoluteFile(File dir, String fileName) {
+        File file;
+
+        file = new File(fileName);
+        if (file.isAbsolute()) {
+            return file;
+        }
+        return new File(dir, fileName);
     }
 }

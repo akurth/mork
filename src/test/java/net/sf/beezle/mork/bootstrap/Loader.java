@@ -17,6 +17,7 @@
 
 package net.sf.beezle.mork.bootstrap;
 
+import net.sf.beezle.mork.compiler.Mork;
 import net.sf.beezle.mork.compiler.Syntax;
 import net.sf.beezle.mork.compiler.Specification;
 import net.sf.beezle.mork.reflect.Constructor;
@@ -31,16 +32,6 @@ import java.io.File;
  * classpath. Caution: this class is *not* for stub code to map to!
  */
 public class Loader {
-    public static File absoluteFile(File dir, String fileName) {
-        File file;
-
-        file = new File(fileName);
-        if (file.isAbsolute()) {
-            return file;
-        }
-        return new File(dir, fileName);
-    }
-
     // holds the last mapper file name loaded;  this is kind of ugly, but setting up/using
     // "[env]" is tedious since I'd have to use reflection ...
     private static String mapperFile;
@@ -53,7 +44,7 @@ public class Loader {
     public static Syntax loadSyntax(String file) {
         File absolute;
 
-        absolute = absoluteFile(new File(mapperFile).getParentFile(), file);
+        absolute = Mork.absoluteFile(new File(mapperFile).getParentFile(), file);
         return (Syntax) load("net.sf.beezle.mork.bootstrap.SyntaxMapper", absolute.getPath());
     }
 

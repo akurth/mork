@@ -79,14 +79,14 @@
               <target>
                 <echo>Bootstrap Pass 1</echo>
                 <fileset id="mapper.bs1" dir="${basedir}">
-                  <include name="src/main/java/**/bootstrap/*.mapper" />
+                  <include name="src/test/java/**/bootstrap/*.mapper" />
                 </fileset>
                 <pathconvert property="mapper.bs1" refid="mapper.bs1" pathsep=" " />
                 <java fork="true" dir="${basedir}" classname="de.mlhartme.mxxx.compiler.Main" failonerror="true">
                   <classpath>
                     <pathelement path="${basedir}/src/bsmork.jar" />
                     <pathelement path="${basedir}/target/classes" />
-                    <path refid="maven.compile.classpath" />
+                    <path refid="maven.test.classpath" />
                   </classpath>
                   <arg value="-d" />
                   <arg path="${basedir}/target/classes" />
@@ -101,7 +101,7 @@
                   <classpath>
                     <pathelement path="${basedir}/src/bsmork.jar" />
                     <pathelement path="${basedir}/target/classes" />
-                    <path refid="maven.compile.classpath" />
+                    <path refid="maven.test.classpath" />
                   </classpath>
                   <arg value="-d" />
                   <arg path="${basedir}/target/classes" />
