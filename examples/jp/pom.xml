@@ -3,7 +3,7 @@
   <parent>
     <groupId>net.sf.beezle.maven.poms</groupId>
     <artifactId>parent</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
   </parent>
 
   <groupId>jp</groupId>
@@ -15,7 +15,7 @@
     <dependency>
       <groupId>net.sf.beezle.mork</groupId>
       <artifactId>mork</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>0.7</version>
     </dependency>
   </dependencies>
   <build>
@@ -49,7 +49,7 @@
      <plugin>
         <groupId>net.sf.beezle.maven.plugins</groupId>
         <artifactId>application</artifactId>
-        <version>1.3.4</version>
+        <version>1.3.5</version>
         <configuration>
           <name>jp</name>
           <main>jp.Main</main>
