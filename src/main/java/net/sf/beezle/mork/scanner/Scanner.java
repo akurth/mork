@@ -23,7 +23,12 @@ import java.io.IOException;
  * A token stream, input for parsers.
  */
 public interface Scanner {
-    /** scans the next terminal and returns it. */
+    public static final int ERROR_TOKEN = -1;
+
+    /**
+     * Scans the next terminal
+     * @return terminal or ERROR_TOKEN
+     */
     int next(int mode) throws IOException;
 
     /** assigns the position of the last terminal returned by eat. */
