@@ -113,8 +113,8 @@ public class MainFunctionalTest extends TestCase {
         File file;
 
         runWithFiles(
-            new String[] { "Empty.map", "Ab.syntax" },
-            new String[] { "Empty.map" }
+            new String[] { "Empty.mapper", "Ab.syntax" },
+            new String[] { "Empty.mapper" }
         );
         assertTrue("stdout", !stdout.equals(""));
         assertEquals("stderr", "", stderr);
@@ -145,8 +145,8 @@ public class MainFunctionalTest extends TestCase {
         File[] files;
 
         runWithFiles(
-            new String[] { "Invalid.map" },
-            new String[] { "Invalid.map" }
+            new String[] { "Invalid.mapper" },
+            new String[] { "Invalid.mapper" }
         );
         assertTrue("stdout", !stdout.equals(""));
         assertTrue("stderr", !stderr.equals(""));
@@ -160,8 +160,8 @@ public class MainFunctionalTest extends TestCase {
         File[] files;
 
         runWithFiles(
-            new String[] { "InvalidGrammar.map", "Invalid.syntax" },
-            new String[] { "InvalidGrammar.map" }
+            new String[] { "InvalidGrammar.mapper", "Invalid.syntax" },
+            new String[] { "InvalidGrammar.mapper" }
         );
         assertTrue("stdout", !stdout.equals(""));
         assertTrue("stderr", !stderr.equals(""));
@@ -175,17 +175,17 @@ public class MainFunctionalTest extends TestCase {
     // check individual error messages
 
     public void testUndefinedSymbol() throws IOException {
-        assertError("UndefinedSymbol.map", "Ab.syntax", Stubs.UNDEFINED_SYMBOL);
+        assertError("UndefinedSymbol.mapper", "Ab.syntax", Stubs.UNDEFINED_SYMBOL);
     }
 
     public void testArgumentNotAssigable() throws IOException {
-        assertError("ArgumentNotAssignable.map", "Ab.syntax", Definition.ARGUMENT_NOT_ASSIGNABLE);
+        assertError("ArgumentNotAssignable.mapper", "Ab.syntax", Definition.ARGUMENT_NOT_ASSIGNABLE);
     }
     public static void noArguments() {
     }
 
     public void testArgumentTypeMismatch() throws IOException {
-        assertError("ArgumentTypeMissmatch.map", "Ab.syntax", Conversion.ARGUMENT_TYPE_MISMATCH);
+        assertError("ArgumentTypeMissmatch.mapper", "Ab.syntax", Conversion.ARGUMENT_TYPE_MISMATCH);
     }
     public static String ab(int a) {
         return null;
@@ -222,8 +222,8 @@ public class MainFunctionalTest extends TestCase {
         File file;
 
         runWithFiles(
-            new String[] { "Empty.map", "Ab.syntax" },
-            new String[] { "-lst", "Empty.map" }
+            new String[] { "Empty.mapper", "Ab.syntax" },
+            new String[] { "-lst", "Empty.mapper" }
         );
         assertTrue("stdout <" + stdout + ">", !stdout.equals(""));
         assertEquals("stderr", "", stderr);

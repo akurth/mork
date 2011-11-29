@@ -38,7 +38,7 @@ import net.sf.beezle.mork.semantics.BuiltIn;
 import net.sf.beezle.mork.semantics.IllegalLiteral;
 
 /**
- * Helper functions referred by MappingMapper.map. These methods brigde gaps
+ * Helper functions referred by Mapper.mapper. These methods brigde gaps
  * between references in mork files and the functionality in the classes.
  * In the long run, this class should vanish as I provide more
  * and more powerful mapping features.

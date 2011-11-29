@@ -39,7 +39,7 @@ public class Job {
      */
     public final File outputPath;
 
-    public static final String SRC_SUFFIX = ".map";
+    public static final String SRC_SUFFIX = ".mapper";
     public static final String LST_SUFFIX = ".lst";
 
     /**
@@ -92,7 +92,7 @@ public class Job {
     public int hashCode() {
         return source.hashCode();
     }
-    
+
     private static boolean eq(File a, File b) {
         if (a != null) {
             return a.equals(b);

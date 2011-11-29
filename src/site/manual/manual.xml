@@ -324,7 +324,7 @@
         <programlisting>
           pom.xml
           src/main/Command.syntax
-          src/main/Mapper.map
+          src/main/Command.mapper
           src/main/java/Command.java
           src/main/java/Console.java
           src/main/java/Constant.java
@@ -340,7 +340,7 @@
       </figure>
 
       <para>Besides Java files, the source directory contains a syntax file
-        <literal>Command.syntax</literal> and a mapper file <literal>Mapper.map</literal>. The syntax file
+        <literal>Command.syntax</literal> and a mapper file <literal>Command.mapper</literal>. The syntax file
         defines the syntax of command files and the mapper file defines how to map a command files into an
         instance of <literal>command.Command</literal>.</para>
     </sect1>
@@ -425,14 +425,14 @@
 
       <formalpara>
         <title>Mapper files</title>
-        <para><literal>Mapper.map</literal> defines how to turn command files into instances of
+        <para><literal>Command.mapper</literal> defines how to turn command files into instances of
           <literal>command.Command</literal>. Running the mapper reads a command file, checks for
           the appropriate syntax (defined in the syntax file) and maps the file into an instance of
           <literal>command.Command</literal></para></formalpara>
 
       <figure>
-        <title><literal>Mapper.map</literal></title>
-        <programlisting><xi:include href="../../../examples/command/src/main/Mapper.map" parse="text" /></programlisting>
+        <title><literal>Command.mapper</literal></title>
+        <programlisting><xi:include href="../../../examples/command/src/main/Command.mapper" parse="text" /></programlisting>
       </figure>
 
       <formalpara>
@@ -1310,15 +1310,9 @@
     <formalpara>
       <title>Naming conventions</title>
       <para>Mork does not restrict the name of mapper files. My naming convention for mapper files is
-        as follows. The base name is <literal>Mapper</literal> if an application needs a single mapper
-        only. Otherwise, the name of the syntax is preprended, starting with a capital letter. The file
-        name extension is <literal>.map</literal> (all lower case on every platform). Example 1: Each of
-        Mork's example applications has a single mapper only. Consequently, all example mapper file have
-        the <literal>Mapper.map</literal>. Example 2: Mork itself has two mappers:
-        <literal>SyntaxMapper</literal> and <literal>MapperMapper</literal>. They map syntax files and
-        mapper files. Note: mapper file names should start with a capital letter because their are
-        translated into Java class files, and the naming convention for classes is to start with a capital
-        letter.
+        as follows. The base name is the same as the base name of the syntax file. The file name extension
+        is <literal>.mapper</literal>. Example: Mork itself has two mappers: <literal>Syntax.mapper</literal>
+        and <literal>Mapper.mapper</literal>.
       </para></formalpara>
 
     <formalpara>
@@ -1388,7 +1382,7 @@
             you can define a (non-public) Java class <literal>Foo</literal> in a Java file
             <literal>Bar.java</literal>. The Java compiler will generate a file <literal>Bar.class</literal>
             which defines a class <literal>Foo</literal>. Mork implements the same behavior for mappers:
-            Defining a mapper <literal>Foo</literal> in a mapper file <literal>Bar.map</literal> results
+            Defining a mapper <literal>Foo</literal> in a mapper file <literal>Bar.mapper</literal> results
             in a Java class file <literal>Foo.class</literal> defining a class <literal>Bar</literal>.
           </para></formalpara>
 
@@ -2100,15 +2094,15 @@
 
       <formalpara>
         <title>Example</title>
-        <para><literal>mork Foo.map</literal> compiles the mapper file, loading it from the current working
+        <para><literal>mork Foo.mapper</literal> compiles the mapper file, loading it from the current working
           directory. A successful compilation results in a class file <literal>Foo.class</literal> (and some
           other class files <literal>Foo*.class</literal>).</para></formalpara>
 
       <formalpara>
         <title><literal>CLASSPATH</literal></title>
-        <para>When invoking Mork on a file <literal>Foo.map</literal>, the
+        <para>When invoking Mork on a file <literal>Foo.mapper</literal>, the
           <literal>CLASSPATH</literal> has to contain all classes imported in the mapper file. For
-          example, if <literal>Foo.map</literal> imports a class <literal>mypkg.Bar</literal>, this
+          example, if <literal>Foo.mapper</literal> imports a class <literal>mypkg.Bar</literal>, this
           class has to be available via the <literal>CLASSPATH</literal> variable. Otherwise, Mork
           reports an error, indicating that the class <literal>mypkg.Bar</literal> is not defined.
         </para></formalpara>
@@ -2149,7 +2143,7 @@
           <para>Generates listing files. If this option is given, Mork generates
             a listing of each compiled file. The listing includes a
             list of symbols, the mapper's grammar and the generated automatons
-            and can get very long. The listing for a file <literal>Foo.map</literal> is written
+            and can get very long. The listing for a file <literal>Foo.mapper</literal> is written
             to the file <literal>Foo.lst</literal>. Use this option to find grammar conflicts.
           </para></formalpara></listitem>
         <listitem><formalpara><title><literal>-d</literal> directory</title>
@@ -2197,7 +2191,7 @@
       <title>Maven</title>
 
       <para>You'll usually use Maven to build your application. Here's the approriate
-        configuration to invoke Mork on the file <literal>src/main/Mapper.map</literal>.</para>
+        configuration to invoke Mork on the file <literal>src/main/Foo.mapper</literal>.</para>
 
       <programlisting><![CDATA[<plugin>
         <artifactId>maven-antrun-plugin</artifactId>
@@ -2215,7 +2209,7 @@
                   </classpath>
                   <arg value="-d" />
                   <arg path="${basedir}/target/classes" />
-                  <arg path="${basedir}/src/main/Mapper.map" />
+                  <arg path="${basedir}/src/main/Foo.mapper" />
                 </java>
               </target>
             </configuration>
@@ -2618,7 +2612,7 @@
             </programlisting></para></listitem>
           <listitem><para>Compile the mapper:
             <programlisting>
-              mork Mapper.map
+              mork Mapper.mapper
             </programlisting></para></listitem>
           <listitem><para>Run it:
             <programlisting>

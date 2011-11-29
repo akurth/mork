@@ -23,10 +23,6 @@ import net.sf.beezle.mork.reflect.Function;
 import net.sf.beezle.mork.reflect.Method;
 import net.sf.beezle.mork.reflect.Selection;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PushbackReader;
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 

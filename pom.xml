@@ -79,7 +79,7 @@
               <target>
                 <echo>Bootstrap Pass 1</echo>
                 <fileset id="mapper.bs1" dir="${basedir}">
-                  <include name="src/main/java/**/bootstrap/*.map" />
+                  <include name="src/main/java/**/bootstrap/*.mapper" />
                 </fileset>
                 <pathconvert property="mapper.bs1" refid="mapper.bs1" pathsep=" " />
                 <java fork="true" dir="${basedir}" classname="de.mlhartme.mxxx.compiler.Main" failonerror="true">
@@ -94,7 +94,7 @@
                 </java>
                 <echo>Bootstrap Pass 2</echo>
                 <fileset id="mapper.bs2" dir="${basedir}">
-                  <include name="src/main/*.map" />
+                  <include name="src/main/*.mapper" />
                 </fileset>
                 <pathconvert property="mapper.bs2" refid="mapper.bs2" pathsep=" " />
                 <java fork="true" dir="${basedir}" classname="net.sf.beezle.mork.compiler.Main" failonerror="true">
@@ -112,7 +112,7 @@
                 </java>
                 <echo>Bootstrap Pass 3</echo>
                 <fileset id="mapper.bs3" dir="${basedir}">
-                  <include name="src/main/*.map" />
+                  <include name="src/main/*.mapper" />
                 </fileset>
                 <pathconvert property="mapper.bs3" refid="mapper.bs3" pathsep=" " />
                 <java fork="true" dir="${basedir}" classname="net.sf.beezle.mork.compiler.Main" failonerror="true">
