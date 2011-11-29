@@ -170,7 +170,7 @@ public class OagBuilder {
         return dp;
     }
 
-    private void addDP(Graph dp, AttributionBuffer ab) {
+    private void addDP(Graph<AttributeOccurrence> dp, AttributionBuffer ab) {
         int i;
         int max;
 
@@ -186,9 +186,9 @@ public class OagBuilder {
      *
      * @param dp dependency relation
      */
-    public Graph[] createIDP(Graph[] dp) {
-        Graph[] idp;
-        Graph[] idpClosure;
+    public Graph[] createIDP(Graph<AttributeOccurrence>[] dp) {
+        Graph<AttributeOccurrence>[] idp;
+        Graph<AttributeOccurrence>[] idpClosure;
         boolean[] touched;
         int p;
         int q;
@@ -205,9 +205,9 @@ public class OagBuilder {
         idpClosure = new Graph[dp.length];
         touched = new boolean[dp.length];
         for (p = 0; p < idp.length; p++) {
-            idp[p] = new Graph();
+            idp[p] = new Graph<AttributeOccurrence>();
             idp[p].addGraph(dp[p]);
-            idpClosure[p] = new Graph();
+            idpClosure[p] = new Graph<AttributeOccurrence>();
             idpClosure[p].addGraph(dp[p]);
             idpClosure[p].closureHere();
             touched[p] = true;
@@ -251,23 +251,23 @@ public class OagBuilder {
      *
      * @return Array indexed by symbols; relation with pairs of attributes.
      */
-    public Graph[] createIDS(Graph[] idp) {
+    public Graph[] createIDS(Graph<AttributeOccurrence>[] idp) {
         int p;
         int i;
-        Graph[] ids;
+        Graph<Attribute>[] ids;
         AttributeOccurrence left;
         AttributeOccurrence right;
-        EdgeIterator iter;
+        EdgeIterator<AttributeOccurrence> iter;
 
         ids = new Graph[symbols.last() + 1];
         for (i = 0; i < ids.length; i++) {
-            ids[i] = new Graph();
+            ids[i] = new Graph<Attribute>();
         }
         for (p = 0; p < idp.length; p++) {
             iter = idp[p].edges();
             while (iter.step()) {
-                left = (AttributeOccurrence) iter.left();
-                right = (AttributeOccurrence) iter.right();
+                left = iter.left();
+                right = iter.right();
                 if (left.sameSymbolOccurrence(right)) {
                     ids[left.attr.symbol].addEdge(left.attr, right.attr);
                 }

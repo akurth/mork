@@ -29,7 +29,7 @@ public class Layout {
     private final List<List<Attribute>> attrs;
 
     public Layout() {
-        attrs = new ArrayList();
+        attrs = new ArrayList<List<Attribute>>();
     }
 
     //-------------------------------------------------------------
@@ -89,7 +89,7 @@ public class Layout {
     // adds if new ...
     public void add(Attribute attr) {
         int symbol;
-        List lst;
+        List<Attribute> lst;
 
         if (locate(attr) == -1) {
             symbol = attr.symbol;

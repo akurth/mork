@@ -357,7 +357,7 @@ public class AgBuffer implements Compare {
         return occ;
     }
 
-    public Occurrence calcOccurrence(List stack, Attribute start) {
+    public Occurrence calcOccurrence(List<Attribute> stack, Attribute start) {
         State state;
         Occurrence occ;
 
