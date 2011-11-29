@@ -81,7 +81,7 @@ public class GrammarScanner implements Scanner {
 
         src.mark();
 
-        endTerminal = -1;
+        endTerminal = ERROR;
         endCount = 0;
         count = 0;
         pc = start;
@@ -108,7 +108,7 @@ public class GrammarScanner implements Scanner {
                 throw new IllegalStateException();
             }
             src.reset(endCount);
-            if (endTerminal == -1) {
+            if (endTerminal == ERROR) {
                 return eofSymbol;
             } else {
                 return endTerminal;

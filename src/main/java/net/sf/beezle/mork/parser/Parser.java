@@ -98,7 +98,7 @@ public class Parser {
                 push(state, null);      // this state is never poped; thus, null is ok:
                 while (true) {
                     terminal = scanner.next(table.getMode(state));
-                    if (terminal == Scanner.ERROR_TOKEN) {
+                    if (terminal == Scanner.ERROR) {
                         pos = new Position();
                         scanner.getPosition(pos);
                         errorHandler.lexicalError(pos);

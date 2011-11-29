@@ -23,11 +23,11 @@ import java.io.IOException;
  * A token stream, input for parsers.
  */
 public interface Scanner {
-    public static final int ERROR_TOKEN = -1;
+    public static final int ERROR = -1;
 
     /**
      * Scans the next terminal
-     * @return terminal or ERROR_TOKEN
+     * @return terminal or ERROR
      */
     int next(int mode) throws IOException;
 
