@@ -296,10 +296,10 @@ public class Stubs {
         doneSymbols = new IntBitSet();
         doneKeywords = new StringArrayList();
         max = rawKeywords.size();
-        keywords = new ArrayList();
+        keywords = new ArrayList<Rule>();
         for (i = 0; i < max; i++) {
             pair = (Object[]) rawKeywords.get(i);
-            symbol = ((Integer) pair[0]).intValue();
+            symbol = (Integer) pair[0];
             if (!doneSymbols.contains(symbol)) {
                 doneSymbols.add(symbol);
                 kw = (String) pair[1];

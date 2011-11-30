@@ -153,9 +153,9 @@ public class Transport {
     }
 
     public static Object createSequenceValue(Object obj) {
-        List result;
+        List<Object> result;
 
-        result = new ArrayList();
+        result = new ArrayList<Object>();
         result.add(obj);
         return result;
     }
@@ -167,16 +167,16 @@ public class Transport {
 
     public static Object sequenceAndOption(Object list, Object obj) {
         if (obj != Option.TAG) {
-            ((List) list).add(obj);
+            ((List<Object>) list).add(obj);
         }
         return list;
     }
     public static Object sequenceAndValue(Object list, Object obj) {
-        ((List) list).add(obj);
+        ((List<Object>) list).add(obj);
         return list;
     }
     public static Object sequenceAndSequence(Object list, Object operand) {
-        ((List) list).addAll((List) operand);
+        ((List<Object>) list).addAll((List) operand);
         return list;
     }
 }

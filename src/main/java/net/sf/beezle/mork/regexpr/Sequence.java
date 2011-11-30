@@ -67,7 +67,7 @@ public class Sequence extends RegExpr {
         return new Sequence(seq);
     }
 
-    public boolean getRanges(List result) {
+    public boolean getRanges(List<RegExpr> result) {
         if (body.length != 1) {
             return false;
         }
