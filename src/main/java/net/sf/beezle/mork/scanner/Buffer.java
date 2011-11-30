@@ -186,7 +186,7 @@ public class Buffer {
             for (i = 1; i < endPageIdx; i++) {
                 position.update(pages.get(i), 0, pageSize);
             }
-            pages.remove(endPageIdx);
+            pages.shrink(endPageIdx);
             endPageIdx = 0;
             endPage = pages.get(0);
             start = end;

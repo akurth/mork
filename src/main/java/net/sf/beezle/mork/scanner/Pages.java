@@ -34,8 +34,6 @@ public class Pages {
     /** Invariant: pages.length > 0 && i: 0..lastNo: (pages[i] != null && pages.get(i).length == PAGE_SIZE) */
     private char[][] pages;
 
-    private char[] newPage;
-
     public Pages(int pageSize) {
         if (pageSize == 0) {
             throw new IllegalArgumentException();
@@ -43,7 +41,6 @@ public class Pages {
         this.pageSize = pageSize;
         this.pages = new char[2][];
         this.pages[0] = new char[pageSize];
-        this.newPage = null;
     }
 
     public void open(Reader src) {
@@ -113,8 +110,8 @@ public class Pages {
         return true;
     }
 
+    /** Adds a page at the end */
     private void grow() {
-        char[] p;
         char[][] newPages;
 
         if (lastFilled != pageSize) {
@@ -126,23 +123,29 @@ public class Pages {
             System.arraycopy(pages, 0, newPages, 0, lastNo);
             pages = newPages;
         }
-        if (newPage == null) {
-            p = new char[pageSize];
-        } else {
-            p = newPage;
-            newPage = null;
+        if (pages[lastNo] == null) {
+            pages[lastNo] = new char[pageSize];
         }
-        pages[lastNo] = p;
         lastFilled = 0;
     }
 
-    public void remove(int count) {
-        newPage = pages[0];
-        lastNo -= count;
-        if (lastNo < 0) {
-            throw new IllegalStateException();
+    /** Remove count pages from the beginning */
+    public void shrink(int count) {
+        char[] keepAllocated;
+
+        if (count == 0) {
+            throw new IllegalArgumentException();
         }
+        if (count > lastNo) {
+            throw new IllegalArgumentException(count + " vs " + lastNo);
+        }
+        lastNo -= count;
+        keepAllocated = pages[0];
         System.arraycopy(pages, count, pages, 0, lastNo + 1);
+        pages[lastNo + 1] = keepAllocated;
+        for (int i = lastNo + 2; i < pages.length; i++) {
+            pages[i] = null;
+        }
     }
 
     @Override
