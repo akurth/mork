@@ -28,7 +28,7 @@ public class Pages {
     /** Index of the last page */
     private int lastNo;
 
-    /** Number of bytes on the last page */
+    /** Number of read bytes on the last page */
     private int lastFilled;
 
     /** Invariant: pages.length > 0 && i: 0..lastNo: (pages[i] != null && pages.get(i).length == PAGE_SIZE) */
@@ -81,7 +81,8 @@ public class Pages {
             return fill() ? 0 : -1;
         } else {
             if (pageNo == lastNo) {
-                if (!grow()) {
+                grow();
+                if (!fill()) {
                     return -1;
                 }
             }
@@ -115,9 +116,8 @@ public class Pages {
         return true;
     }
 
-    private boolean grow() throws IOException {
+    private void grow() {
         char[] p;
-        int count;
         char[][] newPages;
 
         if (lastFilled != pageSize) {
@@ -136,16 +136,7 @@ public class Pages {
             newPage = null;
         }
         pages[lastNo] = p;
-        count = src.read(p, 0, pageSize);
-        if (count <= 0) {
-            if (count == 0) {
-                throw new RuntimeException();
-            }
-            lastFilled = 0;
-            return false;
-        }
-        lastFilled = count;
-        return true;
+        lastFilled = 0;
     }
 
     public void remove(int count) {
