@@ -26,9 +26,10 @@ import java.io.Reader;
  * from a Reader. The buffer behaves as if the reader is filled in completely at the beginning,
  * but this is done in steps.
  *
- * Buffer has a start and a current position, that are used to select a possible token.
+ * Buffer has a start and an end, that are used to select a possible token.
  * Moving the start forward removes characters from the beginning;
- * moving the current position format reads characters from the underlying stream.
+ * moving the end forward reads characters from the underlying stream (if they have not been
+ * read before -- the end is not necessarily that last character read).
  *
  * Buffer storage is devided into pages.
  */
@@ -50,19 +51,20 @@ public class Buffer {
 
     private final Pages pages;
 
-    /** Index of the current page. pageData == pages.get(pageIdx), pageIdx < pages.size() */
-    private int pageNo;
+    /** reduncant, but more efficient */
+    private final int pageSize;
+
+    /** Index of the end page. endPage == pages.get(endPageIdx), pageIdx < pages.size() */
+    private int endPageIdx;
 
     /** Current page. pages.get(pageNo) */
-    private char[] pageData;
+    private char[] endPage;
 
-    /** Offset in the current page. */
-    private int pageOfs;
+    /** Offset in the end page. */
+    private int end;
 
-    /** Size of the current page. pageData[pageOfs] is valid if pageOfs < pageUsed */
-    private int pageUsed;
-
-    private final int pageSize;
+    /** Last valid index in end page that has beend filled from the underlying stream. endPage[end] is valid if end < endFilled */
+    private int endFilled;
 
     public Buffer() {
         this(8192);
@@ -81,10 +83,10 @@ public class Buffer {
         this.eof = false;
         this.start = 0;
         this.pages.open(src);
-        this.pageData = pages.get(0);
-        this.pageNo = 0;
-        this.pageOfs = 0;
-        this.pageUsed = pages.getUsed(0);
+        this.endPageIdx = 0;
+        this.endPage = pages.get(0);
+        this.end = 0;
+        this.endFilled = pages.getUsed(0);
     }
 
     //----------------------------------------------------------------------
@@ -100,16 +102,16 @@ public class Buffer {
         if (start > getOfs()) {
             throw new IllegalStateException();
         }
-        if (pageOfs > pageUsed) {
+        if (end > endFilled) {
             throw new IllegalStateException();
         }
-        if (pageData != pages.get(pageNo)) {
+        if (endPage != pages.get(endPageIdx)) {
             throw new IllegalStateException();
         }
     }
 
     public int getOfs() {
-        return pageNo * pageSize + pageOfs;
+        return endPageIdx * pageSize + end;
     }
 
     /**
@@ -120,20 +122,20 @@ public class Buffer {
     public void reset(int ofs) {
         // make ofs absolute
         ofs += start;
-        if (pageNo == 0) {
+        if (endPageIdx == 0) {
             // because a precondition is that ofs is left of the
             // current position
-            pageOfs = ofs;
+            end = ofs;
         } else {
-            pageNo = ofs / pageSize;
-            pageOfs = ofs % pageSize;
-            if (pageOfs == 0 && pages.getLastNo() == pageNo) {
+            endPageIdx = ofs / pageSize;
+            end = ofs % pageSize;
+            if (end == 0 && pages.getLastNo() == endPageIdx) {
                 // this happens if getOfs() was called after the last character of a page was read
-                pageOfs += pageSize;
-                pageNo--;
+                end += pageSize;
+                endPageIdx--;
             }
-            pageData = pages.get(pageNo);
-            pageUsed = pages.getUsed(pageNo);
+            endPage = pages.get(endPageIdx);
+            endFilled = pages.getUsed(endPageIdx);
         }
     }
 
@@ -147,25 +149,25 @@ public class Buffer {
 
     /** @return character or Scanner.EOF */
     public int read() throws IOException {
-        if (pageOfs == pageUsed) {
-            switch (pages.read(pageNo, pageUsed)) {
+        if (end == endFilled) {
+            switch (pages.read(endPageIdx, endFilled)) {
                 case -1:
                     eof = true;
                     return Scanner.EOF;
                 case 0:
-                    pageUsed = pages.getUsed(pageNo);
+                    endFilled = pages.getUsed(endPageIdx);
                     break;
                 case 1:
-                    pageNo++;
-                    pageOfs = 0;
-                    pageData = pages.get(pageNo);
-                    pageUsed = pages.getUsed(pageNo);
+                    endPageIdx++;
+                    end = 0;
+                    endPage = pages.get(endPageIdx);
+                    endFilled = pages.getUsed(endPageIdx);
                     break;
                 default:
                     throw new RuntimeException();
             }
         }
-        return pageData[pageOfs++];
+        return endPage[end++];
     }
 
     //-------------------------------
@@ -176,19 +178,19 @@ public class Buffer {
     public void eat() {
         int i;
 
-        if (pageNo == 0) {
-            position.update(pageData, start, pageOfs);
-            start = pageOfs;
+        if (endPageIdx == 0) {
+            position.update(endPage, start, end);
+            start = end;
         } else {
             position.update(pages.get(0), start, pageSize);
-            for (i = 1; i < pageNo; i++) {
+            for (i = 1; i < endPageIdx; i++) {
                 position.update(pages.get(i), 0, pageSize);
             }
-            pages.remove(pageNo);
-            pageNo = 0;
-            pageData = pages.get(0);
-            start = pageOfs;
-            position.update(pageData, 0, start);
+            pages.remove(endPageIdx);
+            endPageIdx = 0;
+            endPage = pages.get(0);
+            start = end;
+            position.update(endPage, 0, start);
         }
     }
 
@@ -199,20 +201,20 @@ public class Buffer {
         int i;
         int count;
 
-        if (pageNo == 0) {
+        if (endPageIdx == 0) {
             // speedup the most frequent situation
-            return new String(pageData, start, pageOfs - start);
+            return new String(endPage, start, end - start);
         } else {
             char[] buffer;
 
-            buffer = new char[pageNo * pageSize + pageOfs - start];
+            buffer = new char[endPageIdx * pageSize + end - start];
             count = pageSize - start;
             System.arraycopy(pages.get(0), start, buffer, 0, count);
-            for (i = 1; i < pageNo; i++) {
+            for (i = 1; i < endPageIdx; i++) {
                 System.arraycopy(pages.get(i), 0, buffer, count, pageSize);
                 count += pageSize;
             }
-            System.arraycopy(pages.get(pageNo), 0, buffer, count, pageOfs);
+            System.arraycopy(pages.get(endPageIdx), 0, buffer, count, end);
             return new String(buffer);
         }
     }
@@ -229,11 +231,11 @@ public class Buffer {
 
         buf = new StringBuilder();
         buf.append("buffer {");
-        buf.append("\n  srcEof   = " + eof);
-        buf.append("\n  start    = " + start);
-        buf.append("\n  pageNo   = " + pageNo);
-        buf.append("\n  pageOfs  = " + pageOfs);
-        buf.append("\n  pageHigh = " + pageUsed);
+        buf.append("\n  srcEof     = ").append(eof);
+        buf.append("\n  start      = ").append(start);
+        buf.append("\n  endPageIdx = ").append(endPageIdx);
+        buf.append("\n  end        = ").append(end);
+        buf.append("\n  endUsed    = ").append(endFilled);
         buf.append(pages.toString());
         buf.append("\n}");
         return buf.toString();
