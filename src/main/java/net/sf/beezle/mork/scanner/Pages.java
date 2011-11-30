@@ -31,7 +31,12 @@ public class Pages {
     /** Number of read bytes on the last page */
     private int lastFilled;
 
-    /** Invariant: pages.length > 0 && i: 0..lastNo: (pages[i] != null && pages.get(i).length == PAGE_SIZE) */
+    /**
+     * Stores character data that has been read from the underlying Reader.
+     *
+     * Invariant: pages.length > 0 && i: 0..lastNo: (pages[i] != null && pages.get(i).length == PAGE_SIZE).
+     * if lastNo + 1 < pages.length, pages[lastNo + 1] may be != null to re-use previously allocated bytes.
+     */
     private char[][] pages;
 
     public Pages(int pageSize) {
