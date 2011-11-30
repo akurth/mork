@@ -56,13 +56,9 @@ public class Pages {
         return pages[no];
     }
 
-    /** @return number of bytes used on the specified page */
+    /** @return number of bytes filled on the specified page */
     public int getFilled(int no) {
-        if (no == lastNo) {
-            return lastFilled;
-        } else {
-            return pageSize;
-        }
+        return no == lastNo ? lastFilled : pageSize;
     }
 
     /** number of pages used. */
@@ -79,11 +75,10 @@ public class Pages {
      */
     public int read(int pageNo, int pageUsed) throws IOException {
         if (pageUsed < pageSize) {
-            // assert pageNo == lastNo
-            if (!fill()) {
-                return -1;
+            if (pageNo != lastNo) {
+                throw new IllegalStateException(pageNo + " vs " + lastNo);
             }
-            return 0;
+            return fill() ? 0 : -1;
         } else {
             if (pageNo == lastNo) {
                 if (!append()) {
@@ -99,6 +94,10 @@ public class Pages {
         }
     }
 
+    /**
+     * Reads bytes to fill the last page.
+     * @return false for eof
+     */
     private boolean fill() throws IOException {
         int count;
 
@@ -108,7 +107,7 @@ public class Pages {
         count = src.read(pages[lastNo], lastFilled, pageSize - lastFilled);
         if (count <= 0) {
             if (count == 0) {
-                throw new RuntimeException();
+                throw new IllegalStateException();
             }
             return false;
         }
