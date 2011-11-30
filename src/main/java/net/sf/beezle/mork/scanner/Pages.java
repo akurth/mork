@@ -168,7 +168,6 @@ public class Pages {
             }
         }
         builder.append("\n}");
-
         return builder.toString();
     }
 }

@@ -17,29 +17,32 @@
 
 package net.sf.beezle.mork.scanner;
 
-import junit.framework.TestCase;
 import net.sf.beezle.mork.misc.GenericException;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 
-/**
- * Test GrammarScanner.
- * TODO: more tests.
- * TODO: factor out the stuff common with XmlScannerTest.
- */
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-public class BufferTest extends TestCase {
+/**
+ * TODO: more tests.
+ */
+public class BufferTest {
     private Reader src;
     private Buffer buffer;
     private Position pos;
 
-    public void testEmpty() throws IOException {
+    @Test
+    public void empty() throws IOException {
         create("");
         checkEof();
     }
-    public void testHello() throws IOException {
+
+    @Test
+    public void hello() throws IOException {
         String str = "hello";
 
         create(str);
@@ -47,7 +50,8 @@ public class BufferTest extends TestCase {
         checkEof();
     }
 
-    public void testShortStart() throws IOException {
+    @Test
+    public void shortStart() throws IOException {
         String a = "aa";
         String b = "bbb";
         String c = "c";
@@ -58,7 +62,8 @@ public class BufferTest extends TestCase {
         read(c);
     }
 
-    public void testLongStart() throws IOException {
+    @Test
+    public void longStart() throws IOException {
         String a = "a1234567890a";
         String b = "b12345678901234567890bb";
         String c = "c123456789012345678901234567890";
@@ -69,7 +74,8 @@ public class BufferTest extends TestCase {
         read(c);
     }
 
-    public void testPosition() throws IOException, GenericException {
+    @Test
+    public void position() throws IOException, GenericException {
         createPosition(9);
         readPosition(1);
         readPosition(2);
@@ -77,11 +83,13 @@ public class BufferTest extends TestCase {
         readPosition(3);
     }
 
+    //--
+
     public void createPosition(int newlineCount) {
-        StringBuffer sb;
+        StringBuilder sb;
         int i;
 
-        sb = new StringBuffer();
+        sb = new StringBuilder();
         for (i = 0; i < newlineCount; i++) {
             sb.append('\n');
         }
@@ -112,13 +120,13 @@ public class BufferTest extends TestCase {
 
         str = buffer.createString();
         buffer.assertInvariant();
-        assertEquals(-1, buffer.read());
+        assertEquals(Scanner.EOF, buffer.read());
         buffer.assertInvariant();
         assertTrue(buffer.wasEof());
         buffer.assertInvariant();
         assertEquals(str, buffer.createString());
         buffer.assertInvariant();
-        assertEquals(-1, buffer.read());
+        assertEquals(Scanner.EOF, buffer.read());
         buffer.assertInvariant();
         assertEquals(str, buffer.createString());
         buffer.assertInvariant();
