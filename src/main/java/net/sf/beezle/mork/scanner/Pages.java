@@ -29,7 +29,7 @@ public class Pages {
     private int lastNo;
 
     /** Number of bytes on the last page */
-    private int lastUsed;
+    private int lastFilled;
 
     /** @inv pages.length > 0 &&
         i: 0..lastNo: (pages[i] != null && pages.get(i).length == PAGE_SIZE) */
@@ -49,7 +49,7 @@ public class Pages {
 
     public void open(Reader src) {
         this.src = src;
-        this.lastUsed = 0;
+        this.lastFilled = 0;
         this.lastNo = 0;
     }
 
@@ -60,7 +60,7 @@ public class Pages {
     /** @return number of bytes used on the specified page */
     public int getUsed(int no) {
         if (no == lastNo) {
-            return lastUsed;
+            return lastFilled;
         } else {
             return pageSize;
         }
@@ -72,7 +72,7 @@ public class Pages {
     }
 
     public int getSize() {
-        return pageSize * lastNo + lastUsed;
+        return pageSize * lastNo + lastFilled;
     }
 
     /**
@@ -103,17 +103,17 @@ public class Pages {
     private boolean fill() throws IOException {
         int count;
 
-        if (lastUsed == pageSize) {
+        if (lastFilled == pageSize) {
             throw new IllegalStateException();
         }
-        count = src.read(pages[lastNo], lastUsed, pageSize - lastUsed);
+        count = src.read(pages[lastNo], lastFilled, pageSize - lastFilled);
         if (count <= 0) {
             if (count == 0) {
                 throw new RuntimeException();
             }
             return false;
         }
-        lastUsed += count;
+        lastFilled += count;
         return true;
     }
 
@@ -122,7 +122,7 @@ public class Pages {
         int count;
         char[][] newPages;
 
-        if (lastUsed != pageSize) {
+        if (lastFilled != pageSize) {
             throw new IllegalStateException();
         }
         lastNo++;
@@ -143,10 +143,10 @@ public class Pages {
             if (count == 0) {
                 throw new RuntimeException();
             }
-            lastUsed = 0;
+            lastFilled = 0;
             return false;
         }
-        lastUsed = count;
+        lastFilled = count;
         return true;
     }
 
