@@ -101,8 +101,8 @@ public class ScannerFactory {
 
     private static char[] createTable(FA fa, int errorSi, List<IntBitSet> modes) throws GenericException {
         char[] table;
-        int ti, stateIndex;
-        int maxTi, maxStateIndex;
+        int ti, si;
+        int maxTi, maxSi;
         State state;
         Range range;
         int pc;
@@ -113,14 +113,14 @@ public class ScannerFactory {
         modeCount = modes.size();
 
         // determin size and ofs
-        maxStateIndex = fa.size();
-        ofs = new int[maxStateIndex];
+        maxSi = fa.size();
+        ofs = new int[maxSi];
         pc = 0;
-        for (stateIndex = 0; stateIndex < maxStateIndex; stateIndex++) {
-            if (stateIndex != errorSi) {
-                ofs[stateIndex] = pc;
+        for (si = 0; si < maxSi; si++) {
+            if (si != errorSi) {
+                ofs[si] = pc;
                 pc += modeCount; // one terminal or NO_TERMINAL per mode
-                pc += fa.get(stateIndex).size() * 2;
+                pc += fa.get(si).size() * 2;
             }
         }
         if (pc >= Character.MAX_VALUE) {
@@ -130,14 +130,14 @@ public class ScannerFactory {
         // copy fa into table
         table = new char[pc];
         pc = 0;
-        for (stateIndex = 0; stateIndex < maxStateIndex; stateIndex++) {
-            if (stateIndex != errorSi) {
-                if (ofs[stateIndex] != pc) {
+        for (si = 0; si < maxSi; si++) {
+            if (si != errorSi) {
+                if (ofs[si] != pc) {
                     throw new IllegalStateException();
                 }
-                state = fa.get(stateIndex);
+                state = fa.get(si);
                 for (i = 0; i < modeCount; i++) {
-                    table[pc] = getEndSymbol(fa, stateIndex, modes.get(i));
+                    table[pc] = getEndSymbol(fa, si, modes.get(i));
                     pc++;
                 }
 
