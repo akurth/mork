@@ -82,9 +82,6 @@ public class Pages {
         } else {
             if (pageNo == lastNo) {
                 grow();
-                if (!fillLast()) {
-                    return -1;
-                }
             }
             if (getFilled(pageNo + 1) == 0) {
                 if (!fillLast()) {
