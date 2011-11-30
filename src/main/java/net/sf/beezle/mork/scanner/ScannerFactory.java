@@ -108,7 +108,6 @@ public class ScannerFactory {
         int pc;
         int[] ofs;  // index by si; contains pc for this state
         int modeCount;
-        int i;
 
         modeCount = modes.size();
 
@@ -136,8 +135,8 @@ public class ScannerFactory {
                     throw new IllegalStateException();
                 }
                 state = fa.get(si);
-                for (i = 0; i < modeCount; i++) {
-                    table[pc] = getEndSymbol(fa, si, modes.get(i));
+                for (IntBitSet mode : modes) {
+                    table[pc] = getEndSymbol(fa, si, mode);
                     pc++;
                 }
 
