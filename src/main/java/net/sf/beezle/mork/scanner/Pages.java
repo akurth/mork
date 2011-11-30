@@ -81,7 +81,7 @@ public class Pages {
             return fill() ? 0 : -1;
         } else {
             if (pageNo == lastNo) {
-                if (!append()) {
+                if (!grow()) {
                     return -1;
                 }
             }
@@ -115,7 +115,7 @@ public class Pages {
         return true;
     }
 
-    private boolean append() throws IOException {
+    private boolean grow() throws IOException {
         char[] p;
         int count;
         char[][] newPages;
