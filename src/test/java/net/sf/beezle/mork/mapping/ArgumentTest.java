@@ -26,15 +26,15 @@ import java.util.List;
 
 public class ArgumentTest extends CompareBase {
     private Grammar grammar;
-    private List args;
-    private List expected;
+    private List<Argument> args;
+    private List<List<Argument>> expected;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
 
-        args = new ArrayList();
-        expected = new ArrayList();
+        args = new ArrayList<Argument>();
+        expected = new ArrayList<List<Argument>>();
     }
 
     public void testEmpty() {
@@ -219,17 +219,17 @@ public class ArgumentTest extends CompareBase {
         arg = new Argument(Path.MERGEABLE, sems, new ArrayList<Definition>()); // TODO: no sources
         args.add(arg);
         while (expected.size() <= expectedPos) {
-            expected.add(new ArrayList());
+            expected.add(new ArrayList<Argument>());
         }
-        ((List) expected.get(expectedPos)).add(arg);
+        expected.get(expectedPos).add(arg);
     }
 
     private void sort() {
-        List reversed;
+        List<Argument> reversed;
         int i;
 
         doSortAndMerge(args, expected, grammar);
-        reversed = new ArrayList();
+        reversed = new ArrayList<Argument>();
         for (i = args.size() - 1; i >= 0; i--) {
             reversed.add(args.get(i));
         }
@@ -237,24 +237,24 @@ public class ArgumentTest extends CompareBase {
     }
 
     /** @param arguments   list of Arguments */
-    private static void doSortAndMerge(List arguments, List expected, Grammar grm) {
-        List sorted;
-        List merged;
+    private static void doSortAndMerge(List<Argument> arguments, List<List<Argument>> expected, Grammar grm) {
+        List<List<Argument>> sorted;
+        List<Argument> merged;
         int i;
         int max;
         Argument arg;
-        List expectedMerged;
-        List tmp;
+        List<List<Argument>> expectedMerged;
+        List<Argument> tmp;
 
         sorted = doSort(arguments, expected);
         max = sorted.size();
-        merged = new ArrayList();
-        expectedMerged = new ArrayList();
+        merged = new ArrayList<Argument>();
+        expectedMerged = new ArrayList<List<Argument>>();
         for (i = 0; i < max; i++) {
-            arg = Argument.merge(grm.getStart(), null, (List) sorted.get(i));
+            arg = Argument.merge(grm.getStart(), null, sorted.get(i));
             merged.add(arg);
-            assertIncludes(arg, (List) sorted.get(i));
-            tmp = new ArrayList();
+            assertIncludes(arg, sorted.get(i));
+            tmp = new ArrayList<Argument>();
             tmp.add(arg);
             expectedMerged.add(tmp);
         }
@@ -262,8 +262,8 @@ public class ArgumentTest extends CompareBase {
     }
 
 
-    private static List doSort(List arguments, List expected) {
-        List sorted;
+    private static List<List<Argument>> doSort(List<Argument> arguments, List<List<Argument>> expected) {
+        List<List<Argument>> sorted;
 
         sorted = RelatedArgument.sort(arguments);
         assertSorted(sorted, expected);

@@ -40,11 +40,11 @@ public class Modes {
         int i;
         int max;
         IntBitSet shifts;
-        List modes;  // scanner modes: list of set of symbols
+        List<IntBitSet> modes;
         IntBitSet conflicts;
         char[] parserModes;
 
-        modes = new ArrayList();
+        modes = new ArrayList<IntBitSet>();
         if (hasConflicts(fa, whites) != null) {
             throw new GenericException("scanner conflict in whitespace");
         }

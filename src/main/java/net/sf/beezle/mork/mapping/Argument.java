@@ -146,7 +146,7 @@ public class Argument implements Compare {
         sort = RelatedArgument.sort(mergable);
         max = sort.size();
         for (i = 0; i < max; i++) {
-            arg = merge(target.getAttribute().symbol, target, (List<Argument>) sort.get(i));
+            arg = merge(target.getAttribute().symbol, target, sort.get(i));
             seq.add(arg);
         }
         return seq;

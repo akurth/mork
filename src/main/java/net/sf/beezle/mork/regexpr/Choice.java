@@ -72,7 +72,7 @@ public class Choice extends RegExpr {
         return new Choice(args);
     }
 
-    public static boolean getRanges(RegExpr expr, List result) {
+    public static boolean getRanges(RegExpr expr, List<RegExpr> result) {
         int i;
         Choice alt;
 

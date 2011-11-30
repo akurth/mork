@@ -139,7 +139,7 @@ public class OagTest extends TestCase {
         String[] tmp;
         String[][][] allCalls;
         Grammar grammar;
-        List attrs;
+        List<Attribute> attrs;
 
         prods = new String[rules.length];
         allCalls = new String[rules.length][][];
@@ -157,7 +157,7 @@ public class OagTest extends TestCase {
         return sems;
     }
 
-    public static void addCalls(Ag sems, List attrs, Grammar grm, int prod, String[][] prodCalls) {
+    public static void addCalls(Ag sems, List<Attribute> attrs, Grammar grm, int prod, String[][] prodCalls) {
         int i;
         int j;
         AttributionBuffer ab;
@@ -182,7 +182,7 @@ public class OagTest extends TestCase {
         return prodCalls;
     }
 
-    public static List declareAttributes(Grammar grm, String[][][] allCalls) {
+    public static List<Attribute> declareAttributes(Grammar grm, String[][][] allCalls) {
         int p;
         int i;
         List<Attribute> attrs;

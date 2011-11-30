@@ -35,8 +35,8 @@ public class RelatedArgument implements Compare {
         int i;
         int max;
         List<List<Argument>> result;
-        List remaining;    // List of RelatedArguments
-        List heads;   // List of RelatedArguments
+        List<RelatedArgument> remaining;    // List of RelatedArguments
+        List<RelatedArgument> heads;   // List of RelatedArguments
 
         result = new ArrayList<List<Argument>>();
         remaining = createRelatedArgs(args);
@@ -45,9 +45,9 @@ public class RelatedArgument implements Compare {
             if (max == 0) {
                 return result;
             }
-            heads = new ArrayList();
+            heads = new ArrayList<RelatedArgument>();
             for (i = 0; i < max; i++) {
-                addHead(heads, (RelatedArgument) remaining.get(i));
+                addHead(heads, remaining.get(i));
             }
             remaining.clear();
             result.add(separate(heads, remaining));
@@ -63,7 +63,7 @@ public class RelatedArgument implements Compare {
         int i;
         int max;
 
-        related = new ArrayList();
+        related = new ArrayList<RelatedArgument>();
         max = args.size();
         for (i = 0; i < max; i++) {
             related.add(new RelatedArgument(args.get(i)));
@@ -74,10 +74,9 @@ public class RelatedArgument implements Compare {
     /**
      * @param heads   List of RelatedArguments
      */
-    private static void addHead(List heads, RelatedArgument left) {
+    private static void addHead(List<RelatedArgument> heads, RelatedArgument left) {
         int i;
         int max;
-        int initialMax;
         RelatedArgument right;
         boolean foundLT;
         boolean foundGT;
@@ -86,7 +85,7 @@ public class RelatedArgument implements Compare {
         foundLT = false;
         foundGT = false;
         for (i = max - 1; i >= 0; i--) {
-            right = (RelatedArgument) heads.get(i);
+            right = heads.get(i);
             switch (left.arg.compare(right.arg)) {
                 case LT:
                     left.nexts.add(right);
@@ -119,16 +118,11 @@ public class RelatedArgument implements Compare {
      ** @param tails out-argument, List of RelatedArguments
      ** @return List of arguments
      **/
-    private static List separate(List heads, List tails) {
-        int i;
-        int max;
-        List merge;
-        RelatedArgument head;
+    private static List<Argument> separate(List<RelatedArgument> heads, List<RelatedArgument> tails) {
+        List<Argument> merge;
 
-        max = heads.size();
-        merge = new ArrayList();
-        for (i = 0; i < max; i++) {
-            head = (RelatedArgument) heads.get(i);
+        merge = new ArrayList<Argument>();
+        for (RelatedArgument head : heads) {
             merge.add(head.arg);
             tails.addAll(head.nexts);
         }
@@ -138,11 +132,10 @@ public class RelatedArgument implements Compare {
 
     private final Argument arg;
 
-    // list of ReleatedArguments
-    private final List nexts;
+    private final List<RelatedArgument> nexts;
 
     public RelatedArgument(Argument arg) {
         this.arg = arg;
-        this.nexts = new ArrayList();
+        this.nexts = new ArrayList<RelatedArgument>();
     }
 }
