@@ -86,7 +86,7 @@ public class Buffer {
         this.endPageIdx = 0;
         this.endPage = pages.get(0);
         this.end = 0;
-        this.endFilled = pages.getUsed(0);
+        this.endFilled = pages.getFilled(0);
     }
 
     //----------------------------------------------------------------------
@@ -135,7 +135,7 @@ public class Buffer {
                 endPageIdx--;
             }
             endPage = pages.get(endPageIdx);
-            endFilled = pages.getUsed(endPageIdx);
+            endFilled = pages.getFilled(endPageIdx);
         }
     }
 
@@ -155,13 +155,13 @@ public class Buffer {
                     eof = true;
                     return Scanner.EOF;
                 case 0:
-                    endFilled = pages.getUsed(endPageIdx);
+                    endFilled = pages.getFilled(endPageIdx);
                     break;
                 case 1:
                     endPageIdx++;
                     end = 0;
                     endPage = pages.get(endPageIdx);
-                    endFilled = pages.getUsed(endPageIdx);
+                    endFilled = pages.getFilled(endPageIdx);
                     break;
                 default:
                     throw new RuntimeException();

@@ -31,8 +31,7 @@ public class Pages {
     /** Number of bytes on the last page */
     private int lastFilled;
 
-    /** @inv pages.length > 0 &&
-        i: 0..lastNo: (pages[i] != null && pages.get(i).length == PAGE_SIZE) */
+    /** Invariant: pages.length > 0 && i: 0..lastNo: (pages[i] != null && pages.get(i).length == PAGE_SIZE) */
     private char[][] pages;
 
     private char[] newPage;
@@ -58,7 +57,7 @@ public class Pages {
     }
 
     /** @return number of bytes used on the specified page */
-    public int getUsed(int no) {
+    public int getFilled(int no) {
         if (no == lastNo) {
             return lastFilled;
         } else {
@@ -91,7 +90,7 @@ public class Pages {
                     return -1;
                 }
             }
-            if (getUsed(pageNo + 1) == 0) {
+            if (getFilled(pageNo + 1) == 0) {
                 if (!fill()) {
                     return -1;
                 }
@@ -161,25 +160,25 @@ public class Pages {
 
     @Override
     public String toString() {
-        StringBuilder buf;
+        StringBuilder builder;
         int i, p;
         char[] pg;
 
-        buf = new StringBuilder();
-        buf.append("pages {");
+        builder = new StringBuilder();
+        builder.append("pages {");
         for (p = 0; p <= lastNo; p++) {
             pg = get(p);
-            buf.append("\n  page " + p + ":");
+            builder.append("\n  page " + p + ":");
             for (i = 0; i < pageSize; i++) {
-                buf.append(pg[i]);
+                builder.append(pg[i]);
             }
-            buf.append("\n    ");
+            builder.append("\n    ");
             for (i = 0; i < pageSize; i++) {
-                buf.append(" " + ((int) pg[i]));
+                builder.append(" " + ((int) pg[i]));
             }
         }
-        buf.append("\n}");
+        builder.append("\n}");
 
-        return buf.toString();
+        return builder.toString();
     }
 }
