@@ -78,16 +78,16 @@ public class Pages {
             if (pageNo != lastNo) {
                 throw new IllegalStateException(pageNo + " vs " + lastNo);
             }
-            return fill() ? 0 : -1;
+            return fillLast() ? 0 : -1;
         } else {
             if (pageNo == lastNo) {
                 grow();
-                if (!fill()) {
+                if (!fillLast()) {
                     return -1;
                 }
             }
             if (getFilled(pageNo + 1) == 0) {
-                if (!fill()) {
+                if (!fillLast()) {
                     return -1;
                 }
             }
@@ -99,7 +99,7 @@ public class Pages {
      * Reads bytes to fill the last page.
      * @return false for eof
      */
-    private boolean fill() throws IOException {
+    private boolean fillLast() throws IOException {
         int count;
 
         if (lastFilled == pageSize) {
