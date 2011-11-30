@@ -70,12 +70,12 @@ public class Scanner {
      * @return terminal or ERROR or EOF
      */
     public int next(int mode) throws IOException {
-        int pc;        // idx in data
+        int pc;    // idx in table
         int c;
-        int tmp;
+        int terminal;
         int endTerminal;
         int endCount;
-        int count; // counting the ofset is faster than querying it from the buffer
+        int count; // number of characters scanner (counting the offset is faster than querying it from the buffer)
 
         src.eat();
 
@@ -84,10 +84,10 @@ public class Scanner {
         count = 0;
         pc = start;
         do {
-            tmp = table[pc + mode];
+            terminal = table[pc + mode];
             pc += modeCount;
-            if (tmp != NO_TERMINAL) {
-                endTerminal = tmp;
+            if (terminal != NO_TERMINAL) {
+                endTerminal = terminal;
                 endCount = count;
             }
             c = src.read();
