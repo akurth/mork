@@ -17,6 +17,8 @@
 
 package net.sf.beezle.mork.scanner;
 
+import net.sf.beezle.sushi.util.IntBitSet;
+
 import java.io.IOException;
 import java.io.Reader;
 
@@ -33,7 +35,7 @@ public class Scanner {
 
     // the last value with a two-byte representation in utf8
     // (this constant is less important than ERROR_PC because most states
-    // an end states; in my Java grammar 40-non-end vs. 260 end states)
+    // are end states; in my Java grammar 40-non-end vs. 260 end states)
     public static final int NO_TERMINAL = 0x07ff;
 
     /** start state */
@@ -70,14 +72,30 @@ public class Scanner {
      * @return terminal or ERROR or EOF
      */
     public int next(int mode) throws IOException {
+        src.eat();
+        return scan(mode);
+    }
+
+
+    public int find(int mode, IntBitSet terminals) throws IOException {
+        int start;
+        int terminal;
+
+        start = src.getOfs();
+        do {
+            terminal = scan(mode);
+        } while (terminal != EOF && !terminals.contains(terminal));
+        src.reset(src.getOfs() - start);
+        return terminal;
+    }
+
+    private int scan(int mode) throws IOException {
         int pc;    // idx in table
         int c;
         int terminal;
         int endTerminal;
         int endCount;
-        int count; // number of characters scanner (counting the offset is faster than querying it from the buffer)
-
-        src.eat();
+        int count; // number of characters scanned (counting the offset is faster than querying it from the buffer)
 
         endTerminal = ERROR;
         endCount = 0;
