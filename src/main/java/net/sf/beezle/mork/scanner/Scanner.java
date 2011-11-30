@@ -82,7 +82,7 @@ public class Scanner {
         int endCount;
         int count; // counting the ofset is faster than querying it from the buffer
 
-        src.mark();
+        src.eat();
 
         endTerminal = ERROR;
         endCount = 0;

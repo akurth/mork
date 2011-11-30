@@ -21,13 +21,14 @@ import java.io.IOException;
 import java.io.Reader;
 
 /**
- * Connection between Scanner and Reader. This class is kind of a
- * StringBuilder optimized for deleting at the beginning and appending at the
- * end. In addition, appending is done buffered from a Reader. The buffer
- * behaves as if the reader is filled in completely at the beginning, but
- * this is done in steps.
+ * Connection between Scanner and Reader. This class is kind of a StringBuilder optimized for
+ * deleting at the beginning and appending at the end. In addition, appending is done buffered
+ * from a Reader. The buffer behaves as if the reader is filled in completely at the beginning,
+ * but this is done in steps.
  *
- * Mark() is used to mark the complete token; get/setPos() is used in between by ScannerTable.
+ * Buffer has a start and a current position, that are used to select a possible token.
+ * Moving the start forward removes characters from the beginning;
+ * moving the current position format reads characters from the underlying stream.
  *
  * Buffer storage is devided into pages.
  */
@@ -37,14 +38,14 @@ public class Buffer {
      * True if src.read() has returned -1. Does not necessarily meant that this buffer
      * is EOF as well.
      */
-    private boolean srcEof;
+    private boolean eof;
 
     /**
-     * Marked offset from start. Always an index in the first page.
+     * Offset in the first page where the current selection starts.
      */
-    private int mark;
+    private int start;
 
-    /** tracks the position of the mark. */
+    /** start position */
     private Position position;
 
     private final Pages pages;
@@ -55,7 +56,7 @@ public class Buffer {
     /** Current page. pages.get(pageNo) */
     private char[] pageData;
 
-    /** Ofset in the current page. */
+    /** Offset in the current page. */
     private int pageOfs;
 
     /** Size of the current page. pageData[pageOfs] is valid if pageOfs < pageUsed */
@@ -77,8 +78,8 @@ public class Buffer {
 
     public void open(Position position, Reader src) {
         this.position = position;
-        this.srcEof = false;
-        this.mark = 0;
+        this.eof = false;
+        this.start = 0;
         this.pages.open(src);
         this.pageData = pages.get(0);
         this.pageNo = 0;
@@ -90,13 +91,13 @@ public class Buffer {
 
 
     public void assertInvariant() {
-        if (mark > pages.getSize()) {
+        if (start > pages.getSize()) {
             throw new IllegalStateException();
         }
-        if (mark > pageSize) {
+        if (start > pageSize) {
             throw new IllegalStateException();
         }
-        if (mark > getOfs()) {
+        if (start > getOfs()) {
             throw new IllegalStateException();
         }
         if (pageOfs > pageUsed) {
@@ -114,11 +115,11 @@ public class Buffer {
     /**
      * Reset the current position.
      *
-     * @param  ofs  offset from the current mark; must be smaller than the current position
+     * @param  ofs  offset from start; must be smaller than the current position
      */
     public void reset(int ofs) {
         // make ofs absolute
-        ofs += mark;
+        ofs += start;
         if (pageNo == 0) {
             // because a precondition is that ofs is left of the
             // current position
@@ -141,7 +142,7 @@ public class Buffer {
      * Does *not* try to read in order to check for an end-of-file.
      */
     public boolean wasEof() {
-        return srcEof && (getOfs() == pages.getSize());
+        return eof && (getOfs() == pages.getSize());
     }
 
     /** @return character or Scanner.EOF */
@@ -149,7 +150,7 @@ public class Buffer {
         if (pageOfs == pageUsed) {
             switch (pages.read(pageNo, pageUsed)) {
                 case -1:
-                    srcEof = true;
+                    eof = true;
                     return Scanner.EOF;
                 case 0:
                     pageUsed = pages.getUsed(pageNo);
@@ -170,29 +171,29 @@ public class Buffer {
     //-------------------------------
 
     /**
-     * Mark the current position as the maximum position to reset to.
+     * Move start forward to the current position.
      */
-    public void mark() {
+    public void eat() {
         int i;
 
         if (pageNo == 0) {
-            position.update(pageData, mark, pageOfs);
-            mark = pageOfs;
+            position.update(pageData, start, pageOfs);
+            start = pageOfs;
         } else {
-            position.update(pages.get(0), mark, pageSize);
+            position.update(pages.get(0), start, pageSize);
             for (i = 1; i < pageNo; i++) {
                 position.update(pages.get(i), 0, pageSize);
             }
             pages.remove(pageNo);
             pageNo = 0;
             pageData = pages.get(0);
-            mark = pageOfs;
-            position.update(pageData, 0, mark);
+            start = pageOfs;
+            position.update(pageData, 0, start);
         }
     }
 
     /**
-     * Returns the string between mark and the current position.
+     * Returns the string between start and the current position.
      */
     public String createString() {
         int i;
@@ -200,13 +201,13 @@ public class Buffer {
 
         if (pageNo == 0) {
             // speedup the most frequent situation
-            return new String(pageData, mark, pageOfs - mark);
+            return new String(pageData, start, pageOfs - start);
         } else {
             char[] buffer;
 
-            buffer = new char[pageNo * pageSize + pageOfs - mark];
-            count = pageSize - mark;
-            System.arraycopy(pages.get(0), mark, buffer, 0, count);
+            buffer = new char[pageNo * pageSize + pageOfs - start];
+            count = pageSize - start;
+            System.arraycopy(pages.get(0), start, buffer, 0, count);
             for (i = 1; i < pageNo; i++) {
                 System.arraycopy(pages.get(i), 0, buffer, count, pageSize);
                 count += pageSize;
@@ -228,8 +229,8 @@ public class Buffer {
 
         buf = new StringBuilder();
         buf.append("buffer {");
-        buf.append("\n  srcEof   = " + srcEof);
-        buf.append("\n  mark     = " + mark);
+        buf.append("\n  srcEof   = " + eof);
+        buf.append("\n  start    = " + start);
         buf.append("\n  pageNo   = " + pageNo);
         buf.append("\n  pageOfs  = " + pageOfs);
         buf.append("\n  pageHigh = " + pageUsed);

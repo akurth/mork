@@ -47,7 +47,7 @@ public class BufferTest extends TestCase {
         checkEof();
     }
 
-    public void testShortMark() throws IOException {
+    public void testShortStart() throws IOException {
         String a = "aa";
         String b = "bbb";
         String c = "c";
@@ -58,7 +58,7 @@ public class BufferTest extends TestCase {
         read(c);
     }
 
-    public void testLongMark() throws IOException {
+    public void testLongStart() throws IOException {
         String a = "a1234567890a";
         String b = "b12345678901234567890bb";
         String c = "c123456789012345678901234567890";
@@ -102,7 +102,7 @@ public class BufferTest extends TestCase {
         for (i = 0; i < newlineCount; i++) {
             buffer.read();
         }
-        buffer.mark();
+        buffer.eat();
         assertEquals(startLine + newlineCount, pos.getLine());
         assertEquals(startOfs + newlineCount, pos.getOffset());
     }
@@ -128,18 +128,16 @@ public class BufferTest extends TestCase {
 
     private void read(String str) throws IOException {
         int i;
-        int max;
         int startOfs;
         int endOfs;
         int ofs;
 
-        buffer.mark();
+        buffer.eat();
         startOfs = buffer.getOfs();
         endOfs = str.length();
         for (ofs = 0; ofs < endOfs; ofs++) {
             buffer.reset(ofs);
             buffer.assertInvariant();
-            max = str.length();
             for (i = ofs; i < endOfs; i++) {
                 assertEquals(startOfs + i, buffer.getOfs());
                 assertEquals(str.charAt(i), buffer.read());
