@@ -253,8 +253,6 @@ public class ParserTable implements Serializable {
 
         idx = 0;
         marked = false;
-        // this method takes about 1/20 of the time to load
-        // the jp Analyzer in Mork 0.2.x
         chunkCount = packed.length / 2;
         for (chunk = 0; chunk < chunkCount; chunk++) {
             difs = packed[chunk];

@@ -47,12 +47,13 @@ public class ScannerFactory {
     private final int modeCount;
 
     /**
-     * First index is the mode.
-     * list of states with the following structure:
-     *    terminals  per mode: terminal for end states; NO_TERMINAL otherwise
-     *    range[size] with
-     *       last    last, not first
-     *       state   pc for next state or ERROR_PC
+     * For every state that's not the error state
+     *   * for each mode:
+     *       end symbol - the terminal to return if this state is an end state; NO_TERMINAL otherwise
+     *   * for each transition (aka range):
+     *       last       - the last character of the range, or Scanner.ERROR_PC for errors
+     *       pc         - state to goto when this range is matched
+     *
      * Notes:
      * o I could get smaller constants in "last" by using values relative
      *   to the previous last -- but this slightly slows down the scanner
@@ -98,10 +99,10 @@ public class ScannerFactory {
         return new ScannerFactory(fa.getStart(), 1, data);
     }
 
-    private static char[] createTable(FA fa, int errorSi, List modes) throws GenericException {
+    private static char[] createTable(FA fa, int errorSi, List<IntBitSet> modes) throws GenericException {
         char[] table;
-        int ti, si;
-        int maxTi, maxSi;
+        int ti, stateIndex;
+        int maxTi, maxStateIndex;
         State state;
         Range range;
         int pc;
@@ -112,31 +113,31 @@ public class ScannerFactory {
         modeCount = modes.size();
 
         // determin size and ofs
-        maxSi = fa.size();
-        ofs = new int[maxSi];
+        maxStateIndex = fa.size();
+        ofs = new int[maxStateIndex];
         pc = 0;
-        for (si = 0; si < maxSi; si++) {
-            if (si != errorSi) {
-                ofs[si] = pc;
+        for (stateIndex = 0; stateIndex < maxStateIndex; stateIndex++) {
+            if (stateIndex != errorSi) {
+                ofs[stateIndex] = pc;
                 pc += modeCount; // one terminal or NO_TERMINAL per mode
-                pc += fa.get(si).size() * 2;
+                pc += fa.get(stateIndex).size() * 2;
             }
         }
         if (pc >= Character.MAX_VALUE) {
             throw new GenericException(SCANNER_TOO_BIG);
         }
 
-        // copy fa into data
+        // copy fa into table
         table = new char[pc];
         pc = 0;
-        for (si = 0; si < maxSi; si++) {
-            if (si != errorSi) {
-                if (ofs[si] != pc) {
-                    throw new RuntimeException();
+        for (stateIndex = 0; stateIndex < maxStateIndex; stateIndex++) {
+            if (stateIndex != errorSi) {
+                if (ofs[stateIndex] != pc) {
+                    throw new IllegalStateException();
                 }
-                state = fa.get(si);
+                state = fa.get(stateIndex);
                 for (i = 0; i < modeCount; i++) {
-                    table[pc] = getEndSymbol(fa, si, (IntBitSet) modes.get(i));
+                    table[pc] = getEndSymbol(fa, stateIndex, modes.get(i));
                     pc++;
                 }
 
@@ -146,8 +147,7 @@ public class ScannerFactory {
                     throw new RuntimeException();
                 }
                 for (ti = 0; ti < maxTi; ti++) {
-                    range = (Range) state.getInput(ti);
-
+                    range = state.getInput(ti);
                     table[pc] = range.getLast();
                     pc++;
 
@@ -177,9 +177,6 @@ public class ScannerFactory {
         }
         state = fa.get(si);
         label = (Label) state.getLabel();
-        if (label == null) {
-            throw new RuntimeException();
-        }
         endSymbol = label.getSymbol(modeSymbols);
         if (endSymbol == -1) {
             return Scanner.NO_TERMINAL;

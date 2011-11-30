@@ -36,9 +36,15 @@ public class Scanner {
     // an end states; in my Java grammar 40-non-end vs. 260 end states)
     public static final int NO_TERMINAL = 0x07ff;
 
+    /** start state */
     private final int start;
+
+    /** number of modes */
     private final int modeCount;
+
+    /** see ScannerFactory for a description */
     private final char[] table;
+
     private final Buffer src;
 
     public Scanner(int start, int modeCount, char[] table, Position pos, Reader reader) {
@@ -47,17 +53,6 @@ public class Scanner {
         this.table = table;
         this.src = new Buffer();
         src.open(pos, reader);
-    }
-
-    public String getRemainingInput() throws IOException {
-        int c;
-        StringBuilder buffer;
-
-        buffer = new StringBuilder();
-        for (c = src.read(); c != -1; c = src.read()) {
-            buffer.append((char) c);
-        }
-        return buffer.toString();
     }
 
     /** assigns the position of the last terminal returned by eat. */
