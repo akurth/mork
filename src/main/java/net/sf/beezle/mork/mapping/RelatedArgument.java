@@ -30,16 +30,15 @@ public class RelatedArgument implements Compare {
      * Returns the sorted list of lists of arguments.
      *
      * @param args   normal argument, not related arguments
-     * @return List of List of Arguments.
      */
-    public static List<Object> sort(List<Object> args) {
+    public static List<List<Argument>> sort(List<Argument> args) {
         int i;
         int max;
-        List result;  // List of Arguments
+        List<List<Argument>> result;
         List remaining;    // List of RelatedArguments
         List heads;   // List of RelatedArguments
 
-        result = new ArrayList();
+        result = new ArrayList<List<Argument>>();
         remaining = createRelatedArgs(args);
         while (true) {
             max = remaining.size();
@@ -59,15 +58,15 @@ public class RelatedArgument implements Compare {
      * @param args  List of Arguments
      * @return List of RelatedArguments
      */
-    private static List createRelatedArgs(List args) {
-        List related;
+    private static List<RelatedArgument> createRelatedArgs(List<Argument> args) {
+        List<RelatedArgument> related;
         int i;
         int max;
 
         related = new ArrayList();
         max = args.size();
         for (i = 0; i < max; i++) {
-            related.add(new RelatedArgument((Argument) args.get(i)));
+            related.add(new RelatedArgument(args.get(i)));
         }
         return related;
     }

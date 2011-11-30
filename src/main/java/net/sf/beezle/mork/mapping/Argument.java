@@ -129,20 +129,21 @@ public class Argument implements Compare {
         int i;
         int max;
         Argument arg;
-        List<Object> sort;
+        List<Argument> mergable;
+        List<List<Argument>> sort;
 
         max = args.size();
         seq = new ArrayList<Argument>();
-        sort = new ArrayList<Object>();
+        mergable = new ArrayList<Argument>();
         for (i = 0; i < max; i++) {
             arg = args.get(i);
             if (arg.modifier == Path.MERGEABLE) {
-                sort.add(arg);
+                mergable.add(arg);
             } else {
                 seq.add(arg);
             }
         }
-        sort = RelatedArgument.sort(sort);
+        sort = RelatedArgument.sort(mergable);
         max = sort.size();
         for (i = 0; i < max; i++) {
             arg = merge(target.getAttribute().symbol, target, (List<Argument>) sort.get(i));
