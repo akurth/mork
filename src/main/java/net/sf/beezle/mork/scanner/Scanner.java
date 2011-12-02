@@ -68,7 +68,7 @@ public class Scanner {
     }
 
     /**
-     * Scans the next terminal
+     * Scans the next terminal.
      * @return terminal or ERROR or EOF
      */
     public int next(int mode) throws IOException {
