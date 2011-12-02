@@ -45,15 +45,17 @@ public class Syntax {
     public static final String LALR_CONFLICT = "lalr(1) conflicts (use the -lst option to obtain a listing of the automaton):\n";
 
     private Grammar grammar;
+    private Resolution[] resolutions;
     private boolean priorities;
     private IntBitSet whiteSymbols;
     private Rule[] scannerRules;
 
-    public Syntax(StringArrayList symbolTable, Rule[] parserRules, boolean priorities, IntBitSet whiteSymbols, Rule[] scannerRules) throws GenericException {
+    public Syntax(StringArrayList symbolTable, Rule[] parserRules, Resolution[] resolutions, boolean priorities, IntBitSet whiteSymbols, Rule[] scannerRules) throws GenericException {
         if (parserRules.length == 0) {
             throw new IllegalArgumentException();
         }
         this.grammar = GrammarBuilder.createGrammar(parserRules, symbolTable);
+        this.resolutions = resolutions;
         this.priorities = priorities;
         if (whiteSymbols != null) {
             this.whiteSymbols = whiteSymbols;

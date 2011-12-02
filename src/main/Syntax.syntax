@@ -21,7 +21,9 @@
 # overall structure
 
 Syntax              ::= Parser Scanner ;
-Parser              ::= "[" "PARSER" "]" Rule+ ;
+Parser              ::= "[" "PARSER" "]" Resolution* Rule+ ;
+Resolution          ::= "resolve" ResolutionLine "<>" ResolutionLine ";" ;
+ResolutionLine      ::= Symbol "when" SymbolSet ;
 Scanner             ::= "[" "SCANNER" "]" Priorities WhiteOpt Rule* ;
 Priorities          ::= UsePriorities | NoPriorities;
 UsePriorities       ::= ;

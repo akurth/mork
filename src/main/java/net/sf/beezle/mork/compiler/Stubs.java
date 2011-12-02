@@ -272,7 +272,12 @@ public class Stubs {
 
     public static Syntax createSyntax(StringArrayList symbolTable, Rule[] parserRules,
             boolean prio, IntBitSet whiteSymbols, Rule[] explScannerRules, List rawKeywords) throws GenericException {
-        return new Syntax(symbolTable, parserRules, prio, whiteSymbols, scannerRules(rawKeywords, explScannerRules));
+        return createSyntax(symbolTable, parserRules, new Resolution[0], prio, whiteSymbols, explScannerRules, rawKeywords);
+    }
+
+    public static Syntax createSyntax(StringArrayList symbolTable, Rule[] parserRules, Resolution[] resolutions,
+            boolean prio, IntBitSet whiteSymbols, Rule[] explScannerRules, List rawKeywords) throws GenericException {
+        return new Syntax(symbolTable, parserRules, resolutions, prio, whiteSymbols, scannerRules(rawKeywords, explScannerRules));
     }
 
     public static Object[] keyword(int symbol, String name) throws IllegalLiteral {
