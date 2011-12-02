@@ -17,6 +17,7 @@
 
 package net.sf.beezle.mork.parser;
 
+import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.misc.StringArrayList;
 
 public class Conflict {
@@ -32,8 +33,9 @@ public class Conflict {
         this.actionB = actionB;
     }
 
-    public String toString(StringArrayList symbolTable) {
-        return "state " + state + " on symbol " + symbolTable.getOrIndex(symbol) + ": " + ParserTable.actionToString(actionA)
-                    + " vs " + ParserTable.actionToString(actionB) + "\n";
+    public String toString(Grammar grammar) {
+        return "state " + state + " on symbol " + grammar.getSymbolTable().getOrIndex(symbol) + ": "
+                + ParserTable.actionToString(actionA, grammar)
+                + " vs " + ParserTable.actionToString(actionB, grammar) + "\n";
     }
 }

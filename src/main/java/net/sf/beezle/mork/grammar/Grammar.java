@@ -602,6 +602,14 @@ public class Grammar extends GrammarCore {
         return buffer.toString();
     }
 
+    public String prodToString(int prod) {
+        StringBuilder builder;
+
+        builder = new StringBuilder();
+        prodToString(builder, prod);
+        return builder.toString();
+    }
+
     public void prodToString(StringBuilder buffer, int prod) {
         int i, max;
 

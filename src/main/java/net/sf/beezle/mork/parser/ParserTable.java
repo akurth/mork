@@ -17,11 +17,14 @@
 
 package net.sf.beezle.mork.parser;
 
+import net.sf.beezle.mork.compiler.ConflictHandler;
+import net.sf.beezle.mork.compiler.Resolution;
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.sushi.util.IntBitSet;
 
+import javax.print.attribute.ResolutionSyntax;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -132,7 +135,7 @@ public class ParserTable implements Serializable {
     //------------------------------------------------------------------
     // building the table
 
-    public void addWhitespace(IntBitSet whites, List<Conflict> conflicts) {
+    public void addWhitespace(IntBitSet whites, ConflictHandler handler) {
         int sym;
         int state;
         int stateCount;
@@ -140,18 +143,18 @@ public class ParserTable implements Serializable {
         stateCount = getStateCount();
         for (sym = whites.first(); sym != -1; sym = whites.next(sym)) {
             for (state = 0; state < stateCount; state++) {
-                setTested(createValue(Parser.SKIP), state, sym, conflicts);
+                setTested(createValue(Parser.SKIP), state, sym, handler);
             }
         }
     }
 
-    public void addReduce(int state, int term, int prod, List<Conflict> conflicts) {
-        setTested(createValue(Parser.REDUCE, prod), state, term, conflicts);
+    public void addReduce(int state, int term, int prod, ConflictHandler handler) {
+        setTested(createValue(Parser.REDUCE, prod), state, term, handler);
     }
 
     /** @param  sym  may be a nonterminal */
-    public void addShift(int state, int sym, int nextState, List<Conflict> conflicts) {
-        setTested(createValue(Parser.SHIFT, nextState), state, sym, conflicts);
+    public void addShift(int state, int sym, int nextState, ConflictHandler handler) {
+        setTested(createValue(Parser.SHIFT, nextState), state, sym, handler);
     }
 
     public void addAccept(int state, int eof) {
@@ -159,19 +162,20 @@ public class ParserTable implements Serializable {
         values[state * symbolCount + eof] = createValue(Parser.SPECIAL, Parser.SPECIAL_ACCEPT);
     }
 
-    private void setTested(int value, int state, int sym, List<Conflict> conflicts) {
-        if (values[state * symbolCount + sym] == createValue(Parser.SPECIAL, Parser.SPECIAL_ERROR)) {
-            values[state * symbolCount + sym] = (char) value;
-        } else {
-            conflicts.add(new Conflict(state, sym, value, values[state * symbolCount + sym]));
+    public static final int NOT_SET = createValue(Parser.SPECIAL, Parser.SPECIAL_ERROR);
+
+    private void setTested(int value, int state, int sym, ConflictHandler handler) {
+        if (values[state * symbolCount + sym] != NOT_SET) {
+            value = handler.resolve(state, sym, value, values[state * symbolCount + sym]);
         }
+        values[state * symbolCount + sym] = (char) value;
     }
 
     private char createValue(int action) {
         return createValue(action, 0);
     }
 
-    private char createValue(int action, int operand) {
+    public static char createValue(int action, int operand) {
         return (char) (action | operand << ACTION_BITS);
     }
 
@@ -395,7 +399,7 @@ public class ParserTable implements Serializable {
 
     //---------------------------------------------------------------
 
-    public String toString(StringArrayList symbolTable) {
+    public String toString(Grammar grammar) {
         int symbol;
         int state;
         int stateCount;
@@ -408,7 +412,7 @@ public class ParserTable implements Serializable {
         result = new StringBuilder();
         result.append('\t');
         for (symbol = 0; symbol < symbolCount; symbol++) {
-            result.append(symbolTable.getOrIndex(symbol));
+            result.append(grammar.getSymbolTable().getOrIndex(symbol));
             result.append('\t');
         }
         result.append("\n\n");
@@ -418,19 +422,21 @@ public class ParserTable implements Serializable {
             result.append('\t');
             for (symbol = 0; symbol < symbolCount; symbol++) {
                 value = lookup(state, symbol);
-                result.append(actionToString(value)).append('\t');
+                result.append(actionToString(value, grammar)).append('\t');
             }
             result.append('\n');
         }
         return result.toString();
     }
 
-    public static String actionToString(int value) {
+    public static String actionToString(int value, Grammar grammar) {
+        int prod;
+
         switch (getAction(value)) {
             case Parser.SHIFT:
-                return "S" + getOperand(value) + "\t";
+                return "S " + getOperand(value);
             case Parser.REDUCE:
-                return "R" + getOperand(value) + "\t";
+                return "R " + grammar.prodToString(getOperand(value));
             case Parser.SPECIAL:
                 if (getOperand(value) == Parser.SPECIAL_ACCEPT) {
                     return "A";

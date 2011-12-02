@@ -18,6 +18,7 @@
 package net.sf.beezle.mork.parser;
 
 import junit.framework.TestCase;
+import net.sf.beezle.mork.compiler.ConflictHandler;
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.misc.StringArrayList;
@@ -103,7 +104,6 @@ public class ParserTest extends TestCase {
         int startSymbol;
         PDA pda;
         ParserTable table;
-        List<Conflict> conflicts;
 
         grammar = Grammar.forSymbols(src);
         symbolTable = grammar.getSymbolTable();
@@ -111,8 +111,7 @@ public class ParserTest extends TestCase {
 
         pda = new PDA(grammar, startSymbol);
 
-        conflicts = new ArrayList<Conflict>();
-        table = pda.createTable(conflicts, grammar.getSymbolCount());
+        table = pda.createTable(grammar.getSymbolCount(), new ConflictHandler(grammar));
 
         // TODO:
         //   assertTrue("no conflicts", conflicts.isEmpty() );

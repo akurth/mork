@@ -3,6 +3,9 @@
           xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
   <body>
     <release version="0.8" date="2011-12-xx">
+      <action dev="mlhartme" type="add">
+        Conflict resolution.
+      </action>
       <action dev="mlhartme" type="update">
         Dump xml support, it never worked.
       </action>

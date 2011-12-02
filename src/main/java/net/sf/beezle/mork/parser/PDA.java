@@ -17,6 +17,8 @@
 
 package net.sf.beezle.mork.parser;
 
+import net.sf.beezle.mork.compiler.ConflictHandler;
+import net.sf.beezle.mork.compiler.Resolution;
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.sushi.util.IntBitSet;
@@ -136,10 +138,7 @@ public class PDA {
     //----------------------------------------------------------------
 
 
-    /**
-     * @param conflicts  returns conflicts found
-     */
-    public ParserTable createTable(List<Conflict> conflicts, int lastSymbol) throws GenericException {
+    public ParserTable createTable(int lastSymbol, ConflictHandler handler) throws GenericException {
         // the initial syntaxnode created by the start action is ignoed!
         ParserTable result;
         int i, max;
@@ -149,7 +148,7 @@ public class PDA {
         eof = getEofSymbol();
         result = new ParserTable(0, max, lastSymbol + 1 /* +1 for EOF */, eof, grammar, null);
         for (i = 0; i < max; i++) {
-            getState(i).addActions(this, result, conflicts);
+            getState(i).addActions(result, handler);
         }
         result.addAccept(end.id, eof);
         return result;
@@ -162,7 +161,7 @@ public class PDA {
     }
 
     public State getState(int idx) {
-        return (State) states.get(idx);
+        return states.get(idx);
     }
 
 

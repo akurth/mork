@@ -17,6 +17,7 @@
 
 package net.sf.beezle.mork.parser;
 
+import net.sf.beezle.mork.compiler.ConflictHandler;
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.sushi.util.IntBitSet;
@@ -301,7 +302,7 @@ public class State {
 
     //------------------------------------------------------------------
 
-    public void addActions(PDA env, ParserTable result, List<Conflict> conflicts) {
+    public void addActions(ParserTable result, ConflictHandler handler) {
         Iterator<Shift> p1;
         Iterator<Reduce> p2;
         Shift sh;
@@ -311,13 +312,13 @@ public class State {
         p1 = shifts.iterator();
         while (p1.hasNext()) {
             sh = p1.next();
-            result.addShift(id, sh.symbol, sh.end.id, conflicts);
+            result.addShift(id, sh.symbol, sh.end.id, handler);
         }
         p2 = reduces.iterator();
         while (p2.hasNext()) {
             r = p2.next();
             for (term = r.lookahead.first(); term != -1; term = r.lookahead.next(term)) {
-                result.addReduce(id, term, r.production, conflicts);
+                result.addReduce(id, term, r.production, handler);
             }
         }
     }

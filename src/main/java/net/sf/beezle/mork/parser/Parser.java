@@ -17,6 +17,7 @@
 
 package net.sf.beezle.mork.parser;
 
+import net.sf.beezle.mork.compiler.ConflictResolver;
 import net.sf.beezle.mork.mapping.ErrorHandler;
 import net.sf.beezle.mork.scanner.Position;
 import net.sf.beezle.mork.scanner.Scanner;
@@ -33,6 +34,7 @@ import java.io.Reader;
 
 public class Parser {
     private final ParserTable table;
+    private final ConflictResolver[] resolvers;
     private final ScannerFactory scannerFactory;
     private ErrorHandler errorHandler;
 
@@ -51,6 +53,7 @@ public class Parser {
 
     public static final char SPECIAL_ERROR  = 0;
     public static final char SPECIAL_ACCEPT = 1;
+    public static final char SPECIAL_CONFLICT = 2;
 
     static {
         if (SPECIAL_ERROR != 0) {
@@ -59,8 +62,9 @@ public class Parser {
         }
     }
 
-    public Parser(ParserTable table, ScannerFactory scannerFactory) {
+    public Parser(ParserTable table, ConflictResolver[] resolvers, ScannerFactory scannerFactory) {
         this.table = table;
+        this.resolvers = resolvers;
         this.scannerFactory = scannerFactory;
         this.errorHandler = null;
 
@@ -78,7 +82,7 @@ public class Parser {
     }
 
     public Parser newInstance() {
-        return new Parser(table, scannerFactory);
+        return new Parser(table, resolvers, scannerFactory);
     }
 
     public Object run(Position position, Reader src, TreeBuilder treeBuilder, PrintStream verbose) {
@@ -89,6 +93,7 @@ public class Parser {
         Object node;
         Position pos;
         Scanner scanner;
+        int operand;
 
         try {
             scanner = scannerFactory.newInstance(position, src);
@@ -114,25 +119,34 @@ public class Parser {
                 lookupLoop:
                     while (true) {
                         value = table.lookup(state, terminal);
-                        switch (table.getAction(value)) {
-                            case SPECIAL:
-                                if (table.getOperand(value) == SPECIAL_ACCEPT) {
+                        while (ParserTable.getAction(value) == SPECIAL) {
+                            operand = ParserTable.getOperand(value);
+                            switch (operand) {
+                                case SPECIAL_ACCEPT:
                                     return pop();
-                                } else {
+                                case SPECIAL_ERROR:
                                     pos = new Position();
                                     scanner.getPosition(pos);
                                     errorHandler.syntaxError(pos, table.getShifts(state));
-                                }
+                                    return null;
+                                default:
+                                    if ((operand & 0x03) != SPECIAL_CONFLICT) {
+                                        throw new IllegalStateException();
+                                    }
+                                    value = resolvers[operand >> 2].run(scanner, table.getMode(state));
+                            }
+                        }
+                        switch (ParserTable.getAction(value)) {
                             case SHIFT:
                                 if (verbose != null) {
                                     verbose.print("[" + state + "] ");
-                                    verbose.println("shift " +  table.getOperand(value));
+                                    verbose.println("shift " +  ParserTable.getOperand(value));
                                 }
-                                state = table.getOperand(value);
+                                state = ParserTable.getOperand(value);
                                 push(state, treeBuilder.createTerminal(terminal));
                                 break lookupLoop;
                             case REDUCE:
-                                production = table.getOperand(value);
+                                production = ParserTable.getOperand(value);
                                 if (verbose != null) {
                                     verbose.print("[" + state + "] ");
                                     verbose.println("reduce " + production);

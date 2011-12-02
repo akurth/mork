@@ -76,7 +76,6 @@ public class Syntax {
      */
     public Parser translate(Output output) throws GenericException {
         FABuilder builder;
-        List<Conflict> conflicts;
         PDA pda;
         ParserTable parserTable;
         ScannerFactory scannerFactory;
@@ -84,21 +83,18 @@ public class Syntax {
         IntBitSet usedSymbols;
         int symbolCount;
         StringArrayList symbolTable;
+        ConflictHandler handler;
+        ConflictResolver[] resolvers;
 
         output.verbose("processing parser section");
 
         pda = new PDA(grammar, grammar.getStart());
-        conflicts = new ArrayList<Conflict>();
         symbolCount = Math.max(grammar.getSymbolCount(), whiteSymbols.last() + 1);
-        parserTable = pda.createTable(conflicts, symbolCount);
-        parserTable.addWhitespace(whiteSymbols, conflicts);
+        handler = new ConflictHandler(grammar, resolutions);
+        parserTable = pda.createTable(symbolCount, handler);
+        parserTable.addWhitespace(whiteSymbols, handler);
         symbolTable = grammar.getSymbolTable();
-        if (conflicts.size() > 0) {
-            for (Conflict conflict : conflicts ) {
-                output.error("TODO", LALR_CONFLICT + conflict.toString(symbolTable));
-            }
-            throw new GenericException("aborted with conflicts");
-        }
+        resolvers = handler.report(output, grammar);
         if (output.listing != null) {
             output.listing.println("\nSymbols:");
             output.listing.println(symbolTable.toString());
@@ -143,6 +139,6 @@ public class Syntax {
         usedSymbols.addAll(builder.getInlines());
         grammar.check(grammar.getStart(), usedSymbols, symbolTable.toList());
 
-        return new Parser(parserTable, scannerFactory);
+        return new Parser(parserTable, resolvers, scannerFactory);
     }
 }
