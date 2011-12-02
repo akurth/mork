@@ -22,6 +22,9 @@ import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.misc.StringArrayList;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  ** Test that pda tables are generated without exceptions.
  ** TODO: Test the generated parser on some input
@@ -100,7 +103,7 @@ public class ParserTest extends TestCase {
         int startSymbol;
         PDA pda;
         ParserTable table;
-        Conflicts conflicts;
+        List<Conflict> conflicts;
 
         grammar = Grammar.forSymbols(src);
         symbolTable = grammar.getSymbolTable();
@@ -108,7 +111,7 @@ public class ParserTest extends TestCase {
 
         pda = new PDA(grammar, startSymbol);
 
-        conflicts = new Conflicts();
+        conflicts = new ArrayList<Conflict>();
         table = pda.createTable(conflicts, grammar.getSymbolCount());
 
         // TODO:

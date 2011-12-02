@@ -22,7 +22,7 @@ import net.sf.beezle.mork.grammar.GrammarBuilder;
 import net.sf.beezle.mork.grammar.Rule;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.misc.StringArrayList;
-import net.sf.beezle.mork.parser.Conflicts;
+import net.sf.beezle.mork.parser.Conflict;
 import net.sf.beezle.mork.parser.PDA;
 import net.sf.beezle.mork.parser.Parser;
 import net.sf.beezle.mork.parser.ParserTable;
@@ -30,6 +30,9 @@ import net.sf.beezle.mork.scanner.FABuilder;
 import net.sf.beezle.mork.scanner.Modes;
 import net.sf.beezle.mork.scanner.ScannerFactory;
 import net.sf.beezle.sushi.util.IntBitSet;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Grammar syntax specification. Represents a grammar syntax file with
@@ -71,7 +74,7 @@ public class Syntax {
      */
     public Parser translate(Output output) throws GenericException {
         FABuilder builder;
-        Conflicts conflicts;
+        List<Conflict> conflicts;
         PDA pda;
         ParserTable parserTable;
         ScannerFactory scannerFactory;
@@ -83,13 +86,13 @@ public class Syntax {
         output.verbose("processing parser section");
 
         pda = new PDA(grammar, grammar.getStart());
-        conflicts = new Conflicts();
+        conflicts = new ArrayList<Conflict>();
         symbolCount = Math.max(grammar.getSymbolCount(), whiteSymbols.last() + 1);
         parserTable = pda.createTable(conflicts, symbolCount);
         parserTable.addWhitespace(whiteSymbols, conflicts);
         symbolTable = grammar.getSymbolTable();
-        if (!conflicts.isEmpty()) {
-            output.error("TODO", LALR_CONFLICT + conflicts.toString(symbolTable));
+        for (Conflict conflict : conflicts ) {
+            output.error("TODO", LALR_CONFLICT + conflict.toString(symbolTable));
         }
         if (output.listing != null) {
             output.listing.println("\nSymbols:");

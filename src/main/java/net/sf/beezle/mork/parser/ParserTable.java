@@ -132,7 +132,7 @@ public class ParserTable implements Serializable {
     //------------------------------------------------------------------
     // building the table
 
-    public void addWhitespace(IntBitSet whites, Conflicts conflicts) {
+    public void addWhitespace(IntBitSet whites, List<Conflict> conflicts) {
         int sym;
         int state;
         int stateCount;
@@ -145,12 +145,12 @@ public class ParserTable implements Serializable {
         }
     }
 
-    public void addReduce(int state, int term, int prod, Conflicts conflicts) {
+    public void addReduce(int state, int term, int prod, List<Conflict> conflicts) {
         setTested(createValue(Parser.REDUCE, prod), state, term, conflicts);
     }
 
     /** @param  sym  may be a nonterminal */
-    public void addShift(int state, int sym, int nextState, Conflicts conflicts) {
+    public void addShift(int state, int sym, int nextState, List<Conflict> conflicts) {
         setTested(createValue(Parser.SHIFT, nextState), state, sym, conflicts);
     }
 
@@ -159,11 +159,11 @@ public class ParserTable implements Serializable {
         values[state * symbolCount + eof] = createValue(Parser.SPECIAL, Parser.SPECIAL_ACCEPT);
     }
 
-    private void setTested(int value, int state, int sym, Conflicts conflicts) {
+    private void setTested(int value, int state, int sym, List<Conflict> conflicts) {
         if (values[state * symbolCount + sym] == createValue(Parser.SPECIAL, Parser.SPECIAL_ERROR)) {
             values[state * symbolCount + sym] = (char) value;
         } else {
-            conflicts.add(state, sym, value, (int) values[state * symbolCount + sym]);
+            conflicts.add(new Conflict(state, sym, value, values[state * symbolCount + sym]));
         }
     }
 

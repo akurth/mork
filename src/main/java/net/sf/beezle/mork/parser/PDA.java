@@ -139,7 +139,7 @@ public class PDA {
     /**
      * @param conflicts  returns conflicts found
      */
-    public ParserTable createTable(Conflicts conflicts, int lastSymbol) throws GenericException {
+    public ParserTable createTable(List<Conflict> conflicts, int lastSymbol) throws GenericException {
         // the initial syntaxnode created by the start action is ignoed!
         ParserTable result;
         int i, max;

@@ -19,32 +19,21 @@ package net.sf.beezle.mork.parser;
 
 import net.sf.beezle.mork.misc.StringArrayList;
 
-import java.util.ArrayList;
-import java.util.List;
+public class Conflict {
+    private final int state;
+    private final int symbol;
+    private final int actionA;
+    private final int actionB;
 
-public class Conflicts extends Exception {
-    private final List<int[]> conflicts;
-
-    public Conflicts() {
-        conflicts = new ArrayList<int[]>();
-    }
-
-    public boolean isEmpty() {
-        return conflicts.isEmpty();
-    }
-
-    public void add(int state, int sym, int actionA, int actionB) {
-        conflicts.add(new int[] { state, sym, actionA, actionB });
+    public Conflict(int state, int symbol, int actionA, int actionB) {
+        this.state = state;
+        this.symbol = symbol;
+        this.actionA = actionA;
+        this.actionB = actionB;
     }
 
     public String toString(StringArrayList symbolTable) {
-        StringBuilder result;
-
-        result = new StringBuilder();
-        for (int[] c : conflicts) {
-            result.append("state " + c[0] + " on symbol " + symbolTable.getOrIndex(c[1]) + ": " + ParserTable.actionToString(c[2])
-                    + " vs " + ParserTable.actionToString(c[3]) + "\n");
-        }
-        return result.toString();
+        return "state " + state + " on symbol " + symbolTable.getOrIndex(symbol) + ": " + ParserTable.actionToString(actionA)
+                    + " vs " + ParserTable.actionToString(actionB) + "\n";
     }
 }

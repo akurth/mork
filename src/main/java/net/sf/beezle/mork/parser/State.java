@@ -301,7 +301,7 @@ public class State {
 
     //------------------------------------------------------------------
 
-    public void addActions(PDA env, ParserTable result, Conflicts conflicts) {
+    public void addActions(PDA env, ParserTable result, List<Conflict> conflicts) {
         Iterator<Shift> p1;
         Iterator<Reduce> p2;
         Shift sh;
