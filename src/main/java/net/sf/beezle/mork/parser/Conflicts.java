@@ -42,7 +42,8 @@ public class Conflicts extends Exception {
 
         result = new StringBuilder();
         for (int[] c : conflicts) {
-            result.append("state " + c[0] + " on symbol " + symbolTable.getOrIndex(c[1]) + "\n");
+            result.append("state " + c[0] + " on symbol " + symbolTable.getOrIndex(c[1]) + ": " + ParserTable.actionToString(c[2])
+                    + " vs " + ParserTable.actionToString(c[3]) + "\n");
         }
         return result.toString();
     }

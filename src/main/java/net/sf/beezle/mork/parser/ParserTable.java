@@ -320,11 +320,11 @@ public class ParserTable implements Serializable {
     //-------------------------------------------------------------------
     // using the table
 
-    public int getAction(int value) {
+    public static int getAction(int value) {
         return value & MASK;
     }
 
-    public int getOperand(int value) {
+    public static int getOperand(int value) {
         return value >>> ACTION_BITS;
     }
 
@@ -418,26 +418,28 @@ public class ParserTable implements Serializable {
             result.append('\t');
             for (symbol = 0; symbol < symbolCount; symbol++) {
                 value = lookup(state, symbol);
-                switch (getAction(value)) {
-                    case Parser.SHIFT:
-                        result.append("S" + getOperand(value) + "\t");
-                        break;
-                    case Parser.REDUCE:
-                        result.append("R" + getOperand(value) + "\t");
-                        break;
-                    case Parser.SPECIAL:
-                        if (getOperand(value) == Parser.SPECIAL_ACCEPT) {
-                            result.append("A\t");
-                        } else {
-                            result.append(" \t");
-                        }
-                        break;
-                    default:
-                        throw new RuntimeException("unknown action: " + getAction(value));
-                }
+                result.append(actionToString(value)).append('\t');
             }
             result.append('\n');
         }
         return result.toString();
+    }
+
+    public static String actionToString(int value) {
+        switch (getAction(value)) {
+            case Parser.SHIFT:
+                return "S" + getOperand(value) + "\t";
+            case Parser.REDUCE:
+                return "R" + getOperand(value) + "\t";
+            case Parser.SPECIAL:
+                if (getOperand(value) == Parser.SPECIAL_ACCEPT) {
+                    return "A";
+                } else {
+                    return " ";
+                }
+            default:
+                throw new RuntimeException("unknown action: " + getAction(value));
+        }
+
     }
 }

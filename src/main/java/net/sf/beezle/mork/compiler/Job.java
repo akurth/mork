@@ -17,6 +17,8 @@
 
 package net.sf.beezle.mork.compiler;
 
+import net.sf.beezle.sushi.util.Strings;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -63,10 +65,7 @@ public class Job {
 
         this.source = new File(srcName);
         if (listing) {
-            baseName = source.getName();
-            if (baseName.endsWith(SRC_SUFFIX)) {
-                baseName = baseName.substring(0, baseName.length() - SRC_SUFFIX.length());
-            }
+            baseName = Strings.removeRightOpt(source.getName(), SRC_SUFFIX);
             // TODO: configurable target
             this.listing = new File("target/" + baseName + LST_SUFFIX);
         } else {
