@@ -30,7 +30,7 @@ public class ConflictHandler {
             resolver = resolution.resolve(grammar, actionA, actionB);
             if (resolver != null) {
                 resolvers.add(resolver);
-                return ParserTable.createValue(Parser.SPECIAL, Parser.SPECIAL_CONFLICT & ((resolvers.size() - 1) << 2));
+                return ParserTable.createValue(Parser.SPECIAL, Parser.SPECIAL_CONFLICT | ((resolvers.size() - 1) << 2));
             }
         }
         conflicts.add(new Conflict(state, symbol, actionA, actionB));
