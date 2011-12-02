@@ -93,8 +93,11 @@ public class Syntax {
         parserTable = pda.createTable(conflicts, symbolCount);
         parserTable.addWhitespace(whiteSymbols, conflicts);
         symbolTable = grammar.getSymbolTable();
-        for (Conflict conflict : conflicts ) {
-            output.error("TODO", LALR_CONFLICT + conflict.toString(symbolTable));
+        if (conflicts.size() > 0) {
+            for (Conflict conflict : conflicts ) {
+                output.error("TODO", LALR_CONFLICT + conflict.toString(symbolTable));
+            }
+            throw new GenericException("aborted with conflicts");
         }
         if (output.listing != null) {
             output.listing.println("\nSymbols:");
