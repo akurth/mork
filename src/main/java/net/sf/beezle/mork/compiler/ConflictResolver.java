@@ -28,12 +28,13 @@ public class ConflictResolver {
         int terminal;
 
         terminal = scanner.find(mode, both);
-        if (terminalsA.contains(terminal)) {
-            return actionA;
-        } else if (terminalsB.contains(terminal)) {
-            return actionB;
-        } else {
-            return ParserTable.createValue(Parser.SPECIAL, Parser.SPECIAL_ERROR);
+        if (terminal >= 0) {
+            if (terminalsA.contains(terminal)) {
+                return actionA;
+            } else if (terminalsB.contains(terminal)) {
+                return actionB;
+            }
         }
+        return ParserTable.createValue(Parser.SPECIAL, Parser.SPECIAL_ERROR);
     }
 }
