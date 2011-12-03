@@ -99,7 +99,7 @@ public class Buffer {
         if (start > pageSize) {
             throw new IllegalStateException();
         }
-        if (start > getOfs()) {
+        if (start > getEndOfs()) {
             throw new IllegalStateException();
         }
         if (end > endFilled) {
@@ -110,21 +110,18 @@ public class Buffer {
         }
     }
 
-    public int getOfs() {
+    public int getEndOfs() {
         return endPageIdx * pageSize + end;
     }
 
     /**
-     * Reset the current position.
-     *
-     * @param  ofs  offset from start; must be smaller than the current position
+     * Sets the current end ofs by to the specified value
+     * @param ofs < getEndOfs()
      */
-    public void reset(int ofs) {
-        // make ofs absolute
-        ofs += start;
+    public void resetEndOfs(int ofs) {
         if (endPageIdx == 0) {
             // because a precondition is that ofs is left of the
-            // current position
+            // end
             end = ofs;
         } else {
             endPageIdx = ofs / pageSize;
@@ -144,10 +141,13 @@ public class Buffer {
      * Does *not* try to read in order to check for an end-of-file.
      */
     public boolean wasEof() {
-        return eof && (getOfs() == pages.getSize());
+        return eof && (getEndOfs() == pages.getSize());
     }
 
-    /** @return character or Scanner.EOF */
+    /**
+     * Advances the end and returns the character at this positio.
+     * @return character or Scanner.EOF
+     */
     public int read() throws IOException {
         if (end == endFilled) {
             switch (pages.read(endPageIdx, endFilled)) {

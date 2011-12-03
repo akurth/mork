@@ -136,19 +136,19 @@ public class BufferTest {
 
     private void read(String str) throws IOException {
         int i;
-        int startOfs;
-        int endOfs;
+        int initialOfs;
+        int finalOfs;
         int ofs;
 
         buffer.eat();
-        startOfs = buffer.getOfs();
-        endOfs = str.length();
-        for (ofs = 0; ofs < endOfs; ofs++) {
-            buffer.reset(ofs);
+        initialOfs = buffer.getEndOfs();
+        finalOfs = initialOfs + str.length();
+        for (ofs = initialOfs; ofs < finalOfs; ofs++) {
+            buffer.resetEndOfs(ofs);
             buffer.assertInvariant();
-            for (i = ofs; i < endOfs; i++) {
-                assertEquals(startOfs + i, buffer.getOfs());
-                assertEquals(str.charAt(i), buffer.read());
+            for (i = ofs; i < finalOfs; i++) {
+                assertEquals(i, buffer.getEndOfs());
+                assertEquals(str.charAt(i - initialOfs), buffer.read());
                 buffer.assertInvariant();
             }
             assertEquals(str, buffer.createString());

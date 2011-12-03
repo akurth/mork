@@ -78,14 +78,14 @@ public class Scanner {
 
 
     public int find(int mode, IntBitSet terminals) throws IOException {
-        int start;
+        int ofs;
         int terminal;
 
-        start = src.getOfs();
+        ofs = src.getEndOfs();
         do {
             terminal = scan(mode);
         } while (terminal != EOF && !terminals.contains(terminal));
-        src.reset(src.getOfs() - start);
+        src.resetEndOfs(ofs);
         return terminal;
     }
 
@@ -93,33 +93,33 @@ public class Scanner {
         int pc;    // idx in table
         int c;
         int terminal;
-        int endTerminal;
-        int endCount;
-        int count; // number of characters scanned (counting the offset is faster than querying it from the buffer)
+        int matchedTerminal;
+        int matchedEndOfs;
+        int endOfs;
 
-        endTerminal = ERROR;
-        endCount = 0;
-        count = 0;
+        matchedTerminal = ERROR;
+        matchedEndOfs = 0;
+        endOfs = src.getEndOfs();
         pc = start;
         do {
             terminal = table[pc + mode];
             pc += modeCount;
             if (terminal != NO_TERMINAL) {
-                endTerminal = terminal;
-                endCount = count;
+                matchedTerminal = terminal;
+                matchedEndOfs = endOfs;
             }
             c = src.read();
             if (c == Scanner.EOF) {
-                src.reset(endCount);
-                return endTerminal == ERROR ? EOF : endTerminal;
+                src.resetEndOfs(matchedEndOfs);
+                return matchedTerminal == ERROR ? EOF : matchedTerminal;
             }
-            count++;
+            endOfs++;
             while (c > table[pc]) {
                 pc += 2;
             }
             pc = table[pc + 1];
         } while (pc != ERROR_PC);
-        src.reset(endCount);
-        return endTerminal;
+        src.resetEndOfs(matchedEndOfs);
+        return matchedTerminal;
     }
 }
