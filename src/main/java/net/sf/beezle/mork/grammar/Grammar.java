@@ -22,6 +22,8 @@ import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.sushi.util.IntArrayList;
 import net.sf.beezle.sushi.util.IntBitRelation;
 import net.sf.beezle.sushi.util.IntBitSet;
+import net.sf.beezle.sushi.util.Separator;
+import net.sf.beezle.sushi.util.Strings;
 import net.sf.beezle.sushi.util.Util;
 
 import java.util.ArrayList;
@@ -52,7 +54,7 @@ public class Grammar extends GrammarCore {
 
         symbols = new String[prods.length][];
         for (i = 0; i < symbols.length; i++) {
-            symbols[i] = Util.split(prods[i], ' ');
+            symbols[i] = Strings.toArray(Separator.SPACE.split(prods[i]));
         }
         return forSymbols(symbols);
     }

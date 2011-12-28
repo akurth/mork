@@ -21,6 +21,8 @@ import junit.framework.TestCase;
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.reflect.Identity;
+import net.sf.beezle.sushi.util.Separator;
+import net.sf.beezle.sushi.util.Strings;
 import net.sf.beezle.sushi.util.Util;
 
 import java.util.ArrayList;
@@ -132,6 +134,8 @@ public class OagTest extends TestCase {
                 });
     }
 
+    private static final Separator SEPARATOR = Separator.on('>');
+
     public static Ag forRules(String[] rules) {
         int r;
         String[] prods;
@@ -144,7 +148,7 @@ public class OagTest extends TestCase {
         prods = new String[rules.length];
         allCalls = new String[rules.length][][];
         for (r = 0; r < rules.length; r++) {
-            tmp = Util.split(rules[r], '>');
+            tmp = Strings.toArray(SEPARATOR.split(rules[r]));
             prods[r] = tmp[0];
             allCalls[r] = getCalls(tmp);
         }
@@ -177,7 +181,7 @@ public class OagTest extends TestCase {
 
         prodCalls = new String[tmp.length - 1][];
         for (i = 0; i < prodCalls.length; i++) {
-            prodCalls[i] = Util.split(tmp[i + 1], ' ');
+            prodCalls[i] = Strings.toArray(Separator.SPACE.split(tmp[i + 1]));
         }
         return prodCalls;
     }
