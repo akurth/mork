@@ -55,23 +55,21 @@ public class Grammar extends GrammarBase {
             if (tmp.length == 0) {
                 throw new IllegalArgumentException();
             }
-            prod = new int[tmp.length - 1];
+            prod = new int[tmp.length];
             // count backwards to have the left-hand-side in idx when the loop has finished
-            for (int ofs = prod.length; ofs >= 0; ofs--) {
+            for (int ofs = prod.length - 1; ofs >= 0; ofs--) {
                 s = tmp[ofs];
                 idx = symbolTable.indexOf(s);
                 if (idx == -1) {
                     idx = symbolTable.size();
                     symbolTable.add(s);
                 }
-                if (ofs > 0) {
-                    prod[ofs - 1] = idx;
-                }
+                prod[ofs] = idx;
             }
             if (p == 0) {
                 grammar.start = idx;
             }
-            grammar.add(idx, prod);
+            grammar.addProduction(prod);
         }
         return grammar;
     }
