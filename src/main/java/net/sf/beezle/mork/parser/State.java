@@ -161,15 +161,11 @@ public class State {
 
     /** Calculate anything available after LR(0) automaton is complete. */
     public void prepare(PDA env, List<Shift> allShifts) {
-        Iterator<Shift> pos;
-        Shift sh;
         int prod, alt, maxAlt;
         State end;
         Reduce r;
 
-        pos = shifts.iterator();
-        while (pos.hasNext()) {
-            sh = pos.next();
+        for (Shift sh : shifts) {
             sh.prepare(env, this);
 
             allShifts.add(sh);
