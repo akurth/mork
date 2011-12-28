@@ -17,7 +17,6 @@
 
 package net.sf.beezle.mork.scanner;
 
-import net.sf.beezle.mork.grammar.IllegalSymbol;
 import net.sf.beezle.mork.grammar.Rule;
 import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.mork.regexpr.Action;
@@ -56,7 +55,7 @@ public class Expander extends Action {
         return used;
     }
 
-    public RegExpr run(RegExpr re) throws IllegalSymbol, ActionException {
+    public RegExpr run(RegExpr re) throws ActionException {
         return (RegExpr) re.visit(this);
     }
 

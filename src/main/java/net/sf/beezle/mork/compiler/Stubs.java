@@ -18,7 +18,6 @@
 package net.sf.beezle.mork.compiler;
 
 import net.sf.beezle.mork.grammar.Grammar;
-import net.sf.beezle.mork.grammar.IllegalSymbol;
 import net.sf.beezle.mork.grammar.Rule;
 import net.sf.beezle.mork.mapping.Definition;
 import net.sf.beezle.mork.mapping.Library;
@@ -27,6 +26,7 @@ import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.mork.reflect.Identity;
 import net.sf.beezle.mork.reflect.Selection;
+import net.sf.beezle.mork.regexpr.ActionException;
 import net.sf.beezle.mork.regexpr.Range;
 import net.sf.beezle.mork.regexpr.Sequence;
 import net.sf.beezle.mork.semantics.BuiltIn;
@@ -93,7 +93,7 @@ public class Stubs {
         return result;
     }
 
-    public static IntBitSet symbolSet(int[] lst) throws IllegalSymbol {
+    public static IntBitSet symbolSet(int[] lst) throws ActionException {
         IntBitSet result;
         int i, sym;
 
@@ -101,7 +101,7 @@ public class Stubs {
         for (i = 0; i < lst.length; i++) {
             sym = lst[i];
             if (result.contains(sym)) {
-                throw new IllegalSymbol("duplicate symbol", sym);
+                throw new ActionException("duplicate symbol: " + sym);
             }
             result.add(sym);
         }
