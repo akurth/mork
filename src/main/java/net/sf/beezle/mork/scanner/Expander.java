@@ -19,6 +19,7 @@ package net.sf.beezle.mork.scanner;
 
 import net.sf.beezle.mork.grammar.IllegalSymbol;
 import net.sf.beezle.mork.grammar.Rule;
+import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.mork.regexpr.Action;
 import net.sf.beezle.mork.regexpr.ActionException;
 import net.sf.beezle.mork.regexpr.Choice;
@@ -26,7 +27,6 @@ import net.sf.beezle.mork.regexpr.Loop;
 import net.sf.beezle.mork.regexpr.Range;
 import net.sf.beezle.mork.regexpr.RegExpr;
 import net.sf.beezle.mork.regexpr.Sequence;
-import net.sf.beezle.mork.regexpr.Symbol;
 import net.sf.beezle.mork.regexpr.Without;
 import net.sf.beezle.sushi.util.IntBitSet;
 
@@ -36,8 +36,6 @@ import java.util.List;
 /** stores the result from visiting a node */
 
 public class Expander extends Action {
-    private IllegalSymbol exception;
-
     private final Rule[] rules;
 
     /** symbols actually used for expanding */
@@ -45,11 +43,13 @@ public class Expander extends Action {
 
     private final IntBitSet expanding;
 
-    public Expander(Rule[] rules) {
+    private final StringArrayList symbolTable;
+
+    public Expander(Rule[] rules, StringArrayList symbolTable) {
         this.rules = rules;
         this.used = new IntBitSet();
         this.expanding = new IntBitSet();
-        this.exception = null;
+        this.symbolTable = symbolTable;
     }
 
     public IntBitSet getUsed() {
@@ -57,13 +57,7 @@ public class Expander extends Action {
     }
 
     public RegExpr run(RegExpr re) throws IllegalSymbol, ActionException {
-        RegExpr result;
-
-        result = (RegExpr) re.visit(this);
-        if (exception != null) {
-            throw exception;
-        }
-        return result;
+        return (RegExpr) re.visit(this);
     }
 
     //-----------------------------------------------------------------
@@ -77,8 +71,7 @@ public class Expander extends Action {
         RegExpr[] args;
 
         if (expanding.contains(symbol)) {
-            exception = new IllegalSymbol("illegal recursion in scanner section", symbol);
-            return new Symbol(symbol);
+            throw new ActionException("illegal recursion in scanner section for symbol " + symbolTable.getOrIndex(symbol));
         }
         used.add(symbol);
 
@@ -90,10 +83,10 @@ public class Expander extends Action {
         }
         max = lst.size();
         if (max == 0) {
-            exception = new IllegalSymbol("illegal reference to parser symbol from scanner section", symbol);
-            return new Symbol(symbol);
+            throw new ActionException("illegal reference to parser symbol '" + symbolTable.getOrIndex(symbol)
+                    + "' from scanner section");
         } else if (max == 1) {
-            re = (RegExpr) lst.get(0);
+            re = lst.get(0);
         } else {
             args = new RegExpr[max];
             lst.toArray(args);

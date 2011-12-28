@@ -30,10 +30,6 @@ import java.io.PrintStream;
 
 /** Translates Rules into an FA */
 public class FABuilder extends Action {
-    public static final String EMPTY_WORD =
-      "scanner accepts the empty word. \n" +
-      "This is illegal because it might cause infinite loops when scanning.";
-
     /**
      * Translates only those rules where the left-hand.side is contained
      * in the specified terminals set. The remaining rules are used for inlining.
@@ -48,7 +44,7 @@ public class FABuilder extends Action {
         RegExpr expanded;
         Minimizer minimizer;
 
-        expander = new Expander(rules);
+        expander = new Expander(rules, symbolTable);
         builder = new FABuilder(symbolTable);
         builder.fa = (FA) new Choice().visit(builder);
         if (verbose != null) {
@@ -81,7 +77,8 @@ public class FABuilder extends Action {
         builder.inlines = expander.getUsed();
         if (builder.fa.isEnd(builder.fa.getStart())) {
             label = (Label) builder.fa.get(builder.fa.getStart()).getLabel();
-            throw new ActionException(EMPTY_WORD + ". Symbol is " + symbolTable.get(label.getSymbol()));
+            throw new ActionException("Scanner accepts the empty word for symbol " + symbolTable.get(label.getSymbol())
+                    + ".\nThis is illegal because it might cause infinite loops when scanning.");
         }
         return builder;
     }
