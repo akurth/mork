@@ -17,9 +17,9 @@
 
 package net.sf.beezle.mork.grammar;
 
-import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.mork.regexpr.Action;
+import net.sf.beezle.mork.regexpr.ActionException;
 
 /**
  * <p>Translate regular expressions to context free grammars.
@@ -32,15 +32,9 @@ import net.sf.beezle.mork.regexpr.Action;
 
 public class GrammarBuilder extends Action {
     private int helper;   // Helper symbols
-    private GenericException exception;
 
     public GrammarBuilder(int helper) {
         this.helper = helper;
-        this.exception = null;
-    }
-
-    public GenericException getException() {
-        return exception;
     }
 
     public int getHelper() {
@@ -123,35 +117,32 @@ public class GrammarBuilder extends Action {
     }
 
     @Override
-    public Object range(char first, char last) {
+    public Object range(char first, char last) throws ActionException {
         if (first == last) {
-            exception = new GenericException("illegal character literal in parser section: " +
+            throw new ActionException("illegal character literal in parser section: " +
                 "char code=" + (int) first +
                 ":\nuse a string literal (double quotes instead of single quotes!)");
         } else {
-            exception = new GenericException("illegal range in parser section: "
+            throw new ActionException("illegal range in parser section: "
                                              + (int) first + ".." + (int) last +
                 ":\ndefine a helper symbol for this range in the scanner section and use\n" +
                 "the helper symbol instead. ");
         }
-        return new Grammar(helper);
     }
 
     @Override
-    public Object without(Object left, Object right) {
-        exception = new GenericException("illegal without operator");
-        return new Grammar(helper);
+    public Object without(Object left, Object right) throws ActionException {
+        throw new ActionException("illegal without operator");
     }
 
     //-----------------------------------------------------------------------
 
     /** helper symbols are added without gaps, starting with freeHelper. */
-    public static Grammar createGrammar(Rule[] rules, StringArrayList symbolTable) throws GenericException {
+    public static Grammar createGrammar(Rule[] rules, StringArrayList symbolTable) throws ActionException {
         int i;
         GrammarBuilder builder;
         Grammar tmp;
         Grammar buffer;
-        GenericException e;
         int firstHelper;
         int lastHelper;
 
@@ -160,10 +151,6 @@ public class GrammarBuilder extends Action {
         builder = new GrammarBuilder(firstHelper);
         for (i = 0; i < rules.length; i++) {
             tmp = (Grammar) rules[i].getRight().visit(builder);
-            e = builder.getException();
-            if (e != null) {
-                throw e;
-            }
             buffer.add(rules[i].getLeft(), tmp.getStart());
             buffer.addProductions(tmp);
             buffer.expandSymbol(tmp.getStart());

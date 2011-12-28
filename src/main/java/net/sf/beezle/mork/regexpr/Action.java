@@ -20,11 +20,11 @@ package net.sf.beezle.mork.regexpr;
 /** stores the result from visiting a node */
 
 public abstract class Action {
-    public abstract Object range(char first, char last);
+    public abstract Object range(char first, char last) throws ActionException;
     public abstract Object symbol(int symbol) throws ActionException;
 
     public abstract Object choice(Object[] body);
     public abstract Object sequence(Object[] body);
     public abstract Object loop(Object body);
-    public abstract Object without(Object left, Object right);
+    public abstract Object without(Object left, Object right) throws ActionException;
 }

@@ -83,7 +83,7 @@ public class Range extends RegExpr {
     }
 
     @Override
-    public Object visit(Action action) {
+    public Object visit(Action action) throws ActionException {
         return action.range(first, last);
     }
 
