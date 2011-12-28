@@ -85,23 +85,23 @@ public class Item implements Comparable<Item> {
         return new Item(production, dot + 1);
     }
 
-    public void addExpansion(PDA env, Collection<Item> result) {
+    public void addClosure(Grammar grammar, Collection<Item> result) {
         int symbol;
 
-        symbol = getShift(env.grammar);
+        symbol = getShift(grammar);
         if (symbol != -1) {
-            addExpansion(env, symbol, result);
+            addClosure(grammar, symbol, result);
         } else {
             // reduce item, nothing to do
         }
     }
 
-    public static void addExpansion(PDA env, int symbol, Collection<Item> result) {
+    public static void addClosure(Grammar grammar, int symbol, Collection<Item> result) {
         int alt, maxAlt;
 
-        maxAlt = env.grammar.getAlternativeCount(symbol);
+        maxAlt = grammar.getAlternativeCount(symbol);
         for (alt = 0; alt < maxAlt; alt++) {
-            result.add(new Item(env.grammar.getAlternative(symbol, alt), 0));
+            result.add(new Item(grammar.getAlternative(symbol, alt), 0));
         }
     }
 

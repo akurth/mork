@@ -54,7 +54,7 @@ public class State {
         Collection<Item> coreCol;
 
         coreCol = new ArrayList<Item>();
-        Item.addExpansion(env, symbol, coreCol);
+        Item.addClosure(env.grammar, symbol, coreCol);
         return new State(env, coreCol);
     }
 
@@ -79,7 +79,7 @@ public class State {
                 // item is already known: do nothing
             } else {
                 closure.add(item);
-                item.addExpansion(env, todo);
+                item.addClosure(env.grammar, todo);
             }
         }
     }
