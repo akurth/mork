@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PDA {
-
     public static PDA create(Grammar grammar, int start) {
         List<Shift> allShifts;
         PDA pda;
@@ -45,10 +44,9 @@ public class PDA {
     public final int start;
 
     // environment for computation
-    public final Grammar grammar;      // grammar
-    public final IntBitSet nullable;  // nullable symbols
-    public final List<State> states;      // states built so far
-
+    public final Grammar grammar;
+    public final IntBitSet nullable;
+    public final List<State> states;
 
     private State end;
 
@@ -69,29 +67,22 @@ public class PDA {
         return grammar.getSymbolCount();
     }
 
-    //-------------------------------------------------------------------
+    //--
 
     private void calcLR0() {
         int i;
-        State state;
 
         states.add(State.create(this, start));
         // note: the loop grows its upper bound
         for (i = 0; i < states.size(); i++) {
-            state = getState(i);
-            state.expand(this);
+            getState(i).expand(this);
         }
         end = getState(0).createShifted(this, start);
         end.createShifted(this, getEofSymbol());
     }
 
     private void prepare(List<Shift> shifts) {
-        int i, max;
-        State state;
-
-        max = states.size();
-        for (i = 0; i < max; i++) {
-            state = getState(i);
+        for (State state : states) {
             state.prepare(this, shifts);
         }
     }
