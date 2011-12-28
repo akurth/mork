@@ -187,12 +187,7 @@ public class State {
     }
 
     public void addReadInit(PDA env, IntBitSet result) {
-        Iterator<Shift> pos;
-        Shift sh;
-
-        pos = shifts.iterator();
-        while (pos.hasNext()) {
-            sh = pos.next();
+        for (Shift sh : shifts) {
             if (sh.isEof(env) || !env.grammar.isNonterminal(sh.symbol)) {
                 result.add(sh.symbol);
             }
@@ -200,12 +195,7 @@ public class State {
     }
 
     public void addReadImplies(PDA env, Set<Shift> result) {
-        Iterator<Shift> pos;
-        Shift sh;
-
-        pos = shifts.iterator();
-        while (pos.hasNext()) {
-            sh = pos.next();
+        for (Shift sh : shifts) {
             if (env.nullable.contains(sh.symbol)) {
                 result.add(sh);
             }
