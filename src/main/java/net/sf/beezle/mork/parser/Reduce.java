@@ -21,7 +21,6 @@ import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.sushi.util.IntBitSet;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 public class Reduce {
@@ -38,12 +37,7 @@ public class Reduce {
     }
 
     public void calcLookahead() {
-        Iterator<Shift> pos;
-        Shift sh;
-
-        pos = lookback.iterator();
-        while (pos.hasNext()) {
-            sh = pos.next();
+        for (Shift sh : lookback) {
             sh.addFollow(lookahead);
         }
     }
