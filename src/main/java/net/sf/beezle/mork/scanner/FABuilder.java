@@ -17,7 +17,7 @@
 
 package net.sf.beezle.mork.scanner;
 
-import net.sf.beezle.mork.grammar.IllegalSymbols;
+import net.sf.beezle.mork.grammar.IllegalSymbol;
 import net.sf.beezle.mork.grammar.Rule;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.misc.StringArrayList;
@@ -42,7 +42,7 @@ public class FABuilder extends Action {
     private IntBitSet inlines;
 
     // temporary state during run()
-    private IllegalSymbols exception;
+    private IllegalSymbol exception;
 
     /**
      * Translates only those rules where the left-hand.side is contained
@@ -72,8 +72,8 @@ public class FABuilder extends Action {
             if (terminals.contains(rules[i].getLeft())) {
                 expanded = (RegExpr) rules[i].getRight().visit(expander);
                 alt = (FA) expanded.visit(builder);
-                if (builder.exception!= null) {
-                    str = symbolTable.getOrIndex(builder.exception.symbols.first());
+                if (builder.exception != null) {
+                    str = symbolTable.getOrIndex(builder.exception.symbol);
                     throw new GenericException(builder.exception.getMessage() + ": " + str);
                 }
                 label = new Label(rules[i].getLeft());
@@ -135,7 +135,7 @@ public class FABuilder extends Action {
 
     @Override
     public Object symbol(int symbol) {
-        exception = new IllegalSymbols("illegal symbol in scanner section", symbol);
+        exception = new IllegalSymbol("illegal symbol in scanner section", symbol);
         return new FA();
     }
 

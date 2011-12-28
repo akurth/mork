@@ -18,7 +18,7 @@
 package net.sf.beezle.mork.compiler;
 
 import net.sf.beezle.mork.grammar.Grammar;
-import net.sf.beezle.mork.grammar.IllegalSymbols;
+import net.sf.beezle.mork.grammar.IllegalSymbol;
 import net.sf.beezle.mork.grammar.Rule;
 import net.sf.beezle.mork.mapping.Definition;
 import net.sf.beezle.mork.mapping.Library;
@@ -93,7 +93,7 @@ public class Stubs {
         return result;
     }
 
-    public static IntBitSet symbolSet(int[] lst) throws IllegalSymbols {
+    public static IntBitSet symbolSet(int[] lst) throws IllegalSymbol {
         IntBitSet result;
         int i, sym;
 
@@ -101,7 +101,7 @@ public class Stubs {
         for (i = 0; i < lst.length; i++) {
             sym = lst[i];
             if (result.contains(sym)) {
-                throw new IllegalSymbols("duplicate symbol", sym);
+                throw new IllegalSymbol("duplicate symbol", sym);
             }
             result.add(sym);
         }

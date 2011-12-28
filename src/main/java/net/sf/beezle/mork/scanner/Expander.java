@@ -17,7 +17,7 @@
 
 package net.sf.beezle.mork.scanner;
 
-import net.sf.beezle.mork.grammar.IllegalSymbols;
+import net.sf.beezle.mork.grammar.IllegalSymbol;
 import net.sf.beezle.mork.grammar.Rule;
 import net.sf.beezle.mork.regexpr.Action;
 import net.sf.beezle.mork.regexpr.Choice;
@@ -35,7 +35,7 @@ import java.util.List;
 /** stores the result from visiting a node */
 
 public class Expander extends Action {
-    private IllegalSymbols exception;
+    private IllegalSymbol exception;
 
     private final Rule[] rules;
 
@@ -55,7 +55,7 @@ public class Expander extends Action {
         return used;
     }
 
-    public RegExpr run(RegExpr re) throws IllegalSymbols {
+    public RegExpr run(RegExpr re) throws IllegalSymbol {
         RegExpr result;
 
         result = (RegExpr) re.visit(this);
@@ -76,7 +76,7 @@ public class Expander extends Action {
         RegExpr[] args;
 
         if (expanding.contains(symbol)) {
-            exception = new IllegalSymbols("illegal recursion in scanner section", symbol);
+            exception = new IllegalSymbol("illegal recursion in scanner section", symbol);
             return new Symbol(symbol);
         }
         used.add(symbol);
@@ -89,8 +89,7 @@ public class Expander extends Action {
         }
         max = lst.size();
         if (max == 0) {
-            exception = new IllegalSymbols(
-                "illegal reference to parser symbol from scanner section", symbol);
+            exception = new IllegalSymbol("illegal reference to parser symbol from scanner section", symbol);
             return new Symbol(symbol);
         } else if (max == 1) {
             re = (RegExpr) lst.get(0);

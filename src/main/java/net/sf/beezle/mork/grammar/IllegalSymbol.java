@@ -17,22 +17,11 @@
 
 package net.sf.beezle.mork.grammar;
 
-import net.sf.beezle.sushi.util.IntBitSet;
+public class IllegalSymbol extends Exception {
+    public final int symbol;
 
-/**
- * Indicate exceptions concering symbols.
- */
-
-public class IllegalSymbols extends Exception {
-    public final IntBitSet symbols;
-
-    public IllegalSymbols(String msg, IntBitSet symbols) {
+    public IllegalSymbol(String msg, int symbol) {
         super(msg);
-        this.symbols = symbols;
-    }
-    public IllegalSymbols(String msg, int symbol) {
-        super(msg);
-        symbols = new IntBitSet();
-        symbols.add(symbol);
+        this.symbol = symbol;
     }
 }
