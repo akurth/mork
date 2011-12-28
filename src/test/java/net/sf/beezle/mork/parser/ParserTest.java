@@ -23,89 +23,74 @@ import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.misc.StringArrayList;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Test that pda tables are generated without exceptions.
  * TODO: Test the generated parser on some input
  */
 public class ParserTest extends TestCase {
     public void testMult() throws GenericException {
-        check(new String[][] {
-            { "S",  "A", "A" },
-            { "A",  "B", "B" },
-            { "B",  "I" }
-        });
+        check("S A A",
+              "A B B",
+              "B I");
     }
 
     /** LALR(0) grammar */
     public void testExpr() throws GenericException {
-        check(new String[][] {
-            { "S", "G", "#" },
-            { "G", "E", "=", "E" },
-            { "G", "f" },
-            { "E", "T" },
-            { "E", "E", "+", "T" },
-            { "T", "f" },
-            { "T", "T", "*", "f" }
-        });
+        check("S G #",
+            "G E = E",
+            "G f",
+            "E T",
+            "E E + T",
+            "T f",
+            "T T * f");
     }
 
     /** SLR(0) example */
     public void testExpr2() throws GenericException {
-        check(new String[][] {
-            { "S", "E", "#" },
-            { "E", "E", "-", "T" },
-            { "E", "T" },
-            { "T", "F", "^", "T" },
-            { "T", "F" },
-            { "F", "(", "E", ")" },
-            { "F", "i" }
-        });
+        check("S E #",
+            "E E - T",
+            "E T",
+            "T F ^ T",
+            "T F",
+            "F ( E )",
+            "F i");
     }
 
     /** Tremblay Sorenson, exercise 7-4.6.1 */
     public void testExercise1() throws GenericException {
-        check(new String[][] {
-            { "S", "a", "A", "d" },
-            { "S", "a", "e", "c" },
-            { "S", "b", "A", "c" },
-            { "A", "e" }
-        });
+        check("S a A d",
+              "S a e c",
+              "S b A c",
+              "A e");
     }
 
     public void testExercise2() throws GenericException {
-        check(new String[][] {
-            { "S", "A" },
-            { "B" },
-            { "C" },
-            { "A", "B", "C", "A" },
-            { "A", "a" }
-        });
+        check("S A",
+              "B",
+              "C",
+              "A B C A",
+              "A a");
     }
 
     public void testBlocks() throws GenericException {
-        check(new String[][] {
-            { "S", "E", "$" },
-            { "E", "E", "E" },
-            { "E", "(", ")" }
-        });
+        check("S E $",
+              "E E E",
+              "E ( )");
     }
 
-    public static StringArrayList symbolTable;
 
     /**
      * Start symbol must be "S", symbol with example attribute
      * must be "I"
      */
-    public static void check(String[][] src) throws GenericException {
+    public static void check(String ... src) throws GenericException {
         Grammar grammar;
         int startSymbol;
         PDA pda;
+        StringArrayList symbolTable;
         ParserTable table;
 
-        grammar = Grammar.forSymbols(src);
+        grammar = Grammar.forProductions(src);
         symbolTable = grammar.getSymbolTable();
         startSymbol = symbolTable.indexOf("S");
 
