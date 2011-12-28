@@ -88,16 +88,17 @@ public class Ebnf extends Action {
     public Object sequence(Object[] body) {
         Grammar result;
         Grammar tmp;
-        int[] right;
+        int[] prod;
         int i;
 
         result = new Grammar(helper);
-        right = new int[body.length];
+        prod = new int[body.length + 1];
+        prod[0] = helper;
         for (i = 0; i < body.length; i++) {
             tmp = (Grammar) body[i];
-            right[i] = tmp.getStart();
+            prod[i + 1] = tmp.getStart();
         }
-        result.add(helper, right);
+        result.add(prod);
         for (i = 0; i < body.length; i++) {
             tmp = (Grammar) body[i];
             result.addProductions(tmp);

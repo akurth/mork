@@ -125,7 +125,7 @@ public class Grammar extends GrammarBase {
         }
     }
 
-    //-------------------------------------------------------------------
+    //--
 
     public int getStart() {
         return start;
@@ -320,17 +320,10 @@ public class Grammar extends GrammarBase {
         }
     }
 
-    public void add(int left, int ... right) {
-        int[] prod;
+    //--
 
-        prod = new int[right.length + 1];
-        prod[0] = left;
-        System.arraycopy(right, 0,  prod, 1,  right.length);
+    public void add(int ... prod) {
         addProduction(prod);
-    }
-
-    public void add(int left) {
-        addProduction(new int[] { left });
     }
 
     public void addProductions(Grammar right) {
