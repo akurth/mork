@@ -24,7 +24,6 @@ import net.sf.beezle.sushi.util.IntBitRelation;
 import net.sf.beezle.sushi.util.IntBitSet;
 import net.sf.beezle.sushi.util.Separator;
 import net.sf.beezle.sushi.util.Strings;
-import net.sf.beezle.sushi.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +32,7 @@ import java.util.List;
  * Context free grammar. Symbols are coded as ints. Preferred variable name for symbols is sym.
  * Productions are coded as ints. Preferred variable name for productions is prod.
  */
-public class Grammar extends GrammarCore {
+public class Grammar extends GrammarBase {
     // TODO: support helper symbols here?
 
     /** start symbol, -1 if undefined */
@@ -98,7 +97,6 @@ public class Grammar extends GrammarCore {
     }
 
     public Grammar(int start, StringArrayList symbolTable) {
-        super();
         this.start = start;
         this.symbolTable = symbolTable;
     }
@@ -377,7 +375,7 @@ public class Grammar extends GrammarCore {
             for (prod2 = prod1 - 1; prod2 >= 0; prod2--) {
                 tmp2 = getProduction(prod2);
                 if (tmp1[0] == tmp2[0]) {
-                    if (equivalent(tmp1, tmp2)) {
+                    if (equal(tmp1, tmp2)) {
                         removeProduction(prod1);
                         break;
                     }
@@ -439,7 +437,7 @@ public class Grammar extends GrammarCore {
             prod1 = lst1.get(i);
             for (j = rest.first(); j != -1; j = rest.next(j)) {
                 prod2 = lst2.get(j);
-                if (equivalent(prod1, prod2)) {
+                if (equal(prod1, prod2)) {
                     break;
                 }
             }
@@ -453,9 +451,7 @@ public class Grammar extends GrammarCore {
         return true;
     }
 
-    // a ::= a item   is equivalent to  b ::= b item
-    // TODO: is A ::= a A   equivalent to B ::= a B?
-    private static boolean equivalent(int[] prod1, int[] prod2) {
+    private static boolean equal(int[] prod1, int[] prod2) {
         int ofs;
 
         if (prod1.length != prod2.length) {
@@ -463,9 +459,7 @@ public class Grammar extends GrammarCore {
         }
         for (ofs = 0; ofs < prod1.length; ofs++) {
             if (prod1[ofs] != prod2[ofs]) {
-                if (!((prod1[ofs] == prod1[0]) && (prod2[ofs] == prod2[0]))) {
-                    return false;
-                }
+                return false;
             }
         }
         return true;

@@ -24,13 +24,13 @@ import java.util.List;
  * Helper class for Grammar. Make sure that data derived from productions (aka symbols) is
  * recomputed if the productions change.
  */
-public class GrammarCore {
+public class GrammarBase {
     /** List of int[] */
     private final List<int[]> productions;
 
     private Symbol[] symbols;
 
-    public GrammarCore() {
+    public GrammarBase() {
         this.productions = new ArrayList<int[]>();
         this.symbols = null;
     }
