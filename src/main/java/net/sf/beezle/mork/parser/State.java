@@ -351,13 +351,13 @@ public class State {
         result.append("[state " + id + "]\n");
         p1 = core.iterator();
         while (p1.hasNext()) {
-            item = (Item) p1.next();
+            item = p1.next();
             result.append(item.toString(env, symbolTable));
         }
         result.append('\n');
         p1 = closure.iterator();
         while (p1.hasNext()) {
-            item = (Item) p1.next();
+            item = p1.next();
             if (!core.contains(item)) {
                 result.append(item.toString(env, symbolTable));
             }
@@ -366,7 +366,7 @@ public class State {
         p2 = shifts.iterator();
         while (p2.hasNext()) {
             sh = p2.next();
-            result.append(sh.toString(env, symbolTable));
+            result.append(sh.toString(symbolTable));
         }
         result.append('\n');
         p3 = reduces.iterator();

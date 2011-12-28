@@ -17,7 +17,6 @@
 
 package net.sf.beezle.mork.parser;
 
-import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.sushi.util.IntBitSet;
 
@@ -28,6 +27,7 @@ import java.util.List;
 import java.util.Set;
 
 public class Shift {
+    /** symbol or eof */
     public final int symbol;
     public final State end;
 
@@ -39,9 +39,9 @@ public class Shift {
     private final Set<Shift> followImplies;    // INCLUDES: set of Shifts
     private IntBitSet follow;      // follow
 
-    public Shift(int symbolInit, State endInit) {
-        symbol = symbolInit;
-        end = endInit;
+    public Shift(int symbol, State end) {
+        this.symbol = symbol;
+        this.end = end;
 
         readInit = new IntBitSet();
         readImplies = new HashSet<Shift>();
@@ -149,7 +149,7 @@ public class Shift {
         // complete closure process
         pos = clImplies.iterator();
         while (pos.hasNext()) {
-            t = (Shift) pos.next();
+            t = pos.next();
             if (t.clN == 0) {
                 t.traverse(stack);
             }
@@ -158,7 +158,7 @@ public class Shift {
         }
         if (clN == d) {
             do {
-                t = (Shift) stack.get(stack.size() - 1);
+                t = stack.get(stack.size() - 1);
                 stack.remove(stack.size() - 1);
                 t.clN = Integer.MAX_VALUE;
                 t.clResult.addAll(clResult);
@@ -168,7 +168,7 @@ public class Shift {
 
     //--------------------------------------------------------------
 
-    public String toString(PDA env, StringArrayList symbolTable) {
+    public String toString(StringArrayList symbolTable) {
         StringBuilder result;
 
         result = new StringBuilder();
@@ -176,22 +176,6 @@ public class Shift {
         result.append(symbolTable.getOrIndex(symbol));
         result.append(" -> " + end.id + '\n');
         return result.toString();
-    }
-
-    public static void toStringShiftSet(StringArrayList symbolTable, Set<Shift> set, StringBuilder result) {
-        Iterator<Shift> pos;
-        Shift sh;
-
-        result.append('{');
-        pos = set.iterator();
-        while (pos.hasNext()) {
-            sh = (Shift) pos.next();
-            result.append(' ');
-            result.append(symbolTable.getOrIndex(sh.symbol));
-            result.append('.');
-            result.append("" + sh.end.id);
-        }
-        result.append(" }");
     }
 
     @Override
