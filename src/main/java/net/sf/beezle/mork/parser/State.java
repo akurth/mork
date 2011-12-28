@@ -283,7 +283,7 @@ public class State {
         }
     }
 
-    //-------------------------------------------------------------------
+    //--
 
     public void calcLookahead() {
         for (Reduce r : reduces) {
@@ -291,45 +291,31 @@ public class State {
         }
     }
 
-    //---------------------------------------------------------------------
+    //--
 
     public String toString(PDA env, Grammar grammar) {
         StringBuilder result;
-        Item item;
-        Iterator<Item> p1;
-        Iterator<Shift> p2;
-        Iterator<Reduce> p3;
-        Shift sh;
-        Reduce r;
         StringArrayList symbolTable;
 
         symbolTable = grammar.getSymbolTable();
         result = new StringBuilder();
         result.append("\n------------------------------\n");
         result.append("[state " + id + "]\n");
-        p1 = core.iterator();
-        while (p1.hasNext()) {
-            item = p1.next();
+        for (Item item : core) {
             result.append(item.toString(env, symbolTable));
         }
         result.append('\n');
-        p1 = closure.iterator();
-        while (p1.hasNext()) {
-            item = p1.next();
+        for (Item item : closure) {
             if (!core.contains(item)) {
                 result.append(item.toString(env, symbolTable));
             }
         }
         result.append('\n');
-        p2 = shifts.iterator();
-        while (p2.hasNext()) {
-            sh = p2.next();
+        for (Shift sh : shifts) {
             result.append(sh.toString(symbolTable));
         }
         result.append('\n');
-        p3 = reduces.iterator();
-        while (p3.hasNext()) {
-            r = p3.next();
+        for (Reduce r : reduces) {
             result.append(r.toString(grammar));
         }
         result.append("\n");
