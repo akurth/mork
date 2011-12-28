@@ -322,7 +322,7 @@ public class Grammar extends GrammarBase {
         }
     }
 
-    public void add(int left, int[] right) {
+    public void add(int left, int ... right) {
         int[] prod;
 
         prod = new int[right.length + 1];
@@ -333,14 +333,6 @@ public class Grammar extends GrammarBase {
 
     public void add(int left) {
         addProduction(new int[] { left });
-    }
-
-    public void add(int left, int right0) {
-        addProduction(new int[] { left, right0 });
-    }
-
-    public void add(int left, int right0, int right1) {
-        addProduction(new int[] { left, right0, right1 });
     }
 
     public void addProductions(Grammar right) {
