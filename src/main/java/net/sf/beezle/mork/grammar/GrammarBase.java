@@ -43,7 +43,7 @@ public class GrammarBase {
     }
 
     protected int[] getProduction(int prod) {
-        return (int[]) productions.get(prod);
+        return productions.get(prod);
     }
 
     protected void addProduction(int[] prod) {
@@ -87,7 +87,7 @@ public class GrammarBase {
                 while (pre.size() <= sym) {
                     pre.add(new PreSymbol());
                 }
-                ps = (PreSymbol) pre.get(sym);
+                ps = pre.get(sym);
                 if (ofs == 0) {
                     ps.addAlternative(prod);
                 } else {
@@ -97,7 +97,7 @@ public class GrammarBase {
         }
         symbols = new Symbol[pre.size()];
         for (sym = 0; sym < symbols.length; sym++) {
-            symbols[sym] = ((PreSymbol) pre.get(sym)).createSymbol();
+            symbols[sym] = pre.get(sym).createSymbol();
         }
     }
 }

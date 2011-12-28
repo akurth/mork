@@ -20,7 +20,6 @@ package net.sf.beezle.mork.grammar;
 /**
  * A stupid data container for Grammar.
  */
-
 public class Symbol {
     /** productions for this symbol */
     public final int[] alternatives;

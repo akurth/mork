@@ -57,7 +57,7 @@ public class PreSymbol {
             userOfs.add(new IntArrayList());
         }
 
-        ofsArray = (IntArrayList) userOfs.get(i);
+        ofsArray = userOfs.get(i);
         ofsArray.add(ofs);
     }
 
@@ -68,7 +68,7 @@ public class PreSymbol {
 
         ofss = new int[users.size()][];
         for (i = 0; i < ofss.length; i++) {
-            ofsArray = (IntArrayList) userOfs.get(i);
+            ofsArray = userOfs.get(i);
             ofss[i] = ofsArray.toArray();
         }
 
