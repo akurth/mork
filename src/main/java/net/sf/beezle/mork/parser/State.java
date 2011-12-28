@@ -205,12 +205,7 @@ public class State {
     //------------------------------------------------------------------
 
     public Shift findShift(int symbol) {
-        Shift sh;
-        Iterator<Shift> pos;
-
-        pos = shifts.iterator();
-        while (pos.hasNext()) {
-            sh = pos.next();
+        for (Shift sh : shifts) {
             if (sh.symbol == symbol) {
                 return sh;
             }
@@ -219,12 +214,7 @@ public class State {
     }
 
     public Reduce findReduce(int prod) {
-        Reduce r;
-        Iterator<Reduce> pos;
-
-        pos = reduces.iterator();
-        while (pos.hasNext()) {
-            r = pos.next();
+        for (Reduce r : reduces) {
             if (r.production == prod) {
                 return r;
             }
@@ -296,12 +286,7 @@ public class State {
     //-------------------------------------------------------------------
 
     public void calcLookahead() {
-        Iterator<Reduce> pos;
-        Reduce r;
-
-        pos = reduces.iterator();
-        while (pos.hasNext()) {
-            r = pos.next();
+        for (Reduce r : reduces) {
             r.calcLookahead();
         }
     }
