@@ -20,7 +20,6 @@ package net.sf.beezle.mork.grammar;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.sushi.util.IntArrayList;
-import net.sf.beezle.sushi.util.IntBitRelation;
 import net.sf.beezle.sushi.util.IntBitSet;
 import net.sf.beezle.sushi.util.Separator;
 import net.sf.beezle.sushi.util.Strings;
@@ -41,42 +40,38 @@ public class Grammar extends GrammarBase {
 
     // start symbol is set to the subject of the first production.
     public static Grammar forProductions(String ... prods) {
-        String[][] symbols;
-        int i;
-
-        symbols = new String[prods.length][];
-        for (i = 0; i < symbols.length; i++) {
-            symbols[i] = Strings.toArray(Separator.SPACE.split(prods[i]));
-        }
-        return forSymbols(symbols);
-    }
-
-
-    public static Grammar forSymbols(String[][] symbols) {
+        StringArrayList symbolTable;
         Grammar grammar;
-        int i, j;
         String s;
+        String[] tmp;
         int[] prod;
+        int idx;
 
         grammar = new Grammar();
-        if (symbols.length > 0) {
-            for (i = 0; i < symbols.length; i++) {
-                if (symbols[i].length == 0) {
-                    throw new IllegalArgumentException();
-                }
-                prod = new int[symbols[i].length - 1];
-                for (j = 0; j <= prod.length; j++) {
-                    s = symbols[i][j];
-                    if (grammar.symbolTable.indexOf(s) == -1) {
-                        grammar.symbolTable.add(s);
-                    }
-                    if (j > 0) {
-                        prod[j - 1] = grammar.symbolTable.indexOf(s);
-                    }
-                }
-                grammar.add(grammar.symbolTable.indexOf(symbols[i][0]), prod);
+        symbolTable = grammar.symbolTable;
+        idx = 0; // definite assignment
+        for (int p = 0; p < prods.length; p++) {
+            tmp = Strings.toArray(Separator.SPACE.split(prods[p]));
+            if (tmp.length == 0) {
+                throw new IllegalArgumentException();
             }
-            grammar.start = grammar.symbolTable.indexOf(symbols[0][0]);
+            prod = new int[tmp.length - 1];
+            // count backwards to have the left-hand-side in idx when the loop has finished
+            for (int ofs = prod.length; ofs >= 0; ofs--) {
+                s = tmp[ofs];
+                idx = symbolTable.indexOf(s);
+                if (idx == -1) {
+                    idx = symbolTable.size();
+                    symbolTable.add(s);
+                }
+                if (ofs > 0) {
+                    prod[ofs - 1] = idx;
+                }
+            }
+            if (p == 0) {
+                grammar.start = idx;
+            }
+            grammar.add(idx, prod);
         }
         return grammar;
     }
