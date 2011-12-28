@@ -174,9 +174,7 @@ public class State {
 
             allShifts.add(sh);
 
-            // calc lookback
-
-            if (sh.isSymbol(env.grammar) && env.grammar.isNonterminal(sh.symbol)) {
+            if (!sh.isEof(env) && env.grammar.isNonterminal(sh.symbol)) {
                 maxAlt = env.grammar.getAlternativeCount(sh.symbol);
                 for (alt = 0; alt < maxAlt; alt++) {
                     prod = env.grammar.getAlternative(sh.symbol, alt);
@@ -199,8 +197,7 @@ public class State {
         pos = shifts.iterator();
         while (pos.hasNext()) {
             sh = pos.next();
-            if (!(sh.isSymbol(env.grammar) && env.grammar.isNonterminal(sh.symbol))) {
-                // negative test - eof!
+            if (sh.isEof(env) || !env.grammar.isNonterminal(sh.symbol)) {
                 result.add(sh.symbol);
             }
         }

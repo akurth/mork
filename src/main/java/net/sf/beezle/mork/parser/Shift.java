@@ -63,7 +63,7 @@ public class Shift {
         // read implies
         end.addReadImplies(env, readImplies);
 
-        if (isSymbol(env.grammar) && env.grammar.isNonterminal(symbol)) {
+        if (!isEof(env) && env.grammar.isNonterminal(symbol)) {
             // read init
             end.addReadInit(env, readInit);
 
@@ -88,8 +88,8 @@ public class Shift {
         }
     }
 
-    public boolean isSymbol(Grammar grammar) {
-        return (symbol >= 0) && (symbol < grammar.getSymbolCount());
+    public boolean isEof(PDA pda) {
+        return symbol == pda.getEofSymbol();
     }
 
 
