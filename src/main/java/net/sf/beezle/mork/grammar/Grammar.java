@@ -33,13 +33,6 @@ import java.util.List;
  * Productions are coded as ints. Preferred variable name for productions is prod.
  */
 public class Grammar extends GrammarBase {
-    // TODO: support helper symbols here?
-
-    /** start symbol, -1 if undefined */
-    private int start;
-
-    private final StringArrayList symbolTable;
-
     public static final String NOT_PRODUCTIVE = "symbol(s) not productive: ";
     public static final String NOT_REACHABLE = "symbol(s) not reachable: ";
 
@@ -87,6 +80,13 @@ public class Grammar extends GrammarBase {
         }
         return grammar;
     }
+
+    //--
+
+    /** start symbol, -1 if undefined */
+    private int start;
+
+    private final StringArrayList symbolTable;
 
     public Grammar() {
         this(-1);
@@ -583,6 +583,38 @@ public class Grammar extends GrammarBase {
         }
     }
 
+    public void addRemoveable(IntBitSet result) {
+        IntBitSet remaining;  // indexes of productions
+        boolean modified;
+        int i;
+        int prod;
+        int max;
+
+        remaining = new IntBitSet();
+        remaining.addRange(0, getProductionCount() - 1);
+        do {
+            modified = false;
+            for (prod = remaining.first(); prod != -1; prod = remaining.next(prod)) {
+                if (result.contains(getLeft(prod))) {
+                    remaining.remove(prod);
+                } else {
+                    max = getLength(prod);
+                    for (i = 0; i < max; i++) {
+                        if (!result.contains(getRight(prod, i))) {
+                            break;
+                        }
+                    }
+                    if (i == max) {
+                        result.add(getLeft(prod));
+                        modified = true;
+                    }
+                }
+            }
+        } while (modified);
+    }
+
+    //--
+
     @Override
     public String toString() {
         StringBuilder buffer;
@@ -616,136 +648,5 @@ public class Grammar extends GrammarBase {
             buffer.append(' ');
             buffer.append(symbolTable.getOrIndex(getRight(prod, i)));
         }
-    }
-
-    /** compute the relation "left can directly end with right" */
-    public void addEndsRelation(IntBitSet removeable, IntBitRelation result) {
-        int count;
-        int left, right;
-        int i, j, max;
-
-        count = getProductionCount();
-        for (i = 0; i < count; i++) {
-            left = getLeft(i);
-            max = getLength(i);
-            for (j = max - 1; j >= 0; j--) {
-                right = getRight(i, j);
-                result.add(left, right);
-                if (!removeable.contains(right)) {
-                    break;
-                }
-            }
-        }
-    }
-
-    /** compute the relation "left can stay directly before right" */
-    public void addNextRelation(IntBitSet removeable, IntBitRelation result) {
-        int max;
-        int p;
-        int i;
-        int j;
-        int length;
-        int left;
-        int right;
-
-        max = getProductionCount();
-        for (p = 0; p < max; p++) {
-            length = getLength(p);
-            for (i = 0; i < length; i++) {
-                left = getRight(p, i);
-                for (j = i + 1; j < length; j++) {
-                    right = getRight(p, j);
-                    result.add(left, right);
-                    if (!removeable.contains(right)) {
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    /** compute the relation "left can directly start with right" */
-    public void addStartsRelation(IntBitSet removeable, IntBitRelation result) {
-        int max;
-        int i;
-        int j;
-        int left;
-        int right;
-        int length;
-
-        max = getProductionCount();
-        for (i = 0; i < max; i++) {
-            left = getLeft(i);
-            length = getLength(i);
-            for (j = 0; j < length; j++) {
-                right = getRight(i, j);
-                result.add(left, right);
-                if (!removeable.contains(right)) {
-                    break;
-                }
-            }
-        }
-    }
-
-    /** add all symbols to result, that are reachable from the initial
-        result */
-    public void closure(boolean down, IntBitSet result) {
-        int max;
-        int p;
-        int i;
-        int old;
-        int length;
-
-        max = getProductionCount();
-        do {
-            old = result.size();
-            for (p = 0; p < max; p++) {
-                length = getLength(p);
-                if (down) {
-                    if (result.contains(getLeft(p))) {
-                        for (i = 0; i < length; i++) {
-                            result.add(getRight(p, i));
-                        }
-                    }
-                } else {
-                    for (i = 0; i < length; i++) {
-                        if (result.contains(getRight(p, i))) {
-                            result.add(getLeft(p));
-                            break;
-                        }
-                    }
-                }
-            }
-        } while (result.size() > old);
-    }
-
-    public void addRemoveable(IntBitSet result) {
-        IntBitSet remaining;  // indexes of productions
-        boolean modified;
-        int i;
-        int prod;
-        int max;
-
-        remaining = new IntBitSet();
-        remaining.addRange(0, getProductionCount() - 1);
-        do {
-            modified = false;
-            for (prod = remaining.first(); prod != -1; prod = remaining.next(prod)) {
-                if (result.contains(getLeft(prod))) {
-                    remaining.remove(prod);
-                } else {
-                    max = getLength(prod);
-                    for (i = 0; i < max; i++) {
-                        if (!result.contains(getRight(prod, i))) {
-                            break;
-                        }
-                    }
-                    if (i == max) {
-                        result.add(getLeft(prod));
-                        modified = true;
-                    }
-                }
-            }
-        } while (modified);
     }
 }
