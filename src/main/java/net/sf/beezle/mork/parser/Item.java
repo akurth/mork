@@ -17,6 +17,7 @@
 
 package net.sf.beezle.mork.parser;
 
+import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.misc.StringArrayList;
 
 import java.util.Collection;
@@ -54,7 +55,7 @@ public class Item implements Comparable<Item> {
     public int compareTo(Item obj) {
         Item item;
 
-        item = (Item) obj;
+        item = obj;
         if (production < item.production) {
             return -1;
         } else if (production > item.production) {
@@ -72,9 +73,9 @@ public class Item implements Comparable<Item> {
 
     //-----------------------------------------------------------------
 
-    public int getShift(PDA env) {
-        if (dot < env.grammar.getLength(production)) {
-            return env.grammar.getRight(production, dot);
+    public int getShift(Grammar grammar) {
+        if (dot < grammar.getLength(production)) {
+            return grammar.getRight(production, dot);
         } else {
             return -1;
         }
@@ -87,7 +88,7 @@ public class Item implements Comparable<Item> {
     public void addExpansion(PDA env, Collection<Item> result) {
         int symbol;
 
-        symbol = getShift(env);
+        symbol = getShift(env.grammar);
         if (symbol != -1) {
             addExpansion(env, symbol, result);
         } else {

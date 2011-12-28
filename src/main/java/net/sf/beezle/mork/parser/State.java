@@ -130,7 +130,7 @@ public class State {
             pos = remaining.iterator();
             item = pos.next();
             pos.remove();
-            shift = item.getShift(env);
+            shift = item.getShift(env.grammar);
             if (shift == -1) {
                 reduces.add(new Reduce(item.production));
             } else {
@@ -138,7 +138,7 @@ public class State {
                 lst.add(item.createShifted());
                 while (pos.hasNext()) {
                     item = pos.next();
-                    if (item.getShift(env) == shift) {
+                    if (item.getShift(env.grammar) == shift) {
                         pos.remove();
                         lst.add(item.createShifted());
                     }
