@@ -22,7 +22,6 @@ import net.sf.beezle.sushi.util.IntBitSet;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -74,7 +73,7 @@ public class Shift {
                 lst = new ArrayList<Shift>();
                 if (start.trace(env, prod, lst)) {
                     for (i = lst.size() - 1; i >= 0; i--) {
-                        t = (Shift) lst.get(i);
+                        t = lst.get(i);
                         t.followImplies.add(this);
                         if (!env.nullable.contains(t.symbol)) {
                             break;
@@ -137,8 +136,7 @@ public class Shift {
 
     private void traverse(List<Shift> stack) {
         int d;  // initial stack size
-        Shift t;
-        Iterator<Shift> pos;
+        Shift s;
 
         // initialize
         stack.add(this);
@@ -147,9 +145,7 @@ public class Shift {
         clResult.addAll(clInit);
 
         // complete closure process
-        pos = clImplies.iterator();
-        while (pos.hasNext()) {
-            t = pos.next();
+        for (Shift t : clImplies) {
             if (t.clN == 0) {
                 t.traverse(stack);
             }
@@ -158,11 +154,11 @@ public class Shift {
         }
         if (clN == d) {
             do {
-                t = stack.get(stack.size() - 1);
+                s = stack.get(stack.size() - 1);
                 stack.remove(stack.size() - 1);
-                t.clN = Integer.MAX_VALUE;
-                t.clResult.addAll(clResult);
-            } while (t != this);
+                s.clN = Integer.MAX_VALUE;
+                s.clResult.addAll(clResult);
+            } while (s != this);
         }
     }
 
