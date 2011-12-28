@@ -72,6 +72,7 @@ public class Syntax {
      */
     public Parser translate(Output output) throws GenericException {
         FABuilder builder;
+        long started;
         PDA pda;
         ParserTable parserTable;
         ScannerFactory scannerFactory;
@@ -82,9 +83,10 @@ public class Syntax {
         ConflictHandler handler;
         ConflictResolver[] resolvers;
 
-        output.verbose("processing parser section");
-
+        output.verbose("creating pda");
+        started = System.currentTimeMillis();
         pda = PDA.create(grammar, grammar.getStart());
+        output.verbose("done, ms=" + (System.currentTimeMillis() - started));
         symbolCount = Math.max(grammar.getSymbolCount(), whiteSymbols.last() + 1);
         handler = new ConflictHandler(grammar, resolutions);
         parserTable = pda.createTable(symbolCount, handler);

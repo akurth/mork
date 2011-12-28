@@ -22,15 +22,14 @@ import net.sf.beezle.mork.misc.StringArrayList;
 
 import java.util.Collection;
 
-/** Immutable. */
-
+/** LR(0) item. Immutable. */
 public class Item implements Comparable<Item> {
     public final int production;
     public final int dot;
 
-    public Item(int productionInit, int dotInit) {
-        production = productionInit;
-        dot = dotInit;
+    public Item(int production, int dot) {
+        this.production = production;
+        this.dot = dot;
     }
 
     //---------------------------------------------------------------
@@ -71,8 +70,9 @@ public class Item implements Comparable<Item> {
         }
     }
 
-    //-----------------------------------------------------------------
+    //--
 
+    /** @return symbol of -1 if nothing can be shifted */
     public int getShift(Grammar grammar) {
         if (dot < grammar.getLength(production)) {
             return grammar.getRight(production, dot);

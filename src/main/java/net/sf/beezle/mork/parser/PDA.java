@@ -31,9 +31,9 @@ public class PDA {
         List<Shift> allShifts;
         PDA pda;
 
+        allShifts = new ArrayList<Shift>();
         pda = new PDA(grammar, start);
         pda.calcLR0();
-        allShifts = new ArrayList<Shift>();
         pda.prepare(allShifts);
         pda.calc(allShifts);
         pda.finish();

@@ -40,7 +40,6 @@ public class State {
     /** Set of Items. Subset of closure. Sorted in order to speed up equals(). */
     private final SortedSet<Item> core;
 
-    /** Contains core. */
     private final List<Item> closure;
 
     /** List of Shifts. */

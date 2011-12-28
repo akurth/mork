@@ -40,7 +40,7 @@ public class Grammar extends GrammarBase {
         StringArrayList symbolTable;
         Grammar grammar;
         String s;
-        String[] tmp;
+        String[] stringProd;
         int[] prod;
         int idx;
 
@@ -48,14 +48,14 @@ public class Grammar extends GrammarBase {
         symbolTable = grammar.symbolTable;
         idx = 0; // definite assignment
         for (int p = 0; p < prods.length; p++) {
-            tmp = Strings.toArray(Separator.SPACE.split(prods[p]));
-            if (tmp.length == 0) {
+            stringProd = Strings.toArray(Separator.SPACE.split(prods[p]));
+            if (stringProd.length == 0) {
                 throw new IllegalArgumentException();
             }
-            prod = new int[tmp.length];
+            prod = new int[stringProd.length];
             // count backwards to have the left-hand-side in idx when the loop has finished
             for (int ofs = prod.length - 1; ofs >= 0; ofs--) {
-                s = tmp[ofs];
+                s = stringProd[ofs];
                 idx = symbolTable.indexOf(s);
                 if (idx == -1) {
                     idx = symbolTable.size();
