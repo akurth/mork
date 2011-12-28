@@ -204,19 +204,6 @@ public class State {
 
     //------------------------------------------------------------------
 
-    public void addLookahead() {
-        Reduce r;
-        Iterator<Reduce> pos;
-
-        pos = reduces.iterator();
-        while (pos.hasNext()) {
-            r = pos.next();
-            r.calcLookahead();
-        }
-    }
-
-    //------------------------------------------------------------------
-
     public Shift findShift(int symbol) {
         Shift sh;
         Iterator<Shift> pos;
