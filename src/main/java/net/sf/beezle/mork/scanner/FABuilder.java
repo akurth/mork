@@ -18,7 +18,6 @@
 package net.sf.beezle.mork.scanner;
 
 import net.sf.beezle.mork.grammar.Rule;
-import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.mork.regexpr.Action;
 import net.sf.beezle.mork.regexpr.ActionException;
@@ -29,27 +28,18 @@ import net.sf.beezle.sushi.util.IntBitSet;
 
 import java.io.PrintStream;
 
-/** stores the result from visiting a node */
-
+/** Translates Rules into an FA */
 public class FABuilder extends Action {
     public static final String EMPTY_WORD =
       "scanner accepts the empty word. \n" +
       "This is illegal because it might cause infinite loops when scanning.";
-
-    // result variables
-    private FA fa;
-    private int errorSi;
-    private IntBitSet inlines;
-
-    // temporary state during run()
-    private StringArrayList symbolTable;
 
     /**
      * Translates only those rules where the left-hand.side is contained
      * in the specified terminals set. The remaining rules are used for inlining.
      */
     public static FABuilder run(Rule[] rules, IntBitSet terminals, StringArrayList symbolTable, PrintStream verbose)
-            throws GenericException {
+            throws ActionException {
         FA alt;
         int i;
         Expander expander;
@@ -89,18 +79,23 @@ public class FABuilder extends Action {
         builder.fa = minimizer.run();
         builder.errorSi = minimizer.getNewSi(builder.errorSi);
         builder.inlines = expander.getUsed();
-
         if (builder.fa.isEnd(builder.fa.getStart())) {
             label = (Label) builder.fa.get(builder.fa.getStart()).getLabel();
-            throw new GenericException(EMPTY_WORD + ". Symbol is " +
-                                symbolTable.get(label.getSymbol()));
+            throw new ActionException(EMPTY_WORD + ". Symbol is " + symbolTable.get(label.getSymbol()));
         }
-
         return builder;
     }
 
-    //----------------
-    // obtain results
+    //--
+
+    // result variables
+    private FA fa;
+    private int errorSi;
+    private IntBitSet inlines;
+
+    // temporary state during run()
+    private StringArrayList symbolTable;
+
 
     public FA getFA() {
         return fa;
@@ -114,7 +109,7 @@ public class FABuilder extends Action {
         return errorSi;
     }
 
-    //----------------
+    //--
 
     private FABuilder(StringArrayList symbolTable) {
         this.symbolTable = symbolTable;
@@ -122,8 +117,7 @@ public class FABuilder extends Action {
         // errorSi and fa will be assigned by run():
     }
 
-    //-----------------------------------------------------------------
-    // implement action interface
+    //-- action methods
 
     @Override
     public Object symbol(int symbol) throws ActionException {

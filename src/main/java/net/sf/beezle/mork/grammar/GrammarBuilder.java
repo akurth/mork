@@ -22,15 +22,40 @@ import net.sf.beezle.mork.regexpr.Action;
 import net.sf.beezle.mork.regexpr.ActionException;
 
 /**
- * <p>Translate regular expressions to context free grammars.
- * Operates on Grammars.</p>
+ * <p>Translate regular expressions to context free grammars.</p>
  *
- * <p>Note: The Grammar start symbol is always expandable
- * (i.e.: it is never used at the right-hand-side). Recursion usually
- * expands the right-hand-side symbol.</p>
+ * <p>Note: The Grammar start symbol is always expandable (i.e.: it is never used at the right-hand-side).
+ * Recursion usually expands the right-hand-side symbol.</p>
  */
-
 public class GrammarBuilder extends Action {
+    /** helper symbols are added without gaps, starting with freeHelper. */
+    public static Grammar run(Rule[] rules, StringArrayList symbolTable) throws ActionException {
+        int i;
+        GrammarBuilder builder;
+        Grammar tmp;
+        Grammar buffer;
+        int firstHelper;
+        int lastHelper;
+
+        firstHelper = symbolTable.size();
+        buffer = new Grammar(rules[0].getLeft(), symbolTable);
+        builder = new GrammarBuilder(firstHelper);
+        for (i = 0; i < rules.length; i++) {
+            tmp = (Grammar) rules[i].getRight().visit(builder);
+            buffer.add(rules[i].getLeft(), tmp.getStart());
+            buffer.addProductions(tmp);
+            buffer.expandSymbol(tmp.getStart());
+            buffer.removeProductions(tmp.getStart());
+        }
+        lastHelper = builder.getHelper() - 1;
+        buffer.removeDuplicateSymbols(firstHelper, lastHelper);
+        buffer.removeDuplicateRules();
+        buffer.packSymbols(firstHelper, lastHelper + 1);
+        return buffer;
+    }
+
+    //--
+
     private int helper;   // Helper symbols
 
     public GrammarBuilder(int helper) {
@@ -133,33 +158,5 @@ public class GrammarBuilder extends Action {
     @Override
     public Object without(Object left, Object right) throws ActionException {
         throw new ActionException("illegal without operator");
-    }
-
-    //-----------------------------------------------------------------------
-
-    /** helper symbols are added without gaps, starting with freeHelper. */
-    public static Grammar createGrammar(Rule[] rules, StringArrayList symbolTable) throws ActionException {
-        int i;
-        GrammarBuilder builder;
-        Grammar tmp;
-        Grammar buffer;
-        int firstHelper;
-        int lastHelper;
-
-        firstHelper = symbolTable.size();
-        buffer = new Grammar(rules[0].getLeft(), symbolTable);
-        builder = new GrammarBuilder(firstHelper);
-        for (i = 0; i < rules.length; i++) {
-            tmp = (Grammar) rules[i].getRight().visit(builder);
-            buffer.add(rules[i].getLeft(), tmp.getStart());
-            buffer.addProductions(tmp);
-            buffer.expandSymbol(tmp.getStart());
-            buffer.removeProductions(tmp.getStart());
-        }
-        lastHelper = builder.getHelper() - 1;
-        buffer.removeDuplicateSymbols(firstHelper, lastHelper);
-        buffer.removeDuplicateRules();
-        buffer.packSymbols(firstHelper, lastHelper + 1);
-        return buffer;
     }
 }

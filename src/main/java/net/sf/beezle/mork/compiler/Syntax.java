@@ -54,7 +54,7 @@ public class Syntax {
         if (parserRules.length == 0) {
             throw new IllegalArgumentException();
         }
-        this.grammar = GrammarBuilder.createGrammar(parserRules, symbolTable);
+        this.grammar = GrammarBuilder.run(parserRules, symbolTable);
         this.resolutions = resolutions;
         this.priorities = priorities;
         if (whiteSymbols != null) {
