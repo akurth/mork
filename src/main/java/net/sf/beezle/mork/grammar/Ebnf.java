@@ -42,7 +42,7 @@ public class Ebnf extends Action {
         builder = new Ebnf(firstHelper);
         for (i = 0; i < rules.length; i++) {
             tmp = (Grammar) rules[i].getRight().visit(builder);
-            buffer.add(rules[i].getLeft(), tmp.getStart());
+            buffer.addProduction(new int[]{rules[i].getLeft(), tmp.getStart()});
             buffer.addProductions(tmp);
             buffer.expandSymbol(tmp.getStart());
             buffer.removeProductions(tmp.getStart());
@@ -75,7 +75,7 @@ public class Ebnf extends Action {
         result = new Grammar(helper);
         for (i = 0; i < body.length; i++) {
             tmp = (Grammar) body[i];
-            result.add(helper, tmp.getStart());
+            result.addProduction(new int[]{helper, tmp.getStart()});
             result.addProductions(tmp);
             result.expandSymbol(tmp.getStart());
             result.removeProductions(tmp.getStart());
@@ -98,7 +98,7 @@ public class Ebnf extends Action {
             tmp = (Grammar) body[i];
             prod[i + 1] = tmp.getStart();
         }
-        result.add(prod);
+        result.addProduction(prod);
         for (i = 0; i < body.length; i++) {
             tmp = (Grammar) body[i];
             result.addProductions(tmp);
@@ -117,12 +117,12 @@ public class Ebnf extends Action {
 
         body = (Grammar) rawBody;
         result = new Grammar(helper + 1);
-        result.add(helper + 1, helper);
+        result.addProduction(new int[]{helper + 1, helper});
 
         // generate left-recursive rule, even though this would
         // cause problems for LL parsers
-        result.add(helper,   helper, body.getStart());
-        result.add(helper,   body.getStart());
+        result.addProduction(new int[]{helper, helper, body.getStart()});
+        result.addProduction(new int[]{helper, body.getStart()});
 
         result.addProductions(body);
         result.expandSymbol(body.getStart());
@@ -137,7 +137,7 @@ public class Ebnf extends Action {
         Grammar result;
 
         result = new Grammar(helper);
-        result.add(helper, symbol);
+        result.addProduction(new int[]{helper, symbol});
         helper++;
         return result;
     }

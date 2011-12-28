@@ -322,10 +322,6 @@ public class Grammar extends GrammarBase {
 
     //--
 
-    public void add(int ... prod) {
-        addProduction(prod);
-    }
-
     public void addProductions(Grammar right) {
         int i;
         int max;
