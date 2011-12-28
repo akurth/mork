@@ -153,7 +153,8 @@ public class State implements Compare {
         return transportAttribute;
     }
 
-    //---------------------------------------------------------------------------
+    //--
+
     private static final Function TMP_FUNCTION = new Identity("tmp", Object.class);
 
     public void createSemanticsBuffer(Ag sems, Transport transport) {
@@ -299,7 +300,7 @@ public class State implements Compare {
         return result;
     }
 
-    //----------------------------------------------------------------------------
+    //--
 
     public Occurrence calcOccurrence(AgBuffer copyBuffer, List<Attribute> stack) {
         Alternative ab;
@@ -330,7 +331,7 @@ public class State implements Compare {
         return Occurrence.alternate(alt);
     }
 
-    //-----------------------
+    //--
 
     public static State merge(Map<Attribute, Merger> mapping, List<State> copies) {
         State first;
@@ -380,7 +381,7 @@ public class State implements Compare {
         return ab;
     }
 
-    //-----------------------------------------------------------------
+    //--
 
     public void getSequence(int seq,
                             List<Attribute> nextAttrs, IntArrayList nextOfss, IntArrayList nextSeqs, AgBuffer cb) {
@@ -468,7 +469,7 @@ public class State implements Compare {
         return occ;
     }
 
-    //------------------
+    //--
 
     public String toRawString() {
         return toString(true);

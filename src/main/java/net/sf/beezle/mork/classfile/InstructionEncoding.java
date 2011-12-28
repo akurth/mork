@@ -37,7 +37,7 @@ public class InstructionEncoding implements Bytecodes, Constants {
         this.type = type;
     }
 
-    //-----------------------------------------------------------------
+    //--
 
     /**
      * all opcodes except for tableswitch, lookupswitch and wide are considered "normal"

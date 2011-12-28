@@ -130,8 +130,7 @@ public class PDA {
         }
     }
 
-    //----------------------------------------------------------------
-
+    //--
 
     public ParserTable createTable(int lastSymbol, ConflictHandler handler) throws GenericException {
         // the initial syntaxnode created by the start action is ignoed!
@@ -149,7 +148,7 @@ public class PDA {
         return result;
     }
 
-    //----------------------------------------------------------------
+    //--
 
     public int size() {
         return states.size();

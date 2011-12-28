@@ -65,7 +65,7 @@ public class ScannerFactory {
      */
     private final char[] table;
 
-    //-----------------------------------------------------------------
+    //--
 
     public static ScannerFactory create(
         FA fa, int errorSi, ParserTable parserTable, IntBitSet whites, PrintStream verbose, PrintStream listing)

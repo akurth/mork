@@ -62,8 +62,7 @@ public class Output extends PrintStreamErrorHandler {
         listing = null;
     }
 
-    //-----------------------------------------------------------
-    // error and warning messages
+    //-- error and warning messages
 
     public void normal(String str) {
         if (normal != null) {
@@ -87,8 +86,7 @@ public class Output extends PrintStreamErrorHandler {
         }
     }
 
-    //----------------------------------------------------------------
-    // listing
+    //-- listing
 
     public void openListing(File listingFile) {
         if (listingFile != null) {

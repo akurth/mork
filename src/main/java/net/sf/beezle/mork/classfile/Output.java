@@ -90,8 +90,7 @@ public class Output implements Constants {
         dest.close();
     }
 
-    //----------------------------------------------------------------
-    // code context
+    //-- code context
 
     public void openCode(Code code) {
         if (context != null) {
@@ -131,8 +130,7 @@ public class Output implements Constants {
         writeU2(context.findOfs(idx));
     }
 
-    //-----------------------------------------------------------------
-    // write primitives
+    //-- write primitives
 
     public void write(byte[] data) throws IOException {
         write(data, 0, data.length);
@@ -166,7 +164,7 @@ public class Output implements Constants {
         IO.writeU4(dest, u4);
     }
 
-    //---------------------------------------------------------------------
+    //--
 
     public void writeConstant(Object obj) throws IOException {
         MethodRef m;

@@ -119,7 +119,7 @@ public class GenericCompiler extends CustomCompiler implements Bytecodes {
     }
 
 
-    //------------------------------------------------------------------
+    //--
 
     // helper method for constructor
     private Function findField(String name) {

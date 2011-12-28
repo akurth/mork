@@ -59,7 +59,7 @@ public class Expander extends Action {
         return (RegExpr) re.visit(this);
     }
 
-    //-----------------------------------------------------------------
+    //--
 
     @Override
     public Object symbol(int symbol) throws ActionException {

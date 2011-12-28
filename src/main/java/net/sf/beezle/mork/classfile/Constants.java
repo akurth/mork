@@ -22,8 +22,7 @@ package net.sf.beezle.mork.classfile;
  */
 
 public interface Constants {
-    //-----------------------------------------------------------
-    // constants that originate from JVM spec
+    //-- constants that originate from JVM spec
 
     int MAGIC = 0xcafebabe;
 
@@ -51,8 +50,7 @@ public interface Constants {
     byte CONSTANT_NAMEANDTYPE        = 12;
     byte CONSTANT_UTF8               = 1;
 
-    //---------------------------------------------------------------
-    // InstructionType encoding.
+    //-- InstructionType encoding.
     int SIMPLE  = 0;
     int LV      = 1;
     int INC     = 2;
@@ -81,8 +79,7 @@ public interface Constants {
     int SUCC_JSR = 6;
     int SUCC_RET = 7;
 
-    //----------------------------------------------------------------------
-    // special values for stackdiff
+    //-- special values for stackdiff
 
     int MULTIARRAY_STACK      = 1011;
     int INVOKEVIRTUAL_STACK   = 1012;
@@ -97,8 +94,7 @@ public interface Constants {
     int ERROR_STACK           = 1021;
        // start of illegal values
 
-    //-----------------------------------------------------------------------
-    // argument encoding (AE)
+    //-- argument encoding (AE)
 
     // implicit argumtents; they come first. _I_ stands for implicit
     int AE_I_NULL =  0;

@@ -46,7 +46,7 @@ public class OagBuilder {
         grammar.getSymbols(symbols);
     }
 
-    //--------
+    //--
 
     public static Visits[] run(Ag ag, Layout layout, boolean verbose) throws GenericException {
         OagBuilder builder;

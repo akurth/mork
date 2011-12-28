@@ -25,7 +25,7 @@ import java.util.List;
 public class Choice extends RegExpr {
     private final RegExpr[] body;
 
-    //----------------------------------------------------------------
+    //--
 
     public Choice(RegExpr ... body) {
         this.body = body;

@@ -25,7 +25,7 @@ public class Without extends RegExpr {
     private final RegExpr left;
     private final RegExpr right;
 
-    //----------------------------------------------------------------
+    //--
 
     public Without(RegExpr left, RegExpr right) {
         this.left = left;

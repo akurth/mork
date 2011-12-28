@@ -95,7 +95,7 @@ public class Field extends Function implements Bytecodes {
         }
     }
 
-    //----------------------------------------------------------------------
+    //--
 
     /**
      * Tests whether this Field is static.
@@ -137,7 +137,7 @@ public class Field extends Function implements Bytecodes {
         return NO_CLASSES;
     }
 
-    //-----------------------------------------------------------------------
+    //--
 
     /**
      * Reads this Field.
@@ -160,7 +160,7 @@ public class Field extends Function implements Bytecodes {
         }
     }
 
-    //--------------------------------------------------------------------
+    //--
     // manual serialization. Automatic serialization is not possible,
     // because Java Fields are not serializable.
 
@@ -182,8 +182,7 @@ public class Field extends Function implements Bytecodes {
         field = read(in);
     }
 
-    //-------------------------------------------------------------------
-    //  additional functionality for Java Fields
+    //-- additional functionality for Java Fields
 
     /**
      * Writes a Java Field.

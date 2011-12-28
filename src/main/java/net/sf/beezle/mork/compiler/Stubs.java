@@ -55,7 +55,7 @@ public class Stubs {
 
     public static final String ILLEGAL_INLINE = "defining attributes for inline symbols is illegal";
 
-    //---------------------------------------------------------------------
+    //--
 
     // TODO
     public static Object sideEffect(List a, List b, List c, List d) {

@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * TODO: dump
- * 
+ *
  * List of Strings. Similar to java.util.List or java.util.ArrayList,
  * but elements are Strings. Generic collections for Java would remove
  * the need for StringArrayList. I chose to name the class StringArrayList
@@ -51,7 +51,7 @@ public class StringArrayList implements Serializable {
         this.data = data;
     }
 
-    //--------------------------------------------------------------
+    //--
 
     /**
      * Creates a new empty List
@@ -72,7 +72,7 @@ public class StringArrayList implements Serializable {
         System.arraycopy(orig.data, 0, data, 0, size);
     }
 
-    //----------------------------------------------------------------
+    //--
     // operations
 
     /**
@@ -170,13 +170,13 @@ public class StringArrayList implements Serializable {
     }
 
 
-    //---------------------------------------------------------------------
+    //--
 
 
     // TODO
     public List<String> toList() {
         List<String> result;
-        
+
         result = new ArrayList<String>();
         for (int i = 0; i < size; i++) {
             result.add(data[i]);

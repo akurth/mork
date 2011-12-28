@@ -96,8 +96,7 @@ public class Pool implements Constants {
         return objects.get(idx);
     }
 
-    //---------------------------------------------------------------
-    // write, add constants
+    //-- write, add constants
 
     // if could determin id via obj.getClass(), but the caller known
     // the id and and int id is easier to handle than a reference.
@@ -145,7 +144,7 @@ public class Pool implements Constants {
         return -1;
     }
 
-    //------------------------------------------------------------------
+    //--
 
     public int addIfNew(int id, Object obj) {
         int result;
@@ -172,7 +171,7 @@ public class Pool implements Constants {
         return result;
     }
 
-    //------------------------------------------------------------------
+    //--
     // object -> bytes.
     // Methods here can not be static because they
     // may recursively add other constants.
@@ -293,8 +292,7 @@ public class Pool implements Constants {
                                 (byte) (b >> 8), (byte) b };
     }
 
-    //-------------------------------------------------------------
-    // read
+    //-- read
 
     private static byte[] readBytes(InputStream src) throws IOException {
         int id;
@@ -390,7 +388,7 @@ public class Pool implements Constants {
         return (((long) bytesToU4(bytes, ofs)) << 32) | (((long) bytesToU4(bytes, ofs + 4)) & 0xffffffff);
     }
 
-    //----------------------------------------------------------------
+    //--
 
     private static int getData(int id) {
         switch (id) {
@@ -435,8 +433,7 @@ public class Pool implements Constants {
     }
 
 
-    //----------------------------------------------------------------
-    // utf encode/decode
+    //-- utf encode/decode
 
     public static String fromUtf8(byte[] info, int ofs, int max) {
         StringBuilder result;

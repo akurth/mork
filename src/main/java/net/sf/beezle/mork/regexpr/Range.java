@@ -30,7 +30,7 @@ public class Range extends RegExpr {
 
     public static final Range ALL = new Range((char) 0, Character.MAX_VALUE);
 
-    //-------------------------------------------------------------------
+    //--
 
     public Range(char firstAndLast) {
         this(firstAndLast, firstAndLast);
@@ -46,7 +46,7 @@ public class Range extends RegExpr {
         this.last = last;
     }
 
-    //--------------------------------------------------------------------
+    //--
 
     public char getFirst() {
         return first;
@@ -87,7 +87,7 @@ public class Range extends RegExpr {
         return action.range(first, last);
     }
 
-    //--------------------------------------------------------
+    //--
 
     /**
      * @return intersection between both ranges
@@ -194,7 +194,7 @@ public class Range extends RegExpr {
     }
 
 
-    //-----------------------------------------------------------------
+    //--
 
     @Override
     public String toString() {

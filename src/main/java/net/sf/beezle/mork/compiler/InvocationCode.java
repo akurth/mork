@@ -124,7 +124,7 @@ public class InvocationCode implements Bytecodes {
         dest.emit(INVOKESPECIAL, destConstr);
     }
 
-    //-----------------------------------------------------------------
+    //--
 
     public void save(File file) throws IOException {
         int deflt;

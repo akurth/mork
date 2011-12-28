@@ -34,7 +34,7 @@ public class Attribute {
 
     public final Type type;
 
-    //------------------------------------------------------------
+    //--
 
     public Attribute(int symbol, String name, Type type) {
         this.name = name;
@@ -74,7 +74,7 @@ public class Attribute {
     public int hashCode() {
         return symbol;
     }
-    
+
     @Override
     public String toString() {
         return "symbol=" + symbol + ", name=" + name + ", " + type;

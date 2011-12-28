@@ -232,7 +232,7 @@ public class Path {
         return null;
     }
 
-    //----------------------------
+    //--
 
     private static void transport(Grammar grammar, Attribute seed, int move, IntBitSet rawBorder,
                                   IntBitSet targetSymbols, List<AgBuffer> resultBuffers) {

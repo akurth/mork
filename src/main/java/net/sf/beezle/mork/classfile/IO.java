@@ -105,7 +105,7 @@ public class IO {
         return (a << 24) | (b << 16) | (c << 8) | d;
     }
 
-    //---------------------------------------------------------------------
+    //--
 
     // no added functionality, just for symmetry reasons
     public static void write(OutputStream dest, byte[] data, int ofs, int len) throws IOException {

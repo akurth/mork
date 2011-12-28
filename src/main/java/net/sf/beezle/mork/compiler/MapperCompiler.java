@@ -144,8 +144,7 @@ public class MapperCompiler implements Bytecodes {
         return result;
     }
 
-    //------------------------------------------------------------------
-    // declarations how to compile the various classes
+    //-- declarations how to compile the various classes
 
     private static final CustomCompiler[] customs = {
         null,  // reserved for function compiler
@@ -191,8 +190,7 @@ public class MapperCompiler implements Bytecodes {
             "net.sf.beezle.mork.compiler.MapperCompiler.loadField")
     };
 
-    //----------------------------------------------------------------
-    // static "constructor" code for various GenericCompiler
+    //-- static "constructor" code for various GenericCompiler
 
     public static int saveInteger(Integer i) {
         return i.intValue();

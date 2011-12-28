@@ -85,7 +85,7 @@ public class Constant extends Function implements Bytecodes {
 
     }
 
-    //-----------------------------------------------------------------------
+    //--
 
     /**
      * Gets the Function name.
@@ -125,7 +125,7 @@ public class Constant extends Function implements Bytecodes {
         return val;
     }
 
-    //--------------------------------------------------------------------
+    //--
     // Manual serialization. Automatic serialization is not possible because
     // Java Methods are not serializable.
 

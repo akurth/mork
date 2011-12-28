@@ -41,8 +41,7 @@ public class FA {
     /** End states */
     private IntBitSet ends;
 
-    //-------------------------------------------------------------
-    // construction
+    //-- construction
 
     public FA() {
         states = new State[INITIAL_STATES];
@@ -63,7 +62,7 @@ public class FA {
         ends = new IntBitSet(orig.ends);
     }
 
-    //---------------------------------------------------------------
+    //--
 
     private void ensureCapacity(int idx) {
         int size;
@@ -92,8 +91,7 @@ public class FA {
         }
     }
 
-    //-----------------------------------------------------------------
-    // state primitives
+    //-- state primitives
 
     /**
      * Inserts a new states to the automaton. New states are
@@ -136,8 +134,7 @@ public class FA {
         }
     }
 
-    //------------------------------------------------------------------
-    // special states
+    //-- special states
 
     /**
      * @return -1 if no start state has been set.
@@ -178,8 +175,7 @@ public class FA {
         return ends.next(state);
     }
 
-    //---------------------------------------------------------------
-    // combinatation of FA
+    //-- combinatation of FA
 
     public void sequence(FA seq) {
         int idx;
@@ -288,8 +284,7 @@ public class FA {
         return relocation;
     }
 
-    //------------------------------------------------------------------
-    // analysis
+    //-- analysis
 
     /**
      * Its too expensive to compute a single epsilong closure.
@@ -326,8 +321,7 @@ public class FA {
         return result;
     }
 
-    //-------------------------------------------------------------------
-    // toString
+    //--
 
     @Override
     public String toString() {

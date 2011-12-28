@@ -61,7 +61,7 @@ public class Transport {
         return fn;
     }
 
-    //----------------------------------------------------------------
+    //--
 
     /**
      * @param src   list of attributes
@@ -132,7 +132,7 @@ public class Transport {
         }
     }
 
-    //-----------------------------------------------------------------
+    //--
     // static functions for transport attribution
 
     public static Object createOption() {

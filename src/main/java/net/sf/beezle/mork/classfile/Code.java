@@ -209,8 +209,7 @@ public class Code extends Attribute implements Constants {
         } while (changes);
     }
 
-    //---------------------------------------------------------------------
-    // code context
+    //-- code context
 
     public int findEndIdxOrLast(int startIdx, int len) {
         return findIdxOrLast(instructions.get(startIdx).ofs + len);
@@ -263,7 +262,7 @@ public class Code extends Attribute implements Constants {
         return instructions.get(resolveLabel(idx)).ofs;
     }
 
-    //-----------------------------------------------------------------
+    //--
     // Labels are argument to goto and if..
     // a forward reference is first declared and then defined
 
@@ -297,7 +296,7 @@ public class Code extends Attribute implements Constants {
         return instructions.size();
     }
 
-    //-----------------------------------------------------------------
+    //--
 
     @Override
     public String toString() {
@@ -327,7 +326,7 @@ public class Code extends Attribute implements Constants {
         return result.toString();
     }
 
-    //------------------------------------------------------------------
+    //--
 
     /** pc is increased by 1. */
     public void emitGeneric(int opcode, Object[] args) {
@@ -373,7 +372,7 @@ public class Code extends Attribute implements Constants {
         emitGeneric(opcode, new Object[] { a, b, c });
     }
 
-    //------------------------------------------------------------------------------
+    //--
 
     // similar to emit(), but with PC specified
     public int declareFixup() {
@@ -428,7 +427,7 @@ public class Code extends Attribute implements Constants {
     }
 
 
-    //-------------------------------------------------------------------
+    //--
 
     // computed the stack size
     private int calcStackSize() {
@@ -518,8 +517,7 @@ public class Code extends Attribute implements Constants {
         }
     }
 
-    //--------------------
-    // TODO
+    //-- TODO
 
     public int allocate(ClassRef cl) {
         int result;

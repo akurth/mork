@@ -40,8 +40,7 @@ public class Node {
 
     private static final Object[] NO_ATTRIBUTES = new Object[0];
 
-    //---------------------------------------------------------------------
-    // Construction
+    //-- Construction
 
     public Node(NodeFactory pool, int children, int attributes, Visits visits) {
         this.pool = pool;
@@ -63,8 +62,7 @@ public class Node {
         this.ofs = 0;
     }
 
-    //---------------------------------------------------------------------
-    // access
+    //-- access
 
     public String getText() {
         return "TODO";

@@ -49,7 +49,7 @@ public class Shift {
         follow = new IntBitSet();
     }
 
-    //----------------------------------------------------------------------
+    //--
 
     /** calculate anything available when LR(0) is implete. */
 
@@ -92,7 +92,7 @@ public class Shift {
     }
 
 
-    //----------------------------------------------------------------------
+    //--
 
     // for closure computation
     private IntBitSet clInit;

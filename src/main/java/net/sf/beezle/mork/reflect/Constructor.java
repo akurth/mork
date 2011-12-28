@@ -96,7 +96,7 @@ public class Constructor extends Function implements Bytecodes {
     }
 
 
-    //------------------------------------------------------------------
+    //--
 
     /**
      * Gets the Function name.
@@ -153,7 +153,7 @@ public class Constructor extends Function implements Bytecodes {
         }
     }
 
-    //----------------------------------------------------------------------
+    //--
     // Manual serialization. Automatic Serialization is not possible
     // because Java Constructors are not serializable.
 
@@ -173,7 +173,7 @@ public class Constructor extends Function implements Bytecodes {
         constr = read(in);
     }
 
-    //-----------------------------------------------------------------------
+    //--
     // additional functionality for Java Methods
 
     /**

@@ -32,7 +32,7 @@ public class Layout {
         attrs = new ArrayList<List<Attribute>>();
     }
 
-    //-------------------------------------------------------------
+    //--
 
     // returns location or -1
     public int locate(Attribute attr) {
@@ -84,7 +84,7 @@ public class Layout {
         return new Attribution(ab.function, ab.result.ofs, resultLocation, argsOfs, argsLocation);
     }
 
-    //-------------------------------------------------------------
+    //--
 
     // adds if new ...
     public void add(Attribute attr) {

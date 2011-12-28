@@ -42,7 +42,7 @@ public class Method extends Function implements Bytecodes {
     /** Java Method wrapped by this Function. */
     private java.lang.reflect.Method meth;
 
-    //------------------------------------------------------------
+    //--
 
     public static Selection forName(String name) {
         int idx;
@@ -108,7 +108,7 @@ public class Method extends Function implements Bytecodes {
         }
     }
 
-    //----------------------------------------------------------------------
+    //--
 
     /**
      * Returns true if a static Java Method is wrapped.
@@ -164,7 +164,7 @@ public class Method extends Function implements Bytecodes {
         return meth.getExceptionTypes();
     }
 
-    //-----------------------------------------------------------------------
+    //--
 
     /**
      * Invokes the wrapped Java Method. Throws Exceptions raised in the
@@ -204,7 +204,7 @@ public class Method extends Function implements Bytecodes {
     }
 
 
-    //--------------------------------------------------------------------
+    //--
     // Manual serialization. Automatic serialization is not possible because
     // Java Methods are not serializable.
 
@@ -226,8 +226,7 @@ public class Method extends Function implements Bytecodes {
         meth = read(in);
     }
 
-    //------------------------------------------------------------------------
-    // additional functionality for Java Constructors
+    //-- additional functionality for Java Constructors
 
     /**
      * Writes a Java Method object.

@@ -191,8 +191,7 @@ public class Grammar extends GrammarBase {
         return getSymbol(sym).userOfs[no][idx];
     }
 
-    //-----------------------------------------------------------------------
-    // grammar sets
+    //-- grammar sets
 
     /**
      * Every index less than getSymbolCount() is a valid symbol -- it's considered an unused
@@ -334,7 +333,7 @@ public class Grammar extends GrammarBase {
         }
     }
 
-    //----------------------------------------------------------------
+    //--
 
     // TODO: duplicate user-supplied rules are removed silently!
     public void removeDuplicateRules() {
@@ -476,7 +475,7 @@ public class Grammar extends GrammarBase {
         return touched;
     }
 
-    //----------------------------------------------------------------
+    //--
 
     public void removeProductions(int symbol) {
         int prod;

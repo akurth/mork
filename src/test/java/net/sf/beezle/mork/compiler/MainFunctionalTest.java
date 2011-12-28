@@ -171,8 +171,7 @@ public class MainFunctionalTest extends TestCase {
         assertEquals("no files", 2, files.length);
     }
 
-    //-------------------------------------------------------------
-    // check individual error messages
+    //-- check individual error messages
 
     public void testUndefinedSymbol() throws IOException {
         assertError("UndefinedSymbol.mapper", "Ab.syntax", Stubs.UNDEFINED_SYMBOL);

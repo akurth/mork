@@ -142,7 +142,7 @@ public class CopyBufferCompareTest extends CompareBase {
         assertLT();
     }
 
-    //-------------------
+    //--
 
     private void assertLT() {
         assertEquals(LT, sa.compare(sb));
@@ -171,7 +171,7 @@ public class CopyBufferCompareTest extends CompareBase {
         assertEquals(NE, sb.compare(sb));
     }
 
-    //---------------------------------
+    //--
 
     /**
      * All symbols name have to be single characters.

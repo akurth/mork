@@ -59,7 +59,7 @@ public class Ag {
         internals.add(no);
     }
 
-    //---------------------------------------------
+    //--
 
     // firstAttrs are layed out first because the start symbol expects
     // them in a certain order

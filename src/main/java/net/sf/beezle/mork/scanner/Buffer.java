@@ -89,7 +89,7 @@ public class Buffer {
         this.endFilled = pages.getFilled(0);
     }
 
-    //----------------------------------------------------------------------
+    //--
 
 
     public void assertInvariant() {
@@ -170,7 +170,7 @@ public class Buffer {
         return endPage[end++];
     }
 
-    //-------------------------------
+    //--
 
     /**
      * Move start forward to the current position.
@@ -223,7 +223,7 @@ public class Buffer {
         result.set(position);
     }
 
-    //-----------------------------------------------------------------------
+    //--
 
     @Override
     public String toString() {

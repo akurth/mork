@@ -40,8 +40,7 @@ public class Option extends Function implements Bytecodes {
     private final Function with;
     private final Class[] parameterTypes;
 
-    //------------------------------------------------------------
-    // creation
+    //-- creation
 
     public Option(Function with, int optional) {
         Class[] tmp;
@@ -58,7 +57,7 @@ public class Option extends Function implements Bytecodes {
         parameterTypes[this.optional] = ClassRef.wrappedType(parameterTypes[this.optional]);
     }
 
-    //----------------------------------------------------------------------
+    //--
 
     @Override
     public String getName() {
@@ -80,7 +79,7 @@ public class Option extends Function implements Bytecodes {
         return with.getExceptionTypes();
     }
 
-    //-----------------------------------------------------------------------
+    //--
 
     @Override
     public Object invoke(Object[] vals) throws InvocationTargetException {

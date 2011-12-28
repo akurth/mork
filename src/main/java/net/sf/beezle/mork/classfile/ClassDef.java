@@ -148,7 +148,7 @@ public class ClassDef extends Definition {
         return null;
     }
 
-    //-------------------------------------------------------------
+    //--
 
     /**
      * Write this class file to the specified output stream.
@@ -186,7 +186,7 @@ public class ClassDef extends Definition {
         }
     }
 
-    //------------------------------------------------------------------
+    //--
 
     public ClassRef reference() {
         return thisClass;
@@ -226,7 +226,7 @@ public class ClassDef extends Definition {
         return m;
     }
 
-    //------------------------------------------------------------------
+    //--
 
     @Override
     public String toString() {

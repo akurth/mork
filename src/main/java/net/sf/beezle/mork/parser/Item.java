@@ -32,7 +32,7 @@ public class Item implements Comparable<Item> {
         this.dot = dot;
     }
 
-    //---------------------------------------------------------------
+    //--
 
     @Override
     public int hashCode() {
@@ -105,7 +105,7 @@ public class Item implements Comparable<Item> {
         }
     }
 
-    //-------------------------------------------------------------------
+    //--
 
     public String toString(PDA env, StringArrayList symbolTable) {
         StringBuilder result;

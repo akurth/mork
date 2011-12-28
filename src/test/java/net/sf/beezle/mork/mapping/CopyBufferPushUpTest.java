@@ -113,7 +113,8 @@ public class CopyBufferPushUpTest extends TestCase {
             "I a");
         assertValid(1);
     }
-    //---------------------------------
+
+    //--
 
     private void assertValid(int size) {
         Occurrence occ;

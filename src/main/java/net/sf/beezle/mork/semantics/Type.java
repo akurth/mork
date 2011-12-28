@@ -29,12 +29,12 @@ public class Type {
     public static final int OPTION = 1;
     public static final int SEQUENCE = 2;
 
-    //----------------------------------------------------------------
+    //--
 
     public final Class type; // non-primitive types only
     public final int card;
 
-    //-----------------------------------------------------------------
+    //--
 
     public Type(Class type) {
         this(type, VALUE);
@@ -75,7 +75,7 @@ public class Type {
     public int hashCode() {
         return type.hashCode();
     }
-    
+
     public Type option() {
         if (card >= OPTION) {
             return this;

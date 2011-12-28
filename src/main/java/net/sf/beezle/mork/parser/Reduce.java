@@ -42,7 +42,7 @@ public class Reduce {
         }
     }
 
-    //----------------------------------------------------------
+    //--
 
     public String toString(Grammar grammar) {
         StringBuilder buffer;

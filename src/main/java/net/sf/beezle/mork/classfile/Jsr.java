@@ -98,7 +98,7 @@ public class Jsr implements Bytecodes {
         return result.toString();
     }
 
-    //-----------------------------------------------------------------
+    //--
 
     public static List<Jsr> findJsrs(Code code) {
         List<Jsr> result;

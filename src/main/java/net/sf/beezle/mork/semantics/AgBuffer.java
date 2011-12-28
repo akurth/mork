@@ -122,8 +122,7 @@ public class AgBuffer implements Compare {
         return false;
     }
 
-    //---------------------------------------------------------------
-    // remove duplicate transport attributes
+    //-- remove duplicate transport attributes
 
     /**
      * TODO: get rid of this method ...
@@ -149,7 +148,7 @@ public class AgBuffer implements Compare {
         return null;
     }
 
-    //----------------------------------------------------------
+    //--
 
     /**
      * Merge all attributes with >0 attributions buffers. Return the merged attribute of the
@@ -287,7 +286,7 @@ public class AgBuffer implements Compare {
         return leftState.compare(rightState, nextLefts, nextRights);
     }
 
-    //------------------
+    //--
 
     public String toRawString() {
         return toString(true);
@@ -336,7 +335,7 @@ public class AgBuffer implements Compare {
         return attr;
     }
 
-    //----------------------------------------------------------------------------
+    //--
 
     // TODO: drop card, use calcOccurrence instead ...
     public int calcCard(Attribute root) {
@@ -371,7 +370,7 @@ public class AgBuffer implements Compare {
         return occ;
     }
 
-    //-----------------------------------------------------------------------------------
+    //--
 
     public int getWidth(Attribute attr) {
         State state;

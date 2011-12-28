@@ -23,7 +23,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 public class ClassRef extends Reference implements Bytecodes, Constants {
-    //----------------------------------------------------------------
+    //--
     // some common classRef constants
     // Note: must follow PRIMITIVE_.. in order to use them
 
@@ -36,7 +36,7 @@ public class ClassRef extends Reference implements Bytecodes, Constants {
 
     public static final ClassRef[] NONE = new ClassRef[] {};
 
-    //----------------------------------------------------------------
+    //--
 
     public final String name; // component name
     public final int dimensions;
@@ -170,7 +170,7 @@ public class ClassRef extends Reference implements Bytecodes, Constants {
         return result;
     }
 
-    //-------------------------------------------------------------
+    //--
     // descriptor as defined in JVM spec $ 4.3.2
 
     public String toFieldDescriptor() {
@@ -238,7 +238,7 @@ public class ClassRef extends Reference implements Bytecodes, Constants {
         return new Object[] { new ClassRef(name, dimensions, typeCode), nextOfs };
     }
 
-    //--------------------------------------------------------------
+    //--
     // full qualified class name as defined in JVM spec $4.2
 
     public String toDescriptor() {
@@ -264,7 +264,7 @@ public class ClassRef extends Reference implements Bytecodes, Constants {
         }
     }
 
-    //------------------------------------------------------------
+    //--
     // file name:       java\lang\String.class  or java/lang/String.class,
     //     depending on the platform
     // resource name:   java/lang/String.class
@@ -296,7 +296,7 @@ public class ClassRef extends Reference implements Bytecodes, Constants {
         return resToFileName(classToResName(className));
     }
 
-    //-----------------------------------------------------------------------
+    //--
     // additional functionality for primitive Java Classes
 
     public static Class<?> wrappedType(Class<?> c) {
@@ -325,7 +325,7 @@ public class ClassRef extends Reference implements Bytecodes, Constants {
         return c;
     }
 
-    //-----------------------------------------------------------------------
+    //--
     // additional functionality for Java Classes
 
     /**
@@ -467,8 +467,7 @@ public class ClassRef extends Reference implements Bytecodes, Constants {
         return result;
     }
 
-    //-------------------------------------------------------
-    // code generation
+    //-- code generation
 
     private Type getTypeCode() {
         if (isArray()) {

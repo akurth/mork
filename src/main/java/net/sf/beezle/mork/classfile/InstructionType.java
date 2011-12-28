@@ -234,7 +234,7 @@ public class InstructionType implements Bytecodes, Constants {
         return name + "=" + opcode;
     }
 
-    //-------------------------------------------------------------------
+    //--
 
     /** Fixup. Turn ofs into idx. */
     public void ofsToIdx(Code context, int ofs, Object[] argValues) {
@@ -269,7 +269,7 @@ public class InstructionType implements Bytecodes, Constants {
         }
     }
 
-    //-------------------------------------------------------------------
+    //--
 
     private static int branch(int srcOfs, int destIdx, Output context) {
         return context.getCode().findOfs(destIdx) - srcOfs;
@@ -472,8 +472,7 @@ public class InstructionType implements Bytecodes, Constants {
         }
     }
 
-    //-------------------------------------------------------------------
-    // length
+    //-- length
 
     public boolean isVariable() {
         switch (encoding) {

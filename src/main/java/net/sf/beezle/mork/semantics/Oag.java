@@ -94,8 +94,7 @@ public class Oag implements TreeBuilder, Serializable {
     }
 
 
-    //-------------------------------------------------------------
-    // TreeBuilder interface
+    //-- TreeBuilder interface
 
     public Object createTerminal(int terminal) {
         return terminals[terminal].allocateTerminal(scanner, environment);

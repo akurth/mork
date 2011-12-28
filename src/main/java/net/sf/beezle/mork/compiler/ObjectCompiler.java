@@ -106,8 +106,7 @@ public class ObjectCompiler implements Bytecodes, Constants {
         }
     }
 
-    //--------------------------------------------------------------
-    // primitive type
+    //-- primitive type
 
     /** generates exactly 1 instruction. */
     private void primitive(int typeCode, Object obj) {
@@ -133,8 +132,7 @@ public class ObjectCompiler implements Bytecodes, Constants {
         }
     }
 
-    //-----------------------------------------------------------------
-    // array type
+    //-- array type
 
 
     /** reduce one dimension only, e.g. int[][] -> int[] **/
@@ -289,8 +287,7 @@ public class ObjectCompiler implements Bytecodes, Constants {
         dest.emit(ALOAD, buffer);
     }
 
-    //-----------------------------------------------------------------
-    // non-null, non-String object
+    //-- non-null, non-String object
 
     private void object(Class<?> type, Object obj, int limit) {
         Class<?>[] types;

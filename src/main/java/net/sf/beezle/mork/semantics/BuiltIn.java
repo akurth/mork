@@ -29,7 +29,7 @@ public class BuiltIn {
     // unlike Boolean.TRUE, there is no constant for null pointers
     public static final Object NULL = null;
 
-    //---------------------------------------------------------
+    //--
     // character and string parsing
 
     // Helper for escapeCharacter and unicodeCharacter - set

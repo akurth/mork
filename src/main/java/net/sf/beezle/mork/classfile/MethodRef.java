@@ -80,20 +80,20 @@ public class MethodRef extends Reference {
     public ClassRef getOwner() {
         return owner;
     }
-    
+
     @Override
     public MethodDef lookup(Repository repository) throws ResolveException {
         return lookup((ClassDef) owner.resolve(repository), repository);
     }
-    
+
     private MethodDef lookup(ClassDef def, Repository repository) throws ResolveException {
         MethodDef method;
-        
+
         method = def.lookupMethod(name, argumentTypes);
         if (method != null && method.returnType.equals(returnType)) {
             return method;
         }
-        
+
         // order doesn't matter - Javac rejects ambiguous references
         for (ClassRef next : def.interfaces) {
             method = lookup((ClassDef) next.resolve(repository), repository);
@@ -107,9 +107,8 @@ public class MethodRef extends Reference {
             return null;
         }
     }
-    
-    //------------------------------------------------------------------
-    // convinience methods to create references
+
+    //-- convinience methods to create references
 
     public static MethodRef meth(ClassRef owner, ClassRef returnType, String name) {
         return new MethodRef(owner, false, returnType, name,
@@ -180,7 +179,7 @@ public class MethodRef extends Reference {
         return constr(cl, new ClassRef[] { arg0, arg1, arg2, arg3 });
     }
 
-    //-------------------------------------------------------------------
+    //--
 
     public int argSize() {
         int result;
@@ -216,7 +215,7 @@ public class MethodRef extends Reference {
         }
         return true;
     }
-    
+
     @Override
     public int hashCode() {
         return name.hashCode();
@@ -255,7 +254,7 @@ public class MethodRef extends Reference {
         List<ClassRef> lst;
         ClassRef[] result;
         Object[] tmp;
-        
+
 
         length = descriptor.length();
         if ((length < 2) || (descriptor.charAt(0) != '(')) {

@@ -164,7 +164,7 @@ public class CopyBufferOccurrenceTest extends TestCase {
         assertOccurrence(1, 1);
     }
 
-    //---------------------------------
+    //--
 
     private void assertOccurrence(int min, int max) {
         Occurrence occ;

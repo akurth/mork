@@ -100,7 +100,7 @@ public class Identity extends Function {
         return paras[0];
     }
 
-    //--------------------------------------------------------------------
+    //--
     // Manual serialization. Automatic serialization is not possible because
     // Java Methods are not serializable.
 

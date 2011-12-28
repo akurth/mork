@@ -39,8 +39,7 @@ public class ParserTable implements Serializable {
     private static final int MASK  = 0x0003;
 
 
-    //-----------------------------------------------------------------------
-    // 'program for the parser'
+    //-- program for the parser'
 
     /** initial state for PDA */
     private final char startState;
@@ -64,8 +63,7 @@ public class ParserTable implements Serializable {
     /** index by states. TODO: final  */
     private char[] modes;
 
-    //---------------------------------------------------------------------
-    // object compilation
+    //-- object compilation
 
     /**
      * Constructor for compiled object.
@@ -130,8 +128,7 @@ public class ParserTable implements Serializable {
         this.modes = modes;
     }
 
-    //------------------------------------------------------------------
-    // building the table
+    //-- building the table
 
     public void addWhitespace(IntBitSet whites, ConflictHandler handler) {
         int sym;
@@ -177,8 +174,7 @@ public class ParserTable implements Serializable {
         return (char) (action | operand << ACTION_BITS);
     }
 
-    //-------------------------------------------------------
-    // create a representation to store the table effiziently
+    //-- create a representation to store the table effiziently
 
     /** has to be a unique value, i.e. something not produced by createValue. */
     private static final int COUNT_MARK = Parser.SKIP + 4;
@@ -293,7 +289,7 @@ public class ParserTable implements Serializable {
         return values.length - ofs;
     }
 
-    //------------------------------------------------------------------
+    //--
 
     public int getSymbolCount() {
         return symbolCount;
@@ -319,8 +315,7 @@ public class ParserTable implements Serializable {
         return lengths[prod];
     }
 
-    //-------------------------------------------------------------------
-    // using the table
+    //-- using the table
 
     public static int getAction(int value) {
         return value & MASK;
@@ -395,7 +390,7 @@ public class ParserTable implements Serializable {
         return result;
     }
 
-    //---------------------------------------------------------------
+    //--
 
     public String toString(Grammar grammar) {
         int symbol;

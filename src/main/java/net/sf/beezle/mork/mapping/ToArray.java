@@ -94,7 +94,7 @@ public class ToArray extends Function implements Bytecodes {
         return result;
     }
 
-    //----------------------------------------------------------------------
+    //--
     // Manual serialization. Automatic Serialization is not possible
     // because Java Constructors are not serializable.
 

@@ -57,7 +57,7 @@ public class Selection {
         functions = functionsInit;
     }
 
-    //------------------------------------------------------------------
+    //--
 
     /**
      * @return null for empty selections; otherwise, result is != null.
@@ -102,7 +102,7 @@ public class Selection {
         }
     }
 
-    //------------------------------------------------------------------
+    //--
 
     public Selection add(Selection operand) {
         Function[] fns;
@@ -119,7 +119,7 @@ public class Selection {
         }
     }
 
-    //----------------------------------------------------------------------
+    //--
 
     public Selection restrictArgumentType(int arg, Class type) {
         List<Function> lst;
@@ -154,7 +154,7 @@ public class Selection {
         return new Selection(lst);
     }
 
-    //-------------------------------------------------------------------
+    //--
 
     @Override
     public String toString() {

@@ -71,8 +71,7 @@ public class Input implements Constants {
         src.close();
     }
 
-    //----------------------------------------------------------------
-    // code context
+    //-- code context
 
     public void openCode(Code code) {
         if (context != null) {
@@ -110,8 +109,7 @@ public class Input implements Constants {
         return ofs;
     }
 
-    //----------------------------------------------------------------
-    // read primitives
+    //-- read primitives
 
     public void read(byte[] buffer) throws IOException {
         IO.read(src, buffer);
@@ -158,8 +156,7 @@ public class Input implements Constants {
         return result;
     }
 
-    //-------------------------------------------------------------------
-    // read constant pool entries
+    //-- read constant pool entries
 
     public ClassRef readClassRef() throws IOException {
         return (ClassRef) readConstant();

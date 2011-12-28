@@ -65,8 +65,7 @@ public class Mork {
         this.currentJob = null;
     }
 
-    //-----------------------------------------------------------------------
-    // the real functionality
+    //-- the real functionality
 
     public boolean compile(Job job) {
         boolean result;
@@ -103,8 +102,7 @@ public class Mork {
         return true;
     }
 
-    //--------------------------------------------------------------------------------
-    // load syntax
+    //-- load syntax
 
     public Syntax loadSyntax(String fileName) throws GenericException, IllegalLiteral {
         return loadSyntax(fileName, syntaxMapper);

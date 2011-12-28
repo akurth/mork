@@ -42,7 +42,7 @@ public class State {
      */
     private Range[] inputs;
 
-    //--------------------------------------------------------------
+    //--
 
     public State(Object labelInit) {
         label = labelInit;
@@ -64,7 +64,7 @@ public class State {
         System.arraycopy(orig.inputs, 0, inputs, 0, used);
     }
 
-    //---------------------------------------------------------------
+    //--
 
     private void ensureCapacity(int idx) {
         int size;
@@ -98,7 +98,7 @@ public class State {
         }
     }
 
-    //----------------------------------------------------------------
+    //--
 
     public Object getLabel() {
         return label;
@@ -144,7 +144,7 @@ public class State {
     }
 
 
-    //----------------------------------------------------------------
+    //--
 
     public int size() {
         return used;

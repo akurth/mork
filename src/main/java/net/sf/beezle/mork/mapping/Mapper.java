@@ -53,7 +53,7 @@ public class Mapper implements Serializable {
     private Object environment;  // default environment is null
     private ErrorHandler errorHandler;
 
-    //-------------------------------------------------------------------
+    //--
 
     /** Creates a mapper with the specified name. **/
     public Mapper(String name) {
@@ -169,8 +169,7 @@ public class Mapper implements Serializable {
         return oag;
     }
 
-    //-------------------------------------------------------------------
-    // running the mapper
+    //-- running the mapper
 
     public Object[] run(String fileName) {
         return run(new File(fileName));
