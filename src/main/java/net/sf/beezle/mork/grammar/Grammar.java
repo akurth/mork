@@ -46,7 +46,7 @@ public class Grammar extends GrammarCore {
     // construction
 
     // start symbol is set to the subject of the first production.
-    public static Grammar forProductions(String[] prods) {
+    public static Grammar forProductions(String ... prods) {
         String[][] symbols;
         int i;
 

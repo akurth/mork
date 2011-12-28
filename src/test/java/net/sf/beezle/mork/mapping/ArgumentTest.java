@@ -193,19 +193,18 @@ public class ArgumentTest extends CompareBase {
     }
 
     public void testThirdBeforeFirstAndSecond() {
-        grammar(new String[] {
-                "S T X",
+        grammar("S T X",
                 "X A",
                 "X B",
-                "T C",
-                });
+                "T C"
+                );
         arg("a", "SXA", 1);
         arg("b", "SXB", 1);
         arg("c", "STC", 0);
         sort();
     }
 
-    private void grammar(String[] prods) {
+    private void grammar(String ... prods) {
         grammar = Grammar.forProductions(prods);
     }
 

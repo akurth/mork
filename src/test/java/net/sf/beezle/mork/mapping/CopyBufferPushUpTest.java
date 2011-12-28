@@ -33,24 +33,19 @@ public class CopyBufferPushUpTest extends TestCase {
     private Grammar grammar;
 
     public void testDirect() {
-        create(new String[] {
-            "A a",
-        });
+        create("A a");
         assertValid(1);
     }
 
     public void testDirectOfs() {
-        create(new String[] {
-            "A X Y a",
-        });
+        create("A X Y a");
         assertValid(1);
     }
 
     public void testIndirect() {
-        create(new String[] {
+        create(
             "B A",
-            "A a",
-        });
+            "A a");
         assertValid(1);
     }
 
@@ -63,66 +58,59 @@ public class CopyBufferPushUpTest extends TestCase {
     }
 
     public void testMultMult() {
-        create(new String[] {
+        create(
             "C B B",
             "B A A",
-            "A a",
-        });
+            "A a");
         assertValid(4);
     }
 
     public void testHiddenMult() {
-        create(new String[] {
+        create(
             "C A B",
             "B A",
-            "A a",
-        });
+            "A a");
         assertValid(2);
     }
 
     public void testRightRecursion() {
-        create(new String[] {
+        create(
             "L I L",
             "L",
-            "I a",
-        });
+            "I a");
         assertValid(1);
     }
 
     public void testLeftRecursion() {
-        create(new String[] {
+        create(
             "L L I",
             "L",
-            "I a",
-        });
+            "I a");
         assertValid(1);
     }
 
     public void testPlusRecursion() {
-        create(new String[] {
+        create(
             "L L I",
             "L I",
-            "I a",
-        });
+            "I a");
         assertValid(1);
     }
 
     public void testMultRecursionA() {
-        create(new String[] {
+        create(
             "L L I",
             "L",
             "I A A",
-            "A a",
-        });
+            "A a");
         assertValid(1);
     }
 
     public void testMultRecursionB() {
-        create(new String[] {
+        create(
             "L L I I",
             "L",
-            "I a",
-        });
+            "I a");
         assertValid(1);
     }
     //---------------------------------
@@ -148,7 +136,7 @@ public class CopyBufferPushUpTest extends TestCase {
     /**
      * All symbols name have to be single characters.
      */
-    private void create(String[] prods) {
+    private void create(String ... prods) {
         int sym;
 
         grammar = Grammar.forProductions(prods);
