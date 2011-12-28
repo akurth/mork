@@ -583,7 +583,8 @@ public class Grammar extends GrammarBase {
         }
     }
 
-    public void addRemoveable(IntBitSet result) {
+    /** Returns a symbols that can derive the empty word. Also called removable symbols */
+    public void addNullable(IntBitSet result) {
         IntBitSet remaining;  // indexes of productions
         boolean modified;
         int i;

@@ -18,7 +18,6 @@
 package net.sf.beezle.mork.parser;
 
 import net.sf.beezle.mork.compiler.ConflictHandler;
-import net.sf.beezle.mork.compiler.Resolution;
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.sushi.util.IntBitSet;
@@ -31,8 +30,7 @@ public class PDA {
     /** start symbol */
     public final int start;
 
-    // environment for computation; final but the objects
-    // change over time
+    // environment for computation
     public final Grammar grammar;      // grammar
     public final IntBitSet nullable;  // nullable symbols
     public final List<State> states;      // states built so far
@@ -49,7 +47,7 @@ public class PDA {
         this.nullable = new IntBitSet();
         this.states = new ArrayList<State>();
         this.start = start;
-        this.grammar.addRemoveable(nullable);
+        this.grammar.addNullable(nullable);
 
         calcLR0();
         allShifts = new ArrayList<Shift>();
