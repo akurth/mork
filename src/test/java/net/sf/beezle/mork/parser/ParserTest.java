@@ -88,6 +88,7 @@ public class ParserTest extends TestCase {
         int startSymbol;
         PDA pda;
         StringArrayList symbolTable;
+        ConflictHandler ch;
         ParserTable table;
 
         grammar = Grammar.forProductions(src);
@@ -95,13 +96,8 @@ public class ParserTest extends TestCase {
         startSymbol = symbolTable.indexOf("S");
 
         pda = PDA.create(grammar, startSymbol);
-
-        table = pda.createTable(grammar.getSymbolCount(), new ConflictHandler(grammar));
-
-        // TODO:
-        //   assertTrue("no conflicts", conflicts.isEmpty() );
-        // there are conflicts in testExercise2 and testBlocks
-
-        // TODO: more tests
+        ch = new ConflictHandler(grammar);
+        table = pda.createTable(grammar.getSymbolCount(), ch);
+        assertTrue(table.getValueCount() > 0);
     }
 }

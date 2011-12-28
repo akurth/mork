@@ -35,9 +35,6 @@ public class Grammar extends GrammarBase {
     public static final String NOT_PRODUCTIVE = "symbol(s) not productive: ";
     public static final String NOT_REACHABLE = "symbol(s) not reachable: ";
 
-    //-----------------------------------------------------------------------
-    // construction
-
     // start symbol is set to the subject of the first production.
     public static Grammar forProductions(String ... prods) {
         StringArrayList symbolTable;

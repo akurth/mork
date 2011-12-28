@@ -18,21 +18,17 @@
 package net.sf.beezle.mork.parser;
 
 import net.sf.beezle.mork.compiler.ConflictHandler;
-import net.sf.beezle.mork.compiler.Resolution;
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.misc.GenericException;
-import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.sushi.util.IntBitSet;
 
-import javax.print.attribute.ResolutionSyntax;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Shift-Reduce-Table realized by an (expensive) array.
+ * Shift-Reduce-Table realized by an array.
  */
-
 public class ParserTable implements Serializable {
     private static final int ACTION_BITS = 2;
 
@@ -126,6 +122,10 @@ public class ParserTable implements Serializable {
 
     public int getEofSymbol() {
         return eofSymbol;
+    }
+
+    public int getValueCount() {
+        return values.length;
     }
 
     public void setModes(char[] modes) {
