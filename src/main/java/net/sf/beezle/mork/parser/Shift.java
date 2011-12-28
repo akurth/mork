@@ -166,7 +166,7 @@ public class Shift {
         }
     }
 
-    //--------------------------------------------------------------
+    //--
 
     public String toString(StringArrayList symbolTable) {
         StringBuilder result;

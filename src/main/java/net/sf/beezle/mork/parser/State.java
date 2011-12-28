@@ -322,13 +322,13 @@ public class State {
 
     //-------------------------------------------------------------------
 
-    public void calcLookahead(PDA env) {
+    public void calcLookahead() {
         Iterator<Reduce> pos;
         Reduce r;
 
         pos = reduces.iterator();
         while (pos.hasNext()) {
-            r = (Reduce) pos.next();
+            r = pos.next();
             r.calcLookahead();
         }
     }

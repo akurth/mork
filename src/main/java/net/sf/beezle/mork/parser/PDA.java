@@ -126,7 +126,7 @@ public class PDA {
         max = states.size();
         for (i = 0; i < max; i++) {
             state = getState(i);
-            state.calcLookahead(this);
+            state.calcLookahead();
         }
     }
 
