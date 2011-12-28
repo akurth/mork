@@ -31,7 +31,7 @@ public class Symbol extends RegExpr {
     }
 
     @Override
-    public Object visit(Action action) {
+    public Object visit(Action action) throws ActionException {
         return action.symbol(symbol);
     }
 

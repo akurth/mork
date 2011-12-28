@@ -29,5 +29,5 @@ public abstract class RegExpr implements Serializable {
      * Visit this expressions and its sub-expression and perform
      * some action.
      */
-    public abstract Object visit(Action action);
+    public abstract Object visit(Action action) throws ActionException;
 }

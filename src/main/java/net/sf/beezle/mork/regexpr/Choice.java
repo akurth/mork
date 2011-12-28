@@ -95,7 +95,7 @@ public class Choice extends RegExpr {
     }
 
     @Override
-    public Object visit(Action action) {
+    public Object visit(Action action) throws ActionException {
         Object[] tmps;
         int i;
 

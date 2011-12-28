@@ -17,11 +17,11 @@
 
 package net.sf.beezle.mork.scanner;
 
-import net.sf.beezle.mork.grammar.IllegalSymbol;
 import net.sf.beezle.mork.grammar.Rule;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.mork.regexpr.Action;
+import net.sf.beezle.mork.regexpr.ActionException;
 import net.sf.beezle.mork.regexpr.Choice;
 import net.sf.beezle.mork.regexpr.Range;
 import net.sf.beezle.mork.regexpr.RegExpr;
@@ -42,7 +42,7 @@ public class FABuilder extends Action {
     private IntBitSet inlines;
 
     // temporary state during run()
-    private IllegalSymbol exception;
+    private StringArrayList symbolTable;
 
     /**
      * Translates only those rules where the left-hand.side is contained
@@ -50,7 +50,6 @@ public class FABuilder extends Action {
      */
     public static FABuilder run(Rule[] rules, IntBitSet terminals, StringArrayList symbolTable, PrintStream verbose)
             throws GenericException {
-        String str;
         FA alt;
         int i;
         Expander expander;
@@ -60,11 +59,8 @@ public class FABuilder extends Action {
         Minimizer minimizer;
 
         expander = new Expander(rules);
-        builder = new FABuilder();
+        builder = new FABuilder(symbolTable);
         builder.fa = (FA) new Choice().visit(builder);
-        if (builder.exception != null) {
-            throw new RuntimeException();
-        }
         if (verbose != null) {
             verbose.println("building NFA");
         }
@@ -72,10 +68,6 @@ public class FABuilder extends Action {
             if (terminals.contains(rules[i].getLeft())) {
                 expanded = (RegExpr) rules[i].getRight().visit(expander);
                 alt = (FA) expanded.visit(builder);
-                if (builder.exception != null) {
-                    str = symbolTable.getOrIndex(builder.exception.symbol);
-                    throw new GenericException(builder.exception.getMessage() + ": " + str);
-                }
                 label = new Label(rules[i].getLeft());
                 alt.setEndLabels(label);
                 builder.fa.alternate(alt);
@@ -124,8 +116,8 @@ public class FABuilder extends Action {
 
     //----------------
 
-    private FABuilder() {
-        this.exception = null;
+    private FABuilder(StringArrayList symbolTable) {
+        this.symbolTable = symbolTable;
 
         // errorSi and fa will be assigned by run():
     }
@@ -134,9 +126,8 @@ public class FABuilder extends Action {
     // implement action interface
 
     @Override
-    public Object symbol(int symbol) {
-        exception = new IllegalSymbol("illegal symbol in scanner section", symbol);
-        return new FA();
+    public Object symbol(int symbol) throws ActionException {
+        throw new ActionException("illegal symbol in scanner section: " + symbolTable.getOrIndex(symbol));
     }
 
     @Override

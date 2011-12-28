@@ -42,7 +42,7 @@ public class Loop extends RegExpr {
     }
 
     @Override
-    public Object visit(Action action) {
+    public Object visit(Action action) throws ActionException {
         Object tmp;
 
         tmp = body.visit(action);

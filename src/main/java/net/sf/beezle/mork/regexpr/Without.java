@@ -33,7 +33,7 @@ public class Without extends RegExpr {
     }
 
     @Override
-    public Object visit(Action action) {
+    public Object visit(Action action) throws ActionException {
         Object a;
         Object b;
 

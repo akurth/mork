@@ -21,7 +21,7 @@ package net.sf.beezle.mork.regexpr;
 
 public abstract class Action {
     public abstract Object range(char first, char last);
-    public abstract Object symbol(int symbol);
+    public abstract Object symbol(int symbol) throws ActionException;
 
     public abstract Object choice(Object[] body);
     public abstract Object sequence(Object[] body);
