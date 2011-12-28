@@ -49,7 +49,7 @@ public class State {
     /** List of Reduces. */
     private final List<Reduce> reduces;
 
-    //------------------------------------------------------------------
+    //--
 
     public static State create(PDA env, int symbol) {
         Collection<Item> coreCol;
@@ -85,7 +85,7 @@ public class State {
         }
     }
 
-    //-------------------------------------------------------------------
+    //--
 
     @Override
     public boolean equals(Object obj) {
@@ -104,7 +104,7 @@ public class State {
         return core.size();
     }
 
-    //-----------------------------------------------------------------
+    //--
 
     public State createShifted(PDA env, int symbol) {
         State end;
@@ -137,7 +137,7 @@ public class State {
                 lst = new ArrayList<Item>();
                 lst.add(item.createShifted());
                 while (pos.hasNext()) {
-                    item = (Item) pos.next();
+                    item = pos.next();
                     if (item.getShift(env) == shift) {
                         pos.remove();
                         lst.add(item.createShifted());
@@ -147,7 +147,7 @@ public class State {
                 next =  new State(env, lst);
                 idx = env.states.indexOf(next);
                 if (idx != -1) {
-                    next = (State) env.states.get(idx);
+                    next = env.states.get(idx);
                 } else {
                     env.states.add(next);
                 }
@@ -156,7 +156,7 @@ public class State {
         }
     }
 
-    //-------------------------------------------------------------------
+    //--
     // prepare follow calc
 
     /** Calculate anything available after LR(0) automaton is complete. */
@@ -202,7 +202,7 @@ public class State {
         }
     }
 
-    //------------------------------------------------------------------
+    //--
 
     public Shift findShift(int symbol) {
         for (Shift sh : shifts) {
@@ -260,7 +260,7 @@ public class State {
         return state;
     }
 
-    //------------------------------------------------------------------
+    //--
 
     public void addActions(ParserTable result, ConflictHandler handler) {
         Iterator<Shift> p1;

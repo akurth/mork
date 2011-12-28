@@ -70,9 +70,7 @@ public class ParserTable implements Serializable {
     /**
      * Constructor for compiled object.
      */
-    public ParserTable(
-        char startState, int symbolCount, int eofSymbol, char[] values, int[] lengths, int[] lefts, char[] modes)
-    {
+    public ParserTable(char startState, int symbolCount, int eofSymbol, char[] values, int[] lengths, int[] lefts, char[] modes) {
         this.startState = startState;
         this.symbolCount = symbolCount;
         this.eofSymbol = eofSymbol;
