@@ -27,11 +27,11 @@ import net.sf.beezle.mork.regexpr.ActionException;
  * <p>Note: The Grammar start symbol is always expandable (i.e.: it is never used at the right-hand-side).
  * Recursion usually expands the right-hand-side symbol.</p>
  */
-public class GrammarBuilder extends Action {
+public class Ebnf extends Action {
     /** helper symbols are added without gaps, starting with freeHelper. */
-    public static Grammar run(Rule[] rules, StringArrayList symbolTable) throws ActionException {
+    public static Grammar translate(Rule[] rules, StringArrayList symbolTable) throws ActionException {
         int i;
-        GrammarBuilder builder;
+        Ebnf builder;
         Grammar tmp;
         Grammar buffer;
         int firstHelper;
@@ -39,7 +39,7 @@ public class GrammarBuilder extends Action {
 
         firstHelper = symbolTable.size();
         buffer = new Grammar(rules[0].getLeft(), symbolTable);
-        builder = new GrammarBuilder(firstHelper);
+        builder = new Ebnf(firstHelper);
         for (i = 0; i < rules.length; i++) {
             tmp = (Grammar) rules[i].getRight().visit(builder);
             buffer.add(rules[i].getLeft(), tmp.getStart());
@@ -58,7 +58,7 @@ public class GrammarBuilder extends Action {
 
     private int helper;   // Helper symbols
 
-    public GrammarBuilder(int helper) {
+    public Ebnf(int helper) {
         this.helper = helper;
     }
 
