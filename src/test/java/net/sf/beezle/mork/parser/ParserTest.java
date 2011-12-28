@@ -27,9 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- ** Test that pda tables are generated without exceptions.
- ** TODO: Test the generated parser on some input
- **/
+ * Test that pda tables are generated without exceptions.
+ * TODO: Test the generated parser on some input
+ */
 public class ParserTest extends TestCase {
     public void testMult() throws GenericException {
         check(new String[][] {
@@ -109,7 +109,7 @@ public class ParserTest extends TestCase {
         symbolTable = grammar.getSymbolTable();
         startSymbol = symbolTable.indexOf("S");
 
-        pda = new PDA(grammar, startSymbol);
+        pda = PDA.create(grammar, startSymbol);
 
         table = pda.createTable(grammar.getSymbolCount(), new ConflictHandler(grammar));
 

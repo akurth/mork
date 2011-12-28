@@ -84,7 +84,7 @@ public class Syntax {
 
         output.verbose("processing parser section");
 
-        pda = new PDA(grammar, grammar.getStart());
+        pda = PDA.create(grammar, grammar.getStart());
         symbolCount = Math.max(grammar.getSymbolCount(), whiteSymbols.last() + 1);
         handler = new ConflictHandler(grammar, resolutions);
         parserTable = pda.createTable(symbolCount, handler);

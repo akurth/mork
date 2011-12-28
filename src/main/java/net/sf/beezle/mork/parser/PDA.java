@@ -27,6 +27,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PDA {
+
+    public static PDA create(Grammar grammar, int start) {
+        List<Shift> allShifts;
+        PDA pda;
+
+        pda = new PDA(grammar, start);
+        pda.calcLR0();
+        allShifts = new ArrayList<Shift>();
+        pda.prepare(allShifts);
+        pda.calc(allShifts);
+        pda.finish();
+        return pda;
+    }
+
     /** start symbol */
     public final int start;
 
@@ -38,22 +52,14 @@ public class PDA {
 
     private State end;
 
-    //----------------------------------------------------------------
+    //--
 
     public PDA(Grammar grammar, int start) {
-        List<Shift> allShifts;
-
         this.grammar = grammar;
         this.nullable = new IntBitSet();
         this.states = new ArrayList<State>();
         this.start = start;
         this.grammar.addNullable(nullable);
-
-        calcLR0();
-        allShifts = new ArrayList<Shift>();
-        prepare(allShifts);
-        calc(allShifts);
-        finish();
     }
 
     /**
