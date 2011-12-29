@@ -25,7 +25,9 @@ import net.sf.beezle.sushi.util.Separator;
 import net.sf.beezle.sushi.util.Strings;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Context free grammar. Symbols are coded as ints. Preferred variable name for symbols is sym.
@@ -314,6 +316,62 @@ public class Grammar extends GrammarBase {
                 }
             }
         }
+    }
+
+    //--
+
+    public Map<Integer, IntBitSet> firsts(IntBitSet nullable) {
+        IntBitSet terminals;
+        IntBitSet nonterminals;
+        int symbol;
+        Map<Integer, IntBitSet> result;
+        IntBitSet first;
+        int oldSize;
+        boolean modified;
+
+        result = new HashMap<Integer, IntBitSet>();
+        terminals = new IntBitSet();
+        nonterminals = new IntBitSet();
+        getTerminals(terminals);
+        getNonterminals(nonterminals);
+        symbol = terminals.first();
+        while (symbol != -1) {
+            result.put(symbol, one(symbol));
+            symbol = terminals.next(symbol);
+        }
+        symbol = nonterminals.first();
+        while (symbol != -1) {
+            result.put(symbol, new IntBitSet());
+            symbol = nonterminals.next(symbol);
+        }
+
+        do {
+            modified = false;
+            for (int p = 0; p < getProductionCount(); p++) {
+                first = result.get(getLeft(p));
+                oldSize = first.size();
+                for (int ofs = 0; ofs < getLength(p); ofs++) {
+                    symbol = getRight(p, ofs);
+                    first.addAll(result.get(symbol));
+                    if (!nullable.contains(symbol)) {
+                        break;
+                    }
+                }
+                if (oldSize != first.size()) {
+                    modified = true;
+                }
+            }
+        } while (modified);
+        return result;
+    }
+
+    // TODO: move to sushi
+    private static IntBitSet one(int symbol) {
+        IntBitSet result;
+
+        result = new IntBitSet();
+        result.add(symbol);
+        return result;
     }
 
     //--
