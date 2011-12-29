@@ -85,17 +85,12 @@ public class ParserTest extends TestCase {
      */
     public static void check(String ... src) throws GenericException {
         Grammar grammar;
-        int startSymbol;
         PDA pda;
-        StringArrayList symbolTable;
         ConflictHandler ch;
         ParserTable table;
 
         grammar = Grammar.forProductions(src);
-        symbolTable = grammar.getSymbolTable();
-        startSymbol = symbolTable.indexOf("S");
-
-        pda = PDA.create(grammar, startSymbol);
+        pda = PDA.create(grammar);
         ch = new ConflictHandler(grammar);
         table = pda.createTable(grammar.getSymbolCount(), ch);
         assertTrue(table.getValueCount() > 0);

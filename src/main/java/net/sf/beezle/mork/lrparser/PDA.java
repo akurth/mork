@@ -26,20 +26,17 @@ import java.util.List;
 import java.util.Map;
 
 public class PDA {
-    public static PDA create(Grammar grammar, int start, int eof) {
+    public static PDA create(Grammar grammar) {
         PDA pda;
         State state;
         IntBitSet nullable;
         Map<Integer, IntBitSet> firsts;
 
-        if (grammar.getStart() != start) {
-            throw new IllegalArgumentException("TODO");
-        }
         nullable = new IntBitSet();
         grammar.addNullable(nullable);
         firsts = grammar.firsts(nullable);
         pda = new PDA(grammar, grammar.getStart());
-        state = State.forStartSymbol(0, grammar, eof);
+        state = State.forStartSymbol(0, grammar, grammar.getSymbolCount());
         state.closure(grammar, nullable, firsts);
         pda.states.add(state);
         // size grows!

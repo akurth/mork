@@ -26,12 +26,9 @@ public class PDATest {
     private void check(int states, String ... prods) {
         Grammar grammar;
         PDA pda;
-        IntBitSet symbols;
 
         grammar = Grammar.forProductions(prods);
-        symbols = new IntBitSet();
-        grammar.getSymbols(symbols);
-        pda = PDA.create(grammar, grammar.getStart(), symbols.last() + 1);
+        pda = PDA.create(grammar);
         assertEquals(states, pda.states.size());
     }
 }

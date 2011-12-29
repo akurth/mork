@@ -85,7 +85,7 @@ public class Syntax {
 
         output.verbose("creating pda");
         started = System.currentTimeMillis();
-        pda = PDA.create(grammar, grammar.getStart());
+        pda = PDA.create(grammar);
         output.verbose("done, ms=" + (System.currentTimeMillis() - started));
         symbolCount = Math.max(grammar.getSymbolCount(), whiteSymbols.last() + 1);
         handler = new ConflictHandler(grammar, resolutions);

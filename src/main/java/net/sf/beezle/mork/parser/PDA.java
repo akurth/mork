@@ -27,12 +27,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PDA {
-    public static PDA create(Grammar grammar, int start) {
+    public static PDA create(Grammar grammar) {
         List<Shift> allShifts;
         PDA pda;
 
         allShifts = new ArrayList<Shift>();
-        pda = new PDA(grammar, start);
+        pda = new PDA(grammar, grammar.getStart());
         pda.calcLR0();
         pda.prepare(allShifts);
         pda.calc(allShifts);
