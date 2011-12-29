@@ -32,7 +32,6 @@ public class PDATest {
         symbols = new IntBitSet();
         grammar.getSymbols(symbols);
         pda = PDA.create(grammar, grammar.getStart(), symbols.last() + 1);
-        pda.print(System.out);
         assertEquals(states, pda.states.size());
     }
 }

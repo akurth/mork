@@ -44,12 +44,9 @@ public class PDA {
         pda.states.add(state);
         // size grows!
         for (int i = 0; i < pda.states.size(); i++) {
-            System.out.println("###############################");
-            System.out.println("state " + i);
             state = pda.states.get(i);
             state.gotos(pda, nullable, firsts);
             state.reduces(pda);
-            pda.print(System.out);
         }
         return pda;
     }
