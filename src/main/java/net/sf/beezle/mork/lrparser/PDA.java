@@ -53,7 +53,6 @@ public class PDA {
 
     // environment for computation
     public final Grammar grammar;
-    public final IntBitSet nullable;
     public final List<State> states;
 
     private State end;
@@ -62,17 +61,8 @@ public class PDA {
 
     public PDA(Grammar grammar, int start) {
         this.grammar = grammar;
-        this.nullable = new IntBitSet();
         this.states = new ArrayList<State>();
         this.start = start;
-        this.grammar.addNullable(nullable);
-    }
-
-    /**
-     * Pseudo-symbol, indicates end-of-file (or an empty word if lookahead is seen as a set of words of length <= 1)
-     */
-    public int getEofSymbol() {
-        return grammar.getSymbolCount();
     }
 
     //--
@@ -81,16 +71,12 @@ public class PDA {
         return states.size();
     }
 
-    public State getState(int idx) {
-        return states.get(idx);
-    }
-
     public void print(PrintStream dest) {
         int i, max;
 
         max = states.size();
         for (i = 0; i < max; i++) {
-            dest.println(getState(i).toString(this, grammar));
+            dest.println(states.get(i).toString(this, grammar));
         }
     }
 }

@@ -25,24 +25,10 @@ import java.util.Set;
 
 public class Reduce {
     public final int production;
-    public final IntBitSet lookahead;
-
-    public final Set<Shift> lookback;
 
     public Reduce(int productionInit) {
         production = productionInit;
-        lookahead = new IntBitSet();
-
-        lookback = new HashSet<Shift>();
     }
-
-    public void calcLookahead() {
-        for (Shift sh : lookback) {
-            sh.addFollow(lookahead);
-        }
-    }
-
-    //--
 
     public String toString(Grammar grammar) {
         StringBuilder buffer;
@@ -50,20 +36,7 @@ public class Reduce {
         buffer = new StringBuilder();
         buffer.append("reduce ");
         grammar.prodToString(buffer, production);
-        buffer.append(" on ");
-        buffer.append(lookahead.toString(grammar.getSymbolTable().toList()));
         buffer.append('\n');
-
         return buffer.toString();
-    }
-
-    @Override
-    public int hashCode() {
-        return production;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return this == obj;
     }
 }

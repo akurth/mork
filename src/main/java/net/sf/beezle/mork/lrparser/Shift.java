@@ -25,17 +25,9 @@ public class Shift {
     public final int symbol;
     public final State end;
 
-    private IntBitSet follow;      // follow
-
     public Shift(int symbol, State end) {
         this.symbol = symbol;
         this.end = end;
-
-        follow = new IntBitSet();
-    }
-
-    public void addFollow(IntBitSet result) {
-        result.addAll(follow);
     }
 
     public String toString(StringArrayList symbolTable) {
@@ -46,15 +38,5 @@ public class Shift {
         result.append(symbolTable.getOrIndex(symbol));
         result.append(" -> " + end.id + '\n');
         return result.toString();
-    }
-
-    @Override
-    public int hashCode() {
-        return symbol;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return this == obj;
     }
 }
