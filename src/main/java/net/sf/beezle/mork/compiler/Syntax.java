@@ -99,7 +99,7 @@ public class Syntax {
             output.listing.println("\nGrammar:");
             output.listing.println(grammar.toString());
             output.listing.println("\nAutomaton:");
-            pda.print(grammar, output.listing);
+            pda.print(output.listing);
         }
         output.statistics();
         output.statistics("parser statistics");

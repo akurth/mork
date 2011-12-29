@@ -262,22 +262,14 @@ public class State {
     //--
 
     public void addActions(ParserTable result, ConflictHandler handler) {
-        Iterator<Shift> p1;
-        Iterator<Reduce> p2;
-        Shift sh;
-        Reduce r;
-        int term;
+        int terminal;
 
-        p1 = shifts.iterator();
-        while (p1.hasNext()) {
-            sh = p1.next();
+        for (Shift sh : shifts) {
             result.addShift(id, sh.symbol, sh.end.id, handler);
         }
-        p2 = reduces.iterator();
-        while (p2.hasNext()) {
-            r = p2.next();
-            for (term = r.lookahead.first(); term != -1; term = r.lookahead.next(term)) {
-                result.addReduce(id, term, r.production, handler);
+        for (Reduce r : reduces) {
+            for (terminal = r.lookahead.first(); terminal != -1; terminal = r.lookahead.next(terminal)) {
+                result.addReduce(id, terminal, r.production, handler);
             }
         }
     }

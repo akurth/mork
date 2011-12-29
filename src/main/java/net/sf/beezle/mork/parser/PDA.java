@@ -163,7 +163,7 @@ public class PDA {
      * I'd like to implement toString instead, but memory consumption
      * is to high for large automatons.
      */
-    public void print(Grammar grammar, PrintStream dest) {
+    public void print(PrintStream dest) {
         int i, max;
 
         max = states.size();
