@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class LrPDA {
+public class LrPDA extends BasePDA {
     public static LrPDA create(Grammar grammar) {
         LrPDA pda;
         LrState state;
@@ -48,21 +48,13 @@ public class LrPDA {
         return pda;
     }
 
-    /** start symbol */
-    public final int start;
-
-    // environment for computation
-    public final Grammar grammar;
-    public final List<LrState> states;
-
-    private LrState end;
-
     //--
 
+    public final List<LrState> states;
+
     public LrPDA(Grammar grammar, int start) {
-        this.grammar = grammar;
+        super(grammar, start);
         this.states = new ArrayList<LrState>();
-        this.start = start;
     }
 
     //--

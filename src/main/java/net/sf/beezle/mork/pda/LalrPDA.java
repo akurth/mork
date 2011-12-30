@@ -27,7 +27,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LalrPDA {
+public class LalrPDA extends BasePDA {
     public static LalrPDA create(Grammar grammar) {
         List<LalrShift> allShifts;
         LalrPDA pda;
@@ -41,23 +41,16 @@ public class LalrPDA {
         return pda;
     }
 
-    /** start symbol */
-    public final int start;
-
-    // environment for computation
-    public final Grammar grammar;
     public final IntBitSet nullable;
     public final List<LalrState> states;
-
-    private LalrState end;
 
     //--
 
     public LalrPDA(Grammar grammar, int start) {
-        this.grammar = grammar;
+        super(grammar, start);
+
         this.nullable = new IntBitSet();
         this.states = new ArrayList<LalrState>();
-        this.start = start;
         this.grammar.addNullable(nullable);
     }
 
@@ -79,7 +72,7 @@ public class LalrPDA {
             states.get(i).expand(this);
         }
         end = states.get(0).createShifted(this, start);
-        end.createShifted(this, getEofSymbol());
+        ((LalrState) end).createShifted(this, getEofSymbol());
     }
 
     private void prepare(List<LalrShift> shifts) {
