@@ -43,8 +43,14 @@ public class LrPDA extends BasePDA<LrState> {
             state.gotos(pda, nullable, firsts);
             state.reduces(pda);
         }
+
+        // TODO: hack hack hack
+        state = new LrState(pda.states.size());
+        pda.states.add(state);
+        pda.states.get(0).shifts.add(new LrShift(grammar.getStart(), state));
         return pda;
     }
+
     public LrPDA(Grammar grammar) {
         super(grammar, new ArrayList<LrState>());
     }
