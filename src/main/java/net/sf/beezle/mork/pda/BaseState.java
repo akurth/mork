@@ -17,7 +17,9 @@
 
 package net.sf.beezle.mork.pda;
 
+import net.sf.beezle.mork.compiler.ConflictHandler;
 import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.parser.ParserTable;
 
 import java.util.List;
 
@@ -36,6 +38,19 @@ public abstract class BaseState<S extends BaseShift, R extends BaseReduce> {
     }
 
     public abstract List<? extends BaseItem> allItems();
+
+    public void addActions(ParserTable result, ConflictHandler handler) {
+        int terminal;
+
+        for (S sh : shifts) {
+            result.addShift(id, sh.symbol, sh.end.id, handler);
+        }
+        for (R r : reduces) {
+            for (terminal = r.lookahead.first(); terminal != -1; terminal = r.lookahead.next(terminal)) {
+                result.addReduce(id, terminal, r.production, handler);
+            }
+        }
+    }
 
     public String toString(Grammar grammar) {
         StringBuilder result;

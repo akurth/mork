@@ -247,21 +247,6 @@ public class LalrState extends BaseState<LalrShift, LalrReduce> {
 
     //--
 
-    public void addActions(ParserTable result, ConflictHandler handler) {
-        int terminal;
-
-        for (LalrShift sh : shifts) {
-            result.addShift(id, sh.symbol, sh.end.id, handler);
-        }
-        for (LalrReduce r : reduces) {
-            for (terminal = r.lookahead.first(); terminal != -1; terminal = r.lookahead.next(terminal)) {
-                result.addReduce(id, terminal, r.production, handler);
-            }
-        }
-    }
-
-    //--
-
     public void calcLookahead() {
         for (LalrReduce r : reduces) {
             r.calcLookahead();

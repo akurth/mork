@@ -61,4 +61,20 @@ public abstract class BasePDA<T extends BaseState> {
             dest.println(states.get(i).toString(grammar));
         }
     }
+
+    public ParserTable createTable(int lastSymbol, ConflictHandler handler) throws GenericException {
+        // the initial syntaxnode created by the start action is ignoed!
+        ParserTable result;
+        int i, max;
+        int eof;
+
+        max = states.size();
+        eof = getEofSymbol();
+        result = new ParserTable(0, max, lastSymbol + 1 /* +1 for EOF */, eof, grammar, null);
+        for (i = 0; i < max; i++) {
+            states.get(i).addActions(result, handler);
+        }
+        result.addAccept(end.id, eof);
+        return result;
+    }
 }
