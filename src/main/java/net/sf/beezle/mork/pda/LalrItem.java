@@ -85,20 +85,20 @@ public class LalrItem extends BaseItem implements Comparable<LalrItem> {
         return new LalrItem(production, dot + 1);
     }
 
-    // TODO: rename
-    public void addClosure(Grammar grammar, Collection<LalrItem> result) {
+    // TODO: merge with LrItem expand
+    public void expand(Grammar grammar, Collection<LalrItem> result) {
         int symbol;
 
         symbol = getShift(grammar);
         if (symbol != -1) {
-            addClosure(grammar, symbol, result);
+            expand(grammar, symbol, result);
         } else {
             // reduce item, nothing to do
         }
     }
 
     // TODO: rename
-    public static void addClosure(Grammar grammar, int symbol, Collection<LalrItem> result) {
+    public static void expand(Grammar grammar, int symbol, Collection<LalrItem> result) {
         int alt, maxAlt;
 
         maxAlt = grammar.getAlternativeCount(symbol);

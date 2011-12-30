@@ -42,7 +42,7 @@ public class LalrState extends BaseState<LalrShift, LalrReduce> {
         Collection<LalrItem> coreCol;
 
         coreCol = new ArrayList<LalrItem>();
-        LalrItem.addClosure(env.grammar, symbol, coreCol);
+        LalrItem.expand(env.grammar, symbol, coreCol);
         return new LalrState(env, coreCol);
     }
 
@@ -65,7 +65,7 @@ public class LalrState extends BaseState<LalrShift, LalrReduce> {
                 // item is already known: do nothing
             } else {
                 closure.add(item);
-                item.addClosure(env.grammar, todo);
+                item.expand(env.grammar, todo);
             }
         }
     }
