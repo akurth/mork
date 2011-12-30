@@ -53,12 +53,12 @@ public class LalrPDA extends BasePDA<LalrState> {
     private void calcLR0() {
         int i;
 
-        states.add(LalrState.create(this, start));
+        states.add(LalrState.create(this, grammar.getStart()));
         // note: the loop grows its upper bound
         for (i = 0; i < states.size(); i++) {
             states.get(i).expand(this);
         }
-        end = states.get(0).createShifted(this, start);
+        end = states.get(0).createShifted(this, grammar.getStart());
         ((LalrState) end).createShifted(this, getEofSymbol());
     }
 

@@ -26,8 +26,6 @@ import java.io.PrintStream;
 import java.util.List;
 
 public abstract class BasePDA<T extends BaseState> {
-    /** start symbol */
-    public final int start;
     public final Grammar grammar;
     public final List<T> states;
 
@@ -35,7 +33,6 @@ public abstract class BasePDA<T extends BaseState> {
 
     public BasePDA(Grammar grammar, List<T> states) {
         this.grammar = grammar;
-        this.start = grammar.getStart();
         this.states = states;
     }
 
