@@ -17,5 +17,5 @@
 
 package net.sf.beezle.mork.lrparser;
 
-public abstract class State {
+public abstract class BaseShift {
 }

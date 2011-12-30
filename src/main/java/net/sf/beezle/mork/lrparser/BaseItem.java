@@ -17,5 +17,5 @@
 
 package net.sf.beezle.mork.lrparser;
 
-public abstract class Reduce {
+public abstract class BaseItem {
 }

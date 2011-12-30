@@ -17,5 +17,5 @@
 
 package net.sf.beezle.mork.lrparser;
 
-public abstract class Shift {
+public abstract class BaseReduce {
 }

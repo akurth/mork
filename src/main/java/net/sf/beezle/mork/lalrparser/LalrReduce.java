@@ -18,13 +18,13 @@
 package net.sf.beezle.mork.lalrparser;
 
 import net.sf.beezle.mork.grammar.Grammar;
-import net.sf.beezle.mork.lrparser.Reduce;
+import net.sf.beezle.mork.lrparser.BaseReduce;
 import net.sf.beezle.sushi.util.IntBitSet;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class LalrReduce extends Reduce {
+public class LalrReduce extends BaseReduce {
     public final int production;
     public final IntBitSet lookahead;
 

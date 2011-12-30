@@ -18,13 +18,13 @@
 package net.sf.beezle.mork.lalrparser;
 
 import net.sf.beezle.mork.grammar.Grammar;
-import net.sf.beezle.mork.lrparser.Item;
+import net.sf.beezle.mork.lrparser.BaseItem;
 import net.sf.beezle.mork.misc.StringArrayList;
 
 import java.util.Collection;
 
 /** LR(0) item. Immutable. */
-public class LalrItem extends Item implements Comparable<LalrItem> {
+public class LalrItem extends BaseItem implements Comparable<LalrItem> {
     public final int production;
     public final int dot;
 

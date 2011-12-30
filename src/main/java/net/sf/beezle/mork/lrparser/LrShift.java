@@ -19,7 +19,7 @@ package net.sf.beezle.mork.lrparser;
 
 import net.sf.beezle.mork.misc.StringArrayList;
 
-public class LrShift extends Shift {
+public class LrShift extends BaseShift {
     /** symbol or eof */
     public final int symbol;
     public final LrState end;
