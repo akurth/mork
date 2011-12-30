@@ -20,11 +20,13 @@ package net.sf.beezle.mork.compiler;
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.grammar.Ebnf;
 import net.sf.beezle.mork.grammar.Rule;
+import net.sf.beezle.mork.pda.BasePDA;
 import net.sf.beezle.mork.pda.LalrPDA;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.mork.parser.Parser;
 import net.sf.beezle.mork.parser.ParserTable;
+import net.sf.beezle.mork.pda.LrPDA;
 import net.sf.beezle.mork.scanner.FABuilder;
 import net.sf.beezle.mork.scanner.Modes;
 import net.sf.beezle.mork.scanner.ScannerFactory;
@@ -73,7 +75,7 @@ public class Syntax {
     public Parser translate(Output output) throws GenericException {
         FABuilder builder;
         long started;
-        LalrPDA pda;
+        BasePDA<?> pda;
         ParserTable parserTable;
         ScannerFactory scannerFactory;
         IntBitSet usedTerminals;
@@ -104,8 +106,7 @@ public class Syntax {
         output.statistics();
         output.statistics("parser statistics");
         output.statistics("  states: " + pda.size());
-        output.statistics("  table: [symbols=" + parserTable.getSymbolCount()
-                      + "][states=" + parserTable.getStateCount() + "]");
+        output.statistics("  table: [symbols=" + parserTable.getSymbolCount() + "][states=" + parserTable.getStateCount() + "]");
 
         // free memory before computing FA
         pda = null;
