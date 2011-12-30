@@ -155,16 +155,4 @@ public class LalrShift extends BaseShift {
             } while (s != this);
         }
     }
-
-    //--
-
-    @Override
-    public int hashCode() {
-        return symbol;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return this == obj;
-    }
 }
