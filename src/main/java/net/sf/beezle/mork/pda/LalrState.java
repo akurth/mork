@@ -101,11 +101,12 @@ public class LalrState extends BaseState<LalrShift, LalrReduce> {
     }
 
     /** one step in LR(0) construction */
-    public void expand(LalrPDA env) {
+    public void expand(LalrPDA env, List<LalrState> created) {
         List<LalrItem> remaining;
         LalrItem item;
         List<LalrItem> lst;
         LalrState next;
+        LalrState target;
         Iterator<LalrItem> pos;
         int shift;
 
@@ -127,8 +128,12 @@ public class LalrState extends BaseState<LalrShift, LalrReduce> {
                         lst.add(item.createShifted());
                     }
                 }
-                next = env.addIfNew(new LalrState(env, lst));
-                shifts.add(new LalrShift(shift, next));
+                next = new LalrState(env, lst);
+                target = env.addIfNew(next);
+                if (next == target) {
+                    created.add(target);
+                }
+                shifts.add(new LalrShift(shift, target));
             }
         }
     }

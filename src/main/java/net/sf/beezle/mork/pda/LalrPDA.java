@@ -52,13 +52,19 @@ public class LalrPDA extends BasePDA<LalrState> {
     //--
 
     private void calcLR0() {
+        LalrState start;
         int i;
         LalrState end;
-
-        add(LalrState.create(this, grammar.getStart()));
+        List<LalrState> todo;
+        
+        start = LalrState.create(this, grammar.getStart());
+        add(start);
+        todo = new ArrayList<LalrState>();
+        todo.add(start);
+        
         // note: the loop grows its upper bound
-        for (i = 0; i < size(); i++) {
-            states.get(i).expand(this);
+        for (i = 0; i < todo.size(); i++) {
+            todo.get(i).expand(this, todo);
         }
         // TODO: hack hack hack
         end = start.createShifted(this, grammar.getStart());

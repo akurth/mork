@@ -28,7 +28,7 @@ import java.util.List;
 
 public abstract class BasePDA<T extends BaseState> implements Iterable<T> {
     protected final Grammar grammar;
-    protected final List<T> states;
+    private final List<T> states;
     protected T start;
 
     public BasePDA(Grammar grammar, List<T> states) {
