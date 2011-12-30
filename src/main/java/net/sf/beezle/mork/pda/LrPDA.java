@@ -21,6 +21,7 @@ import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.sushi.util.IntBitSet;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class LrPDA extends BasePDA<LrState> {
@@ -29,6 +30,7 @@ public class LrPDA extends BasePDA<LrState> {
         LrState state;
         IntBitSet nullable;
         Map<Integer, IntBitSet> firsts;
+        List<LrState> todo;
 
         nullable = new IntBitSet();
         grammar.addNullable(nullable);
@@ -37,10 +39,12 @@ public class LrPDA extends BasePDA<LrState> {
         state = LrState.forStartSymbol(0, grammar, grammar.getSymbolCount());
         state.closure(grammar, nullable, firsts);
         pda.add(state);
+        todo = new ArrayList<LrState>();
+        todo.add(state);
         // size grows!
-        for (int i = 0; i < pda.size(); i++) {
-            state = pda.states.get(i);
-            state.gotos(pda, nullable, firsts);
+        for (int i = 0; i < todo.size(); i++) {
+            state = todo.get(i);
+            state.gotos(pda, nullable, firsts, todo);
             state.reduces(pda);
         }
 

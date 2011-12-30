@@ -84,10 +84,11 @@ public class LrState extends BaseState<LrShift, LrReduce> {
         Collections.sort(items);
     }
 
-    public void gotos(LrPDA pda, IntBitSet nullable, Map<Integer, IntBitSet> firsts) {
+    public void gotos(LrPDA pda, IntBitSet nullable, Map<Integer, IntBitSet> firsts, List<LrState> created) {
         IntBitSet shiftSymbols;
         int symbol;
         LrState state;
+        LrState target;
         LrItem shifted;
 
         shiftSymbols = getShiftSymbols(pda.grammar);
@@ -102,8 +103,11 @@ public class LrState extends BaseState<LrShift, LrReduce> {
                 }
             }
             state.closure(pda.grammar, nullable, firsts);
-            state = pda.addIfNew(state);
-            this.shifts.add(new LrShift(symbol, state));
+            target = pda.addIfNew(state);
+            if (target == state) {
+                created.add(target);
+            }
+            this.shifts.add(new LrShift(symbol, target));
         }
     }
 
