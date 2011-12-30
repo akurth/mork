@@ -479,6 +479,7 @@ public class Grammar extends GrammarBase {
         return true;
     }
 
+    // TODO: eliminates duplicate helper rules (e.g. in jp example)
     private static boolean equal(int[] prod1, int[] prod2) {
         int ofs;
 
@@ -487,7 +488,9 @@ public class Grammar extends GrammarBase {
         }
         for (ofs = 0; ofs < prod1.length; ofs++) {
             if (prod1[ofs] != prod2[ofs]) {
-                return false;
+                if (!((prod1[ofs] == prod1[0]) && (prod2[ofs] == prod2[0]))) {
+                    return false;
+                }
             }
         }
         return true;
