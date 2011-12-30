@@ -59,6 +59,7 @@ public class LalrPDA extends BasePDA<LalrState> {
         for (i = 0; i < states.size(); i++) {
             states.get(i).expand(this);
         }
+        // TODO: hack hack hack
         end = states.get(0).createShifted(this, grammar.getStart());
         end.createShifted(this, getEofSymbol());
     }

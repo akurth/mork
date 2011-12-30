@@ -28,6 +28,7 @@ public class PDATest {
 
         grammar = Grammar.forProductions(prods);
         pda = LrPDA.create(grammar);
+        // pda.print(System.out);
         assertEquals(states, pda.states.size());
     }
 }

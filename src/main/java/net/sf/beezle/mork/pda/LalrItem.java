@@ -85,6 +85,7 @@ public class LalrItem extends BaseItem implements Comparable<LalrItem> {
         return new LalrItem(production, dot + 1);
     }
 
+    // TODO: rename
     public void addClosure(Grammar grammar, Collection<LalrItem> result) {
         int symbol;
 
@@ -96,6 +97,7 @@ public class LalrItem extends BaseItem implements Comparable<LalrItem> {
         }
     }
 
+    // TODO: rename
     public static void addClosure(Grammar grammar, int symbol, Collection<LalrItem> result) {
         int alt, maxAlt;
 
