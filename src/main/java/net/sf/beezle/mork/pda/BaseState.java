@@ -17,10 +17,14 @@
 
 package net.sf.beezle.mork.pda;
 
+import net.sf.beezle.mork.grammar.Grammar;
+
 public abstract class BaseState {
     public final int id;
 
     public BaseState(int id) {
         this.id = id;
     }
+
+    public abstract String toString(BasePDA<?> pda, Grammar grammar);
 }

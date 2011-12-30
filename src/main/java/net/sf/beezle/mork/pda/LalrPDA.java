@@ -139,17 +139,4 @@ public class LalrPDA extends BasePDA<LalrState> {
         result.addAccept(end.id, eof);
         return result;
     }
-
-    /**
-     * I'd like to implement toString instead, but memory consumption
-     * is to high for large automatons.
-     */
-    public void print(PrintStream dest) {
-        int i, max;
-
-        max = states.size();
-        for (i = 0; i < max; i++) {
-            dest.println(states.get(i).toString(this, grammar));
-        }
-    }
 }

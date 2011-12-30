@@ -136,7 +136,7 @@ public class LrItem extends BaseItem implements Comparable<LrItem> {
         }
     }
 
-    public String toString(LrPDA env, StringArrayList symbolTable) {
+    public String toString(BasePDA<?> env, StringArrayList symbolTable) {
         StringBuilder result;
         int ofs, len;
 

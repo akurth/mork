@@ -42,4 +42,13 @@ public abstract class BasePDA<T extends BaseState> {
     public int size() {
         return states.size();
     }
+
+    public void print(PrintStream dest) {
+        int i, max;
+
+        max = states.size();
+        for (i = 0; i < max; i++) {
+            dest.println(states.get(i).toString(this, grammar));
+        }
+    }
 }

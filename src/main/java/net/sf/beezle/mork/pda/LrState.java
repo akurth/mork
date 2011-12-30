@@ -154,7 +154,8 @@ public class LrState extends BaseState {
         return items.size() == 0 ? 0 : items.get(0).hashCode();
     }
 
-    public String toString(LrPDA env, Grammar grammar) {
+    @Override
+    public String toString(BasePDA<?> env, Grammar grammar) {
         StringBuilder result;
         StringArrayList symbolTable;
 

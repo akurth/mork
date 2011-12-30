@@ -281,7 +281,8 @@ public class LalrState extends BaseState {
 
     //--
 
-    public String toString(LalrPDA env, Grammar grammar) {
+    @Override
+    public String toString(BasePDA<?> env, Grammar grammar) {
         StringBuilder result;
         StringArrayList symbolTable;
 

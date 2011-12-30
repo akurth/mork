@@ -107,7 +107,7 @@ public class LalrItem extends BaseItem implements Comparable<LalrItem> {
 
     //--
 
-    public String toString(LalrPDA env, StringArrayList symbolTable) {
+    public String toString(BasePDA<?> env, StringArrayList symbolTable) {
         StringBuilder result;
         int ofs, len;
 
@@ -120,8 +120,7 @@ public class LalrItem extends BaseItem implements Comparable<LalrItem> {
             if (ofs == dot) {
                 result.append(". ");
             }
-            result.append(symbolTable.getOrIndex(
-                              env.grammar.getRight(production, ofs)));
+            result.append(symbolTable.getOrIndex(env.grammar.getRight(production, ofs)));
         }
         if (ofs == dot) {
             result.append(" .");

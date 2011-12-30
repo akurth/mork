@@ -47,19 +47,7 @@ public class LrPDA extends BasePDA<LrState> {
         }
         return pda;
     }
-
-    //--
-
     public LrPDA(Grammar grammar, int start) {
         super(grammar, start, new ArrayList<LrState>());
-    }
-
-    public void print(PrintStream dest) {
-        int i, max;
-
-        max = states.size();
-        for (i = 0; i < max; i++) {
-            dest.println(states.get(i).toString(this, grammar));
-        }
     }
 }
