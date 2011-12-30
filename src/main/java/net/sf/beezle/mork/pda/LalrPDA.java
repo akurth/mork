@@ -21,6 +21,7 @@ import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.sushi.util.IntBitSet;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class LalrPDA extends BasePDA<LalrState> {
@@ -60,12 +61,12 @@ public class LalrPDA extends BasePDA<LalrState> {
             states.get(i).expand(this);
         }
         // TODO: hack hack hack
-        end = states.get(0).createShifted(this, grammar.getStart());
+        end = start.createShifted(this, grammar.getStart());
         end.createShifted(this, getEofSymbol());
     }
 
     private void prepare(List<LalrShift> shifts) {
-        for (LalrState state : states) {
+        for (LalrState state : this) {
             state.prepare(this, shifts);
         }
     }
@@ -103,7 +104,7 @@ public class LalrPDA extends BasePDA<LalrState> {
     }
 
     private void finish() {
-        for (LalrState state : states) {
+        for (LalrState state : this) {
             state.calcLookahead();
         }
     }

@@ -23,18 +23,28 @@ import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.parser.ParserTable;
 
 import java.io.PrintStream;
+import java.util.Iterator;
 import java.util.List;
 
-public abstract class BasePDA<T extends BaseState> {
+public abstract class BasePDA<T extends BaseState> implements Iterable<T> {
     protected final Grammar grammar;
     protected final List<T> states;
+    protected T start;
 
     public BasePDA(Grammar grammar, List<T> states) {
         this.grammar = grammar;
         this.states = states;
+        this.start = null;
+    }
+
+    public Iterator<T> iterator() {
+        return states.iterator();
     }
 
     public void add(T state) {
+        if (start == null) {
+            start = state;
+        }
         states.add(state);
     }
     
@@ -61,7 +71,7 @@ public abstract class BasePDA<T extends BaseState> {
     }
 
     public void print(PrintStream dest) {
-        for (BaseState state : states) {
+        for (BaseState state : this) {
             dest.println(state.toString(grammar));
         }
     }
@@ -73,11 +83,11 @@ public abstract class BasePDA<T extends BaseState> {
         BaseState end;
 
         eof = getEofSymbol();
-        result = new ParserTable(0, states.size(), lastSymbol + 1 /* +1 for EOF */, eof, grammar, null);
-        for (BaseState state : states) {
+        result = new ParserTable(0, size(), lastSymbol + 1 /* +1 for EOF */, eof, grammar, null);
+        for (BaseState state : this) {
             state.addActions(result, handler);
         }
-        end = states.get(0).lookupShift(grammar.getStart()).end;
+        end = start.lookupShift(grammar.getStart()).end;
         result.addAccept(end.id, eof);
         return result;
     }

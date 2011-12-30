@@ -47,7 +47,7 @@ public class LrPDA extends BasePDA<LrState> {
         // TODO: hack hack hack
         state = new LrState(pda.size());
         pda.add(state);
-        pda.states.get(0).shifts.add(new LrShift(grammar.getStart(), state));
+        pda.start.shifts.add(new LrShift(grammar.getStart(), state));
         return pda;
     }
 
