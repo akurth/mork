@@ -55,7 +55,7 @@ public abstract class BasePDA<T extends BaseState> {
 
         max = states.size();
         for (i = 0; i < max; i++) {
-            dest.println(states.get(i).toString(this, grammar));
+            dest.println(states.get(i).toString(grammar));
         }
     }
 }

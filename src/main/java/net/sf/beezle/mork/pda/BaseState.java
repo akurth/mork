@@ -26,5 +26,5 @@ public abstract class BaseState {
         this.id = id;
     }
 
-    public abstract String toString(BasePDA<?> pda, Grammar grammar);
+    public abstract String toString(Grammar grammar);
 }

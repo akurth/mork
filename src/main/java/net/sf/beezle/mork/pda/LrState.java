@@ -155,7 +155,7 @@ public class LrState extends BaseState {
     }
 
     @Override
-    public String toString(BasePDA<?> env, Grammar grammar) {
+    public String toString(Grammar grammar) {
         StringBuilder result;
         StringArrayList symbolTable;
 
@@ -164,7 +164,7 @@ public class LrState extends BaseState {
         result.append("\n------------------------------\n");
         result.append("[state " + id + "]\n");
         for (LrItem item : items) {
-            result.append(item.toString(env, symbolTable));
+            result.append(item.toString(grammar, symbolTable));
         }
         result.append('\n');
         for (LrShift sh : shifts) {
