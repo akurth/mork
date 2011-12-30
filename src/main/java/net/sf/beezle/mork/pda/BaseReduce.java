@@ -17,10 +17,14 @@
 
 package net.sf.beezle.mork.pda;
 
+import net.sf.beezle.mork.grammar.Grammar;
+
 public abstract class BaseReduce {
     public final int production;
 
     public BaseReduce(int production) {
         this.production = production;
     }
+
+    public abstract String toString(Grammar grammar);
 }

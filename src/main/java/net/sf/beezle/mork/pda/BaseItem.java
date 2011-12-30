@@ -17,5 +17,8 @@
 
 package net.sf.beezle.mork.pda;
 
+import net.sf.beezle.mork.grammar.Grammar;
+
 public abstract class BaseItem {
+    public abstract String toString(Grammar grammar);
 }

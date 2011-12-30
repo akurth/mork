@@ -136,6 +136,7 @@ public class LrItem extends BaseItem implements Comparable<LrItem> {
         }
     }
 
+    @Override
     public String toString(Grammar grammar) {
         StringArrayList symbolTable;
         StringBuilder result;

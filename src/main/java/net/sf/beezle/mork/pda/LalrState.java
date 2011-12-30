@@ -18,7 +18,6 @@
 package net.sf.beezle.mork.pda;
 
 import net.sf.beezle.mork.compiler.ConflictHandler;
-import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.parser.ParserTable;
 import net.sf.beezle.sushi.util.IntBitSet;
 
@@ -269,33 +268,16 @@ public class LalrState extends BaseState<LalrShift, LalrReduce> {
         }
     }
 
-    //--
+    public List<LalrItem> allItems() {
+        List<LalrItem> result;
 
-    @Override
-    public String toString(Grammar grammar) {
-        StringBuilder result;
-
-        result = new StringBuilder();
-        result.append("\n------------------------------\n");
-        result.append("[state " + id + "]\n");
-        for (LalrItem item : core) {
-            result.append(item.toString(grammar));
-        }
-        result.append('\n');
+        result = new ArrayList<LalrItem>();
+        result.addAll(core);
         for (LalrItem item : closure) {
-            if (!core.contains(item)) {
-                result.append(item.toString(grammar));
+            if (!result.contains(item)) {
+                result.add(item);
             }
         }
-        result.append('\n');
-        for (LalrShift sh : shifts) {
-            result.append(sh.toString(grammar.getSymbolTable()));
-        }
-        result.append('\n');
-        for (LalrReduce r : reduces) {
-            result.append(r.toString(grammar));
-        }
-        result.append("\n");
-        return result.toString();
+        return result;
     }
 }

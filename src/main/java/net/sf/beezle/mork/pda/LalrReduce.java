@@ -42,6 +42,7 @@ public class LalrReduce extends BaseReduce {
 
     //--
 
+    @Override
     public String toString(Grammar grammar) {
         StringBuilder buffer;
 

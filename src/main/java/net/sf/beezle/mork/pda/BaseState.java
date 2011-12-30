@@ -35,5 +35,26 @@ public abstract class BaseState<S extends BaseShift, R extends BaseReduce> {
         this.reduces = reduces;
     }
 
-    public abstract String toString(Grammar grammar);
+    public abstract List<? extends BaseItem> allItems();
+
+    public String toString(Grammar grammar) {
+        StringBuilder result;
+
+        result = new StringBuilder();
+        result.append("\n------------------------------\n");
+        result.append("[state " + id + "]\n");
+        for (BaseItem item : allItems()) {
+            result.append(item.toString(grammar));
+        }
+        result.append('\n');
+        for (BaseShift sh : shifts) {
+            result.append(sh.toString(grammar.getSymbolTable()));
+        }
+        result.append('\n');
+        for (BaseReduce r : reduces) {
+            result.append(r.toString(grammar));
+        }
+        result.append("\n");
+        return result.toString();
+    }
 }

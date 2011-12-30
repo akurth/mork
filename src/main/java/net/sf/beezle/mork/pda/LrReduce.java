@@ -24,6 +24,7 @@ public class LrReduce extends BaseReduce {
         super(production);
     }
 
+    @Override
     public String toString(Grammar grammar) {
         StringBuilder buffer;
 

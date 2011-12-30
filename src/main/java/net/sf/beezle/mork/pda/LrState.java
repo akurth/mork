@@ -53,6 +53,10 @@ public class LrState extends BaseState<LrShift, LrReduce> {
         this.items = items;
     }
 
+    public List<? extends BaseItem> allItems() {
+        return items;
+    }
+
     public void closure(Grammar grammar, IntBitSet nullable, Map<Integer, IntBitSet> firsts) {
         LrItem item;
         LrItem cmp;
@@ -148,27 +152,5 @@ public class LrState extends BaseState<LrShift, LrReduce> {
     @Override
     public int hashCode() {
         return items.size() == 0 ? 0 : items.get(0).hashCode();
-    }
-
-    @Override
-    public String toString(Grammar grammar) {
-        StringBuilder result;
-
-        result = new StringBuilder();
-        result.append("\n------------------------------\n");
-        result.append("[state " + id + "]\n");
-        for (LrItem item : items) {
-            result.append(item.toString(grammar));
-        }
-        result.append('\n');
-        for (LrShift sh : shifts) {
-            result.append(sh.toString(grammar.getSymbolTable()));
-        }
-        result.append('\n');
-        for (LrReduce r : reduces) {
-            result.append(r.toString(grammar));
-        }
-        result.append("\n");
-        return result.toString();
     }
 }
