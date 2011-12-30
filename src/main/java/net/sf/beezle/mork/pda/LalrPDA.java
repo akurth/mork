@@ -76,9 +76,9 @@ public class LalrPDA {
         states.add(LalrState.create(this, start));
         // note: the loop grows its upper bound
         for (i = 0; i < states.size(); i++) {
-            getState(i).expand(this);
+            states.get(i).expand(this);
         }
-        end = getState(0).createShifted(this, start);
+        end = states.get(0).createShifted(this, start);
         end.createShifted(this, getEofSymbol());
     }
 
@@ -126,7 +126,7 @@ public class LalrPDA {
 
         max = states.size();
         for (i = 0; i < max; i++) {
-            state = getState(i);
+            state = states.get(i);
             state.calcLookahead();
         }
     }
@@ -143,7 +143,7 @@ public class LalrPDA {
         eof = getEofSymbol();
         result = new ParserTable(0, max, lastSymbol + 1 /* +1 for EOF */, eof, grammar, null);
         for (i = 0; i < max; i++) {
-            getState(i).addActions(result, handler);
+            states.get(i).addActions(result, handler);
         }
         result.addAccept(end.id, eof);
         return result;
@@ -153,10 +153,6 @@ public class LalrPDA {
 
     public int size() {
         return states.size();
-    }
-
-    public LalrState getState(int idx) {
-        return states.get(idx);
     }
 
 
@@ -169,7 +165,7 @@ public class LalrPDA {
 
         max = states.size();
         for (i = 0; i < max; i++) {
-            dest.println(getState(i).toString(this, grammar));
+            dest.println(states.get(i).toString(this, grammar));
         }
     }
 }
