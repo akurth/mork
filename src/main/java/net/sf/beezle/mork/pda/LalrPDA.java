@@ -52,6 +52,7 @@ public class LalrPDA extends BasePDA<LalrState> {
 
     private void calcLR0() {
         int i;
+        LalrState end;
 
         states.add(LalrState.create(this, grammar.getStart()));
         // note: the loop grows its upper bound
@@ -59,7 +60,7 @@ public class LalrPDA extends BasePDA<LalrState> {
             states.get(i).expand(this);
         }
         end = states.get(0).createShifted(this, grammar.getStart());
-        ((LalrState) end).createShifted(this, getEofSymbol());
+        end.createShifted(this, getEofSymbol());
     }
 
     private void prepare(List<LalrShift> shifts) {

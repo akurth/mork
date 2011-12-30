@@ -29,8 +29,6 @@ public abstract class BasePDA<T extends BaseState> {
     public final Grammar grammar;
     public final List<T> states;
 
-    protected BaseState end;
-
     public BasePDA(Grammar grammar, List<T> states) {
         this.grammar = grammar;
         this.states = states;
@@ -61,6 +59,7 @@ public abstract class BasePDA<T extends BaseState> {
         ParserTable result;
         int i, max;
         int eof;
+        BaseState end;
 
         max = states.size();
         eof = getEofSymbol();
@@ -68,6 +67,7 @@ public abstract class BasePDA<T extends BaseState> {
         for (i = 0; i < max; i++) {
             states.get(i).addActions(result, handler);
         }
+        end = states.get(0).lookupShift(grammar.getStart()).end;
         result.addAccept(end.id, eof);
         return result;
     }

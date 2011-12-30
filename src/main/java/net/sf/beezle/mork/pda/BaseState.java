@@ -52,6 +52,15 @@ public abstract class BaseState<S extends BaseShift, R extends BaseReduce> {
         }
     }
 
+    public S lookupShift(int symbol) {
+        for (S shift : shifts) {
+            if (shift.symbol == symbol) {
+                return shift;
+            }
+        }
+        return null;
+    }
+
     public String toString(Grammar grammar) {
         StringBuilder result;
 
