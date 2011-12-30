@@ -54,9 +54,9 @@ public class LalrPDA extends BasePDA<LalrState> {
         int i;
         LalrState end;
 
-        states.add(LalrState.create(this, grammar.getStart()));
+        add(LalrState.create(this, grammar.getStart()));
         // note: the loop grows its upper bound
-        for (i = 0; i < states.size(); i++) {
+        for (i = 0; i < size(); i++) {
             states.get(i).expand(this);
         }
         // TODO: hack hack hack

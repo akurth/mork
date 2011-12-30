@@ -47,7 +47,7 @@ public class LalrState extends BaseState<LalrShift, LalrReduce> {
     }
 
     public LalrState(LalrPDA env, Collection<LalrItem> coreCol) {
-        super(env.states.size(), new ArrayList<LalrShift>(), new ArrayList<LalrReduce>());
+        super(env.size(), new ArrayList<LalrShift>(), new ArrayList<LalrReduce>());
 
         int i;
         List<LalrItem> todo;
@@ -96,7 +96,7 @@ public class LalrState extends BaseState<LalrShift, LalrReduce> {
 
         end = new LalrState(env, Collections.<LalrItem>emptyList());
         shifts.add(new LalrShift(symbol, end));
-        env.states.add(end);
+        env.add(end);
         return end;
     }
 
@@ -106,7 +106,6 @@ public class LalrState extends BaseState<LalrShift, LalrReduce> {
         LalrItem item;
         List<LalrItem> lst;
         LalrState next;
-        int idx;
         Iterator<LalrItem> pos;
         int shift;
 
@@ -128,14 +127,7 @@ public class LalrState extends BaseState<LalrShift, LalrReduce> {
                         lst.add(item.createShifted());
                     }
                 }
-
-                next =  new LalrState(env, lst);
-                idx = env.states.indexOf(next);
-                if (idx != -1) {
-                    next = env.states.get(idx);
-                } else {
-                    env.states.add(next);
-                }
+                next = env.addIfNew(new LalrState(env, lst));
                 shifts.add(new LalrShift(shift, next));
             }
         }

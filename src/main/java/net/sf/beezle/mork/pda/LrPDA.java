@@ -36,17 +36,17 @@ public class LrPDA extends BasePDA<LrState> {
         pda = new LrPDA(grammar);
         state = LrState.forStartSymbol(0, grammar, grammar.getSymbolCount());
         state.closure(grammar, nullable, firsts);
-        pda.states.add(state);
+        pda.add(state);
         // size grows!
-        for (int i = 0; i < pda.states.size(); i++) {
+        for (int i = 0; i < pda.size(); i++) {
             state = pda.states.get(i);
             state.gotos(pda, nullable, firsts);
             state.reduces(pda);
         }
 
         // TODO: hack hack hack
-        state = new LrState(pda.states.size());
-        pda.states.add(state);
+        state = new LrState(pda.size());
+        pda.add(state);
         pda.states.get(0).shifts.add(new LrShift(grammar.getStart(), state));
         return pda;
     }

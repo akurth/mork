@@ -89,11 +89,10 @@ public class LrState extends BaseState<LrShift, LrReduce> {
         int symbol;
         LrState state;
         LrItem shifted;
-        int id;
 
         shiftSymbols = getShiftSymbols(pda.grammar);
         for (symbol = shiftSymbols.first(); symbol != -1; symbol = shiftSymbols.next(symbol)) {
-            state = new LrState(pda.states.size());
+            state = new LrState(pda.size());
             for (LrItem item : items) {
                 if (item.getShift(pda.grammar) == symbol) {
                     shifted = item.createShifted(pda.grammar);
@@ -103,12 +102,7 @@ public class LrState extends BaseState<LrShift, LrReduce> {
                 }
             }
             state.closure(pda.grammar, nullable, firsts);
-            id = pda.states.indexOf(state);
-            if (id == -1) {
-                pda.states.add(state);
-            } else {
-                state = pda.states.get(id);
-            }
+            state = pda.addIfNew(state);
             this.shifts.add(new LrShift(symbol, state));
         }
     }

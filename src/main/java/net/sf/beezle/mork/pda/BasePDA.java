@@ -26,12 +26,27 @@ import java.io.PrintStream;
 import java.util.List;
 
 public abstract class BasePDA<T extends BaseState> {
-    public final Grammar grammar;
-    public final List<T> states;
+    protected final Grammar grammar;
+    protected final List<T> states;
 
     public BasePDA(Grammar grammar, List<T> states) {
         this.grammar = grammar;
         this.states = states;
+    }
+
+    public void add(T state) {
+        states.add(state);
+    }
+    
+    public T addIfNew(T state) {
+        int idx;
+        
+        idx = states.indexOf(state);
+        if (idx == -1) {
+            add(state);
+            return state;
+        }
+        return states.get(idx);
     }
 
     public int size() {
