@@ -35,7 +35,7 @@ public class LrPDA extends BasePDA<LrState> {
         nullable = new IntBitSet();
         grammar.addNullable(nullable);
         firsts = grammar.firsts(nullable);
-        pda = new LrPDA(grammar, grammar.getStart());
+        pda = new LrPDA(grammar);
         state = LrState.forStartSymbol(0, grammar, grammar.getSymbolCount());
         state.closure(grammar, nullable, firsts);
         pda.states.add(state);
@@ -47,7 +47,7 @@ public class LrPDA extends BasePDA<LrState> {
         }
         return pda;
     }
-    public LrPDA(Grammar grammar, int start) {
-        super(grammar, start, new ArrayList<LrState>());
+    public LrPDA(Grammar grammar) {
+        super(grammar, new ArrayList<LrState>());
     }
 }

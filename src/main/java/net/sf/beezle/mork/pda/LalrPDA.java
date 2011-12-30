@@ -33,7 +33,7 @@ public class LalrPDA extends BasePDA<LalrState> {
         LalrPDA pda;
 
         allShifts = new ArrayList<LalrShift>();
-        pda = new LalrPDA(grammar, grammar.getStart());
+        pda = new LalrPDA(grammar);
         pda.calcLR0();
         pda.prepare(allShifts);
         pda.calc(allShifts);
@@ -45,8 +45,8 @@ public class LalrPDA extends BasePDA<LalrState> {
 
     //--
 
-    public LalrPDA(Grammar grammar, int start) {
-        super(grammar, start, new ArrayList<LalrState>());
+    public LalrPDA(Grammar grammar) {
+        super(grammar, new ArrayList<LalrState>());
 
         this.nullable = new IntBitSet();
         this.grammar.addNullable(nullable);

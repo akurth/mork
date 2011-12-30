@@ -17,7 +17,10 @@
 
 package net.sf.beezle.mork.pda;
 
+import net.sf.beezle.mork.compiler.ConflictHandler;
 import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.parser.ParserTable;
 import net.sf.beezle.sushi.util.IntBitSet;
 
 import java.io.PrintStream;
@@ -33,9 +36,9 @@ public abstract class BasePDA<T extends BaseState> {
 
     protected BaseState end;
 
-    public BasePDA(Grammar grammar, int start, List<T> states) {
+    public BasePDA(Grammar grammar, List<T> states) {
         this.grammar = grammar;
-        this.start = start;
+        this.start = grammar.getStart();
         this.states = states;
     }
 
