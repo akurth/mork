@@ -149,6 +149,6 @@ public class LrState extends BaseState<LrShift, LrReduce> {
 
     @Override
     public int hashCode() {
-        return items.size() == 0 ? 0 : items.get(0).hashCode();
+        return items.size() == 0 ? 0 : items.get(0).hashCode()  * 256 + items.get(items.size() - 1).hashCode();
     }
 }

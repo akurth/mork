@@ -23,40 +23,40 @@ import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.parser.ParserTable;
 
 import java.io.PrintStream;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 
 public abstract class BasePDA<T extends BaseState> implements Iterable<T> {
     protected final Grammar grammar;
-    private final List<T> states;
+    private final HashMap<T, T> states;
     protected T start;
 
-    public BasePDA(Grammar grammar, List<T> states) {
+    public BasePDA(Grammar grammar) {
         this.grammar = grammar;
-        this.states = states;
+        this.states = new HashMap<T, T>();
         this.start = null;
     }
 
     public Iterator<T> iterator() {
-        return states.iterator();
+        return states.keySet().iterator();
     }
 
     public void add(T state) {
         if (start == null) {
             start = state;
         }
-        states.add(state);
+        states.put(state, state);
     }
     
     public T addIfNew(T state) {
-        int idx;
+        T existing;
         
-        idx = states.indexOf(state);
-        if (idx == -1) {
+        existing = states.get(state);
+        if (existing == null) {
             add(state);
             return state;
         }
-        return states.get(idx);
+        return existing;
     }
 
     public int size() {

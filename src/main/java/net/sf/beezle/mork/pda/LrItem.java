@@ -97,7 +97,7 @@ public class LrItem extends BaseItem implements Comparable<LrItem> {
 
     @Override
     public int hashCode() {
-        return production * dot;
+        return production * 8 + dot;
     }
 
     @Override

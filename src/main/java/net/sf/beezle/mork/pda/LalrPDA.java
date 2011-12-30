@@ -43,7 +43,7 @@ public class LalrPDA extends BasePDA<LalrState> {
     //--
 
     public LalrPDA(Grammar grammar) {
-        super(grammar, new ArrayList<LalrState>());
+        super(grammar);
 
         this.nullable = new IntBitSet();
         this.grammar.addNullable(nullable);

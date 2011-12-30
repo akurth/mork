@@ -56,6 +56,6 @@ public class LrPDA extends BasePDA<LrState> {
     }
 
     public LrPDA(Grammar grammar) {
-        super(grammar, new ArrayList<LrState>());
+        super(grammar);
     }
 }
