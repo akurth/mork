@@ -43,6 +43,13 @@ public abstract class BasePDA<T extends BaseState> {
         return states.size();
     }
 
+    /**
+     * Pseudo-symbol, indicates end-of-file (or an empty word if lookahead is seen as a set of words of length <= 1)
+     */
+    public int getEofSymbol() {
+        return grammar.getSymbolCount();
+    }
+
     public void print(PrintStream dest) {
         int i, max;
 

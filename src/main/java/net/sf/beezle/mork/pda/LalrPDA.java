@@ -52,13 +52,6 @@ public class LalrPDA extends BasePDA<LalrState> {
         this.grammar.addNullable(nullable);
     }
 
-    /**
-     * Pseudo-symbol, indicates end-of-file (or an empty word if lookahead is seen as a set of words of length <= 1)
-     */
-    public int getEofSymbol() {
-        return grammar.getSymbolCount();
-    }
-
     //--
 
     private void calcLR0() {
