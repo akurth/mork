@@ -157,18 +157,16 @@ public class LrState extends BaseState {
     @Override
     public String toString(Grammar grammar) {
         StringBuilder result;
-        StringArrayList symbolTable;
 
-        symbolTable = grammar.getSymbolTable();
         result = new StringBuilder();
         result.append("\n------------------------------\n");
         result.append("[state " + id + "]\n");
         for (LrItem item : items) {
-            result.append(item.toString(grammar, symbolTable));
+            result.append(item.toString(grammar));
         }
         result.append('\n');
         for (LrShift sh : shifts) {
-            result.append(sh.toString(symbolTable));
+            result.append(sh.toString(grammar.getSymbolTable()));
         }
         result.append('\n');
         for (LrReduce r : reduces) {

@@ -136,10 +136,12 @@ public class LrItem extends BaseItem implements Comparable<LrItem> {
         }
     }
 
-    public String toString(Grammar grammar, StringArrayList symbolTable) {
+    public String toString(Grammar grammar) {
+        StringArrayList symbolTable;
         StringBuilder result;
         int ofs, len;
 
+        symbolTable = grammar.getSymbolTable();
         result = new StringBuilder();
         result.append(symbolTable.getOrIndex(grammar.getLeft(production)));
         result.append("\t::=");

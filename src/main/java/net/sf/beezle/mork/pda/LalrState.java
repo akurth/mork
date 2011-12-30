@@ -284,24 +284,22 @@ public class LalrState extends BaseState {
     @Override
     public String toString(Grammar grammar) {
         StringBuilder result;
-        StringArrayList symbolTable;
 
-        symbolTable = grammar.getSymbolTable();
         result = new StringBuilder();
         result.append("\n------------------------------\n");
         result.append("[state " + id + "]\n");
         for (LalrItem item : core) {
-            result.append(item.toString(grammar, symbolTable));
+            result.append(item.toString(grammar));
         }
         result.append('\n');
         for (LalrItem item : closure) {
             if (!core.contains(item)) {
-                result.append(item.toString(grammar, symbolTable));
+                result.append(item.toString(grammar));
             }
         }
         result.append('\n');
         for (LalrShift sh : shifts) {
-            result.append(sh.toString(symbolTable));
+            result.append(sh.toString(grammar.getSymbolTable()));
         }
         result.append('\n');
         for (LalrReduce r : reduces) {
