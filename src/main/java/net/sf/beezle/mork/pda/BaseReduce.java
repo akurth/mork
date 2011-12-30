@@ -18,12 +18,15 @@
 package net.sf.beezle.mork.pda;
 
 import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.sushi.util.IntBitSet;
 
 public abstract class BaseReduce {
     public final int production;
+    public final IntBitSet lookahead;
 
-    public BaseReduce(int production) {
+    public BaseReduce(int production, IntBitSet lookahead) {
         this.production = production;
+        this.lookahead = lookahead;
     }
 
     public abstract String toString(Grammar grammar);

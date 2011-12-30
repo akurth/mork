@@ -18,10 +18,11 @@
 package net.sf.beezle.mork.pda;
 
 import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.sushi.util.IntBitSet;
 
 public class LrReduce extends BaseReduce {
-    public LrReduce(int production) {
-        super(production);
+    public LrReduce(int production, IntBitSet lookahead) {
+        super(production, lookahead);
     }
 
     @Override
