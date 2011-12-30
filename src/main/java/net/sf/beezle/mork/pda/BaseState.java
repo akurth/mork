@@ -18,4 +18,9 @@
 package net.sf.beezle.mork.pda;
 
 public abstract class BaseState {
+    public final int id;
+
+    public BaseState(int id) {
+        this.id = id;
+    }
 }

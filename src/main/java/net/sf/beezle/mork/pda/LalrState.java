@@ -35,9 +35,6 @@ import java.util.TreeSet;
 /** LR-PDAs are generated using these states */
 
 public class LalrState extends BaseState {
-    /** number representing this state in the resulting table. */
-    public final int id;
-
     /** Set of Items. Subset of closure. Sorted in order to speed up equals(). */
     private final SortedSet<LalrItem> core;
 
@@ -60,11 +57,12 @@ public class LalrState extends BaseState {
     }
 
     public LalrState(LalrPDA env, Collection<LalrItem> coreCol) {
+        super(env.states.size());
+
         int i;
         List<LalrItem> todo;
         LalrItem item;
 
-        id = env.states.size();
         shifts = new ArrayList<LalrShift>();
         reduces = new ArrayList<LalrReduce>();
 
@@ -175,11 +173,9 @@ public class LalrState extends BaseState {
                 for (alt = 0; alt < maxAlt; alt++) {
                     prod = env.grammar.getAlternative(sh.symbol, alt);
                     end = trace(env, prod);
-                    if (env != null) {
-                        r = end.findReduce(prod);
-                        if (r != null) {
-                            r.lookback.add(sh);
-                        }
+                    r = end.findReduce(prod);
+                    if (r != null) {
+                        r.lookback.add(sh);
                     }
                 }
             }

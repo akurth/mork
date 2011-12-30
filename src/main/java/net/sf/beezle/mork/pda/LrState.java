@@ -43,9 +43,6 @@ public class LrState extends BaseState {
         return state;
     }
 
-    /** number representing this state in the resulting table. */
-    public final int id;
-
     private final List<LrItem> items;
     private final List<LrShift> shifts;
     private final List<LrReduce> reduces;
@@ -55,7 +52,7 @@ public class LrState extends BaseState {
     }
 
     public LrState(int id, List<LrItem> items) {
-        this.id = id;
+        super(id);
         this.items = items;
         this.shifts = new ArrayList<LrShift>();
         this.reduces = new ArrayList<LrReduce>();
