@@ -19,11 +19,17 @@ package net.sf.beezle.mork.pda;
 
 import net.sf.beezle.mork.grammar.Grammar;
 
-public abstract class BaseState {
+import java.util.List;
+
+public abstract class BaseState<R extends BaseReduce> {
     public final int id;
 
-    public BaseState(int id) {
+    /** List of Reduces. */
+    protected final List<R> reduces;
+
+    public BaseState(int id, List<R> reduces) {
         this.id = id;
+        this.reduces = reduces;
     }
 
     public abstract String toString(Grammar grammar);

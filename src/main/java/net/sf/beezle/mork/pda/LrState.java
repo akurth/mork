@@ -18,7 +18,6 @@
 package net.sf.beezle.mork.pda;
 
 import net.sf.beezle.mork.grammar.Grammar;
-import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.sushi.util.IntBitSet;
 
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ import java.util.Map;
 
 /** LR(1) state */
 
-public class LrState extends BaseState {
+public class LrState extends BaseState<LrReduce> {
     public static LrState forStartSymbol(int id, Grammar grammar, int eof) {
         int symbol;
         LrState state;
@@ -45,17 +44,15 @@ public class LrState extends BaseState {
 
     private final List<LrItem> items;
     private final List<LrShift> shifts;
-    private final List<LrReduce> reduces;
 
     public LrState(int id) {
         this(id, new ArrayList<LrItem>());
     }
 
     public LrState(int id, List<LrItem> items) {
-        super(id);
+        super(id, new ArrayList<LrReduce>());
         this.items = items;
         this.shifts = new ArrayList<LrShift>();
-        this.reduces = new ArrayList<LrReduce>();
     }
 
     public void closure(Grammar grammar, IntBitSet nullable, Map<Integer, IntBitSet> firsts) {
