@@ -25,13 +25,13 @@ import java.util.List;
 import java.util.Map;
 
 /** LR(1) item. */
-public class Item implements Comparable<Item> {
+public class LrItem implements Comparable<LrItem> {
     public final int production;
     /** grammar.getProdLength() for end */
     public final int dot;
     public final IntBitSet lookahead;
 
-    public Item(int production, int dot, IntBitSet lookahead) {
+    public LrItem(int production, int dot, IntBitSet lookahead) {
         this.production = production;
         this.dot = dot;
         this.lookahead = lookahead;
@@ -46,21 +46,21 @@ public class Item implements Comparable<Item> {
         }
     }
 
-    public Item createShifted(Grammar grammar) {
+    public LrItem createShifted(Grammar grammar) {
         int symbol;
 
         symbol = getShift(grammar);
         if (symbol == -1) {
             return null;
         } else {
-            return new Item(production, dot + 1, lookahead);
+            return new LrItem(production, dot + 1, lookahead);
         }
     }
 
-    public void expanded(Grammar grammar, IntBitSet nullable, Map<Integer, IntBitSet> firsts, List<Item> result) {
+    public void expanded(Grammar grammar, IntBitSet nullable, Map<Integer, IntBitSet> firsts, List<LrItem> result) {
         int symbol;
         int alt, maxAlt;
-        Item item;
+        LrItem item;
 
         symbol = getShift(grammar);
         if (symbol == -1) {
@@ -68,7 +68,7 @@ public class Item implements Comparable<Item> {
         } else {
             maxAlt = grammar.getAlternativeCount(symbol);
             for (alt = 0; alt < maxAlt; alt++) {
-                item = new Item(grammar.getAlternative(symbol, alt), 0, first(grammar, nullable, firsts, production, dot + 1, lookahead));
+                item = new LrItem(grammar.getAlternative(symbol, alt), 0, first(grammar, nullable, firsts, production, dot + 1, lookahead));
                 if (!result.contains(item)) {
                     result.add(item);
                 }
@@ -102,22 +102,22 @@ public class Item implements Comparable<Item> {
 
     @Override
     public boolean equals(Object obj) {
-        Item cmp;
+        LrItem cmp;
 
-        if (obj instanceof Item) {
-            cmp = (Item) obj;
+        if (obj instanceof LrItem) {
+            cmp = (LrItem) obj;
             return sameCore(cmp) && lookahead.equals(cmp.lookahead);
         } else {
             return false;
         }
     }
 
-    public boolean sameCore(Item cmp) {
+    public boolean sameCore(LrItem cmp) {
         return (production == cmp.production) && (dot == cmp.dot);
     }
 
-    public int compareTo(Item obj) {
-        Item item;
+    public int compareTo(LrItem obj) {
+        LrItem item;
 
         item = obj;
         if (production < item.production) {
@@ -136,7 +136,7 @@ public class Item implements Comparable<Item> {
         }
     }
 
-    public String toString(PDA env, StringArrayList symbolTable) {
+    public String toString(LrPDA env, StringArrayList symbolTable) {
         StringBuilder result;
         int ofs, len;
 

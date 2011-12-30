@@ -17,26 +17,26 @@
 
 package net.sf.beezle.mork.lrparser;
 
-import net.sf.beezle.mork.misc.StringArrayList;
+import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.sushi.util.IntBitSet;
 
-public class Shift {
-    /** symbol or eof */
-    public final int symbol;
-    public final State end;
+import java.util.HashSet;
+import java.util.Set;
 
-    public Shift(int symbol, State end) {
-        this.symbol = symbol;
-        this.end = end;
+public class LrReduce {
+    public final int production;
+
+    public LrReduce(int productionInit) {
+        production = productionInit;
     }
 
-    public String toString(StringArrayList symbolTable) {
-        StringBuilder result;
+    public String toString(Grammar grammar) {
+        StringBuilder buffer;
 
-        result = new StringBuilder();
-        result.append("shift ");
-        result.append(symbolTable.getOrIndex(symbol));
-        result.append(" -> " + end.id + '\n');
-        return result.toString();
+        buffer = new StringBuilder();
+        buffer.append("reduce ");
+        grammar.prodToString(buffer, production);
+        buffer.append('\n');
+        return buffer.toString();
     }
 }

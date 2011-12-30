@@ -28,17 +28,17 @@ import java.util.Map;
 
 /** LR(1) state */
 
-public class State {
-    public static State forStartSymbol(int id, Grammar grammar, int eof) {
+public class LrState {
+    public static LrState forStartSymbol(int id, Grammar grammar, int eof) {
         int symbol;
-        State state;
+        LrState state;
         int max;
 
-        state = new State(id);
+        state = new LrState(id);
         symbol = grammar.getStart();
         max = grammar.getAlternativeCount(symbol);
         for (int alt = 0; alt < max; alt++) {
-            state.items.add(new Item(grammar.getAlternative(symbol, alt), 0, IntBitSet.with(eof)));
+            state.items.add(new LrItem(grammar.getAlternative(symbol, alt), 0, IntBitSet.with(eof)));
         }
         return state;
     }
@@ -46,24 +46,24 @@ public class State {
     /** number representing this state in the resulting table. */
     public final int id;
 
-    private final List<Item> items;
-    private final List<Shift> shifts;
-    private final List<Reduce> reduces;
+    private final List<LrItem> items;
+    private final List<LrShift> shifts;
+    private final List<LrReduce> reduces;
 
-    public State(int id) {
-        this(id, new ArrayList<Item>());
+    public LrState(int id) {
+        this(id, new ArrayList<LrItem>());
     }
 
-    public State(int id, List<Item> items) {
+    public LrState(int id, List<LrItem> items) {
         this.id = id;
         this.items = items;
-        this.shifts = new ArrayList<Shift>();
-        this.reduces = new ArrayList<Reduce>();
+        this.shifts = new ArrayList<LrShift>();
+        this.reduces = new ArrayList<LrReduce>();
     }
 
     public void closure(Grammar grammar, IntBitSet nullable, Map<Integer, IntBitSet> firsts) {
-        Item item;
-        Item cmp;
+        LrItem item;
+        LrItem cmp;
         // size grows!
         for (int i = 0; i < items.size(); i++) {
             item = items.get(i);
@@ -87,17 +87,17 @@ public class State {
         Collections.sort(items);
     }
 
-    public void gotos(PDA pda, IntBitSet nullable, Map<Integer, IntBitSet> firsts) {
+    public void gotos(LrPDA pda, IntBitSet nullable, Map<Integer, IntBitSet> firsts) {
         IntBitSet shiftSymbols;
         int symbol;
-        State state;
-        Item shifted;
+        LrState state;
+        LrItem shifted;
         int id;
 
         shiftSymbols = getShiftSymbols(pda.grammar);
         for (symbol = shiftSymbols.first(); symbol != -1; symbol = shiftSymbols.next(symbol)) {
-            state = new State(pda.states.size());
-            for (Item item : items) {
+            state = new LrState(pda.states.size());
+            for (LrItem item : items) {
                 if (item.getShift(pda.grammar) == symbol) {
                     shifted = item.createShifted(pda.grammar);
                     if (shifted != null) {
@@ -112,7 +112,7 @@ public class State {
             } else {
                 state = pda.states.get(id);
             }
-            this.shifts.add(new Shift(symbol, state));
+            this.shifts.add(new LrShift(symbol, state));
         }
     }
 
@@ -121,7 +121,7 @@ public class State {
         int symbol;
 
         result = new IntBitSet();
-        for (Item item : items) {
+        for (LrItem item : items) {
             symbol = item.getShift(grammar);
             if (symbol != -1) {
                 result.add(symbol);
@@ -130,10 +130,10 @@ public class State {
         return result;
     }
 
-    public void reduces(PDA pda) {
-        for (Item item : items) {
+    public void reduces(LrPDA pda) {
+        for (LrItem item : items) {
             if (item.getShift(pda.grammar) == -1) {
-                reduces.add(new Reduce(item.production));
+                reduces.add(new LrReduce(item.production));
             }
         }
     }
@@ -142,10 +142,10 @@ public class State {
 
     @Override
     public boolean equals(Object obj) {
-        State state;
+        LrState state;
 
-        if (obj instanceof State) {
-            state = (State) obj;
+        if (obj instanceof LrState) {
+            state = (LrState) obj;
             return items.equals(state.items);
         } else {
             return false;
@@ -157,7 +157,7 @@ public class State {
         return items.size() == 0 ? 0 : items.get(0).hashCode();
     }
 
-    public String toString(PDA env, Grammar grammar) {
+    public String toString(LrPDA env, Grammar grammar) {
         StringBuilder result;
         StringArrayList symbolTable;
 
@@ -165,15 +165,15 @@ public class State {
         result = new StringBuilder();
         result.append("\n------------------------------\n");
         result.append("[state " + id + "]\n");
-        for (Item item : items) {
+        for (LrItem item : items) {
             result.append(item.toString(env, symbolTable));
         }
         result.append('\n');
-        for (Shift sh : shifts) {
+        for (LrShift sh : shifts) {
             result.append(sh.toString(symbolTable));
         }
         result.append('\n');
-        for (Reduce r : reduces) {
+        for (LrReduce r : reduces) {
             result.append(r.toString(grammar));
         }
         result.append("\n");

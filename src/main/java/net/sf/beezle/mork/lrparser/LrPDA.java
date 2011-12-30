@@ -25,18 +25,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class PDA {
-    public static PDA create(Grammar grammar) {
-        PDA pda;
-        State state;
+public class LrPDA {
+    public static LrPDA create(Grammar grammar) {
+        LrPDA pda;
+        LrState state;
         IntBitSet nullable;
         Map<Integer, IntBitSet> firsts;
 
         nullable = new IntBitSet();
         grammar.addNullable(nullable);
         firsts = grammar.firsts(nullable);
-        pda = new PDA(grammar, grammar.getStart());
-        state = State.forStartSymbol(0, grammar, grammar.getSymbolCount());
+        pda = new LrPDA(grammar, grammar.getStart());
+        state = LrState.forStartSymbol(0, grammar, grammar.getSymbolCount());
         state.closure(grammar, nullable, firsts);
         pda.states.add(state);
         // size grows!
@@ -53,15 +53,15 @@ public class PDA {
 
     // environment for computation
     public final Grammar grammar;
-    public final List<State> states;
+    public final List<LrState> states;
 
-    private State end;
+    private LrState end;
 
     //--
 
-    public PDA(Grammar grammar, int start) {
+    public LrPDA(Grammar grammar, int start) {
         this.grammar = grammar;
-        this.states = new ArrayList<State>();
+        this.states = new ArrayList<LrState>();
         this.start = start;
     }
 

@@ -1,7 +1,6 @@
 package net.sf.beezle.mork.lrparser;
 
 import net.sf.beezle.mork.grammar.Grammar;
-import net.sf.beezle.sushi.util.IntBitSet;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -25,10 +24,10 @@ public class PDATest {
 
     private void check(int states, String ... prods) {
         Grammar grammar;
-        PDA pda;
+        LrPDA pda;
 
         grammar = Grammar.forProductions(prods);
-        pda = PDA.create(grammar);
+        pda = LrPDA.create(grammar);
         assertEquals(states, pda.states.size());
     }
 }
