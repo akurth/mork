@@ -1,7 +1,6 @@
 package compiler;
 
 import net.sf.beezle.mork.classfile.Code;
-
 import net.sf.beezle.mork.semantics.BuiltIn;
 import net.sf.beezle.mork.semantics.IllegalLiteral;
 

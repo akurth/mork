@@ -1,15 +1,14 @@
 package compiler;
 
-import java.io.File;
-import java.io.IOException;
-
 import net.sf.beezle.mork.classfile.Access;
 import net.sf.beezle.mork.classfile.ClassDef;
 import net.sf.beezle.mork.classfile.ClassRef;
 import net.sf.beezle.mork.classfile.MethodDef;
 import net.sf.beezle.mork.classfile.Output;
-
 import net.sf.beezle.mork.mapping.Mapper;
+
+import java.io.File;
+import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
