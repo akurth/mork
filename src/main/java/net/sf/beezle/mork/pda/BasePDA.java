@@ -46,26 +46,21 @@ public abstract class BasePDA<T extends BaseState> {
     }
 
     public void print(PrintStream dest) {
-        int i, max;
-
-        max = states.size();
-        for (i = 0; i < max; i++) {
-            dest.println(states.get(i).toString(grammar));
+        for (BaseState state : states) {
+            dest.println(state.toString(grammar));
         }
     }
 
     public ParserTable createTable(int lastSymbol, ConflictHandler handler) throws GenericException {
         // the initial syntaxnode created by the start action is ignoed!
         ParserTable result;
-        int i, max;
         int eof;
         BaseState end;
 
-        max = states.size();
         eof = getEofSymbol();
-        result = new ParserTable(0, max, lastSymbol + 1 /* +1 for EOF */, eof, grammar, null);
-        for (i = 0; i < max; i++) {
-            states.get(i).addActions(result, handler);
+        result = new ParserTable(0, states.size(), lastSymbol + 1 /* +1 for EOF */, eof, grammar, null);
+        for (BaseState state : states) {
+            state.addActions(result, handler);
         }
         end = states.get(0).lookupShift(grammar.getStart()).end;
         result.addAccept(end.id, eof);

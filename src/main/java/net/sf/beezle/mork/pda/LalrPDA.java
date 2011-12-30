@@ -103,12 +103,7 @@ public class LalrPDA extends BasePDA<LalrState> {
     }
 
     private void finish() {
-        int i, max;
-        LalrState state;
-
-        max = states.size();
-        for (i = 0; i < max; i++) {
-            state = states.get(i);
+        for (LalrState state : states) {
             state.calcLookahead();
         }
     }
