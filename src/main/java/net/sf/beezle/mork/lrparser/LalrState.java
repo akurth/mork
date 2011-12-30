@@ -15,11 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sf.beezle.mork.lalrparser;
+package net.sf.beezle.mork.lrparser;
 
 import net.sf.beezle.mork.compiler.ConflictHandler;
 import net.sf.beezle.mork.grammar.Grammar;
-import net.sf.beezle.mork.lrparser.BaseState;
 import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.mork.parser.ParserTable;
 import net.sf.beezle.sushi.util.IntBitSet;

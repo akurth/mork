@@ -20,7 +20,7 @@ package net.sf.beezle.mork.parser;
 import junit.framework.TestCase;
 import net.sf.beezle.mork.compiler.ConflictHandler;
 import net.sf.beezle.mork.grammar.Grammar;
-import net.sf.beezle.mork.lalrparser.LalrPDA;
+import net.sf.beezle.mork.lrparser.LalrPDA;
 import net.sf.beezle.mork.misc.GenericException;
 
 /**
