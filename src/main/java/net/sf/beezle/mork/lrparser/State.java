@@ -17,26 +17,5 @@
 
 package net.sf.beezle.mork.lrparser;
 
-import net.sf.beezle.mork.grammar.Grammar;
-import net.sf.beezle.sushi.util.IntBitSet;
-
-import java.util.HashSet;
-import java.util.Set;
-
-public class LrReduce extends Reduce {
-    public final int production;
-
-    public LrReduce(int productionInit) {
-        production = productionInit;
-    }
-
-    public String toString(Grammar grammar) {
-        StringBuilder buffer;
-
-        buffer = new StringBuilder();
-        buffer.append("reduce ");
-        grammar.prodToString(buffer, production);
-        buffer.append('\n');
-        return buffer.toString();
-    }
+public abstract class State {
 }

@@ -17,6 +17,7 @@
 
 package net.sf.beezle.mork.lalrparser;
 
+import net.sf.beezle.mork.lrparser.Shift;
 import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.sushi.util.IntBitSet;
 
@@ -25,7 +26,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class LalrShift {
+public class LalrShift extends Shift {
     /** symbol or eof */
     public final int symbol;
     public final LalrState end;

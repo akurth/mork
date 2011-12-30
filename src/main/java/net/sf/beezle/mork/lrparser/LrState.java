@@ -28,7 +28,7 @@ import java.util.Map;
 
 /** LR(1) state */
 
-public class LrState {
+public class LrState extends State {
     public static LrState forStartSymbol(int id, Grammar grammar, int eof) {
         int symbol;
         LrState state;

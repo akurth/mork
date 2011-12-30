@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 /** LR(1) item. */
-public class LrItem implements Comparable<LrItem> {
+public class LrItem extends Item implements Comparable<LrItem> {
     public final int production;
     /** grammar.getProdLength() for end */
     public final int dot;

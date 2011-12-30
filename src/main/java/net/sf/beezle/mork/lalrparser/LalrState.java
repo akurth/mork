@@ -19,6 +19,7 @@ package net.sf.beezle.mork.lalrparser;
 
 import net.sf.beezle.mork.compiler.ConflictHandler;
 import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.lrparser.State;
 import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.mork.parser.ParserTable;
 import net.sf.beezle.sushi.util.IntBitSet;
@@ -34,7 +35,7 @@ import java.util.TreeSet;
 
 /** LR-PDAs are generated using these states */
 
-public class LalrState {
+public class LalrState extends State {
     /** number representing this state in the resulting table. */
     public final int id;
 
