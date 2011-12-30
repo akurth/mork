@@ -40,7 +40,7 @@ import net.sf.beezle.sushi.util.IntBitSet;
  * scanner. This is because I might a features access the "[text]" of white space.
  */
 public class Syntax {
-    public static final String LALR_CONFLICT = "lalr(1) conflicts (use the -lst option to obtain a listing of the automaton):\n";
+    public static final String LALR_CONFLICT = "conflicts (use the -lst option to obtain a listing of the automaton):\n";
 
     private Grammar grammar;
     private Resolution[] resolutions;
@@ -98,7 +98,6 @@ public class Syntax {
         parserTable = pda.createTable(symbolCount, handler);
         parserTable.addWhitespace(whiteSymbols, handler);
         symbolTable = grammar.getSymbolTable();
-        resolvers = handler.report(output, grammar);
         if (output.listing != null) {
             output.listing.println("\nSymbols:");
             output.listing.println(symbolTable.toString());
@@ -111,6 +110,8 @@ public class Syntax {
         output.statistics("parser statistics");
         output.statistics("  states: " + pda.size());
         output.statistics("  table: [symbols=" + parserTable.getSymbolCount() + "][states=" + parserTable.getStateCount() + "]");
+
+        resolvers = handler.report(output, grammar);
 
         // free memory before computing FA
         pda = null;
