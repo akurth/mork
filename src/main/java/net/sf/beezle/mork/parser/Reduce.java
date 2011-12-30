@@ -29,11 +29,11 @@ public class Reduce {
 
     public final Set<Shift> lookback;
 
-    public Reduce(int productionInit) {
-        production = productionInit;
-        lookahead = new IntBitSet();
+    public Reduce(int production) {
+        this.production = production;
+        this.lookahead = new IntBitSet();
 
-        lookback = new HashSet<Shift>();
+        this.lookback = new HashSet<Shift>();
     }
 
     public void calcLookahead() {
