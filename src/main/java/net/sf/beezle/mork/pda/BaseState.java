@@ -21,14 +21,17 @@ import net.sf.beezle.mork.grammar.Grammar;
 
 import java.util.List;
 
-public abstract class BaseState<R extends BaseReduce> {
+public abstract class BaseState<S extends BaseShift, R extends BaseReduce> {
     public final int id;
+
+    protected final List<S> shifts;
 
     /** List of Reduces. */
     protected final List<R> reduces;
 
-    public BaseState(int id, List<R> reduces) {
+    public BaseState(int id, List<S> shifts, List<R> reduces) {
         this.id = id;
+        this.shifts = shifts;
         this.reduces = reduces;
     }
 

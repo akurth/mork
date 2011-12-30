@@ -27,7 +27,7 @@ import java.util.Map;
 
 /** LR(1) state */
 
-public class LrState extends BaseState<LrReduce> {
+public class LrState extends BaseState<LrShift, LrReduce> {
     public static LrState forStartSymbol(int id, Grammar grammar, int eof) {
         int symbol;
         LrState state;
@@ -43,21 +43,20 @@ public class LrState extends BaseState<LrReduce> {
     }
 
     private final List<LrItem> items;
-    private final List<LrShift> shifts;
 
     public LrState(int id) {
         this(id, new ArrayList<LrItem>());
     }
 
     public LrState(int id, List<LrItem> items) {
-        super(id, new ArrayList<LrReduce>());
+        super(id, new ArrayList<LrShift>(), new ArrayList<LrReduce>());
         this.items = items;
-        this.shifts = new ArrayList<LrShift>();
     }
 
     public void closure(Grammar grammar, IntBitSet nullable, Map<Integer, IntBitSet> firsts) {
         LrItem item;
         LrItem cmp;
+
         // size grows!
         for (int i = 0; i < items.size(); i++) {
             item = items.get(i);

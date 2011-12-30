@@ -33,14 +33,11 @@ import java.util.TreeSet;
 
 /** LR-PDAs are generated using these states */
 
-public class LalrState extends BaseState<LalrReduce> {
+public class LalrState extends BaseState<LalrShift, LalrReduce> {
     /** Set of Items. Subset of closure. Sorted in order to speed up equals(). */
     private final SortedSet<LalrItem> core;
 
     private final List<LalrItem> closure;
-
-    /** List of Shifts. */
-    private final List<LalrShift> shifts;
 
     //--
 
@@ -53,13 +50,11 @@ public class LalrState extends BaseState<LalrReduce> {
     }
 
     public LalrState(LalrPDA env, Collection<LalrItem> coreCol) {
-        super(env.states.size(), new ArrayList<LalrReduce>());
+        super(env.states.size(), new ArrayList<LalrShift>(), new ArrayList<LalrReduce>());
 
         int i;
         List<LalrItem> todo;
         LalrItem item;
-
-        shifts = new ArrayList<LalrShift>();
 
         core = new TreeSet<LalrItem>(coreCol); // adds, sorts and removes duplicates
         todo = new ArrayList<LalrItem>(core); // avoid duplicates - don't use coreCol
