@@ -23,21 +23,21 @@ import net.sf.beezle.sushi.util.IntBitSet;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Reduce {
+public class LalrReduce {
     public final int production;
     public final IntBitSet lookahead;
 
-    public final Set<Shift> lookback;
+    public final Set<LalrShift> lookback;
 
-    public Reduce(int production) {
+    public LalrReduce(int production) {
         this.production = production;
         this.lookahead = new IntBitSet();
 
-        this.lookback = new HashSet<Shift>();
+        this.lookback = new HashSet<LalrShift>();
     }
 
     public void calcLookahead() {
-        for (Shift sh : lookback) {
+        for (LalrShift sh : lookback) {
             sh.addFollow(lookahead);
         }
     }

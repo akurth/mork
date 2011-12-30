@@ -23,11 +23,11 @@ import net.sf.beezle.mork.misc.StringArrayList;
 import java.util.Collection;
 
 /** LR(0) item. Immutable. */
-public class Item implements Comparable<Item> {
+public class LalrItem implements Comparable<LalrItem> {
     public final int production;
     public final int dot;
 
-    public Item(int production, int dot) {
+    public LalrItem(int production, int dot) {
         this.production = production;
         this.dot = dot;
     }
@@ -41,18 +41,18 @@ public class Item implements Comparable<Item> {
 
     @Override
     public boolean equals(Object obj) {
-        Item item;
+        LalrItem item;
 
-        if (obj instanceof Item) {
-            item = (Item) obj;
+        if (obj instanceof LalrItem) {
+            item = (LalrItem) obj;
             return (production == item.production) && (dot == item.dot);
         } else {
             return false;
         }
     }
 
-    public int compareTo(Item obj) {
-        Item item;
+    public int compareTo(LalrItem obj) {
+        LalrItem item;
 
         item = obj;
         if (production < item.production) {
@@ -81,11 +81,11 @@ public class Item implements Comparable<Item> {
         }
     }
 
-    public Item createShifted() {
-        return new Item(production, dot + 1);
+    public LalrItem createShifted() {
+        return new LalrItem(production, dot + 1);
     }
 
-    public void addClosure(Grammar grammar, Collection<Item> result) {
+    public void addClosure(Grammar grammar, Collection<LalrItem> result) {
         int symbol;
 
         symbol = getShift(grammar);
@@ -96,18 +96,18 @@ public class Item implements Comparable<Item> {
         }
     }
 
-    public static void addClosure(Grammar grammar, int symbol, Collection<Item> result) {
+    public static void addClosure(Grammar grammar, int symbol, Collection<LalrItem> result) {
         int alt, maxAlt;
 
         maxAlt = grammar.getAlternativeCount(symbol);
         for (alt = 0; alt < maxAlt; alt++) {
-            result.add(new Item(grammar.getAlternative(symbol, alt), 0));
+            result.add(new LalrItem(grammar.getAlternative(symbol, alt), 0));
         }
     }
 
     //--
 
-    public String toString(PDA env, StringArrayList symbolTable) {
+    public String toString(LalrPDA env, StringArrayList symbolTable) {
         StringBuilder result;
         int ofs, len;
 

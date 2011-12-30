@@ -26,13 +26,13 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PDA {
-    public static PDA create(Grammar grammar) {
-        List<Shift> allShifts;
-        PDA pda;
+public class LalrPDA {
+    public static LalrPDA create(Grammar grammar) {
+        List<LalrShift> allShifts;
+        LalrPDA pda;
 
-        allShifts = new ArrayList<Shift>();
-        pda = new PDA(grammar, grammar.getStart());
+        allShifts = new ArrayList<LalrShift>();
+        pda = new LalrPDA(grammar, grammar.getStart());
         pda.calcLR0();
         pda.prepare(allShifts);
         pda.calc(allShifts);
@@ -46,16 +46,16 @@ public class PDA {
     // environment for computation
     public final Grammar grammar;
     public final IntBitSet nullable;
-    public final List<State> states;
+    public final List<LalrState> states;
 
-    private State end;
+    private LalrState end;
 
     //--
 
-    public PDA(Grammar grammar, int start) {
+    public LalrPDA(Grammar grammar, int start) {
         this.grammar = grammar;
         this.nullable = new IntBitSet();
-        this.states = new ArrayList<State>();
+        this.states = new ArrayList<LalrState>();
         this.start = start;
         this.grammar.addNullable(nullable);
     }
@@ -72,7 +72,7 @@ public class PDA {
     private void calcLR0() {
         int i;
 
-        states.add(State.create(this, start));
+        states.add(LalrState.create(this, start));
         // note: the loop grows its upper bound
         for (i = 0; i < states.size(); i++) {
             getState(i).expand(this);
@@ -81,23 +81,23 @@ public class PDA {
         end.createShifted(this, getEofSymbol());
     }
 
-    private void prepare(List<Shift> shifts) {
-        for (State state : states) {
+    private void prepare(List<LalrShift> shifts) {
+        for (LalrState state : states) {
             state.prepare(this, shifts);
         }
     }
 
-    private void calc(List<Shift> shifts) {
+    private void calc(List<LalrShift> shifts) {
         int i, max;
-        Shift sh;
-        List<Shift> stack;
+        LalrShift sh;
+        List<LalrShift> stack;
 
         max = shifts.size();
         for (i = 0; i < max; i++) {
             sh = shifts.get(i);
             sh.initReadCalc();
         }
-        stack = new ArrayList<Shift>();
+        stack = new ArrayList<LalrShift>();
         for (i = 0; i < max; i++) {
             sh = shifts.get(i);
             sh.digraph(stack);
@@ -108,7 +108,7 @@ public class PDA {
             sh.initFollowCalc();
         }
 
-        stack = new ArrayList<Shift>();
+        stack = new ArrayList<LalrShift>();
         for (i = 0; i < max; i++) {
             sh = shifts.get(i);
             sh.digraph(stack);
@@ -121,7 +121,7 @@ public class PDA {
 
     private void finish() {
         int i, max;
-        State state;
+        LalrState state;
 
         max = states.size();
         for (i = 0; i < max; i++) {
@@ -154,7 +154,7 @@ public class PDA {
         return states.size();
     }
 
-    public State getState(int idx) {
+    public LalrState getState(int idx) {
         return states.get(idx);
     }
 

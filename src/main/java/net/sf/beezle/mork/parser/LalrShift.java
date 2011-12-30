@@ -25,27 +25,27 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Shift {
+public class LalrShift {
     /** symbol or eof */
     public final int symbol;
-    public final State end;
+    public final LalrState end;
 
     private final IntBitSet readInit;     // DR: directly reads
-    private final Set<Shift> readImplies;       // READS: set of Shifts
+    private final Set<LalrShift> readImplies;       // READS: set of Shifts
     private IntBitSet read;         // read
 
     // read is followImplies
-    private final Set<Shift> followImplies;    // INCLUDES: set of Shifts
+    private final Set<LalrShift> followImplies;    // INCLUDES: set of Shifts
     private IntBitSet follow;      // follow
 
-    public Shift(int symbol, State end) {
+    public LalrShift(int symbol, LalrState end) {
         this.symbol = symbol;
         this.end = end;
 
         readInit = new IntBitSet();
-        readImplies = new HashSet<Shift>();
+        readImplies = new HashSet<LalrShift>();
         read = new IntBitSet();
-        followImplies = new HashSet<Shift>();
+        followImplies = new HashSet<LalrShift>();
         follow = new IntBitSet();
     }
 
@@ -53,11 +53,11 @@ public class Shift {
 
     /** calculate anything available when LR(0) is implete. */
 
-    public void prepare(PDA env, State start) {
+    public void prepare(LalrPDA env, LalrState start) {
         int prod, alt, maxAlt;
         int i;
-        List<Shift> lst;
-        Shift t;
+        List<LalrShift> lst;
+        LalrShift t;
 
         // read implies
         end.addReadImplies(env, readImplies);
@@ -70,7 +70,7 @@ public class Shift {
             maxAlt = env.grammar.getAlternativeCount(symbol);
             for (alt = 0; alt < maxAlt; alt++) {
                 prod = env.grammar.getAlternative(symbol, alt);
-                lst = new ArrayList<Shift>();
+                lst = new ArrayList<LalrShift>();
                 if (start.trace(env, prod, lst)) {
                     for (i = lst.size() - 1; i >= 0; i--) {
                         t = lst.get(i);
@@ -87,7 +87,7 @@ public class Shift {
         }
     }
 
-    public boolean isEof(PDA pda) {
+    public boolean isEof(LalrPDA pda) {
         return symbol == pda.getEofSymbol();
     }
 
@@ -96,7 +96,7 @@ public class Shift {
 
     // for closure computation
     private IntBitSet clInit;
-    private Set<Shift> clImplies;
+    private Set<LalrShift> clImplies;
     private IntBitSet clResult;
     private int clN;
 
@@ -128,15 +128,15 @@ public class Shift {
     /**
      * @param stack of Shifts
      */
-    public void digraph(List<Shift> stack) {
+    public void digraph(List<LalrShift> stack) {
         if (clN == 0) {
             traverse(stack);
         }
     }
 
-    private void traverse(List<Shift> stack) {
+    private void traverse(List<LalrShift> stack) {
         int d;  // initial stack size
-        Shift s;
+        LalrShift s;
 
         // initialize
         stack.add(this);
@@ -145,7 +145,7 @@ public class Shift {
         clResult.addAll(clInit);
 
         // complete closure process
-        for (Shift t : clImplies) {
+        for (LalrShift t : clImplies) {
             if (t.clN == 0) {
                 t.traverse(stack);
             }

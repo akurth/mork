@@ -33,43 +33,43 @@ import java.util.TreeSet;
 
 /** LR-PDAs are generated using these states */
 
-public class State {
+public class LalrState {
     /** number representing this state in the resulting table. */
     public final int id;
 
     /** Set of Items. Subset of closure. Sorted in order to speed up equals(). */
-    private final SortedSet<Item> core;
+    private final SortedSet<LalrItem> core;
 
-    private final List<Item> closure;
+    private final List<LalrItem> closure;
 
     /** List of Shifts. */
-    private final List<Shift> shifts;
+    private final List<LalrShift> shifts;
 
     /** List of Reduces. */
-    private final List<Reduce> reduces;
+    private final List<LalrReduce> reduces;
 
     //--
 
-    public static State create(PDA env, int symbol) {
-        Collection<Item> coreCol;
+    public static LalrState create(LalrPDA env, int symbol) {
+        Collection<LalrItem> coreCol;
 
-        coreCol = new ArrayList<Item>();
-        Item.addClosure(env.grammar, symbol, coreCol);
-        return new State(env, coreCol);
+        coreCol = new ArrayList<LalrItem>();
+        LalrItem.addClosure(env.grammar, symbol, coreCol);
+        return new LalrState(env, coreCol);
     }
 
-    public State(PDA env, Collection<Item> coreCol) {
+    public LalrState(LalrPDA env, Collection<LalrItem> coreCol) {
         int i;
-        List<Item> todo;
-        Item item;
+        List<LalrItem> todo;
+        LalrItem item;
 
         id = env.states.size();
-        shifts = new ArrayList<Shift>();
-        reduces = new ArrayList<Reduce>();
+        shifts = new ArrayList<LalrShift>();
+        reduces = new ArrayList<LalrReduce>();
 
-        core = new TreeSet<Item>(coreCol); // adds, sorts and removes duplicates
-        todo = new ArrayList<Item>(core); // avoid duplicates - don't use coreCol
-        closure = new ArrayList<Item>();
+        core = new TreeSet<LalrItem>(coreCol); // adds, sorts and removes duplicates
+        todo = new ArrayList<LalrItem>(core); // avoid duplicates - don't use coreCol
+        closure = new ArrayList<LalrItem>();
 
         // start loop with empty closure
         // note: loop grows its upper bound
@@ -88,10 +88,10 @@ public class State {
 
     @Override
     public boolean equals(Object obj) {
-        State state;
+        LalrState state;
 
-        if (obj instanceof State) {
-            state = (State) obj;
+        if (obj instanceof LalrState) {
+            state = (LalrState) obj;
             return core.equals(state.core);
         } else {
             return false;
@@ -105,35 +105,35 @@ public class State {
 
     //--
 
-    public State createShifted(PDA env, int symbol) {
-        State end;
+    public LalrState createShifted(LalrPDA env, int symbol) {
+        LalrState end;
 
-        end = new State(env, Collections.<Item>emptyList());
-        shifts.add(new Shift(symbol, end));
+        end = new LalrState(env, Collections.<LalrItem>emptyList());
+        shifts.add(new LalrShift(symbol, end));
         env.states.add(end);
         return end;
     }
 
     /** one step in LR(0) construction */
-    public void expand(PDA env) {
-        List<Item> remaining;
-        Item item;
-        List<Item> lst;
-        State next;
+    public void expand(LalrPDA env) {
+        List<LalrItem> remaining;
+        LalrItem item;
+        List<LalrItem> lst;
+        LalrState next;
         int idx;
-        Iterator<Item> pos;
+        Iterator<LalrItem> pos;
         int shift;
 
-        remaining = new ArrayList<Item>(closure);
+        remaining = new ArrayList<LalrItem>(closure);
         while (!remaining.isEmpty()) {
             pos = remaining.iterator();
             item = pos.next();
             pos.remove();
             shift = item.getShift(env.grammar);
             if (shift == -1) {
-                reduces.add(new Reduce(item.production));
+                reduces.add(new LalrReduce(item.production));
             } else {
-                lst = new ArrayList<Item>();
+                lst = new ArrayList<LalrItem>();
                 lst.add(item.createShifted());
                 while (pos.hasNext()) {
                     item = pos.next();
@@ -143,14 +143,14 @@ public class State {
                     }
                 }
 
-                next =  new State(env, lst);
+                next =  new LalrState(env, lst);
                 idx = env.states.indexOf(next);
                 if (idx != -1) {
                     next = env.states.get(idx);
                 } else {
                     env.states.add(next);
                 }
-                shifts.add(new Shift(shift, next));
+                shifts.add(new LalrShift(shift, next));
             }
         }
     }
@@ -159,12 +159,12 @@ public class State {
     // prepare follow calc
 
     /** Calculate anything available after LR(0) automaton is complete. */
-    public void prepare(PDA env, List<Shift> allShifts) {
+    public void prepare(LalrPDA env, List<LalrShift> allShifts) {
         int prod, alt, maxAlt;
-        State end;
-        Reduce r;
+        LalrState end;
+        LalrReduce r;
 
-        for (Shift sh : shifts) {
+        for (LalrShift sh : shifts) {
             sh.prepare(env, this);
 
             allShifts.add(sh);
@@ -185,16 +185,16 @@ public class State {
         }
     }
 
-    public void addReadInit(PDA env, IntBitSet result) {
-        for (Shift sh : shifts) {
+    public void addReadInit(LalrPDA env, IntBitSet result) {
+        for (LalrShift sh : shifts) {
             if (sh.isEof(env) || !env.grammar.isNonterminal(sh.symbol)) {
                 result.add(sh.symbol);
             }
         }
     }
 
-    public void addReadImplies(PDA env, Set<Shift> result) {
-        for (Shift sh : shifts) {
+    public void addReadImplies(LalrPDA env, Set<LalrShift> result) {
+        for (LalrShift sh : shifts) {
             if (env.nullable.contains(sh.symbol)) {
                 result.add(sh);
             }
@@ -203,8 +203,8 @@ public class State {
 
     //--
 
-    public Shift findShift(int symbol) {
-        for (Shift sh : shifts) {
+    public LalrShift findShift(int symbol) {
+        for (LalrShift sh : shifts) {
             if (sh.symbol == symbol) {
                 return sh;
             }
@@ -212,8 +212,8 @@ public class State {
         return null;
     }
 
-    public Reduce findReduce(int prod) {
-        for (Reduce r : reduces) {
+    public LalrReduce findReduce(int prod) {
+        for (LalrReduce r : reduces) {
             if (r.production == prod) {
                 return r;
             }
@@ -224,10 +224,10 @@ public class State {
     /**
      * @param result  list of Shifts
      */
-    public boolean trace(PDA env, int prod, List<Shift> result) {
+    public boolean trace(LalrPDA env, int prod, List<LalrShift> result) {
         int ofs, len;
-        State state;
-        Shift t;
+        LalrState state;
+        LalrShift t;
 
         state = this;
         len = env.grammar.getLength(prod);
@@ -242,10 +242,10 @@ public class State {
         return true;
     }
 
-    public State trace(PDA env, int prod) {
+    public LalrState trace(LalrPDA env, int prod) {
         int ofs, len;
-        State state;
-        Shift t;
+        LalrState state;
+        LalrShift t;
 
         state = this;
         len = env.grammar.getLength(prod);
@@ -264,10 +264,10 @@ public class State {
     public void addActions(ParserTable result, ConflictHandler handler) {
         int terminal;
 
-        for (Shift sh : shifts) {
+        for (LalrShift sh : shifts) {
             result.addShift(id, sh.symbol, sh.end.id, handler);
         }
-        for (Reduce r : reduces) {
+        for (LalrReduce r : reduces) {
             for (terminal = r.lookahead.first(); terminal != -1; terminal = r.lookahead.next(terminal)) {
                 result.addReduce(id, terminal, r.production, handler);
             }
@@ -277,14 +277,14 @@ public class State {
     //--
 
     public void calcLookahead() {
-        for (Reduce r : reduces) {
+        for (LalrReduce r : reduces) {
             r.calcLookahead();
         }
     }
 
     //--
 
-    public String toString(PDA env, Grammar grammar) {
+    public String toString(LalrPDA env, Grammar grammar) {
         StringBuilder result;
         StringArrayList symbolTable;
 
@@ -292,21 +292,21 @@ public class State {
         result = new StringBuilder();
         result.append("\n------------------------------\n");
         result.append("[state " + id + "]\n");
-        for (Item item : core) {
+        for (LalrItem item : core) {
             result.append(item.toString(env, symbolTable));
         }
         result.append('\n');
-        for (Item item : closure) {
+        for (LalrItem item : closure) {
             if (!core.contains(item)) {
                 result.append(item.toString(env, symbolTable));
             }
         }
         result.append('\n');
-        for (Shift sh : shifts) {
+        for (LalrShift sh : shifts) {
             result.append(sh.toString(symbolTable));
         }
         result.append('\n');
-        for (Reduce r : reduces) {
+        for (LalrReduce r : reduces) {
             result.append(r.toString(grammar));
         }
         result.append("\n");
