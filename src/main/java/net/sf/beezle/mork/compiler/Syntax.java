@@ -17,16 +17,15 @@
 
 package net.sf.beezle.mork.compiler;
 
-import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.grammar.Ebnf;
+import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.grammar.Rule;
-import net.sf.beezle.mork.pda.BasePDA;
-import net.sf.beezle.mork.pda.LalrPDA;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.mork.parser.Parser;
 import net.sf.beezle.mork.parser.ParserTable;
-import net.sf.beezle.mork.pda.LrPDA;
+import net.sf.beezle.mork.pda.BasePDA;
+import net.sf.beezle.mork.pda.LalrPDA;
 import net.sf.beezle.mork.scanner.FABuilder;
 import net.sf.beezle.mork.scanner.Modes;
 import net.sf.beezle.mork.scanner.ScannerFactory;

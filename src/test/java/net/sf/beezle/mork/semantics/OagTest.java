@@ -23,7 +23,6 @@ import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.reflect.Identity;
 import net.sf.beezle.sushi.util.Separator;
 import net.sf.beezle.sushi.util.Strings;
-import net.sf.beezle.sushi.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;

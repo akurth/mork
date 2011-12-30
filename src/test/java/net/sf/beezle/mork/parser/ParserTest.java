@@ -20,8 +20,8 @@ package net.sf.beezle.mork.parser;
 import junit.framework.TestCase;
 import net.sf.beezle.mork.compiler.ConflictHandler;
 import net.sf.beezle.mork.grammar.Grammar;
-import net.sf.beezle.mork.pda.LalrPDA;
 import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.pda.LalrPDA;
 
 /**
  * Test that pda tables are generated without exceptions.

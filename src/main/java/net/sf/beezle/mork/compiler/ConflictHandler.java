@@ -2,7 +2,6 @@ package net.sf.beezle.mork.compiler;
 
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.misc.GenericException;
-import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.mork.parser.Conflict;
 import net.sf.beezle.mork.parser.Parser;
 import net.sf.beezle.mork.parser.ParserTable;

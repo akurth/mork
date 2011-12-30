@@ -17,8 +17,6 @@
 
 package net.sf.beezle.mork.pda;
 
-import net.sf.beezle.mork.compiler.ConflictHandler;
-import net.sf.beezle.mork.parser.ParserTable;
 import net.sf.beezle.sushi.util.IntBitSet;
 
 import java.util.ArrayList;

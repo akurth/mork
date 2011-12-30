@@ -18,7 +18,6 @@
 package net.sf.beezle.mork.parser;
 
 import net.sf.beezle.mork.grammar.Grammar;
-import net.sf.beezle.mork.misc.StringArrayList;
 
 public class Conflict {
     private final int state;

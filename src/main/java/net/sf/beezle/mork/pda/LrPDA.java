@@ -20,9 +20,7 @@ package net.sf.beezle.mork.pda;
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.sushi.util.IntBitSet;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class LrPDA extends BasePDA<LrState> {

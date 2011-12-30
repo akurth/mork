@@ -21,12 +21,9 @@ import net.sf.beezle.mork.compiler.ConflictHandler;
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.parser.ParserTable;
-import net.sf.beezle.sushi.util.IntBitSet;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public abstract class BasePDA<T extends BaseState> {
     /** start symbol */
