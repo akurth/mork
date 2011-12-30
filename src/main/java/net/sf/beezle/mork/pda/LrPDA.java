@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class LrPDA extends BasePDA {
+public class LrPDA extends BasePDA<LrState> {
     public static LrPDA create(Grammar grammar) {
         LrPDA pda;
         LrState state;
@@ -50,17 +50,8 @@ public class LrPDA extends BasePDA {
 
     //--
 
-    public final List<LrState> states;
-
     public LrPDA(Grammar grammar, int start) {
-        super(grammar, start);
-        this.states = new ArrayList<LrState>();
-    }
-
-    //--
-
-    public int size() {
-        return states.size();
+        super(grammar, start, new ArrayList<LrState>());
     }
 
     public void print(PrintStream dest) {

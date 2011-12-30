@@ -25,15 +25,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class BasePDA {
+public abstract class BasePDA<T extends BaseState> {
     /** start symbol */
     public final int start;
     public final Grammar grammar;
+    public final List<T> states;
 
     protected BaseState end;
 
-    public BasePDA(Grammar grammar, int start) {
+    public BasePDA(Grammar grammar, int start, List<T> states) {
         this.grammar = grammar;
         this.start = start;
+        this.states = states;
+    }
+
+    public int size() {
+        return states.size();
     }
 }

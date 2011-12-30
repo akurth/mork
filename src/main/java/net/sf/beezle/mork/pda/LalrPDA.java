@@ -27,7 +27,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LalrPDA extends BasePDA {
+public class LalrPDA extends BasePDA<LalrState> {
     public static LalrPDA create(Grammar grammar) {
         List<LalrShift> allShifts;
         LalrPDA pda;
@@ -42,15 +42,13 @@ public class LalrPDA extends BasePDA {
     }
 
     public final IntBitSet nullable;
-    public final List<LalrState> states;
 
     //--
 
     public LalrPDA(Grammar grammar, int start) {
-        super(grammar, start);
+        super(grammar, start, new ArrayList<LalrState>());
 
         this.nullable = new IntBitSet();
-        this.states = new ArrayList<LalrState>();
         this.grammar.addNullable(nullable);
     }
 
@@ -141,13 +139,6 @@ public class LalrPDA extends BasePDA {
         result.addAccept(end.id, eof);
         return result;
     }
-
-    //--
-
-    public int size() {
-        return states.size();
-    }
-
 
     /**
      * I'd like to implement toString instead, but memory consumption
