@@ -15,7 +15,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sf.beezle.mork.lrparser;
+package net.sf.beezle.mork.pda;
 
-public abstract class BaseItem {
+import net.sf.beezle.mork.misc.StringArrayList;
+
+public class LrShift extends BaseShift {
+    /** symbol or eof */
+    public final int symbol;
+    public final LrState end;
+
+    public LrShift(int symbol, LrState end) {
+        this.symbol = symbol;
+        this.end = end;
+    }
+
+    public String toString(StringArrayList symbolTable) {
+        StringBuilder result;
+
+        result = new StringBuilder();
+        result.append("shift ");
+        result.append(symbolTable.getOrIndex(symbol));
+        result.append(" -> " + end.id + '\n');
+        return result.toString();
+    }
 }

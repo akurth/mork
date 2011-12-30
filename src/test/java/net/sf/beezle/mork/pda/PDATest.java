@@ -1,4 +1,4 @@
-package net.sf.beezle.mork.lrparser;
+package net.sf.beezle.mork.pda;
 
 import net.sf.beezle.mork.grammar.Grammar;
 import org.junit.Test;

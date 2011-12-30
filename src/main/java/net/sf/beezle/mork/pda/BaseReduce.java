@@ -15,24 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sf.beezle.mork.lrparser;
+package net.sf.beezle.mork.pda;
 
-import net.sf.beezle.mork.grammar.Grammar;
-
-public class LrReduce extends BaseReduce {
-    public final int production;
-
-    public LrReduce(int productionInit) {
-        production = productionInit;
-    }
-
-    public String toString(Grammar grammar) {
-        StringBuilder buffer;
-
-        buffer = new StringBuilder();
-        buffer.append("reduce ");
-        grammar.prodToString(buffer, production);
-        buffer.append('\n');
-        return buffer.toString();
-    }
+public abstract class BaseReduce {
 }
