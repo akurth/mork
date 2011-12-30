@@ -17,25 +17,8 @@
 
 package net.sf.beezle.mork.pda;
 
-import net.sf.beezle.mork.misc.StringArrayList;
-
 public class LrShift extends BaseShift {
-    /** symbol or eof */
-    public final int symbol;
-    public final LrState end;
-
-    public LrShift(int symbol, LrState end) {
-        this.symbol = symbol;
-        this.end = end;
-    }
-
-    public String toString(StringArrayList symbolTable) {
-        StringBuilder result;
-
-        result = new StringBuilder();
-        result.append("shift ");
-        result.append(symbolTable.getOrIndex(symbol));
-        result.append(" -> " + end.id + '\n');
-        return result.toString();
+    public LrShift(int symbol, BaseState end) {
+        super(symbol, end);
     }
 }

@@ -17,7 +17,6 @@
 
 package net.sf.beezle.mork.pda;
 
-import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.sushi.util.IntBitSet;
 
 import java.util.ArrayList;
@@ -26,10 +25,6 @@ import java.util.List;
 import java.util.Set;
 
 public class LalrShift extends BaseShift {
-    /** symbol or eof */
-    public final int symbol;
-    public final LalrState end;
-
     private final IntBitSet readInit;     // DR: directly reads
     private final Set<LalrShift> readImplies;       // READS: set of Shifts
     private IntBitSet read;         // read
@@ -39,8 +34,7 @@ public class LalrShift extends BaseShift {
     private IntBitSet follow;      // follow
 
     public LalrShift(int symbol, LalrState end) {
-        this.symbol = symbol;
-        this.end = end;
+        super(symbol, end);
 
         readInit = new IntBitSet();
         readImplies = new HashSet<LalrShift>();
@@ -60,11 +54,11 @@ public class LalrShift extends BaseShift {
         LalrShift t;
 
         // read implies
-        end.addReadImplies(env, readImplies);
+        ((LalrState) end).addReadImplies(env, readImplies);
 
         if (!isEof(env) && env.grammar.isNonterminal(symbol)) {
             // read init
-            end.addReadInit(env, readInit);
+            ((LalrState) end).addReadInit(env, readInit);
 
             // follow implies
             maxAlt = env.grammar.getAlternativeCount(symbol);
@@ -163,16 +157,6 @@ public class LalrShift extends BaseShift {
     }
 
     //--
-
-    public String toString(StringArrayList symbolTable) {
-        StringBuilder result;
-
-        result = new StringBuilder();
-        result.append("shift ");
-        result.append(symbolTable.getOrIndex(symbol));
-        result.append(" -> " + end.id + '\n');
-        return result.toString();
-    }
 
     @Override
     public int hashCode() {

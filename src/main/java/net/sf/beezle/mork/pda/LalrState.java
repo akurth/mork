@@ -234,7 +234,7 @@ public class LalrState extends BaseState {
                 return false;
             }
             result.add(t);
-            state = t.end;
+            state = (LalrState) t.end;
         }
         return true;
     }
@@ -251,7 +251,7 @@ public class LalrState extends BaseState {
             if (t == null) {
                 return null;
             }
-            state = t.end;
+            state = (LalrState) t.end;
         }
         return state;
     }

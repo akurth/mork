@@ -17,5 +17,25 @@
 
 package net.sf.beezle.mork.pda;
 
+import net.sf.beezle.mork.misc.StringArrayList;
+
 public abstract class BaseShift {
+    /** symbol or eof */
+    public final int symbol;
+    public final BaseState end;
+
+    public BaseShift(int symbol, BaseState end) {
+        this.symbol = symbol;
+        this.end = end;
+    }
+
+    public String toString(StringArrayList symbolTable) {
+        StringBuilder result;
+
+        result = new StringBuilder();
+        result.append("shift ");
+        result.append(symbolTable.getOrIndex(symbol));
+        result.append(" -> " + end.id + '\n');
+        return result.toString();
+    }
 }
