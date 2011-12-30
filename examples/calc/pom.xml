@@ -34,6 +34,8 @@
                     <pathelement path="${basedir}/target/classes" />
                     <path refid="maven.compile.classpath" />
                   </classpath>
+                  <arg value="-verbose" />
+                  <arg value="-lr" />
                   <arg value="-d" />
                   <arg path="${basedir}/target/classes" />
                   <arg path="${basedir}/src/main/Expression.mapper" />

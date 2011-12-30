@@ -92,7 +92,7 @@ public class Syntax {
         } else {
             pda = LalrPDA.create(grammar);
         }
-        output.verbose("done, ms=" + (System.currentTimeMillis() - started) + ", states=" + pda.size());
+        output.verbose("done: " + pda.size() + " states, " + (System.currentTimeMillis() - started) + " ms");
         symbolCount = Math.max(grammar.getSymbolCount(), whiteSymbols.last() + 1);
         handler = new ConflictHandler(grammar, resolutions);
         parserTable = pda.createTable(symbolCount, handler);
