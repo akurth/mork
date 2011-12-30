@@ -65,14 +65,14 @@ public class MainTest extends TestCase {
     public void testListing() throws IOException {
         jobs = main.parseOptions(new String[] { "-lst", "a", "b" });
         assertEquals(2, jobs.length);
-        assertEquals(new Job(null, true, "a"), jobs[0]);
-        assertEquals(new Job(null, true, "b"), jobs[1]);
+        assertEquals(new Job(null, false, true, "a"), jobs[0]);
+        assertEquals(new Job(null, false, true, "b"), jobs[1]);
     }
 
     public void testOutputPath() throws IOException {
         jobs = main.parseOptions(new String[] { "-d", ".", "a", "b" });
         assertEquals(2, jobs.length);
-        assertEquals(new Job(".", false, "a"), jobs[0]);
-        assertEquals(new Job(".", false, "b"), jobs[1]);
+        assertEquals(new Job(".", false, false, "a"), jobs[0]);
+        assertEquals(new Job(".", false, false, "b"), jobs[1]);
     }
 }

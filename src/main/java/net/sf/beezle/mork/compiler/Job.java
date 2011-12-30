@@ -41,6 +41,8 @@ public class Job {
      */
     public final File outputPath;
 
+    public final boolean lr;
+
     public static final String SRC_SUFFIX = ".mapper";
     public static final String LST_SUFFIX = ".lst";
 
@@ -48,10 +50,10 @@ public class Job {
      * @param srcName name of the source file.
      */
     public Job(String srcName) throws IOException {
-        this(null, false, srcName);
+        this(null, false, false, srcName);
     }
 
-    public Job(String outputPathName, boolean listing, String srcName) throws IOException {
+    public Job(String outputPathName, boolean lr, boolean listing, String srcName) throws IOException {
         String baseName;
 
         if (outputPathName == null) {
@@ -63,6 +65,7 @@ public class Job {
             }
         }
 
+        this.lr = lr;
         this.source = new File(srcName);
         if (listing) {
             baseName = Strings.removeRightOpt(source.getName(), SRC_SUFFIX);

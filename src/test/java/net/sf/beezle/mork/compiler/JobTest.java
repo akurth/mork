@@ -27,24 +27,24 @@ public class JobTest extends TestCase {
     private Job b;
 
     public void testFields() throws IOException {
-        a = new Job(".", false, "a");
+        a = new Job(".", false, false, "a");
         assertEquals(new File("a"), a.source);
         assertEquals(new File("."), a.outputPath);
         assertNull(a.listing);
     }
 
     public void testListing() throws IOException {
-        a = new Job(null, true, "a");
+        a = new Job(null, false, true, "a");
         assertNotNull(a.listing);
         assertTrue(!a.listing.equals(a.source));
         assertTrue(a.listing.getName().endsWith(Job.LST_SUFFIX));
 
-        a = new Job(null, true, "a.xy");
+        a = new Job(null, false, true, "a.xy");
         assertNotNull(a.listing);
         assertTrue(!a.listing.equals(a.source));
         assertTrue(a.listing.getName().endsWith(Job.LST_SUFFIX));
 
-        a = new Job(null, true, "a" + Job.LST_SUFFIX);
+        a = new Job(null, false, true, "a" + Job.LST_SUFFIX);
         assertNotNull(a.listing);
         assertTrue(!a.listing.equals(a.source));
         assertTrue(a.listing.getName().endsWith(Job.LST_SUFFIX));
@@ -55,26 +55,26 @@ public class JobTest extends TestCase {
         b = new Job("a");
         assertEquals(a, b);
 
-        a = new Job(null, true, "a");
-        b = new Job(null, true, "a");
+        a = new Job(null, false, true, "a");
+        b = new Job(null, false, true, "a");
         assertEquals(a, b);
 
-        a = new Job(".", true, "a");
-        b = new Job(".", true, "a");
+        a = new Job(".", false, true, "a");
+        b = new Job(".", false, true, "a");
         assertEquals(a, b);
     }
 
     public void testOutputDiff() throws IOException {
-        a = new Job(".", true, "a");
-        b = new Job(new File(".").getParent(), true, "a");
+        a = new Job(".", false, true, "a");
+        b = new Job(new File(".").getParent(), false, true, "a");
         assertTrue(!a.equals(b));
 
-        a = new Job(".", true, "a");
-        b = new Job(null, true, "a");
+        a = new Job(".", false, true, "a");
+        b = new Job(null, false, true, "a");
         assertTrue(!a.equals(b));
 
-        a = new Job(null, true, "a");
-        b = new Job(".", true, "a");
+        a = new Job(null, false, true, "a");
+        b = new Job(".", false, true, "a");
         assertTrue(!a.equals(b));
     }
 
@@ -85,8 +85,8 @@ public class JobTest extends TestCase {
     }
 
     public void testFlagDiff() throws IOException {
-        a = new Job(null, true, "a");
-        b = new Job(null, false, "a");
+        a = new Job(null, false, true, "a");
+        b = new Job(null, false, false, "a");
         assertTrue(!a.equals(b));
     }
 }

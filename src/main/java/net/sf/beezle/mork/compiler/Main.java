@@ -44,10 +44,12 @@ public class Main {
 
     // global options.
     private final Output output;
+    private boolean lr;
     private Function mapperFn;
 
     public Main(Output output) {
         this.output = output;
+        this.lr = false;
         this.mapperFn = null;
     }
 
@@ -144,6 +146,8 @@ public class Main {
                 } catch (GenericException e) {
                     output.error(errorPos, e);
                 }
+            } else if (opt.equals("-lr")) {
+                lr = true;
             } else if (opt.startsWith("-")) {
                 output.error(errorPos, "unknown option: " + opt);
                 return null;
@@ -155,7 +159,7 @@ public class Main {
         jobs = new Job[args.length - i];
         for (int j = i; j < args.length; j++) {
             try {
-                jobs[j - i] = new Job(outputPath, listing, args[j]);
+                jobs[j - i] = new Job(outputPath, lr, listing, args[j]);
             } catch (IOException e) {
                 output.error(errorPos, e.getMessage());
                 return null;

@@ -72,7 +72,7 @@ public class Syntax {
      *
      * @return null for errors.
      */
-    public Parser translate(Output output) throws GenericException {
+    public Parser translate(boolean lr, Output output) throws GenericException {
         FABuilder builder;
         long started;
         BasePDA<?> pda;
@@ -85,10 +85,14 @@ public class Syntax {
         ConflictHandler handler;
         ConflictResolver[] resolvers;
 
-        output.verbose("creating pda");
+        output.verbose("creating pda (lr=" + lr + ")");
         started = System.currentTimeMillis();
-        pda = LalrPDA.create(grammar);
-        output.verbose("done, ms=" + (System.currentTimeMillis() - started));
+        if (lr) {
+            pda = LrPDA.create(grammar);
+        } else {
+            pda = LalrPDA.create(grammar);
+        }
+        output.verbose("done, ms=" + (System.currentTimeMillis() - started) + ", states=" + pda.size());
         symbolCount = Math.max(grammar.getSymbolCount(), whiteSymbols.last() + 1);
         handler = new ConflictHandler(grammar, resolutions);
         parserTable = pda.createTable(symbolCount, handler);
