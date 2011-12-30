@@ -24,15 +24,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class LalrReduce extends BaseReduce {
-    public final int production;
     public final IntBitSet lookahead;
-
     public final Set<LalrShift> lookback;
 
     public LalrReduce(int production) {
-        this.production = production;
-        this.lookahead = new IntBitSet();
+        super(production);
 
+        this.lookahead = new IntBitSet();
         this.lookback = new HashSet<LalrShift>();
     }
 

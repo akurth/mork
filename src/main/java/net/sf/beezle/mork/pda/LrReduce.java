@@ -20,10 +20,8 @@ package net.sf.beezle.mork.pda;
 import net.sf.beezle.mork.grammar.Grammar;
 
 public class LrReduce extends BaseReduce {
-    public final int production;
-
-    public LrReduce(int productionInit) {
-        production = productionInit;
+    public LrReduce(int production) {
+        super(production);
     }
 
     public String toString(Grammar grammar) {
