@@ -209,7 +209,8 @@ public class ParserTable implements Serializable {
         return packValue(difs, vals);
     }
 
-    private static final int MAX_UTF8_LENGTH = 0xffff - 2 / 3;
+    // TODO: 0xffff fails in jp example
+    private static final int MAX_UTF8_LENGTH = 0xfff - 2 / 3;
 
     public String[] packValue(StringBuilder difs, StringBuilder vals) {
         List<String> lst;
