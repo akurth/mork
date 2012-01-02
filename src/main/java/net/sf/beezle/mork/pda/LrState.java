@@ -128,7 +128,7 @@ public class LrState extends BaseState<LrShift, LrReduce> {
     public void reduces(LrPDA pda) {
         for (LrItem item : items) {
             if (item.getShift(pda.grammar) == -1) {
-                reduces.add(new LrReduce(item.production, item.lookahead));
+                reduces.add(new LrReduce(item.getProduction(), item.lookahead));
             }
         }
     }

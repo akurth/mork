@@ -26,19 +26,36 @@ import java.util.Map;
 
 /** LR(1) item. */
 public class LrItem extends BaseItem implements Comparable<LrItem> {
-    public final int production;
-    /** grammar.getProdLength() for end */
-    public final int dot;
+    /** production with dot */
+    private final int core;
+
     public final IntBitSet lookahead;
 
     public LrItem(int production, int dot, IntBitSet lookahead) {
-        this.production = production;
-        this.dot = dot;
+        this((production << 8) | dot, lookahead);
+    }
+
+    public LrItem(int core, IntBitSet lookahead) {
+        this.core = core;
         this.lookahead = lookahead;
+    }
+
+    public int getProduction() {
+        return core >> 8;
+    }
+
+    /** grammar.getProdLength() for end */
+    public int getDot() {
+        return (byte) core;
     }
 
     /** @return symbol of -1 if nothing can be shifted */
     public int getShift(Grammar grammar) {
+        int production;
+        int dot;
+
+        production = getProduction();
+        dot = getDot();
         if (dot < grammar.getLength(production)) {
             return grammar.getRight(production, dot);
         } else {
@@ -53,7 +70,7 @@ public class LrItem extends BaseItem implements Comparable<LrItem> {
         if (symbol == -1) {
             return null;
         } else {
-            return new LrItem(production, dot + 1, lookahead);
+            return new LrItem(core + 1, lookahead);
         }
     }
 
@@ -61,11 +78,13 @@ public class LrItem extends BaseItem implements Comparable<LrItem> {
         int symbol;
         int alt, maxAlt;
         LrItem item;
+        int production;
+        int dot;
 
-        symbol = getShift(grammar);
-        if (symbol == -1) {
-            // nothing to shift
-        } else {
+        production = getProduction();
+        dot = getDot();
+        if (dot < grammar.getLength(production)) {
+            symbol = grammar.getRight(production, dot);
             maxAlt = grammar.getAlternativeCount(symbol);
             for (alt = 0; alt < maxAlt; alt++) {
                 item = new LrItem(grammar.getAlternative(symbol, alt), 0, first(grammar, nullable, firsts, production, dot + 1, lookahead));
@@ -73,6 +92,8 @@ public class LrItem extends BaseItem implements Comparable<LrItem> {
                     result.add(item);
                 }
             }
+        } else {
+            // nothing to shift
         }
     }
 
@@ -97,7 +118,7 @@ public class LrItem extends BaseItem implements Comparable<LrItem> {
 
     @Override
     public int hashCode() {
-        return production * 8 + dot;
+        return core;
     }
 
     @Override
@@ -113,35 +134,33 @@ public class LrItem extends BaseItem implements Comparable<LrItem> {
     }
 
     public boolean sameCore(LrItem cmp) {
-        return (production == cmp.production) && (dot == cmp.dot);
+        return core == cmp.core;
     }
 
     public int compareTo(LrItem obj) {
         LrItem item;
 
         item = obj;
-        if (production < item.production) {
+        if (core < item.core) {
             return -1;
-        } else if (production > item.production) {
+        } else if (core > item.core) {
             return 1;
         } else {
-            if (dot < item.dot) {
-                return -1;
-            } else if (dot > item.dot) {
-                return 1;
-            } else {
-                // TODO: lookahead
-                return 0;
-            }
+            // TODO: lookahead
+            return 0;
         }
     }
 
     @Override
     public String toString(Grammar grammar) {
+        int production;
+        int dot;
         StringArrayList symbolTable;
         StringBuilder result;
         int ofs, len;
 
+        production = getProduction();
+        dot = getDot();
         symbolTable = grammar.getSymbolTable();
         result = new StringBuilder();
         result.append(symbolTable.getOrIndex(grammar.getLeft(production)));
