@@ -54,8 +54,8 @@ public class Output implements Constants {
     }
 
     public Output(OutputStream destInit, Pool constantsInit) {
-        major = 45;
-        minor = 3;
+        major = 50;  // java 6
+        minor = 0;
 
         bufferDest = new ByteArrayOutputStream();
         finalDest = destInit;

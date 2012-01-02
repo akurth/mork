@@ -167,22 +167,22 @@ public class ClassDef extends Definition {
         max = interfaces.size();
         dest.writeU2(max);
         for (i = 0; i < max; i++) {
-            dest.writeClassRef((ClassRef) interfaces.get(i));
+            dest.writeClassRef(interfaces.get(i));
         }
         max = fields.size();
         dest.writeU2(max);
         for (i = 0; i < max; i++) {
-            ((FieldDef) fields.get(i)).write(dest);
+            fields.get(i).write(dest);
         }
         max = methods.size();
         dest.writeU2(max);
         for (i = 0; i < max; i++) {
-            ((MethodDef) methods.get(i)).write(dest);
+            methods.get(i).write(dest);
         }
         max = attributes.size();
         dest.writeU2(max);
         for (i = 0; i < max; i++) {
-            ((Attribute) attributes.get(i)).write(dest);
+            attributes.get(i).write(dest);
         }
     }
 

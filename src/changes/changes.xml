@@ -1,8 +1,10 @@
-<document xmlns="http://maven.apache.org/changes/1.0.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/changes/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
   <body>
-    <release version="0.8" date="2011-12-xx">
+    <release date="2012-01-xx" version="0.8">
+      <action date="2012-01-02" dev="mhm" type="update">
+        Generate Class Files with version 50 (= Java 6).
+      </action>
       <action dev="mlhartme" type="add">
         Conflict resolution.
       </action>
@@ -22,7 +24,7 @@
         Changed naming convention for mapper files: base name like syntax file, extension .mapper.
       </action>
     </release>
-    <release version="0.7" date="2011-11-28">
+    <release date="2011-11-28" version="0.7">
       <action dev="mlhartme" type="update">
         Moved Project into Beezle: copied source code in svn; changed package and
         groupId to net.sf.beezle.mork.
@@ -37,26 +39,25 @@
         Update Sushi 2.2 to 2.6.1.
       </action>
     </release>
-    <release version="0.6.4" date="2011-09-01">
+    <release date="2011-09-01" version="0.6.4">
       <action dev="mlhartme" type="fix">
         Fixed ClassRef.resolve for Array types.
       </action>
     </release>
-    <release version="0.6.3" date="2011-03-09">
+    <release date="2011-03-09" version="0.6.3">
       <action dev="mlhartme" type="update">
         Improved repository and class file loading performance.
       </action>
     </release>
-    <release version="0.6.2" date="2011-03-02">
+    <release date="2011-03-02" version="0.6.2">
       <action dev="mlhartme" type="update">
         Improved class file loading performance.
       </action>
     </release>
-    <release version="0.6.1" date="2011-02-23">
+    <release date="2011-02-23" version="0.6.1">
       <action dev="mlhartme" type="update">
         Update Sushi 2.0.0 to 2.2.0
       </action>
     </release>
   </body>
 </document>
-
