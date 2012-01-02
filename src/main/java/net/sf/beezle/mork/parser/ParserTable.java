@@ -212,7 +212,7 @@ public class ParserTable implements Serializable {
     private static final int MAX_UTF8_LENGTH = 0xffff - 2 / 3;
 
     public String[] packValue(StringBuilder difs, StringBuilder vals) {
-        List<String> lst = new ArrayList<String>();
+        List<String> lst;
         String[] array;
 
         if (difs.length() != vals.length()) {
