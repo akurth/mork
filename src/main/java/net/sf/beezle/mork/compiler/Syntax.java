@@ -24,7 +24,7 @@ import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.mork.parser.Parser;
 import net.sf.beezle.mork.parser.ParserTable;
-import net.sf.beezle.mork.pda.LrPDA;
+import net.sf.beezle.mork.pda.PDA;
 import net.sf.beezle.mork.scanner.FABuilder;
 import net.sf.beezle.mork.scanner.Modes;
 import net.sf.beezle.mork.scanner.ScannerFactory;
@@ -73,7 +73,7 @@ public class Syntax {
     public Parser translate(Output output) throws GenericException {
         FABuilder builder;
         long started;
-        LrPDA pda;
+        PDA pda;
         ParserTable parserTable;
         ScannerFactory scannerFactory;
         IntBitSet usedTerminals;
@@ -85,7 +85,7 @@ public class Syntax {
 
         output.verbose("creating pda");
         started = System.currentTimeMillis();
-        pda = LrPDA.create(grammar);
+        pda = PDA.create(grammar);
         output.verbose("done: " + pda.size() + " states, " + (System.currentTimeMillis() - started) + " ms");
         symbolCount = Math.max(grammar.getSymbolCount(), whiteSymbols.last() + 1);
         handler = new ConflictHandler(grammar, resolutions);

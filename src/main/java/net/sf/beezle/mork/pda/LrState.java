@@ -92,7 +92,7 @@ public class LrState {
         Collections.sort(items);
     }
 
-    public void gotos(LrPDA pda, IntBitSet nullable, Map<Integer, IntBitSet> firsts, List<LrState> created) {
+    public void gotos(PDA pda, IntBitSet nullable, Map<Integer, IntBitSet> firsts, List<LrState> created) {
         IntBitSet shiftSymbols;
         int symbol;
         LrState state;
@@ -133,7 +133,7 @@ public class LrState {
         return result;
     }
 
-    public void reduces(LrPDA pda) {
+    public void reduces(PDA pda) {
         for (LrItem item : items) {
             if (item.getShift(pda.grammar) == -1) {
                 reduces.add(new LrReduce(item.getProduction(), item.lookahead));

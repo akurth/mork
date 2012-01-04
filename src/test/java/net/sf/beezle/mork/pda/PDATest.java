@@ -24,10 +24,10 @@ public class PDATest {
 
     private void check(int states, String ... prods) {
         Grammar grammar;
-        LrPDA pda;
+        PDA pda;
 
         grammar = Grammar.forProductions(prods);
-        pda = LrPDA.create(grammar);
+        pda = PDA.create(grammar);
         // pda.print(System.out);
         assertEquals(states, pda.size() - 1 /* TODO: artificial end state */);
     }

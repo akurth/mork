@@ -32,13 +32,13 @@ import java.util.Map;
 
 /* LR(1) automaton, follow the description in http://amor.cms.hu-berlin.de/~kunert/papers/lr-analyse/ */
 
-public class LrPDA implements Iterable<LrState> {
+public class PDA implements Iterable<LrState> {
     protected final Grammar grammar;
     private final HashMap<LrState, LrState> states;
     protected LrState start;
 
-    public static LrPDA create(Grammar grammar) {
-        LrPDA pda;
+    public static PDA create(Grammar grammar) {
+        PDA pda;
         LrState state;
         IntBitSet nullable;
         Map<Integer, IntBitSet> firsts;
@@ -47,7 +47,7 @@ public class LrPDA implements Iterable<LrState> {
         nullable = new IntBitSet();
         grammar.addNullable(nullable);
         firsts = grammar.firsts(nullable);
-        pda = new LrPDA(grammar);
+        pda = new PDA(grammar);
         state = LrState.forStartSymbol(0, grammar, grammar.getSymbolCount());
         state.closure(grammar, nullable, firsts);
         pda.add(state);
@@ -67,7 +67,7 @@ public class LrPDA implements Iterable<LrState> {
         return pda;
     }
 
-    public LrPDA(Grammar grammar) {
+    public PDA(Grammar grammar) {
         this.grammar = grammar;
         this.states = new HashMap<LrState, LrState>();
         this.start = null;

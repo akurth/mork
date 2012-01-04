@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 import net.sf.beezle.mork.compiler.ConflictHandler;
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.misc.GenericException;
-import net.sf.beezle.mork.pda.LrPDA;
+import net.sf.beezle.mork.pda.PDA;
 
 /**
  * Test that pda tables are generated without exceptions.
@@ -85,12 +85,12 @@ public class ParserTest extends TestCase {
      */
     public static void check(String ... src) throws GenericException {
         Grammar grammar;
-        LrPDA pda;
+        PDA pda;
         ConflictHandler ch;
         ParserTable table;
 
         grammar = Grammar.forProductions(src);
-        pda = LrPDA.create(grammar);
+        pda = PDA.create(grammar);
         ch = new ConflictHandler(grammar);
         table = pda.createTable(grammar.getSymbolCount(), ch);
         assertTrue(table.getValueCount() > 0);
