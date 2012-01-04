@@ -30,9 +30,6 @@ import java.util.Map;
 /** LR(1) state */
 
 public class State {
-    public final int id;
-    public final List<Shift> shifts;
-
     public static State forStartSymbol(int id, Grammar grammar, int eof) {
         int symbol;
         State state;
@@ -47,6 +44,8 @@ public class State {
         return state;
     }
 
+    public final int id;
+    public final List<Shift> shifts;
     private final List<Item> items;
 
     public State(int id) {
@@ -57,10 +56,6 @@ public class State {
         this.id = id;
         this.items = items;
         this.shifts = new ArrayList<Shift>();
-    }
-
-    public List<Item> allItems() {
-        return items;
     }
 
     public void closure(Grammar grammar, IntBitSet nullable, Map<Integer, IntBitSet> firsts) {
@@ -180,7 +175,7 @@ public class State {
         result = new StringBuilder();
         result.append("\n------------------------------\n");
         result.append("[state " + id + "]\n");
-        for (Item item : allItems()) {
+        for (Item item : items) {
             result.append(item.toString(grammar));
         }
         result.append('\n');
