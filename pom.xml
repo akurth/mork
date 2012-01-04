@@ -103,7 +103,6 @@
                     <pathelement path="${basedir}/target/classes" />
                     <path refid="maven.test.classpath" />
                   </classpath>
-                  <arg value="-lr" />
                   <arg value="-d" />
                   <arg path="${basedir}/target/classes" />
                   <arg value="-lst" />
@@ -122,7 +121,6 @@
                     <pathelement path="${basedir}/target/test-classes" />
                     <path refid="maven.test.classpath" />
                   </classpath>
-                  <arg value="-lr" />
                   <arg value="-d" />
                   <arg path="${basedir}/target/classes" />
                   <arg value="-lst" />
@@ -136,7 +134,6 @@
                     <path refid="maven.test.classpath" />
                   </classpath>
                   <!-- <arg value="-verbose:attribution"/-->
-                  <arg value="-lr" />
                   <arg value="-d" />
                   <arg path="${basedir}/target/classes" />
                   <arg line="${mapper.bs3}" />

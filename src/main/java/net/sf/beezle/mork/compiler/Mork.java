@@ -90,7 +90,7 @@ public class Mork {
             return false;
         }
         try {
-            result = spec.translate(currentJob.lr, output);
+            result = spec.translate(output);
             compiler.run(result, spec.getMapperName(), currentJob.source, currentJob.outputPath);
         } catch (GenericException e) {
             output.error(currentJob.source.getName(), e);

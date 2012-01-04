@@ -25,7 +25,6 @@ import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.mork.parser.Parser;
 import net.sf.beezle.mork.parser.ParserTable;
 import net.sf.beezle.mork.pda.BasePDA;
-import net.sf.beezle.mork.pda.LalrPDA;
 import net.sf.beezle.mork.pda.LrPDA;
 import net.sf.beezle.mork.scanner.FABuilder;
 import net.sf.beezle.mork.scanner.Modes;
@@ -40,7 +39,7 @@ import net.sf.beezle.sushi.util.IntBitSet;
  * scanner. This is because I might a features access the "[text]" of white space.
  */
 public class Syntax {
-    public static final String LALR_CONFLICT = "conflicts (use the -lst option to obtain a listing of the automaton):\n";
+    public static final String CONFLICT = "conflicts (use the -lst option to obtain a listing of the automaton):\n";
 
     private Grammar grammar;
     private Resolution[] resolutions;
@@ -72,7 +71,7 @@ public class Syntax {
      *
      * @return null for errors.
      */
-    public Parser translate(boolean lr, Output output) throws GenericException {
+    public Parser translate(Output output) throws GenericException {
         FABuilder builder;
         long started;
         BasePDA<?> pda;
@@ -85,13 +84,9 @@ public class Syntax {
         ConflictHandler handler;
         ConflictResolver[] resolvers;
 
-        output.verbose("creating pda (lr=" + lr + ")");
+        output.verbose("creating pda");
         started = System.currentTimeMillis();
-        if (lr) {
-            pda = LrPDA.create(grammar);
-        } else {
-            pda = LalrPDA.create(grammar);
-        }
+        pda = LrPDA.create(grammar);
         output.verbose("done: " + pda.size() + " states, " + (System.currentTimeMillis() - started) + " ms");
         symbolCount = Math.max(grammar.getSymbolCount(), whiteSymbols.last() + 1);
         handler = new ConflictHandler(grammar, resolutions);
