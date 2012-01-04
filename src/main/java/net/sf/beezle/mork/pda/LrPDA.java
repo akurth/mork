@@ -26,7 +26,7 @@ import java.util.Map;
 
 /* LR(1) automaton, follow the description in http://amor.cms.hu-berlin.de/~kunert/papers/lr-analyse/ */
 
-public class LrPDA extends BasePDA<LrState> {
+public class LrPDA extends BasePDA {
     public static LrPDA create(Grammar grammar) {
         LrPDA pda;
         LrState state;

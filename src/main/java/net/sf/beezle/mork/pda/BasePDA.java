@@ -26,31 +26,31 @@ import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public abstract class BasePDA<T extends BaseState> implements Iterable<T> {
+public abstract class BasePDA implements Iterable<LrState> {
     protected final Grammar grammar;
-    private final HashMap<T, T> states;
-    protected T start;
+    private final HashMap<LrState, LrState> states;
+    protected LrState start;
 
     public BasePDA(Grammar grammar) {
         this.grammar = grammar;
-        this.states = new HashMap<T, T>();
+        this.states = new HashMap<LrState, LrState>();
         this.start = null;
     }
 
-    public Iterator<T> iterator() {
+    public Iterator<LrState> iterator() {
         return states.keySet().iterator();
     }
 
-    public void add(T state) {
+    public void add(LrState state) {
         if (start == null) {
             start = state;
         }
         states.put(state, state);
     }
-    
-    public T addIfNew(T state) {
-        T existing;
-        
+
+    public LrState addIfNew(LrState state) {
+        LrState existing;
+
         existing = states.get(state);
         if (existing == null) {
             add(state);
@@ -71,7 +71,7 @@ public abstract class BasePDA<T extends BaseState> implements Iterable<T> {
     }
 
     public void print(PrintStream dest) {
-        for (BaseState state : this) {
+        for (LrState state : this) {
             dest.println(state.toString(grammar));
         }
     }
@@ -80,11 +80,11 @@ public abstract class BasePDA<T extends BaseState> implements Iterable<T> {
         // the initial syntaxnode created by the start action is ignoed!
         ParserTable result;
         int eof;
-        BaseState end;
+        LrState end;
 
         eof = getEofSymbol();
         result = new ParserTable(0, size(), lastSymbol + 1 /* +1 for EOF */, eof, grammar, null);
-        for (BaseState state : this) {
+        for (LrState state : this) {
             state.addActions(result, handler);
         }
         end = start.lookupShift(grammar.getStart()).end;

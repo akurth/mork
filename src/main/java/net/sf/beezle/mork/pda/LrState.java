@@ -17,7 +17,9 @@
 
 package net.sf.beezle.mork.pda;
 
+import net.sf.beezle.mork.compiler.ConflictHandler;
 import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.parser.ParserTable;
 import net.sf.beezle.sushi.util.IntBitSet;
 
 import java.util.ArrayList;
@@ -27,7 +29,11 @@ import java.util.Map;
 
 /** LR(1) state */
 
-public class LrState extends BaseState {
+public class LrState {
+    public final int id;
+    public final List<LrShift> shifts;
+    public final List<LrReduce> reduces;
+
     public static LrState forStartSymbol(int id, Grammar grammar, int eof) {
         int symbol;
         LrState state;
@@ -49,8 +55,10 @@ public class LrState extends BaseState {
     }
 
     public LrState(int id, List<LrItem> items) {
-        super(id, new ArrayList<LrShift>(), new ArrayList<LrReduce>());
+        this.id = id;
         this.items = items;
+        this.shifts = new ArrayList<LrShift>();
+        this.reduces = new ArrayList<LrReduce>();
     }
 
     public List<LrItem> allItems() {
@@ -150,5 +158,48 @@ public class LrState extends BaseState {
     @Override
     public int hashCode() {
         return items.size() == 0 ? 0 : items.get(0).hashCode()  * 256 + items.get(items.size() - 1).hashCode();
+    }
+
+    public void addActions(ParserTable result, ConflictHandler handler) {
+        int terminal;
+
+        for (LrShift sh : shifts) {
+            result.addShift(id, sh.symbol, sh.end.id, handler);
+        }
+        for (LrReduce r : reduces) {
+            for (terminal = r.lookahead.first(); terminal != -1; terminal = r.lookahead.next(terminal)) {
+                result.addReduce(id, terminal, r.production, handler);
+            }
+        }
+    }
+
+    public LrShift lookupShift(int symbol) {
+        for (LrShift shift : shifts) {
+            if (shift.symbol == symbol) {
+                return shift;
+            }
+        }
+        return null;
+    }
+
+    public String toString(Grammar grammar) {
+        StringBuilder result;
+
+        result = new StringBuilder();
+        result.append("\n------------------------------\n");
+        result.append("[state " + id + "]\n");
+        for (LrItem item : allItems()) {
+            result.append(item.toString(grammar));
+        }
+        result.append('\n');
+        for (LrShift sh : shifts) {
+            result.append(sh.toString(grammar.getSymbolTable()));
+        }
+        result.append('\n');
+        for (LrReduce r : reduces) {
+            result.append(r.toString(grammar));
+        }
+        result.append("\n");
+        return result.toString();
     }
 }

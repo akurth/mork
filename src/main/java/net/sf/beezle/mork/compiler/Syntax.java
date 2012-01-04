@@ -74,7 +74,7 @@ public class Syntax {
     public Parser translate(Output output) throws GenericException {
         FABuilder builder;
         long started;
-        BasePDA<?> pda;
+        BasePDA pda;
         ParserTable parserTable;
         ScannerFactory scannerFactory;
         IntBitSet usedTerminals;
