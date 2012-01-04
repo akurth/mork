@@ -29,17 +29,17 @@ import java.util.Map;
 
 /** LR(1) state */
 
-public class LrState {
+public class State {
     public final int id;
     public final List<LrShift> shifts;
     public final List<LrReduce> reduces;
 
-    public static LrState forStartSymbol(int id, Grammar grammar, int eof) {
+    public static State forStartSymbol(int id, Grammar grammar, int eof) {
         int symbol;
-        LrState state;
+        State state;
         int max;
 
-        state = new LrState(id);
+        state = new State(id);
         symbol = grammar.getStart();
         max = grammar.getAlternativeCount(symbol);
         for (int alt = 0; alt < max; alt++) {
@@ -50,11 +50,11 @@ public class LrState {
 
     private final List<LrItem> items;
 
-    public LrState(int id) {
+    public State(int id) {
         this(id, new ArrayList<LrItem>());
     }
 
-    public LrState(int id, List<LrItem> items) {
+    public State(int id, List<LrItem> items) {
         this.id = id;
         this.items = items;
         this.shifts = new ArrayList<LrShift>();
@@ -92,16 +92,16 @@ public class LrState {
         Collections.sort(items);
     }
 
-    public void gotos(PDA pda, IntBitSet nullable, Map<Integer, IntBitSet> firsts, List<LrState> created) {
+    public void gotos(PDA pda, IntBitSet nullable, Map<Integer, IntBitSet> firsts, List<State> created) {
         IntBitSet shiftSymbols;
         int symbol;
-        LrState state;
-        LrState target;
+        State state;
+        State target;
         LrItem shifted;
 
         shiftSymbols = getShiftSymbols(pda.grammar);
         for (symbol = shiftSymbols.first(); symbol != -1; symbol = shiftSymbols.next(symbol)) {
-            state = new LrState(pda.size());
+            state = new State(pda.size());
             for (LrItem item : items) {
                 if (item.getShift(pda.grammar) == symbol) {
                     shifted = item.createShifted(pda.grammar);
@@ -145,10 +145,10 @@ public class LrState {
 
     @Override
     public boolean equals(Object obj) {
-        LrState state;
+        State state;
 
-        if (obj instanceof LrState) {
-            state = (LrState) obj;
+        if (obj instanceof State) {
+            state = (State) obj;
             return items.equals(state.items);
         } else {
             return false;

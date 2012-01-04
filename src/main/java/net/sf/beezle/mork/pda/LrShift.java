@@ -22,9 +22,9 @@ import net.sf.beezle.mork.misc.StringArrayList;
 public class LrShift {
     /** symbol or eof */
     public final int symbol;
-    public final LrState end;
+    public final State end;
 
-    public LrShift(int symbol, LrState end) {
+    public LrShift(int symbol, State end) {
         this.symbol = symbol;
         this.end = end;
     }

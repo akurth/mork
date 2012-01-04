@@ -32,26 +32,26 @@ import java.util.Map;
 
 /* LR(1) automaton, follow the description in http://amor.cms.hu-berlin.de/~kunert/papers/lr-analyse/ */
 
-public class PDA implements Iterable<LrState> {
+public class PDA implements Iterable<State> {
     protected final Grammar grammar;
-    private final HashMap<LrState, LrState> states;
-    protected LrState start;
+    private final HashMap<State, State> states;
+    protected State start;
 
     public static PDA create(Grammar grammar) {
         PDA pda;
-        LrState state;
+        State state;
         IntBitSet nullable;
         Map<Integer, IntBitSet> firsts;
-        List<LrState> todo;
+        List<State> todo;
 
         nullable = new IntBitSet();
         grammar.addNullable(nullable);
         firsts = grammar.firsts(nullable);
         pda = new PDA(grammar);
-        state = LrState.forStartSymbol(0, grammar, grammar.getSymbolCount());
+        state = State.forStartSymbol(0, grammar, grammar.getSymbolCount());
         state.closure(grammar, nullable, firsts);
         pda.add(state);
-        todo = new ArrayList<LrState>();
+        todo = new ArrayList<State>();
         todo.add(state);
         // size grows!
         for (int i = 0; i < todo.size(); i++) {
@@ -61,7 +61,7 @@ public class PDA implements Iterable<LrState> {
         }
 
         // TODO: hack hack hack
-        state = new LrState(pda.size());
+        state = new State(pda.size());
         pda.add(state);
         pda.start.shifts.add(new LrShift(grammar.getStart(), state));
         return pda;
@@ -69,23 +69,23 @@ public class PDA implements Iterable<LrState> {
 
     public PDA(Grammar grammar) {
         this.grammar = grammar;
-        this.states = new HashMap<LrState, LrState>();
+        this.states = new HashMap<State, State>();
         this.start = null;
     }
 
-    public Iterator<LrState> iterator() {
+    public Iterator<State> iterator() {
         return states.keySet().iterator();
     }
 
-    public void add(LrState state) {
+    public void add(State state) {
         if (start == null) {
             start = state;
         }
         states.put(state, state);
     }
 
-    public LrState addIfNew(LrState state) {
-        LrState existing;
+    public State addIfNew(State state) {
+        State existing;
 
         existing = states.get(state);
         if (existing == null) {
@@ -107,7 +107,7 @@ public class PDA implements Iterable<LrState> {
     }
 
     public void print(PrintStream dest) {
-        for (LrState state : this) {
+        for (State state : this) {
             dest.println(state.toString(grammar));
         }
     }
@@ -116,11 +116,11 @@ public class PDA implements Iterable<LrState> {
         // the initial syntaxnode created by the start action is ignoed!
         ParserTable result;
         int eof;
-        LrState end;
+        State end;
 
         eof = getEofSymbol();
         result = new ParserTable(0, size(), lastSymbol + 1 /* +1 for EOF */, eof, grammar, null);
-        for (LrState state : this) {
+        for (State state : this) {
             state.addActions(result, handler);
         }
         end = start.lookupShift(grammar.getStart()).end;
