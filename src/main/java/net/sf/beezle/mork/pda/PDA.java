@@ -33,10 +33,6 @@ import java.util.Map;
 /* LR(1) automaton, follow the description in http://amor.cms.hu-berlin.de/~kunert/papers/lr-analyse/ */
 
 public class PDA implements Iterable<State> {
-    protected final Grammar grammar;
-    private final HashMap<State, State> states;
-    protected State start;
-
     public static PDA create(Grammar grammar) {
         PDA pda;
         State state;
@@ -47,10 +43,9 @@ public class PDA implements Iterable<State> {
         nullable = new IntBitSet();
         grammar.addNullable(nullable);
         firsts = grammar.firsts(nullable);
-        pda = new PDA(grammar);
         state = State.forStartSymbol(0, grammar, grammar.getSymbolCount());
         state.closure(grammar, nullable, firsts);
-        pda.add(state);
+        pda = new PDA(grammar, state);
         todo = new ArrayList<State>();
         todo.add(state);
         // size grows!
@@ -66,10 +61,15 @@ public class PDA implements Iterable<State> {
         return pda;
     }
 
-    public PDA(Grammar grammar) {
+    public final Grammar grammar;
+    private final HashMap<State, State> states;
+    private final State start;
+
+    public PDA(Grammar grammar, State start) {
         this.grammar = grammar;
         this.states = new HashMap<State, State>();
-        this.start = null;
+        this.start = start;
+        add(start);
     }
 
     public Iterator<State> iterator() {
@@ -77,9 +77,6 @@ public class PDA implements Iterable<State> {
     }
 
     public void add(State state) {
-        if (start == null) {
-            start = state;
-        }
         states.put(state, state);
     }
 
@@ -105,12 +102,6 @@ public class PDA implements Iterable<State> {
         return grammar.getSymbolCount();
     }
 
-    public void print(PrintStream dest) {
-        for (State state : this) {
-            dest.println(state.toString(grammar));
-        }
-    }
-
     public ParserTable createTable(int lastSymbol, ConflictHandler handler) throws GenericException {
         // the initial syntaxnode created by the start action is ignoed!
         ParserTable result;
@@ -125,5 +116,11 @@ public class PDA implements Iterable<State> {
         end = start.lookupShift(grammar.getStart()).end;
         result.addAccept(end.id, eof);
         return result;
+    }
+
+    public void print(PrintStream dest) {
+        for (State state : this) {
+            dest.println(state.toString(grammar));
+        }
     }
 }
