@@ -490,6 +490,9 @@ public class Pool implements Constants {
                 }
             }
         }
+        if (len > 0xffff) {
+            throw new IllegalArgumentException("string too long: " + str.length() + "/" + len);
+        }
         result = new byte[1 + 2 + len];
         result[0] = CONSTANT_UTF8;
         result[1] = (byte) (len >> 8);
@@ -512,6 +515,9 @@ public class Pool implements Constants {
                     len += 3;
                 }
             }
+        }
+        if (len != result.length) {
+            throw new IllegalStateException(len + " vs " + result.length);
         }
         return result;
     }
