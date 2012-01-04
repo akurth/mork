@@ -43,31 +43,31 @@ public class State {
         symbol = grammar.getStart();
         max = grammar.getAlternativeCount(symbol);
         for (int alt = 0; alt < max; alt++) {
-            state.items.add(new LrItem(grammar.getAlternative(symbol, alt), 0, IntBitSet.with(eof)));
+            state.items.add(new Item(grammar.getAlternative(symbol, alt), 0, IntBitSet.with(eof)));
         }
         return state;
     }
 
-    private final List<LrItem> items;
+    private final List<Item> items;
 
     public State(int id) {
-        this(id, new ArrayList<LrItem>());
+        this(id, new ArrayList<Item>());
     }
 
-    public State(int id, List<LrItem> items) {
+    public State(int id, List<Item> items) {
         this.id = id;
         this.items = items;
         this.shifts = new ArrayList<LrShift>();
         this.reduces = new ArrayList<LrReduce>();
     }
 
-    public List<LrItem> allItems() {
+    public List<Item> allItems() {
         return items;
     }
 
     public void closure(Grammar grammar, IntBitSet nullable, Map<Integer, IntBitSet> firsts) {
-        LrItem item;
-        LrItem cmp;
+        Item item;
+        Item cmp;
 
         // size grows!
         for (int i = 0; i < items.size(); i++) {
@@ -97,12 +97,12 @@ public class State {
         int symbol;
         State state;
         State target;
-        LrItem shifted;
+        Item shifted;
 
         shiftSymbols = getShiftSymbols(pda.grammar);
         for (symbol = shiftSymbols.first(); symbol != -1; symbol = shiftSymbols.next(symbol)) {
             state = new State(pda.size());
-            for (LrItem item : items) {
+            for (Item item : items) {
                 if (item.getShift(pda.grammar) == symbol) {
                     shifted = item.createShifted(pda.grammar);
                     if (shifted != null) {
@@ -124,7 +124,7 @@ public class State {
         int symbol;
 
         result = new IntBitSet();
-        for (LrItem item : items) {
+        for (Item item : items) {
             symbol = item.getShift(grammar);
             if (symbol != -1) {
                 result.add(symbol);
@@ -134,7 +134,7 @@ public class State {
     }
 
     public void reduces(PDA pda) {
-        for (LrItem item : items) {
+        for (Item item : items) {
             if (item.getShift(pda.grammar) == -1) {
                 reduces.add(new LrReduce(item.getProduction(), item.lookahead));
             }
@@ -188,7 +188,7 @@ public class State {
         result = new StringBuilder();
         result.append("\n------------------------------\n");
         result.append("[state " + id + "]\n");
-        for (LrItem item : allItems()) {
+        for (Item item : allItems()) {
             result.append(item.toString(grammar));
         }
         result.append('\n');
