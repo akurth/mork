@@ -57,7 +57,6 @@ public class PDA implements Iterable<State> {
         for (int i = 0; i < todo.size(); i++) {
             state = todo.get(i);
             state.gotos(pda, nullable, firsts, todo);
-            state.reduces(pda);
         }
 
         // TODO: hack hack hack
@@ -121,7 +120,7 @@ public class PDA implements Iterable<State> {
         eof = getEofSymbol();
         result = new ParserTable(0, size(), lastSymbol + 1 /* +1 for EOF */, eof, grammar, null);
         for (State state : this) {
-            state.addActions(result, handler);
+            state.addActions(grammar, result, handler);
         }
         end = start.lookupShift(grammar.getStart()).end;
         result.addAccept(end.id, eof);

@@ -32,7 +32,6 @@ import java.util.Map;
 public class State {
     public final int id;
     public final List<Shift> shifts;
-    public final List<Reduce> reduces;
 
     public static State forStartSymbol(int id, Grammar grammar, int eof) {
         int symbol;
@@ -58,7 +57,6 @@ public class State {
         this.id = id;
         this.items = items;
         this.shifts = new ArrayList<Shift>();
-        this.reduces = new ArrayList<Reduce>();
     }
 
     public List<Item> allItems() {
@@ -133,14 +131,6 @@ public class State {
         return result;
     }
 
-    public void reduces(PDA pda) {
-        for (Item item : items) {
-            if (item.getShift(pda.grammar) == -1) {
-                reduces.add(new Reduce(item.getProduction(), item.lookahead));
-            }
-        }
-    }
-
     //--
 
     @Override
@@ -160,15 +150,17 @@ public class State {
         return items.size() == 0 ? 0 : items.get(0).hashCode()  * 256 + items.get(items.size() - 1).hashCode();
     }
 
-    public void addActions(ParserTable result, ConflictHandler handler) {
+    public void addActions(Grammar grammar, ParserTable result, ConflictHandler handler) {
         int terminal;
 
         for (Shift sh : shifts) {
             result.addShift(id, sh.symbol, sh.end.id, handler);
         }
-        for (Reduce r : reduces) {
-            for (terminal = r.lookahead.first(); terminal != -1; terminal = r.lookahead.next(terminal)) {
-                result.addReduce(id, terminal, r.production, handler);
+        for (Item item : items) {
+            if (item.getShift(grammar) == -1) {
+                for (terminal = item.lookahead.first(); terminal != -1; terminal = item.lookahead.next(terminal)) {
+                    result.addReduce(id, terminal, item.getProduction(), handler);
+                }
             }
         }
     }
@@ -196,10 +188,6 @@ public class State {
             result.append(sh.toString(grammar.getSymbolTable()));
         }
         result.append('\n');
-        for (Reduce r : reduces) {
-            result.append(r.toString(grammar));
-        }
-        result.append("\n");
         return result.toString();
     }
 }
