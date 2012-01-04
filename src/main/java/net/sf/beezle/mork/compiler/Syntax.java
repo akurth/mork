@@ -24,7 +24,6 @@ import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.mork.parser.Parser;
 import net.sf.beezle.mork.parser.ParserTable;
-import net.sf.beezle.mork.pda.BasePDA;
 import net.sf.beezle.mork.pda.LrPDA;
 import net.sf.beezle.mork.scanner.FABuilder;
 import net.sf.beezle.mork.scanner.Modes;
@@ -74,7 +73,7 @@ public class Syntax {
     public Parser translate(Output output) throws GenericException {
         FABuilder builder;
         long started;
-        BasePDA pda;
+        LrPDA pda;
         ParserTable parserTable;
         ScannerFactory scannerFactory;
         IntBitSet usedTerminals;
