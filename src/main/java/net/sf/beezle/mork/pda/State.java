@@ -31,8 +31,8 @@ import java.util.Map;
 
 public class State {
     public final int id;
-    public final List<LrShift> shifts;
-    public final List<LrReduce> reduces;
+    public final List<Shift> shifts;
+    public final List<Reduce> reduces;
 
     public static State forStartSymbol(int id, Grammar grammar, int eof) {
         int symbol;
@@ -57,8 +57,8 @@ public class State {
     public State(int id, List<Item> items) {
         this.id = id;
         this.items = items;
-        this.shifts = new ArrayList<LrShift>();
-        this.reduces = new ArrayList<LrReduce>();
+        this.shifts = new ArrayList<Shift>();
+        this.reduces = new ArrayList<Reduce>();
     }
 
     public List<Item> allItems() {
@@ -115,7 +115,7 @@ public class State {
             if (target == state) {
                 created.add(target);
             }
-            this.shifts.add(new LrShift(symbol, target));
+            this.shifts.add(new Shift(symbol, target));
         }
     }
 
@@ -136,7 +136,7 @@ public class State {
     public void reduces(PDA pda) {
         for (Item item : items) {
             if (item.getShift(pda.grammar) == -1) {
-                reduces.add(new LrReduce(item.getProduction(), item.lookahead));
+                reduces.add(new Reduce(item.getProduction(), item.lookahead));
             }
         }
     }
@@ -163,18 +163,18 @@ public class State {
     public void addActions(ParserTable result, ConflictHandler handler) {
         int terminal;
 
-        for (LrShift sh : shifts) {
+        for (Shift sh : shifts) {
             result.addShift(id, sh.symbol, sh.end.id, handler);
         }
-        for (LrReduce r : reduces) {
+        for (Reduce r : reduces) {
             for (terminal = r.lookahead.first(); terminal != -1; terminal = r.lookahead.next(terminal)) {
                 result.addReduce(id, terminal, r.production, handler);
             }
         }
     }
 
-    public LrShift lookupShift(int symbol) {
-        for (LrShift shift : shifts) {
+    public Shift lookupShift(int symbol) {
+        for (Shift shift : shifts) {
             if (shift.symbol == symbol) {
                 return shift;
             }
@@ -192,11 +192,11 @@ public class State {
             result.append(item.toString(grammar));
         }
         result.append('\n');
-        for (LrShift sh : shifts) {
+        for (Shift sh : shifts) {
             result.append(sh.toString(grammar.getSymbolTable()));
         }
         result.append('\n');
-        for (LrReduce r : reduces) {
+        for (Reduce r : reduces) {
             result.append(r.toString(grammar));
         }
         result.append("\n");

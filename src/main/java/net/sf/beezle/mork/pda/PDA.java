@@ -63,7 +63,7 @@ public class PDA implements Iterable<State> {
         // TODO: hack hack hack
         state = new State(pda.size());
         pda.add(state);
-        pda.start.shifts.add(new LrShift(grammar.getStart(), state));
+        pda.start.shifts.add(new Shift(grammar.getStart(), state));
         return pda;
     }
 

@@ -17,25 +17,25 @@
 
 package net.sf.beezle.mork.pda;
 
-import net.sf.beezle.mork.grammar.Grammar;
-import net.sf.beezle.sushi.util.IntBitSet;
+import net.sf.beezle.mork.misc.StringArrayList;
 
-public class LrReduce {
-    public final int production;
-    public final IntBitSet lookahead;
+public class Shift {
+    /** symbol or eof */
+    public final int symbol;
+    public final State end;
 
-    public LrReduce(int production, IntBitSet lookahead) {
-        this.production = production;
-        this.lookahead = lookahead;
+    public Shift(int symbol, State end) {
+        this.symbol = symbol;
+        this.end = end;
     }
 
-    public String toString(Grammar grammar) {
-        StringBuilder buffer;
+    public String toString(StringArrayList symbolTable) {
+        StringBuilder result;
 
-        buffer = new StringBuilder();
-        buffer.append("reduce ");
-        grammar.prodToString(buffer, production);
-        buffer.append('\n');
-        return buffer.toString();
+        result = new StringBuilder();
+        result.append("shift ");
+        result.append(symbolTable.getOrIndex(symbol));
+        result.append(" -> " + end.id + '\n');
+        return result.toString();
     }
 }
