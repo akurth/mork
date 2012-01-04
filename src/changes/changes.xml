@@ -9,6 +9,9 @@
         Conflict resolution.
       </action>
       <action dev="mlhartme" type="update">
+        Dump LALR(1) generation - generate LR(1) instead.
+      </action>
+      <action dev="mlhartme" type="update">
         Dump xml support, it never worked.
       </action>
       <action dev="mlhartme" type="update">
