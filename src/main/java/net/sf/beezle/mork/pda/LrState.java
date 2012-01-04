@@ -27,7 +27,7 @@ import java.util.Map;
 
 /** LR(1) state */
 
-public class LrState extends BaseState<LrShift, LrReduce> {
+public class LrState extends BaseState {
     public static LrState forStartSymbol(int id, Grammar grammar, int eof) {
         int symbol;
         LrState state;
@@ -53,7 +53,7 @@ public class LrState extends BaseState<LrShift, LrReduce> {
         this.items = items;
     }
 
-    public List<? extends BaseItem> allItems() {
+    public List<LrItem> allItems() {
         return items;
     }
 

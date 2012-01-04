@@ -23,37 +23,37 @@ import net.sf.beezle.mork.parser.ParserTable;
 
 import java.util.List;
 
-public abstract class BaseState<S extends BaseShift, R extends BaseReduce> {
+public abstract class BaseState {
     public final int id;
 
-    protected final List<S> shifts;
+    protected final List<LrShift> shifts;
 
     /** List of Reduces. */
-    protected final List<R> reduces;
+    protected final List<LrReduce> reduces;
 
-    public BaseState(int id, List<S> shifts, List<R> reduces) {
+    public BaseState(int id, List<LrShift> shifts, List<LrReduce> reduces) {
         this.id = id;
         this.shifts = shifts;
         this.reduces = reduces;
     }
 
-    public abstract List<? extends BaseItem> allItems();
+    public abstract List<LrItem> allItems();
 
     public void addActions(ParserTable result, ConflictHandler handler) {
         int terminal;
 
-        for (S sh : shifts) {
+        for (LrShift sh : shifts) {
             result.addShift(id, sh.symbol, sh.end.id, handler);
         }
-        for (R r : reduces) {
+        for (LrReduce r : reduces) {
             for (terminal = r.lookahead.first(); terminal != -1; terminal = r.lookahead.next(terminal)) {
                 result.addReduce(id, terminal, r.production, handler);
             }
         }
     }
 
-    public S lookupShift(int symbol) {
-        for (S shift : shifts) {
+    public LrShift lookupShift(int symbol) {
+        for (LrShift shift : shifts) {
             if (shift.symbol == symbol) {
                 return shift;
             }
@@ -67,15 +67,15 @@ public abstract class BaseState<S extends BaseShift, R extends BaseReduce> {
         result = new StringBuilder();
         result.append("\n------------------------------\n");
         result.append("[state " + id + "]\n");
-        for (BaseItem item : allItems()) {
+        for (LrItem item : allItems()) {
             result.append(item.toString(grammar));
         }
         result.append('\n');
-        for (BaseShift sh : shifts) {
+        for (LrShift sh : shifts) {
             result.append(sh.toString(grammar.getSymbolTable()));
         }
         result.append('\n');
-        for (BaseReduce r : reduces) {
+        for (LrReduce r : reduces) {
             result.append(r.toString(grammar));
         }
         result.append("\n");

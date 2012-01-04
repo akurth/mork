@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 /** LR(1) item. */
-public class LrItem extends BaseItem implements Comparable<LrItem> {
+public class LrItem implements Comparable<LrItem> {
     /** production with dot */
     private final int core;
 
@@ -151,7 +151,6 @@ public class LrItem extends BaseItem implements Comparable<LrItem> {
         }
     }
 
-    @Override
     public String toString(Grammar grammar) {
         int production;
         int dot;

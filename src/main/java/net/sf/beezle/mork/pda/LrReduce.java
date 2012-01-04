@@ -20,12 +20,15 @@ package net.sf.beezle.mork.pda;
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.sushi.util.IntBitSet;
 
-public class LrReduce extends BaseReduce {
+public class LrReduce {
+    public final int production;
+    public final IntBitSet lookahead;
+
     public LrReduce(int production, IntBitSet lookahead) {
-        super(production, lookahead);
+        this.production = production;
+        this.lookahead = lookahead;
     }
 
-    @Override
     public String toString(Grammar grammar) {
         StringBuilder buffer;
 
