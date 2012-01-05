@@ -334,17 +334,12 @@ public class Grammar extends GrammarBase {
         nonterminals = new IntBitSet();
         getTerminals(terminals);
         getNonterminals(nonterminals);
-        symbol = terminals.first();
-        while (symbol != -1) {
+        for (symbol = terminals.first(); symbol != -1; symbol = terminals.next(symbol)) {
             result.put(symbol, one(symbol));
-            symbol = terminals.next(symbol);
         }
-        symbol = nonterminals.first();
-        while (symbol != -1) {
+        for (symbol = nonterminals.first(); symbol != -1; symbol = nonterminals.next(symbol)) {
             result.put(symbol, new PrefixSet());
-            symbol = nonterminals.next(symbol);
         }
-
         do {
             modified = false;
             for (int p = 0; p < getProductionCount(); p++) {
