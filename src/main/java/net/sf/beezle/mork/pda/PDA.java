@@ -22,6 +22,7 @@ import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.grammar.PrefixSet;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.parser.ParserTable;
+import net.sf.beezle.sushi.util.IntArrayList;
 import net.sf.beezle.sushi.util.IntBitSet;
 
 import java.io.PrintStream;
@@ -41,9 +42,20 @@ public class PDA implements Iterable<State> {
         Map<Integer, PrefixSet> firsts;
         List<State> todo;
 
+        firsts = grammar.firsts(1);
         nullable = new IntBitSet();
         grammar.addNullable(nullable);
-        firsts = grammar.firsts(nullable);
+
+
+        // TODO: nullable symbols have an empty prefix in firsts
+        IntArrayList empty = new IntArrayList();
+        for (int symbol = nullable.first(); symbol != -1; symbol = nullable.next(symbol)) {
+            if (!firsts.get(symbol).remove(empty)) {
+                throw new IllegalStateException("nullable without empty prefix: " + grammar.getSymbolTable().getOrIndex(symbol));
+            }
+        }
+
+
         state = State.forStartSymbol(0, grammar, grammar.getSymbolCount());
         state.closure(grammar, nullable, firsts);
         pda = new PDA(grammar, state);

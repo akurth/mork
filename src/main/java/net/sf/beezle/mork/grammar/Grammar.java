@@ -320,13 +320,14 @@ public class Grammar extends GrammarBase {
 
     //--
 
-    public Map<Integer, PrefixSet> firsts(IntBitSet nullable) {
+    public Map<Integer, PrefixSet> firsts(int k) {
         IntBitSet terminals;
         IntBitSet nonterminals;
         int symbol;
         Map<Integer, PrefixSet> result;
         PrefixSet first;
         int oldSize;
+        PrefixSet line;
         boolean modified;
 
         result = new HashMap<Integer, PrefixSet>();
@@ -342,32 +343,49 @@ public class Grammar extends GrammarBase {
         }
         do {
             modified = false;
-            for (int p = 0; p < getProductionCount(); p++) {
-                first = result.get(getLeft(p));
-                oldSize = first.size();
-                for (int ofs = 0; ofs < getLength(p); ofs++) {
-                    symbol = getRight(p, ofs);
-                    first.addAll(result.get(symbol));
-                    if (!nullable.contains(symbol)) {
-                        break;
+                for (int p = 0; p < getProductionCount(); p++) {
+                    first = result.get(getLeft(p));
+                    oldSize = first.size();
+                    line = new PrefixSet();
+                    line.add(new IntArrayList());
+                    for (int ofs = 0; ofs < getLength(p); ofs++) {
+                        symbol = getRight(p, ofs);
+                        line = line.concat(result.get(symbol), k);
+                        if (line == null) {
+                            break;
+                        }
+                    }
+                    if (line != null) {
+                        first.addAll(line);
+                    }
+                    if (first.size() != oldSize) {
+                        modified = true;
                     }
                 }
-                if (oldSize != first.size()) {
-                    modified = true;
-                }
-            }
         } while (modified);
+        for (symbol = nonterminals.first(); symbol != -1; symbol = nonterminals.next(symbol)) {
+            if (result.get(symbol).size() == 0) {
+                throw new IllegalStateException("" + symbol);
+            }
+        }
         return result;
     }
 
-    private static PrefixSet one(int symbol) {
+    // TODO
+    public static PrefixSet one(int symbol) {
         PrefixSet result;
-        IntArrayList one;
 
         result = new PrefixSet();
-        one = new IntArrayList();
-        one.add(symbol);
-        result.add(one);
+        result.add(create(symbol));
+        return result;
+    }
+
+    // TODO
+    public static IntArrayList create(int element) {
+        IntArrayList result;
+
+        result = new IntArrayList();
+        result.add(element);
         return result;
     }
 

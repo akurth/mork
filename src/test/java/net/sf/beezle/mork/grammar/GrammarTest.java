@@ -1,12 +1,14 @@
 package net.sf.beezle.mork.grammar;
 
 import net.sf.beezle.mork.misc.StringArrayList;
+import net.sf.beezle.sushi.util.IntArrayList;
 import net.sf.beezle.sushi.util.IntBitSet;
 import org.junit.Test;
 
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class GrammarTest {
     @Test
@@ -21,7 +23,6 @@ public class GrammarTest {
     @Test
     public void prefix() {
         Grammar g;
-        IntBitSet nullable;
         Map<Integer, PrefixSet> firsts;
         StringArrayList symbolTable;
 
@@ -32,12 +33,27 @@ public class GrammarTest {
                 "A a",
                 "A a S b");
         symbolTable = g.getSymbolTable();
-        nullable = new IntBitSet();
-        g.addNullable(nullable);
-        firsts = g.firsts(nullable);
+        firsts = g.firsts(1);
         assertEquals(6, firsts.size());
         assertEquals(PrefixSet.single(symbolTable.indexOf("b")), firsts.get(symbolTable.indexOf("Z")));
         assertEquals(PrefixSet.single(symbolTable.indexOf("b")), firsts.get(symbolTable.indexOf("S")));
         assertEquals(PrefixSet.single(symbolTable.indexOf("a")), firsts.get(symbolTable.indexOf("A")));
+    }
+
+    @Test
+    public void lst() {
+        Grammar g;
+        Map<Integer, PrefixSet> firsts;
+        StringArrayList symbolTable;
+        PrefixSet prefix;
+
+        g = Grammar.forProductions("I I a", "I");
+        symbolTable = g.getSymbolTable();
+        firsts = g.firsts(1);
+        assertEquals(2, firsts.size());
+        prefix = firsts.get(symbolTable.indexOf("I"));
+        assertEquals(2, prefix.size());
+        assertTrue(prefix.contains(Grammar.create(symbolTable.indexOf("a"))));
+        assertTrue(prefix.contains(new IntArrayList()));
     }
 }

@@ -155,7 +155,7 @@ public class State {
             if (item.getShift(grammar) == -1) {
                 for (IntArrayList prefix : item.lookahead) {
                     if (prefix.size() != 1) {
-                        throw new IllegalStateException();
+                        throw new IllegalStateException(item.toString(grammar) + ": lookahead " + prefix.size());
                     }
                     result.addReduce(id, prefix.get(0), item.getProduction(), handler);
                 }
