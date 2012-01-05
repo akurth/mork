@@ -20,7 +20,7 @@ public class Resolution {
             if (left != null) {
                 right = find(grammar, actionB);
                 if (right != null) {
-                    return new ConflictResolver(left.terminals, actionA, right.terminals, actionB);
+                    return new ManualConflictResolver(left.terminals, actionA, right.terminals, actionB);
                 }
             }
         }

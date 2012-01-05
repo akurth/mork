@@ -5,6 +5,7 @@ import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.parser.Conflict;
 import net.sf.beezle.mork.parser.Parser;
 import net.sf.beezle.mork.parser.ParserTable;
+import net.sf.beezle.mork.pda.Item;
 
 import java.util.ArrayList;
 import java.util.List;
