@@ -109,10 +109,7 @@ public class PDA implements Iterable<State> {
         result = new ParserTable(0, size(), lastSymbol + 1 /* +1 for EOF */, eof, grammar, null);
         // shifts first - that's without conflicts
         for (State state : this) {
-            state.addShifts(grammar, result);
-        }
-        for (State state : this) {
-            state.addReduces(grammar, result, handler);
+            state.addActions(grammar, result, handler);
         }
         end = start.lookupShift(grammar.getStart()).end;
         result.addAccept(end.id, eof);

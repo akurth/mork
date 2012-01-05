@@ -145,7 +145,7 @@ public class ParserTable implements Serializable {
     }
 
     public void addReduce(int state, IntArrayList prefix, int prod, ConflictHandler handler) {
-        if (prefix.size() != 1) {
+        if (prefix.size() < 1) {
             throw new IllegalStateException("" + prefix.size());
         }
         setTested(createValue(Parser.REDUCE, prod), state, prefix.get(0), handler);
@@ -164,7 +164,7 @@ public class ParserTable implements Serializable {
     public static final int NOT_SET = createValue(Parser.SPECIAL, Parser.SPECIAL_ERROR);
 
     private void setTested(int value, int state, int sym, ConflictHandler handler) {
-        if (values[state * symbolCount + sym] != NOT_SET) {
+        if (values[state * symbolCount + sym] != NOT_SET && values[state * symbolCount + sym] != value) {
             if (handler != null) {
                 value = handler.resolve(state, sym, value, values[state * symbolCount + sym]);
             } else {
