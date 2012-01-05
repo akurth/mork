@@ -25,6 +25,7 @@ public class GrammarTest {
         Grammar g;
         Map<Integer, PrefixSet> firsts;
         StringArrayList symbolTable;
+        int k = 1;
 
         g = Grammar.forProductions("Z S",
                 "S S b",
@@ -33,11 +34,11 @@ public class GrammarTest {
                 "A a",
                 "A a S b");
         symbolTable = g.getSymbolTable();
-        firsts = g.firsts(1);
+        firsts = g.firsts(k);
         assertEquals(6, firsts.size());
-        assertEquals(PrefixSet.single(symbolTable.indexOf("b")), firsts.get(symbolTable.indexOf("Z")));
-        assertEquals(PrefixSet.single(symbolTable.indexOf("b")), firsts.get(symbolTable.indexOf("S")));
-        assertEquals(PrefixSet.single(symbolTable.indexOf("a")), firsts.get(symbolTable.indexOf("A")));
+        assertEquals(PrefixSet.single(k, symbolTable.indexOf("b")), firsts.get(symbolTable.indexOf("Z")));
+        assertEquals(PrefixSet.single(k, symbolTable.indexOf("b")), firsts.get(symbolTable.indexOf("S")));
+        assertEquals(PrefixSet.single(k, symbolTable.indexOf("a")), firsts.get(symbolTable.indexOf("A")));
     }
 
     @Test

@@ -336,21 +336,21 @@ public class Grammar extends GrammarBase {
         getTerminals(terminals);
         getNonterminals(nonterminals);
         for (symbol = terminals.first(); symbol != -1; symbol = terminals.next(symbol)) {
-            result.put(symbol, one(symbol));
+            result.put(symbol, one(k, symbol));
         }
         for (symbol = nonterminals.first(); symbol != -1; symbol = nonterminals.next(symbol)) {
-            result.put(symbol, new PrefixSet());
+            result.put(symbol, new PrefixSet(k));
         }
         do {
             modified = false;
                 for (int p = 0; p < getProductionCount(); p++) {
                     first = result.get(getLeft(p));
                     oldSize = first.size();
-                    line = new PrefixSet();
+                    line = new PrefixSet(k);
                     line.add(new IntArrayList());
                     for (int ofs = 0; ofs < getLength(p); ofs++) {
                         symbol = getRight(p, ofs);
-                        line = line.concat(result.get(symbol), k);
+                        line = line.concat(result.get(symbol));
                         if (line == null) {
                             break;
                         }
@@ -372,10 +372,10 @@ public class Grammar extends GrammarBase {
     }
 
     // TODO
-    public static PrefixSet one(int symbol) {
+    public static PrefixSet one(int k, int symbol) {
         PrefixSet result;
 
-        result = new PrefixSet();
+        result = new PrefixSet(k);
         result.add(create(symbol));
         return result;
     }

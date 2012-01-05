@@ -22,8 +22,6 @@ import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.grammar.PrefixSet;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.parser.ParserTable;
-import net.sf.beezle.sushi.util.IntArrayList;
-import net.sf.beezle.sushi.util.IntBitSet;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -38,33 +36,20 @@ public class PDA implements Iterable<State> {
     public static PDA create(Grammar grammar) {
         PDA pda;
         State state;
-        IntBitSet nullable;
         Map<Integer, PrefixSet> firsts;
         List<State> todo;
+        int k = 1; // TODO
 
-        firsts = grammar.firsts(1);
-        nullable = new IntBitSet();
-        grammar.addNullable(nullable);
-
-
-        // TODO: nullable symbols have an empty prefix in firsts
-        IntArrayList empty = new IntArrayList();
-        for (int symbol = nullable.first(); symbol != -1; symbol = nullable.next(symbol)) {
-            if (!firsts.get(symbol).remove(empty)) {
-                throw new IllegalStateException("nullable without empty prefix: " + grammar.getSymbolTable().getOrIndex(symbol));
-            }
-        }
-
-
-        state = State.forStartSymbol(0, grammar, grammar.getSymbolCount());
-        state.closure(grammar, nullable, firsts);
+        firsts = grammar.firsts(k);
+        state = State.forStartSymbol(0, grammar, grammar.getSymbolCount(), k);
+        state.closure(grammar, firsts);
         pda = new PDA(grammar, state);
         todo = new ArrayList<State>();
         todo.add(state);
         // size grows!
         for (int i = 0; i < todo.size(); i++) {
             state = todo.get(i);
-            state.gotos(pda, nullable, firsts, todo);
+            state.gotos(pda, firsts, todo);
         }
 
         // TODO: hack hack hack

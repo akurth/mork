@@ -23,10 +23,10 @@ import net.sf.beezle.sushi.util.IntArrayList;
 import java.util.HashSet;
 
 public class PrefixSet extends HashSet<IntArrayList> {
-    public static PrefixSet single(int symbol) {
+    public static PrefixSet single(int k, int symbol) {
         PrefixSet result;
 
-        result = new PrefixSet();
+        result = new PrefixSet(k);
         result.add(one(symbol));
         return result;
     }
@@ -41,13 +41,19 @@ public class PrefixSet extends HashSet<IntArrayList> {
 
     //--
 
-    public PrefixSet concat(PrefixSet right, int k) {
+    public final int k;
+
+    public PrefixSet(int k) {
+        this.k = k;
+    }
+
+    public PrefixSet concat(PrefixSet right) {
         PrefixSet result;
 
         if (isEmpty() || right.isEmpty()) {
             return null;
         }
-        result = new PrefixSet();
+        result = new PrefixSet(k);
         for (IntArrayList l : this) {
             for (IntArrayList r : right) {
                 result.add(concat(l, r, k));

@@ -20,7 +20,7 @@ package net.sf.beezle.mork.pda;
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.grammar.PrefixSet;
 import net.sf.beezle.mork.misc.StringArrayList;
-import net.sf.beezle.sushi.util.IntBitSet;
+import net.sf.beezle.sushi.util.IntArrayList;
 
 import java.util.List;
 import java.util.Map;
@@ -75,7 +75,7 @@ public class Item implements Comparable<Item> {
         }
     }
 
-    public void expanded(Grammar grammar, IntBitSet nullable, Map<Integer, PrefixSet> firsts, List<Item> result) {
+    public void expanded(Grammar grammar, Map<Integer, PrefixSet> firsts, List<Item> result) {
         int symbol;
         int alt, maxAlt;
         Item item;
@@ -88,7 +88,7 @@ public class Item implements Comparable<Item> {
             symbol = grammar.getRight(production, dot);
             maxAlt = grammar.getAlternativeCount(symbol);
             for (alt = 0; alt < maxAlt; alt++) {
-                item = new Item(grammar.getAlternative(symbol, alt), 0, first(grammar, nullable, firsts, production, dot + 1, lookahead));
+                item = new Item(grammar.getAlternative(symbol, alt), 0, first(grammar, firsts, production, dot + 1, lookahead));
                 if (!result.contains(item)) {
                     result.add(item);
                 }
@@ -98,20 +98,17 @@ public class Item implements Comparable<Item> {
         }
     }
 
-    private static PrefixSet first(Grammar grammar, IntBitSet nullable, Map<Integer, PrefixSet> firsts,
-            int production, int dot, PrefixSet lookahead) {
+    private static PrefixSet first(Grammar grammar, Map<Integer, PrefixSet> firsts, int production, int dot, PrefixSet lookahead) {
         int symbol;
         PrefixSet result;
 
-        result = new PrefixSet();
+        result = new PrefixSet(lookahead.k);
+        result.add(new IntArrayList());
         for (int ofs = dot; ofs < grammar.getLength(production); ofs++) {
             symbol = grammar.getRight(production, ofs);
-            result.addAll(firsts.get(symbol));
-            if (!nullable.contains(symbol)) {
-                return result;
-            }
+            result = result.concat(firsts.get(symbol));
         }
-        result.addAll(lookahead);
+        result = result.concat(lookahead);
         return result;
     }
 

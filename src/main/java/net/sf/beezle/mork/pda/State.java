@@ -32,7 +32,7 @@ import java.util.Map;
 /** LR(1) state */
 
 public class State {
-    public static State forStartSymbol(int id, Grammar grammar, int eof) {
+    public static State forStartSymbol(int id, Grammar grammar, int eof, int k) {
         int symbol;
         State state;
         int max;
@@ -41,7 +41,7 @@ public class State {
         symbol = grammar.getStart();
         max = grammar.getAlternativeCount(symbol);
         for (int alt = 0; alt < max; alt++) {
-            state.items.add(new Item(grammar.getAlternative(symbol, alt), 0, PrefixSet.single(eof)));
+            state.items.add(new Item(grammar.getAlternative(symbol, alt), 0, PrefixSet.single(k, eof)));
         }
         return state;
     }
@@ -60,14 +60,14 @@ public class State {
         this.shifts = new ArrayList<Shift>();
     }
 
-    public void closure(Grammar grammar, IntBitSet nullable, Map<Integer, PrefixSet> firsts) {
+    public void closure(Grammar grammar, Map<Integer, PrefixSet> firsts) {
         Item item;
         Item cmp;
 
         // size grows!
         for (int i = 0; i < items.size(); i++) {
             item = items.get(i);
-            item.expanded(grammar, nullable, firsts, items);
+            item.expanded(grammar, firsts, items);
         }
 
         //-- normalize
@@ -87,7 +87,7 @@ public class State {
         Collections.sort(items);
     }
 
-    public void gotos(PDA pda, IntBitSet nullable, Map<Integer, PrefixSet> firsts, List<State> created) {
+    public void gotos(PDA pda, Map<Integer, PrefixSet> firsts, List<State> created) {
         IntBitSet shiftSymbols;
         int symbol;
         State state;
@@ -105,7 +105,7 @@ public class State {
                     }
                 }
             }
-            state.closure(pda.grammar, nullable, firsts);
+            state.closure(pda.grammar, firsts);
             target = pda.addIfNew(state);
             if (target == state) {
                 created.add(target);
