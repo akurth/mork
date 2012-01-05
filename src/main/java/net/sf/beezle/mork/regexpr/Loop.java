@@ -22,9 +22,8 @@ package net.sf.beezle.mork.regexpr;
 /**
  * Loop with >= 1 iterations. Caution, this is not Kleene star.
  * Using Kleene star would be problematic because translating EBNF rules
- * into LALR(1) grammars becomes much harder.
+ * into grammars becomes much harder.
  */
-
 public class Loop extends RegExpr {
     private RegExpr body;
 

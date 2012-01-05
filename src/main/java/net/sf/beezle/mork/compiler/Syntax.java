@@ -70,7 +70,7 @@ public class Syntax {
      *
      * @return null for errors.
      */
-    public Parser translate(Output output) throws GenericException {
+    public Parser translate(int k, Output output) throws GenericException {
         FABuilder builder;
         long started;
         PDA pda;
@@ -85,7 +85,7 @@ public class Syntax {
 
         output.verbose("creating pda");
         started = System.currentTimeMillis();
-        pda = PDA.create(grammar, 1);
+        pda = PDA.create(grammar, k);
         output.verbose("done: " + pda.size() + " states, " + (System.currentTimeMillis() - started) + " ms");
         symbolCount = Math.max(grammar.getSymbolCount(), whiteSymbols.last() + 1);
         handler = new ConflictHandler(grammar, resolutions);

@@ -29,7 +29,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-/** LR(1) state */
+/** LR(k) state */
 
 public class State {
     public static State forStartSymbol(int id, Grammar grammar, int eof, int k) {

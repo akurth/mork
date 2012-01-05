@@ -25,7 +25,7 @@ import net.sf.beezle.sushi.util.IntArrayList;
 import java.util.List;
 import java.util.Map;
 
-/** LR(1) item. */
+/** LR(k) item. */
 public class Item implements Comparable<Item> {
     /** production with dot */
     private final int core;

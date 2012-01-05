@@ -176,7 +176,7 @@
           </para></formalpara></listitem>
         <listitem><formalpara>
           <title>Parser</title>
-          <para>LR(1) parsers and regular expression operators for grammar
+          <para>LR(k) parsers and regular expression operators for grammar
             rules: EBNF and more.</para></formalpara></listitem>
         <listitem><formalpara>
           <title>Attribution</title>

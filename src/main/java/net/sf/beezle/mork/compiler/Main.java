@@ -103,10 +103,12 @@ public class Main {
         // global options propagated into all jobs:
         String outputPath;
         boolean listing;
+        int k;
         String errorPos = "mork";
 
         outputPath = null;
         listing = false;
+        k = 1;
         for (i = 0; i < args.length; i++) {
             opt = args[i];
             if (opt.equals("-help") || opt.equals("-h")) {
@@ -133,6 +135,13 @@ public class Main {
                 }
                 i++;
                 outputPath = args[i];
+            } else if (opt.equals("-k")) {
+                if (i + 1 >= args.length) {
+                    output.error(errorPos, "missing k number");
+                    return null;
+                }
+                i++;
+                k = Integer.parseInt(args[i]);
             } else if (opt.equals("-mapper")) {
                 if (i + 1 >= args.length) {
                     output.error(errorPos, "missing function mapper name");
@@ -155,7 +164,7 @@ public class Main {
         jobs = new Job[args.length - i];
         for (int j = i; j < args.length; j++) {
             try {
-                jobs[j - i] = new Job(outputPath, listing, args[j]);
+                jobs[j - i] = new Job(outputPath, k, listing, args[j]);
             } catch (IOException e) {
                 output.error(errorPos, e.getMessage());
                 return null;
@@ -171,6 +180,7 @@ public class Main {
     + " -stat                 print mapper statistics\n"
     + " -lst                  generate mapper listing\n"
     + " -d directory          sets the destination directory for class files\n"
+    + " -k num                specifies the number of lookahead token, default is 1\n"
     + " -quiet                suppress normal progress information\n"
     + " -verbose              issue overall progress information\n"
     + " -verbose:parsing      issue scanner and parsing progress information\n"
@@ -179,7 +189,7 @@ public class Main {
     public void printHelp() {
         output.normal("Mork compiler tool. ");
         output.normal("Version " + getVersion());
-        output.normal("Copyright (C) Michael Hartmeier 1998-2011");
+        output.normal("Copyright (C) Michael Hartmeier 1998-2012");
         output.normal("");
         output.normal(USAGE);
     }

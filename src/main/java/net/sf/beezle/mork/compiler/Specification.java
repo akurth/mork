@@ -109,14 +109,14 @@ public class Specification {
     /**
      * @return != null
      */
-    public Mapper translate(Output output) throws GenericException {
+    public Mapper translate(int k, Output output) throws GenericException {
         Ag semanticsBuffer;
         Oag oag;
         Parser parser;
         int i;
         Definition def;
 
-        parser = syntax.translate(output);
+        parser = syntax.translate(k, output);
         output.verbose("processing mapping section");
         semanticsBuffer = new Ag(syntax.getGrammar());
         for (i = 0; i < definitions.length; i++) {
