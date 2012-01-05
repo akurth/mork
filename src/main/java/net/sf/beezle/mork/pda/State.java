@@ -147,10 +147,13 @@ public class State {
         return items.size() == 0 ? 0 : items.get(0).hashCode()  * 256 + items.get(items.size() - 1).hashCode();
     }
 
-    public void addActions(Grammar grammar, ParserTable result, ConflictHandler handler) {
+    public void addShifts(Grammar grammar, ParserTable result) {
         for (Shift sh : shifts) {
-            result.addShift(id, sh.symbol, sh.end.id, handler);
+            result.addShift(id, sh.symbol, sh.end.id);
         }
+    }
+
+    public void addReduces(Grammar grammar, ParserTable result, ConflictHandler handler) {
         for (Item item : items) {
             if (item.getShift(grammar) == -1) {
                 for (IntArrayList prefix : item.lookahead) {

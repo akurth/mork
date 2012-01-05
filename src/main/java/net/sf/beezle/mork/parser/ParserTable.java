@@ -152,8 +152,8 @@ public class ParserTable implements Serializable {
     }
 
     /** @param  sym  may be a nonterminal */
-    public void addShift(int state, int sym, int nextState, ConflictHandler handler) {
-        setTested(createValue(Parser.SHIFT, nextState), state, sym, handler);
+    public void addShift(int state, int sym, int nextState) {
+        setTested(createValue(Parser.SHIFT, nextState), state, sym, null);
     }
 
     public void addAccept(int state, int eof) {
@@ -165,7 +165,11 @@ public class ParserTable implements Serializable {
 
     private void setTested(int value, int state, int sym, ConflictHandler handler) {
         if (values[state * symbolCount + sym] != NOT_SET) {
-            value = handler.resolve(state, sym, value, values[state * symbolCount + sym]);
+            if (handler != null) {
+                value = handler.resolve(state, sym, value, values[state * symbolCount + sym]);
+            } else {
+                throw new IllegalStateException(value + " " + state + " " + sym);
+            }
         }
         values[state * symbolCount + sym] = (char) value;
     }
