@@ -18,6 +18,7 @@
 package net.sf.beezle.mork.pda;
 
 import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.grammar.PrefixSet;
 import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.sushi.util.IntBitSet;
 
@@ -29,13 +30,13 @@ public class Item implements Comparable<Item> {
     /** production with dot */
     private final int core;
 
-    public final IntBitSet lookahead;
+    public final PrefixSet lookahead;
 
-    public Item(int production, int dot, IntBitSet lookahead) {
+    public Item(int production, int dot, PrefixSet lookahead) {
         this((production << 8) | dot, lookahead);
     }
 
-    public Item(int core, IntBitSet lookahead) {
+    public Item(int core, PrefixSet lookahead) {
         this.core = core;
         this.lookahead = lookahead;
     }
@@ -74,7 +75,7 @@ public class Item implements Comparable<Item> {
         }
     }
 
-    public void expanded(Grammar grammar, IntBitSet nullable, Map<Integer, IntBitSet> firsts, List<Item> result) {
+    public void expanded(Grammar grammar, IntBitSet nullable, Map<Integer, PrefixSet> firsts, List<Item> result) {
         int symbol;
         int alt, maxAlt;
         Item item;
@@ -97,12 +98,12 @@ public class Item implements Comparable<Item> {
         }
     }
 
-    private static IntBitSet first(Grammar grammar, IntBitSet nullable, Map<Integer, IntBitSet> firsts,
-            int production, int dot, IntBitSet lookahead) {
+    private static PrefixSet first(Grammar grammar, IntBitSet nullable, Map<Integer, PrefixSet> firsts,
+            int production, int dot, PrefixSet lookahead) {
         int symbol;
-        IntBitSet result;
+        PrefixSet result;
 
-        result = new IntBitSet();
+        result = new PrefixSet();
         for (int ofs = dot; ofs < grammar.getLength(production); ofs++) {
             symbol = grammar.getRight(production, ofs);
             result.addAll(firsts.get(symbol));
@@ -176,7 +177,7 @@ public class Item implements Comparable<Item> {
             result.append(" .");
         }
         result.append(" \t");
-        result.append(lookahead.toString(symbolTable.toList()));
+        lookahead.toString(symbolTable, result);
         result.append('\n');
         return result.toString();
     }

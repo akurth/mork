@@ -19,6 +19,7 @@ package net.sf.beezle.mork.pda;
 
 import net.sf.beezle.mork.compiler.ConflictHandler;
 import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.grammar.PrefixSet;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.parser.ParserTable;
 import net.sf.beezle.sushi.util.IntBitSet;
@@ -37,7 +38,7 @@ public class PDA implements Iterable<State> {
         PDA pda;
         State state;
         IntBitSet nullable;
-        Map<Integer, IntBitSet> firsts;
+        Map<Integer, PrefixSet> firsts;
         List<State> todo;
 
         nullable = new IntBitSet();

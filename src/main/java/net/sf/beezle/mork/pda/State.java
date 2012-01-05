@@ -19,7 +19,9 @@ package net.sf.beezle.mork.pda;
 
 import net.sf.beezle.mork.compiler.ConflictHandler;
 import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.grammar.PrefixSet;
 import net.sf.beezle.mork.parser.ParserTable;
+import net.sf.beezle.sushi.util.IntArrayList;
 import net.sf.beezle.sushi.util.IntBitSet;
 
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ public class State {
         symbol = grammar.getStart();
         max = grammar.getAlternativeCount(symbol);
         for (int alt = 0; alt < max; alt++) {
-            state.items.add(new Item(grammar.getAlternative(symbol, alt), 0, IntBitSet.with(eof)));
+            state.items.add(new Item(grammar.getAlternative(symbol, alt), 0, PrefixSet.single(eof)));
         }
         return state;
     }
@@ -58,7 +60,7 @@ public class State {
         this.shifts = new ArrayList<Shift>();
     }
 
-    public void closure(Grammar grammar, IntBitSet nullable, Map<Integer, IntBitSet> firsts) {
+    public void closure(Grammar grammar, IntBitSet nullable, Map<Integer, PrefixSet> firsts) {
         Item item;
         Item cmp;
 
@@ -85,7 +87,7 @@ public class State {
         Collections.sort(items);
     }
 
-    public void gotos(PDA pda, IntBitSet nullable, Map<Integer, IntBitSet> firsts, List<State> created) {
+    public void gotos(PDA pda, IntBitSet nullable, Map<Integer, PrefixSet> firsts, List<State> created) {
         IntBitSet shiftSymbols;
         int symbol;
         State state;
@@ -146,15 +148,16 @@ public class State {
     }
 
     public void addActions(Grammar grammar, ParserTable result, ConflictHandler handler) {
-        int terminal;
-
         for (Shift sh : shifts) {
             result.addShift(id, sh.symbol, sh.end.id, handler);
         }
         for (Item item : items) {
             if (item.getShift(grammar) == -1) {
-                for (terminal = item.lookahead.first(); terminal != -1; terminal = item.lookahead.next(terminal)) {
-                    result.addReduce(id, terminal, item.getProduction(), handler);
+                for (IntArrayList prefix : item.lookahead) {
+                    if (prefix.size() != 1) {
+                        throw new IllegalStateException();
+                    }
+                    result.addReduce(id, prefix.get(0), item.getProduction(), handler);
                 }
             }
         }

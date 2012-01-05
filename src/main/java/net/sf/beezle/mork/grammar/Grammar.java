@@ -320,16 +320,16 @@ public class Grammar extends GrammarBase {
 
     //--
 
-    public Map<Integer, IntBitSet> firsts(IntBitSet nullable) {
+    public Map<Integer, PrefixSet> firsts(IntBitSet nullable) {
         IntBitSet terminals;
         IntBitSet nonterminals;
         int symbol;
-        Map<Integer, IntBitSet> result;
-        IntBitSet first;
+        Map<Integer, PrefixSet> result;
+        PrefixSet first;
         int oldSize;
         boolean modified;
 
-        result = new HashMap<Integer, IntBitSet>();
+        result = new HashMap<Integer, PrefixSet>();
         terminals = new IntBitSet();
         nonterminals = new IntBitSet();
         getTerminals(terminals);
@@ -341,7 +341,7 @@ public class Grammar extends GrammarBase {
         }
         symbol = nonterminals.first();
         while (symbol != -1) {
-            result.put(symbol, new IntBitSet());
+            result.put(symbol, new PrefixSet());
             symbol = nonterminals.next(symbol);
         }
 
@@ -365,12 +365,14 @@ public class Grammar extends GrammarBase {
         return result;
     }
 
-    // TODO: move to sushi
-    private static IntBitSet one(int symbol) {
-        IntBitSet result;
+    private static PrefixSet one(int symbol) {
+        PrefixSet result;
+        IntArrayList one;
 
-        result = new IntBitSet();
-        result.add(symbol);
+        result = new PrefixSet();
+        one = new IntArrayList();
+        one.add(symbol);
+        result.add(one);
         return result;
     }
 
