@@ -20,7 +20,9 @@ package net.sf.beezle.mork.grammar;
 import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.sushi.util.IntArrayList;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 public class PrefixSet extends HashSet<IntArrayList> {
     public static PrefixSet single(int k, int symbol) {
@@ -94,5 +96,22 @@ public class PrefixSet extends HashSet<IntArrayList> {
             }
         }
         result.append('}');
+    }
+
+    public List<int[]> follows(int first) {
+        List<int[]> result;
+        int[] terminals;
+
+        result = new ArrayList<int[]>();
+        for (IntArrayList entry : this) {
+            if (entry.size() > 0) {
+                terminals = new int[entry.size() - 1];
+                for (int i = 0; i < terminals.length; i++) {
+                    terminals[i] = entry.get(i + 1);
+                }
+                result.add(terminals);
+            }
+        }
+        return result;
     }
 }

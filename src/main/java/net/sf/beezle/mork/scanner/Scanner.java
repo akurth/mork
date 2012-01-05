@@ -89,6 +89,22 @@ public class Scanner {
         return terminal;
     }
 
+    public boolean match(int mode, int[] terminals) throws IOException {
+        int ofs;
+
+        ofs = src.getEndOfs();
+        try {
+            for (int terminal : terminals) {
+                if (scan(mode) != terminal) {
+                    return false;
+                }
+            }
+            return true;
+        } finally {
+            src.resetEndOfs(ofs);
+        }
+    }
+
     private int scan(int mode) throws IOException {
         int pc;    // idx in table
         int c;

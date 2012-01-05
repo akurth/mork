@@ -37,6 +37,21 @@ public class ConflictHandler {
         return ParserTable.createValue(Parser.SPECIAL, Parser.SPECIAL_ERROR);
     }
 
+    public int resolve(int symbol, List<Item> items) {
+        Line[] lines;
+        Item item;
+
+        lines = new Line[items.size()];
+        for (int i = 0; i < lines.length; i++) {
+            item = items.get(i);
+            for (int[] terminals : item.lookahead.follows(symbol)) {
+                lines[i] = new Line(terminals, ParserTable.createValue(Parser.REDUCE, item.getProduction()));
+            }
+        }
+        resolvers.add(new LookaheadConflictResolver(lines));
+        return ParserTable.createValue(Parser.SPECIAL, Parser.SPECIAL_CONFLICT | ((resolvers.size() - 1) << 2));
+    }
+
     public ConflictResolver[] report(Output output, Grammar grammar) throws GenericException {
         if (conflicts.size() > 0) {
             for (Conflict conflict : conflicts ) {

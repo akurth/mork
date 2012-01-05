@@ -165,7 +165,7 @@ public class State {
                     result.addReduce(id, terminal, lst.get(0).getProduction(), handler);
                     break;
                 default:
-                    throw new IllegalStateException("TODO");
+                    result.setTested(handler.resolve(terminal, lst), id, terminal, null);
             }
         }
     }

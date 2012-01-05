@@ -160,7 +160,7 @@ public class ParserTable implements Serializable {
 
     public static final int NOT_SET = createValue(Parser.SPECIAL, Parser.SPECIAL_ERROR);
 
-    private void setTested(int value, int state, int sym, ConflictHandler handler) {
+    public void setTested(int value, int state, int sym, ConflictHandler handler) {
         if (values[state * symbolCount + sym] != NOT_SET && values[state * symbolCount + sym] != value) {
             if (handler != null) {
                 value = handler.resolve(state, sym, value, values[state * symbolCount + sym]);
