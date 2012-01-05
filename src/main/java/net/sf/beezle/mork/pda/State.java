@@ -148,17 +148,72 @@ public class State {
     }
 
     public void addActions(Grammar grammar, ParserTable result, ConflictHandler handler) {
+        IntBitSet reduceTerminals;
+        List<Item> lst;
+
         // shifts first - they cannot cause conflict
         for (Shift sh : shifts) {
             result.addShift(id, sh.symbol, sh.end.id);
         }
+        reduceTerminals = reduceTerminals(grammar);
+        for (int terminal = reduceTerminals.first(); terminal != -1; terminal = reduceTerminals.next(terminal)) {
+            lst = reduceItems(terminal, grammar);
+            switch (lst.size()) {
+                case 0:
+                    throw new IllegalStateException();
+                case 1:
+                    result.addReduce(id, terminal, lst.get(0).getProduction(), handler);
+                    break;
+                default:
+                    throw new IllegalStateException("TODO");
+            }
+        }
+    }
+
+    private IntBitSet reduceTerminals(Grammar grammar) {
+        IntBitSet result;
+
+        result = new IntBitSet();
         for (Item item : items) {
             if (item.getShift(grammar) == -1) {
                 for (IntArrayList prefix : item.lookahead) {
-                    result.addReduce(id, prefix, item.getProduction(), handler);
+                    if (prefix.size() < 1) {
+                        throw new IllegalStateException();
+                    }
+                    result.add(prefix.get(0));
                 }
             }
         }
+        return result;
+    }
+
+    /** also merges multiple items with the same production */
+    private List<Item> reduceItems(int terminal, Grammar grammar) {
+        List<Item> result;
+
+        result = new ArrayList<Item>();
+        for (Item item : items) {
+            if (item.getShift(grammar) == -1) {
+                for (IntArrayList prefix : item.lookahead) {
+                    if (prefix.get(0) == terminal) {
+                        if (!containsProd(result, item.getProduction())) {
+                            result.add(item);
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    private static boolean containsProd(List<Item> all, int prod) {
+        for (Item item : all) {
+            if (item.getProduction() == prod) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Shift lookupShift(int symbol) {

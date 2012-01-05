@@ -144,11 +144,8 @@ public class ParserTable implements Serializable {
         }
     }
 
-    public void addReduce(int state, IntArrayList prefix, int prod, ConflictHandler handler) {
-        if (prefix.size() < 1) {
-            throw new IllegalStateException("" + prefix.size());
-        }
-        setTested(createValue(Parser.REDUCE, prod), state, prefix.get(0), handler);
+    public void addReduce(int state, int terminal, int prod, ConflictHandler handler) {
+        setTested(createValue(Parser.REDUCE, prod), state, terminal, handler);
     }
 
     /** @param  sym  may be a nonterminal */
