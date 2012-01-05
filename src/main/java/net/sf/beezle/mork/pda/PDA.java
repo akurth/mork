@@ -33,12 +33,11 @@ import java.util.Map;
 /* LR(1) automaton, follow the description in http://amor.cms.hu-berlin.de/~kunert/papers/lr-analyse/ */
 
 public class PDA implements Iterable<State> {
-    public static PDA create(Grammar grammar) {
+    public static PDA create(Grammar grammar, int k) {
         PDA pda;
         State state;
         Map<Integer, PrefixSet> firsts;
         List<State> todo;
-        int k = 1; // TODO
 
         firsts = grammar.firsts(k);
         state = State.forStartSymbol(0, grammar, grammar.getSymbolCount(), k);
