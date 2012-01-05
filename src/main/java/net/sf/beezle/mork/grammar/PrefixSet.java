@@ -19,7 +19,6 @@ package net.sf.beezle.mork.grammar;
 
 import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.sushi.util.IntArrayList;
-import net.sf.beezle.sushi.util.IntBitSet;
 
 import java.util.HashSet;
 
