@@ -139,8 +139,8 @@ public class Parser {
                         switch (ParserTable.getAction(value)) {
                             case SHIFT:
                                 if (verbose != null) {
-                                    verbose.print("[" + state + "] ");
-                                    verbose.println("shift " +  ParserTable.getOperand(value));
+                                    verbose.print(stateStr());
+                                    verbose.println("shift " + ParserTable.getOperand(value));
                                 }
                                 state = ParserTable.getOperand(value);
                                 push(state, treeBuilder.createTerminal(terminal));
@@ -148,7 +148,7 @@ public class Parser {
                             case REDUCE:
                                 production = ParserTable.getOperand(value);
                                 if (verbose != null) {
-                                    verbose.print("[" + state + "] ");
+                                    verbose.print(stateStr());
                                     verbose.println("reduce " + production);
                                 }
 
@@ -164,7 +164,7 @@ public class Parser {
                                 break;
                             case SKIP:
                                 if (verbose != null) {
-                                    verbose.print("[" + state + "] ");
+                                    verbose.print(stateStr());
                                     verbose.println("skip " + terminal);
                                 }
                                 break lookupLoop;
@@ -182,6 +182,21 @@ public class Parser {
         }
     }
 
+    private String stateStr() {
+        StringBuilder builder;
+        
+        builder = new StringBuilder();
+        builder.append('[');
+        for (int i = 0; i <= top; i++) {
+            if (i > 0) {
+                builder.append(' ');
+            }
+            builder.append(states[i]);
+        }
+        builder.append("] ");
+        return builder.toString();
+    }
+    
     /** returns the subject symbol of the production */
     public int getLeft(int production) {
         return table.getLeft(production);
