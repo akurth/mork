@@ -133,7 +133,7 @@ public class Parser {
                                     if ((operand & 0x03) != SPECIAL_CONFLICT) {
                                         throw new IllegalStateException();
                                     }
-                                    value = resolvers[operand >> 2].run(scanner, table.getMode(state));
+                                    value = resolvers[operand >> 2].run(scanner, table.getMode(state), table.getEofSymbol());
                             }
                         }
                         switch (ParserTable.getAction(value)) {

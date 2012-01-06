@@ -24,7 +24,7 @@ public class ManualConflictResolver implements ConflictResolver {
         this.both.addAll(terminalsB);
     }
 
-    public int run(Scanner scanner, int mode) throws IOException {
+    public int run(Scanner scanner, int mode, int eof) throws IOException {
         int terminal;
 
         terminal = scanner.find(mode, both);

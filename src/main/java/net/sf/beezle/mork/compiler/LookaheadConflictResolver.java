@@ -14,9 +14,9 @@ public class LookaheadConflictResolver implements ConflictResolver {
         this.lines = lines;
     }
 
-    public int run(Scanner scanner, int mode) throws IOException {
+    public int run(Scanner scanner, int mode, int eof) throws IOException {
         for (Line line : lines) {
-            if (scanner.match(mode, line.terminals)) {
+            if (scanner.match(mode, eof, line.terminals)) {
                 return line.action;
             }
         }

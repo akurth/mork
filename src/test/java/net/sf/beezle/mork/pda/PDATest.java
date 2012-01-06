@@ -23,7 +23,7 @@ import java.io.StringReader;
 import static org.junit.Assert.assertEquals;
 
 public class PDATest {
-    @Test @Ignore
+    @Test
     public void simple() throws GenericException {
         checkOk(2, 1, new String[] { "a" }, "S a");
     }
@@ -39,9 +39,9 @@ public class PDATest {
                 "A a S b");
     }
 
-    @Test @Ignore
+    @Test
     public void lr2() throws GenericException {
-        checkOk(8, 2, new String[]{"baa"},
+        checkOk(8, 2, new String[]{/*"baa", */"ba"},
                 "Z S",
                 "S Y a a",
                 "S X a",

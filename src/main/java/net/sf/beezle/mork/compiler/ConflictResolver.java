@@ -6,5 +6,5 @@ import java.io.IOException;
 
 public interface ConflictResolver {
     /** @return action */
-    int run(Scanner scanner, int mode) throws IOException;
+    int run(Scanner scanner, int mode, int eof) throws IOException;
 }

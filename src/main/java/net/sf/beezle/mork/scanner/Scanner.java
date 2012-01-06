@@ -89,13 +89,18 @@ public class Scanner {
         return terminal;
     }
 
-    public boolean match(int mode, int[] terminals) throws IOException {
+    public boolean match(int mode, int eof, int[] terminals) throws IOException {
         int ofs;
+        int found;
 
         ofs = src.getEndOfs();
         try {
             for (int terminal : terminals) {
-                if (scan(mode) != terminal) {
+                found = scan(mode);
+                if (found == EOF) {
+                    found = eof;
+                }
+                if (found != terminal) {
                     return false;
                 }
             }
