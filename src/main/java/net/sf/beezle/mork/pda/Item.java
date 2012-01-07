@@ -17,6 +17,7 @@
 
 package net.sf.beezle.mork.pda;
 
+import net.sf.beezle.mork.grammar.Concat;
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.grammar.PrefixSet;
 import net.sf.beezle.mork.misc.StringArrayList;
@@ -100,16 +101,17 @@ public class Item implements Comparable<Item> {
 
     private static PrefixSet first(Grammar grammar, Map<Integer, PrefixSet> firsts, int production, int dot, PrefixSet lookahead) {
         int symbol;
-        PrefixSet result;
-
-        result = new PrefixSet(lookahead.k);
-        result.add(new IntArrayList());
+        Concat concat;
+        
+        concat = new Concat(lookahead.k);
         for (int ofs = dot; ofs < grammar.getLength(production); ofs++) {
             symbol = grammar.getRight(production, ofs);
-            result = result.concat(firsts.get(symbol));
+            if (concat.with(firsts.get(symbol))) {
+                break;
+            }
         }
-        result = result.concat(lookahead);
-        return result;
+        concat.with(lookahead);
+        return concat.result();
     }
 
     //--

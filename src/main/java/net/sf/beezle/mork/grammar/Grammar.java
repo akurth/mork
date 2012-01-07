@@ -327,8 +327,8 @@ public class Grammar extends GrammarBase {
         Map<Integer, PrefixSet> result;
         PrefixSet first;
         int oldSize;
-        PrefixSet line;
         boolean modified;
+        Concat concat;
 
         result = new HashMap<Integer, PrefixSet>();
         terminals = new IntBitSet();
@@ -346,18 +346,14 @@ public class Grammar extends GrammarBase {
             for (int p = 0; p < getProductionCount(); p++) {
                 first = result.get(getLeft(p));
                 oldSize = first.size();
-                line = new PrefixSet(k);
-                line.add(new IntArrayList());
+                concat = new Concat(k);
                 for (int ofs = 0; ofs < getLength(p); ofs++) {
                     symbol = getRight(p, ofs);
-                    line = line.concat(result.get(symbol));
-                    if (line == null) {
+                    if (concat.with(result.get(symbol))) {
                         break;
                     }
                 }
-                if (line != null) {
-                    first.addAll(line);
-                }
+                first.addAll(concat.result());
                 if (first.size() != oldSize) {
                     modified = true;
                 }

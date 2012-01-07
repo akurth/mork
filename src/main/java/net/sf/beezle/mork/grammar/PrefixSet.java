@@ -49,37 +49,6 @@ public class PrefixSet extends HashSet<IntArrayList> {
         this.k = k;
     }
 
-    public PrefixSet concat(PrefixSet right) {
-        PrefixSet result;
-
-        if (isEmpty() || right.isEmpty()) {
-            return null;
-        }
-        result = new PrefixSet(k);
-        for (IntArrayList l : this) {
-            for (IntArrayList r : right) {
-                result.add(concat(l, r, k));
-            }
-        }
-        return result;
-    }
-
-    public static IntArrayList concat(IntArrayList left, IntArrayList right, int k) {
-        IntArrayList result;
-
-        if (left.size() > k) {
-            throw new IllegalArgumentException();
-        }
-        result = new IntArrayList(left);
-        for (int i = 0; i < right.size(); i++) {
-            if (result.size() >= k) {
-                break;
-            }
-            result.add(right.get(i));
-        }
-        return result;
-    }
-
     public void toString(StringArrayList symbolTable, StringBuilder result) {
         boolean first;
 
