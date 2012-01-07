@@ -105,11 +105,13 @@ public class PrefixSet extends HashSet<IntArrayList> {
         result = new ArrayList<int[]>();
         for (IntArrayList entry : this) {
             if (entry.size() > 0) {
-                terminals = new int[entry.size() - 1];
-                for (int i = 0; i < terminals.length; i++) {
-                    terminals[i] = entry.get(i + 1);
+                if (entry.get(0) == first) {
+                    terminals = new int[entry.size() - 1];
+                    for (int i = 0; i < terminals.length; i++) {
+                        terminals[i] = entry.get(i + 1);
+                    }
+                    result.add(terminals);
                 }
-                result.add(terminals);
             }
         }
         return result;
