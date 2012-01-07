@@ -343,25 +343,25 @@ public class Grammar extends GrammarBase {
         }
         do {
             modified = false;
-                for (int p = 0; p < getProductionCount(); p++) {
-                    first = result.get(getLeft(p));
-                    oldSize = first.size();
-                    line = new PrefixSet(k);
-                    line.add(new IntArrayList());
-                    for (int ofs = 0; ofs < getLength(p); ofs++) {
-                        symbol = getRight(p, ofs);
-                        line = line.concat(result.get(symbol));
-                        if (line == null) {
-                            break;
-                        }
-                    }
-                    if (line != null) {
-                        first.addAll(line);
-                    }
-                    if (first.size() != oldSize) {
-                        modified = true;
+            for (int p = 0; p < getProductionCount(); p++) {
+                first = result.get(getLeft(p));
+                oldSize = first.size();
+                line = new PrefixSet(k);
+                line.add(new IntArrayList());
+                for (int ofs = 0; ofs < getLength(p); ofs++) {
+                    symbol = getRight(p, ofs);
+                    line = line.concat(result.get(symbol));
+                    if (line == null) {
+                        break;
                     }
                 }
+                if (line != null) {
+                    first.addAll(line);
+                }
+                if (first.size() != oldSize) {
+                    modified = true;
+                }
+            }
         } while (modified);
         for (symbol = nonterminals.first(); symbol != -1; symbol = nonterminals.next(symbol)) {
             if (result.get(symbol).size() == 0) {
