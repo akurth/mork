@@ -181,7 +181,7 @@ public class State {
                     if (prefix.size() < 1) {
                         throw new IllegalStateException();
                     }
-                    result.add(prefix.get(0));
+                    result.add(prefix.first());
                 }
             }
         }
@@ -195,7 +195,7 @@ public class State {
         for (Item item : items) {
             if (item.getShift(grammar) == -1) {
                 for (Prefix prefix : item.lookahead) {
-                    if (prefix.get(0) == terminal) {
+                    if (prefix.first() == terminal) {
                         result.add(item);
                         break;
                     }

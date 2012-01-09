@@ -67,14 +67,9 @@ public class PrefixSet extends HashSet<Prefix> {
 
         result = new ArrayList<int[]>();
         for (Prefix prefix : this) {
-            if (prefix.size() > 0) {
-                if (prefix.get(0) == first) {
-                    terminals = new int[prefix.size() - 1];
-                    for (int i = 0; i < terminals.length; i++) {
-                        terminals[i] = prefix.get(i + 1);
-                    }
-                    result.add(terminals);
-                }
+            terminals = prefix.follows(first);
+            if (terminals != null) {
+                result.add(terminals);
             }
         }
         return result;

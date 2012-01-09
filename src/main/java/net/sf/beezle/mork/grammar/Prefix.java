@@ -19,10 +19,6 @@ package net.sf.beezle.mork.grammar;
 
 import net.sf.beezle.mork.misc.StringArrayList;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class Prefix implements Comparable<Prefix> {
     public static Prefix create(int element) {
         Prefix result;
@@ -56,8 +52,8 @@ public class Prefix implements Comparable<Prefix> {
         System.arraycopy(orig.data, 0, data, 0, size);
     }
 
-    public int get(int idx) {
-        return data[idx];
+    public int first() {
+        return data[0];
     }
 
     public void ensureCapacity(int min) {
@@ -100,7 +96,7 @@ public class Prefix implements Comparable<Prefix> {
             if (result.size() >= k) {
                 break;
             }
-            result.add(right.get(i));
+            result.add(right.data[i]);
         }
         return result;
     }
@@ -133,7 +129,7 @@ public class Prefix implements Comparable<Prefix> {
         buffer = new StringBuilder();
         for (i = 0; i < max; i++) {
             buffer.append(' ');
-            buffer.append(get(i));
+            buffer.append(data[i]);
         }
         return buffer.toString();
     }
@@ -147,6 +143,20 @@ public class Prefix implements Comparable<Prefix> {
         }
     }
 
+    public int[] follows(int first) {
+        int[] terminals;
+
+        if (size() > 0) {
+            if (data[0] == first) {
+                terminals = new int[size() - 1];
+                for (int i = 0; i < terminals.length; i++) {
+                    terminals[i] = data[(i + 1)];
+                }
+                return terminals;
+            }
+        }
+        return null;
+    }
 
     @Override
     public int hashCode() {
@@ -176,9 +186,9 @@ public class Prefix implements Comparable<Prefix> {
     public int compareTo(Prefix right) {
         if (size == right.size()) {
             for (int i = 0; i < size; i++) {
-                if (get(i) < right.get(i)) {
+                if (data[i] < right.data[i]) {
                     return -1;
-                } else if (get(i) > right.get(i)) {
+                } else if (data[i] > right.data[i]) {
                     return 1;
                 }
             }
