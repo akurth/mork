@@ -17,10 +17,6 @@
 
 package net.sf.beezle.mork.grammar;
 
-import net.sf.beezle.sushi.util.IntCollection;
-
-import java.io.Serializable;
-
 /**
  * List of int elements. Similar to java.lang.List or
  * java.util.ArrayList, but it stores primitive int values.
@@ -28,31 +24,19 @@ import java.io.Serializable;
  * need for IntArrayList. I implemented only those methods
  * that I acually need.
  */
-public class Prefix implements IntCollection, Serializable {
+public class Prefix {
     /** Storage for elements. */
     private int[] data;
 
     /** Number of data elements actually used. */
     private int size;
 
-    public Prefix(int size, int[] data) {
-        this.size = size;
-        this.data = data;
-    }
-
-    public Prefix(int[] init) {
-        size = init.length;
-        data = new int[size];
-        System.arraycopy(init, 0, data, 0, size);
-    }
-    //--------------------------------------------------------------
-
     /** Creates a new empty List, initial size is 32. */
     public Prefix() {
         this(32);
     }
 
-    public Prefix(int initialSize) {
+    private Prefix(int initialSize) {
         data = new int[initialSize];
         size = 0;
     }
@@ -157,24 +141,6 @@ public class Prefix implements IntCollection, Serializable {
         size += op.size;
     }
 
-
-    /**
-     * Removes an element from the List. All following elements
-     * are moved down by one index.
-     * @param  idx  index of the element to remove
-     */
-    public void remove(int idx) {
-        size--;
-        System.arraycopy(data, idx + 1, data, idx, size - idx);
-    }
-
-    /**
-     * Removes all elements.
-     */
-    public void clear() {
-        size = 0;
-    }
-
     /**
      * Searches an element.
      * @param   ele  element to look for
@@ -203,32 +169,6 @@ public class Prefix implements IntCollection, Serializable {
         return size;
     }
 
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    /**
-     * Creates an array with all elements of the List.
-     * @return  the array requested
-     */
-    public int[] toArray() {
-        return toArray(new int[size]);
-    }
-
-    public int[] toArray(int[] result) {
-        if (result.length < size) {
-            result = new int[size];
-        }
-        System.arraycopy(data, 0, result, 0, size);
-        return result;
-    }
-
-    //-----------------------------------------------------------------
-
-    /**
-     * Returns a string representation.
-     * @return string representation
-     */
     @Override
     public String toString() {
         StringBuilder buffer;
