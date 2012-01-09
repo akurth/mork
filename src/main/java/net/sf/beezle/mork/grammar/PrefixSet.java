@@ -18,11 +18,9 @@
 package net.sf.beezle.mork.grammar;
 
 import net.sf.beezle.mork.misc.StringArrayList;
-import net.sf.beezle.sushi.util.IntArrayList;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
@@ -58,12 +56,7 @@ public class PrefixSet extends HashSet<Prefix> {
             } else {
                 result.append(", ");
             }
-            for (int i = 0, max = entry.size(); i < max; i++) {
-                if (i > 0) {
-                    result.append(' ');
-                }
-                result.append(symbolTable.getOrIndex(entry.get(i)));
-            }
+            entry.toString(symbolTable, result);
         }
         result.append('}');
     }
@@ -73,12 +66,12 @@ public class PrefixSet extends HashSet<Prefix> {
         int[] terminals;
 
         result = new ArrayList<int[]>();
-        for (Prefix entry : this) {
-            if (entry.size() > 0) {
-                if (entry.get(0) == first) {
-                    terminals = new int[entry.size() - 1];
+        for (Prefix prefix : this) {
+            if (prefix.size() > 0) {
+                if (prefix.get(0) == first) {
+                    terminals = new int[prefix.size() - 1];
                     for (int i = 0; i < terminals.length; i++) {
-                        terminals[i] = entry.get(i + 1);
+                        terminals[i] = prefix.get(i + 1);
                     }
                     result.add(terminals);
                 }

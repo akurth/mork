@@ -17,6 +17,12 @@
 
 package net.sf.beezle.mork.grammar;
 
+import net.sf.beezle.mork.misc.StringArrayList;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class Prefix implements Comparable<Prefix> {
     public static Prefix create(int element) {
         Prefix result;
@@ -25,6 +31,8 @@ public class Prefix implements Comparable<Prefix> {
         result.add(element);
         return result;
     }
+
+    //--
 
     /** Storage for elements. */
     private int[] data;
@@ -129,6 +137,16 @@ public class Prefix implements Comparable<Prefix> {
         }
         return buffer.toString();
     }
+
+    public void toString(StringArrayList symbolTable, StringBuilder result) {
+        for (int i = 0; i < size; i++) {
+            if (i > 0) {
+                result.append(' ');
+            }
+            result.append(symbolTable.getOrIndex(data[i]));
+        }
+    }
+
 
     @Override
     public int hashCode() {
