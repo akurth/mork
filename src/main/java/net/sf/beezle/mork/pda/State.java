@@ -158,6 +158,7 @@ public class State {
         reduceTerminals = reduceTerminals(grammar);
         for (int terminal = reduceTerminals.first(); terminal != -1; terminal = reduceTerminals.next(terminal)) {
             lst = reduceItems(terminal, grammar);
+            // TODO: can I have multiple items for the same production here?
             switch (lst.size()) {
                 case 0:
                     throw new IllegalStateException();
@@ -165,7 +166,7 @@ public class State {
                     result.addReduce(id, terminal, lst.get(0).getProduction(), handler);
                     break;
                 default:
-                    result.setTested(handler.resolve(terminal, lst), id, terminal, null);
+                    handler.resolve(id, terminal, lst, result);
             }
         }
     }
@@ -187,7 +188,6 @@ public class State {
         return result;
     }
 
-    /** also merges multiple items with the same production */
     private List<Item> reduceItems(int terminal, Grammar grammar) {
         List<Item> result;
 
@@ -196,9 +196,7 @@ public class State {
             if (item.getShift(grammar) == -1) {
                 for (IntArrayList prefix : item.lookahead) {
                     if (prefix.get(0) == terminal) {
-                        if (!containsProd(result, item.getProduction())) {
-                            result.add(item);
-                        }
+                        result.add(item);
                         break;
                     }
                 }

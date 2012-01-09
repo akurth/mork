@@ -8,6 +8,7 @@ import net.sf.beezle.mork.parser.ParserTable;
 import net.sf.beezle.mork.pda.Item;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ConflictHandler {
@@ -37,19 +38,32 @@ public class ConflictHandler {
         return ParserTable.createValue(Parser.SPECIAL, Parser.SPECIAL_ERROR);
     }
 
-    public int resolve(int symbol, List<Item> items) {
-        Line[] lines;
-        Item item;
+    public void resolve(int state, int symbol, List<Item> items, ParserTable result) {
+        List<Line> lines;
+        Line[] array;
+        Line line;
+        Line conflicting;
 
-        lines = new Line[items.size()];
-        for (int i = 0; i < lines.length; i++) {
-            item = items.get(i);
+        lines = new ArrayList<Line>();
+        for (Item item : items) {
             for (int[] terminals : item.lookahead.follows(symbol)) {
-                lines[i] = new Line(terminals, ParserTable.createValue(Parser.REDUCE, item.getProduction()));
+                line = new Line(terminals, ParserTable.createValue(Parser.REDUCE, item.getProduction()));
+                conflicting = Line.lookupTerminals(lines, line.terminals);
+                if (conflicting != null) {
+                    // lr(k) conflict
+                    result.setTested(conflicting.action, state, symbol, this);
+                    result.setTested(line.action, state, symbol, this);
+                    return;
+                }
+                lines.add(line);
             }
         }
-        resolvers.add(new LookaheadConflictResolver(lines));
-        return ParserTable.createValue(Parser.SPECIAL, Parser.SPECIAL_CONFLICT | ((resolvers.size() - 1) << 2));
+        array = new Line[lines.size()];
+        lines.toArray(array);
+        resolvers.add(new LookaheadConflictResolver(array));
+        result.setTested(
+                ParserTable.createValue(Parser.SPECIAL, Parser.SPECIAL_CONFLICT | ((resolvers.size() - 1) << 2)),
+                state, symbol, this);
     }
 
     public ConflictResolver[] report(Output output, Grammar grammar) throws GenericException {
