@@ -57,26 +57,7 @@ public class PrefixSet extends HashSet<Prefix> {
 
         // TODO: expensive
         sorted = new ArrayList<Prefix>(this);
-        Collections.sort(sorted, new Comparator<Prefix>() {
-            @Override
-            public int compare(Prefix left, Prefix right) {
-                int max;
-
-                max = left.size();
-                if (max == right.size()) {
-                    for (int i = 0; i < max; i++) {
-                        if (left.get(i) < right.get(i)) {
-                            return -1;
-                        } else if (left.get(i) > right.get(i)) {
-                            return 1;
-                        }
-                    }
-                    return 0;
-                } else {
-                    return max - right.size();
-                }
-            }
-        });
+        Collections.sort(sorted);
         result.append('{');
         first = true;
         for (Prefix entry : sorted) {

@@ -24,7 +24,7 @@ package net.sf.beezle.mork.grammar;
  * need for IntArrayList. I implemented only those methods
  * that I acually need.
  */
-public class Prefix {
+public class Prefix implements Comparable<Prefix> {
     /** Storage for elements. */
     private int[] data;
 
@@ -41,41 +41,10 @@ public class Prefix {
         size = 0;
     }
 
-    /**
-     * Copy constructor.
-     * @param  orig  List that supplies the initial elements for
-     *               the new List.
-     */
-    public Prefix(Prefix orig) {
+    private Prefix(Prefix orig) {
         data = new int[orig.data.length];
         size = orig.size;
         System.arraycopy(orig.data, 0, data, 0, size);
-    }
-
-    //-----------------------------------------------------------------
-
-    @Override
-    public int hashCode() {
-        return size();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        Prefix operand;
-        int i;
-
-        if (obj instanceof Prefix) {
-            operand = (Prefix) obj;
-            if (size == operand.size) {
-                for (i = 0; i < size; i++) {
-                    if (data[i] != operand.data[i]) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-        }
-        return false;
     }
 
     public int get(int idx) {
@@ -163,5 +132,45 @@ public class Prefix {
             buffer.append(get(i));
         }
         return buffer.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return size();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Prefix operand;
+        int i;
+
+        if (obj instanceof Prefix) {
+            operand = (Prefix) obj;
+            if (size == operand.size) {
+                for (i = 0; i < size; i++) {
+                    if (data[i] != operand.data[i]) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int compareTo(Prefix right) {
+        if (size == right.size()) {
+            for (int i = 0; i < size; i++) {
+                if (get(i) < right.get(i)) {
+                    return -1;
+                } else if (get(i) > right.get(i)) {
+                    return 1;
+                }
+            }
+            return 0;
+        } else {
+            return size - right.size();
+        }
     }
 }
