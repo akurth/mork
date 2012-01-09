@@ -87,15 +87,6 @@ public class Prefix {
         return data[idx];
     }
 
-    /**
-     * Replaces an element in the List.
-     * @param  ele  new element
-     * @param  idx  index of the element to be replaced
-     */
-    public void set(int idx, int ele) {
-        data[idx] = ele;
-    }
-
     public void ensureCapacity(int min) {
         int[] tmp;
         int old;
