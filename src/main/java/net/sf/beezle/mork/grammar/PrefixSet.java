@@ -61,6 +61,9 @@ public class PrefixSet extends HashSet<IntArrayList> {
                 result.append(", ");
             }
             for (int i = 0, max = entry.size(); i < max; i++) {
+                if (i > 0) {
+                    result.append(' ');
+                }
                 result.append(symbolTable.getOrIndex(entry.get(i)));
             }
         }
