@@ -5,21 +5,21 @@ import net.sf.beezle.sushi.util.IntArrayList;
 public class Concat {
     private final PrefixSet done;
     private PrefixSet todo;
-    
+
     public Concat(int k) {
         done = new PrefixSet(k);
         todo = new PrefixSet(k);
-        todo.add(new IntArrayList());
+        todo.add(new Prefix());
     }
 
     /** true when done */
     public boolean with(PrefixSet op) {
         PrefixSet next;
-        IntArrayList array;
+        Prefix array;
 
         next = new PrefixSet(done.k);
-        for (IntArrayList l : todo) {
-            for (IntArrayList r : op) {
+        for (Prefix l : todo) {
+            for (Prefix r : op) {
                 array = concat(l, r, done.k);
                 if (array.size() == done.k) {
                     done.add(array);
@@ -31,19 +31,19 @@ public class Concat {
         todo = next;
         return todo.isEmpty();
     }
-    
+
     public PrefixSet result() {
         done.addAll(todo);
         return done;
     }
 
-    public static IntArrayList concat(IntArrayList left, IntArrayList right, int k) {
-        IntArrayList result;
+    public static Prefix concat(Prefix left, Prefix right, int k) {
+        Prefix result;
 
         if (left.size() > k) {
             throw new IllegalArgumentException();
         }
-        result = new IntArrayList(left);
+        result = new Prefix(left);
         for (int i = 0; i < right.size(); i++) {
             if (result.size() >= k) {
                 break;

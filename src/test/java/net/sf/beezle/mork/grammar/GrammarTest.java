@@ -55,6 +55,6 @@ public class GrammarTest {
         prefix = firsts.get(symbolTable.indexOf("I"));
         assertEquals(2, prefix.size());
         assertTrue(prefix.contains(Grammar.create(symbolTable.indexOf("a"))));
-        assertTrue(prefix.contains(new IntArrayList()));
+        assertTrue(prefix.contains(new Prefix()));
     }
 }

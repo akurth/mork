@@ -377,10 +377,10 @@ public class Grammar extends GrammarBase {
     }
 
     // TODO
-    public static IntArrayList create(int element) {
-        IntArrayList result;
+    public static Prefix create(int element) {
+        Prefix result;
 
-        result = new IntArrayList();
+        result = new Prefix();
         result.add(element);
         return result;
     }

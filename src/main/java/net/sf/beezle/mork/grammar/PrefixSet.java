@@ -21,10 +21,12 @@ import net.sf.beezle.mork.misc.StringArrayList;
 import net.sf.beezle.sushi.util.IntArrayList;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
-public class PrefixSet extends HashSet<IntArrayList> {
+public class PrefixSet extends HashSet<Prefix> {
     public static PrefixSet single(int k, int symbol) {
         PrefixSet result;
 
@@ -33,10 +35,10 @@ public class PrefixSet extends HashSet<IntArrayList> {
         return result;
     }
 
-    public static IntArrayList one(int symbol) {
-        IntArrayList result;
+    public static Prefix one(int symbol) {
+        Prefix result;
 
-        result = new IntArrayList();
+        result = new Prefix();
         result.add(symbol);
         return result;
     }
@@ -51,10 +53,33 @@ public class PrefixSet extends HashSet<IntArrayList> {
 
     public void toString(StringArrayList symbolTable, StringBuilder result) {
         boolean first;
+        List<Prefix> sorted;
 
+        // TODO: expensive
+        sorted = new ArrayList<Prefix>(this);
+        Collections.sort(sorted, new Comparator<Prefix>() {
+            @Override
+            public int compare(Prefix left, Prefix right) {
+                int max;
+
+                max = left.size();
+                if (max == right.size()) {
+                    for (int i = 0; i < max; i++) {
+                        if (left.get(i) < right.get(i)) {
+                            return -1;
+                        } else if (left.get(i) > right.get(i)) {
+                            return 1;
+                        }
+                    }
+                    return 0;
+                } else {
+                    return max - right.size();
+                }
+            }
+        });
         result.append('{');
         first = true;
-        for (IntArrayList entry : this) {
+        for (Prefix entry : sorted) {
             if (first) {
                 first = false;
             } else {
@@ -75,7 +100,7 @@ public class PrefixSet extends HashSet<IntArrayList> {
         int[] terminals;
 
         result = new ArrayList<int[]>();
-        for (IntArrayList entry : this) {
+        for (Prefix entry : this) {
             if (entry.size() > 0) {
                 if (entry.get(0) == first) {
                     terminals = new int[entry.size() - 1];

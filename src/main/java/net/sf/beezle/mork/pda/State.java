@@ -19,9 +19,9 @@ package net.sf.beezle.mork.pda;
 
 import net.sf.beezle.mork.compiler.ConflictHandler;
 import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.grammar.Prefix;
 import net.sf.beezle.mork.grammar.PrefixSet;
 import net.sf.beezle.mork.parser.ParserTable;
-import net.sf.beezle.sushi.util.IntArrayList;
 import net.sf.beezle.sushi.util.IntBitSet;
 
 import java.util.ArrayList;
@@ -177,7 +177,7 @@ public class State {
         result = new IntBitSet();
         for (Item item : items) {
             if (item.getShift(grammar) == -1) {
-                for (IntArrayList prefix : item.lookahead) {
+                for (Prefix prefix : item.lookahead) {
                     if (prefix.size() < 1) {
                         throw new IllegalStateException();
                     }
@@ -194,7 +194,7 @@ public class State {
         result = new ArrayList<Item>();
         for (Item item : items) {
             if (item.getShift(grammar) == -1) {
-                for (IntArrayList prefix : item.lookahead) {
+                for (Prefix prefix : item.lookahead) {
                     if (prefix.get(0) == terminal) {
                         result.add(item);
                         break;
