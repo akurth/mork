@@ -336,7 +336,7 @@ public class Grammar extends GrammarBase {
         getTerminals(terminals);
         getNonterminals(nonterminals);
         for (symbol = terminals.first(); symbol != -1; symbol = terminals.next(symbol)) {
-            result.put(symbol, one(k, symbol));
+            result.put(symbol, PrefixSet.one(k, symbol));
         }
         for (symbol = nonterminals.first(); symbol != -1; symbol = nonterminals.next(symbol)) {
             result.put(symbol, new PrefixSet(k));
@@ -364,15 +364,6 @@ public class Grammar extends GrammarBase {
                 throw new IllegalStateException("" + symbol);
             }
         }
-        return result;
-    }
-
-    // TODO
-    public static PrefixSet one(int k, int symbol) {
-        PrefixSet result;
-
-        result = new PrefixSet(k);
-        result.add(Prefix.create(symbol));
         return result;
     }
 

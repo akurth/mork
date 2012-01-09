@@ -1,8 +1,6 @@
 package net.sf.beezle.mork.grammar;
 
 import net.sf.beezle.mork.misc.StringArrayList;
-import net.sf.beezle.sushi.util.IntArrayList;
-import net.sf.beezle.sushi.util.IntBitSet;
 import org.junit.Test;
 
 import java.util.Map;
@@ -36,9 +34,9 @@ public class GrammarTest {
         symbolTable = g.getSymbolTable();
         firsts = g.firsts(k);
         assertEquals(6, firsts.size());
-        assertEquals(PrefixSet.single(k, symbolTable.indexOf("b")), firsts.get(symbolTable.indexOf("Z")));
-        assertEquals(PrefixSet.single(k, symbolTable.indexOf("b")), firsts.get(symbolTable.indexOf("S")));
-        assertEquals(PrefixSet.single(k, symbolTable.indexOf("a")), firsts.get(symbolTable.indexOf("A")));
+        assertEquals(PrefixSet.one(k, symbolTable.indexOf("b")), firsts.get(symbolTable.indexOf("Z")));
+        assertEquals(PrefixSet.one(k, symbolTable.indexOf("b")), firsts.get(symbolTable.indexOf("S")));
+        assertEquals(PrefixSet.one(k, symbolTable.indexOf("a")), firsts.get(symbolTable.indexOf("A")));
     }
 
     @Test

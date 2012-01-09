@@ -27,19 +27,11 @@ import java.util.HashSet;
 import java.util.List;
 
 public class PrefixSet extends HashSet<Prefix> {
-    public static PrefixSet single(int k, int symbol) {
+    public static PrefixSet one(int k, int symbol) {
         PrefixSet result;
 
         result = new PrefixSet(k);
-        result.add(one(symbol));
-        return result;
-    }
-
-    public static Prefix one(int symbol) {
-        Prefix result;
-
-        result = new Prefix();
-        result.add(symbol);
+        result.add(Prefix.create(symbol));
         return result;
     }
 
