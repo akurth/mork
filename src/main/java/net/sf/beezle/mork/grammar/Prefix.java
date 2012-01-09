@@ -38,7 +38,7 @@ public class Prefix implements Comparable<Prefix> {
 
     /** Creates a new empty List, initial size is 32. */
     public Prefix() {
-        this(32);
+        this(3);  // TODO
     }
 
     private Prefix(int initialSize) {
