@@ -78,11 +78,6 @@ public class Prefix {
         return false;
     }
 
-    /**
-     * Gets an element from the List.
-     * @param   idx  index of the element asked for
-     * @return  selected element
-     */
     public int get(int idx) {
         return data[idx];
     }
@@ -104,12 +99,6 @@ public class Prefix {
         }
     }
 
-    /**
-     * Adds an element to the List. All following elements
-     * are moved up by one index.
-     * @param  idx  where to insert the new element
-     * @param  ele  new element
-     */
     public void add(int idx, int ele) {
         ensureCapacity(size + 1);
         System.arraycopy(data, idx, data, idx + 1, size - idx);
@@ -117,19 +106,25 @@ public class Prefix {
         size++;
     }
 
-    /**
-     * Adds an element to the end of the List.
-     * @param  ele  new element
-     */
     public void add(int ele) {
         ensureCapacity(size + 1);
         data[size++] = ele;
     }
 
-    public void addAll(Prefix op) {
-        ensureCapacity(size + op.size);
-        System.arraycopy(op.data, 0, data, size, op.size);
-        size += op.size;
+    public Prefix concat(Prefix right, int k) {
+        Prefix result;
+
+        if (size() > k) {
+            throw new IllegalArgumentException();
+        }
+        result = new Prefix(this);
+        for (int i = 0; i < right.size(); i++) {
+            if (result.size() >= k) {
+                break;
+            }
+            result.add(right.get(i));
+        }
+        return result;
     }
 
     /**
@@ -154,22 +149,6 @@ public class Prefix {
 
     public int size() {
         return size;
-    }
-
-    public Prefix concat(Prefix right, int k) {
-        Prefix result;
-
-        if (size() > k) {
-            throw new IllegalArgumentException();
-        }
-        result = new Prefix(this);
-        for (int i = 0; i < right.size(); i++) {
-            if (result.size() >= k) {
-                break;
-            }
-            result.add(right.get(i));
-        }
-        return result;
     }
 
     @Override
