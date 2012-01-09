@@ -152,12 +152,24 @@ public class Prefix {
         return indexOf(ele) != -1;
     }
 
-    /**
-     * Returns the number of elements in the List.
-     * @return number of elements
-     */
     public int size() {
         return size;
+    }
+
+    public Prefix concat(Prefix right, int k) {
+        Prefix result;
+
+        if (size() > k) {
+            throw new IllegalArgumentException();
+        }
+        result = new Prefix(this);
+        for (int i = 0; i < right.size(); i++) {
+            if (result.size() >= k) {
+                break;
+            }
+            result.add(right.get(i));
+        }
+        return result;
     }
 
     @Override
