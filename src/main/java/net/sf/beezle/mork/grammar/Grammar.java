@@ -372,16 +372,7 @@ public class Grammar extends GrammarBase {
         PrefixSet result;
 
         result = new PrefixSet(k);
-        result.add(create(symbol));
-        return result;
-    }
-
-    // TODO
-    public static Prefix create(int element) {
-        Prefix result;
-
-        result = new Prefix();
-        result.add(element);
+        result.add(Prefix.create(symbol));
         return result;
     }
 

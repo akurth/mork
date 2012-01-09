@@ -25,6 +25,15 @@ package net.sf.beezle.mork.grammar;
  * that I acually need.
  */
 public class Prefix implements Comparable<Prefix> {
+    // TODO
+    public static Prefix create(int element) {
+        Prefix result;
+
+        result = new Prefix();
+        result.add(element);
+        return result;
+    }
+
     /** Storage for elements. */
     private int[] data;
 
@@ -96,11 +105,6 @@ public class Prefix implements Comparable<Prefix> {
         return result;
     }
 
-    /**
-     * Searches an element.
-     * @param   ele  element to look for
-     * @return  index of the first element found; -1 if nothing was found
-     */
     public int indexOf(int ele) {
         int i;
 
