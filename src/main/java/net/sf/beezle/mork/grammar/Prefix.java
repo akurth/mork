@@ -17,15 +17,7 @@
 
 package net.sf.beezle.mork.grammar;
 
-/**
- * List of int elements. Similar to java.lang.List or
- * java.util.ArrayList, but it stores primitive int values.
- * Generic collections for primitive types whould remove the
- * need for IntArrayList. I implemented only those methods
- * that I acually need.
- */
 public class Prefix implements Comparable<Prefix> {
-    // TODO
     public static Prefix create(int element) {
         Prefix result;
 
