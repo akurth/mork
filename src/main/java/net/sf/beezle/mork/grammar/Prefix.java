@@ -32,12 +32,6 @@ public class Prefix implements Comparable<Prefix> {
         }
     }
 
-    private Prefix(Prefix orig) {
-        data = new int[orig.data.length];
-        size = orig.size;
-        System.arraycopy(orig.data, 0, data, 0, size);
-    }
-
     public int first() {
         return data[0];
     }
@@ -66,11 +60,14 @@ public class Prefix implements Comparable<Prefix> {
 
     public Prefix concat(Prefix right, int k) {
         Prefix result;
+        int[] next;
 
         if (size() > k) {
             throw new IllegalArgumentException();
         }
-        result = new Prefix(this);
+        next = new int[size()];
+        System.arraycopy(data, 0, next, 0, next.length);
+        result = new Prefix(next);
         for (int i = 0; i < right.size(); i++) {
             if (result.size() >= k) {
                 break;
