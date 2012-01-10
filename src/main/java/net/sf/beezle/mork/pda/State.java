@@ -68,7 +68,7 @@ public class State {
 
         //-- normalize
 
-        // size changes
+        // size shrinks
         for (int i = 0; i < items.size(); i++) {
             item = items.get(i);
             for (int j = i + 1; j < items.size(); j++) {
