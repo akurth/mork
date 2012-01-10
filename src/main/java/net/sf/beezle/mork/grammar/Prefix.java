@@ -41,8 +41,8 @@ public class Prefix implements Comparable<Prefix> {
     public Prefix concat(Prefix right, int k) {
         int[] next;
 
-        if (size() > k) {
-            throw new IllegalArgumentException();
+        if (data.length == 0) {
+            return right;
         }
         next = new int[Math.min(k, size() + right.size())];
         System.arraycopy(data, 0, next, 0, size());
