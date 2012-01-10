@@ -25,9 +25,8 @@ public class Prefix implements Comparable<Prefix> {
     private int size;
 
     public Prefix(int ... elements) {
-        data = new int[3];
+        data = new int[elements.length];
         size = 0;
-        ensureCapacity(elements.length);
         for (int element : elements) {
             data[size++] = element;
         }
@@ -35,23 +34,6 @@ public class Prefix implements Comparable<Prefix> {
 
     public int first() {
         return data[0];
-    }
-
-    public void ensureCapacity(int min) {
-        int[] tmp;
-        int old;
-        int capacity;
-
-        old = data.length;
-        if (min > old) {
-            tmp = data;
-            capacity = (old * 5) / 3 + 1;
-            if (capacity < min) {
-                capacity = min;
-            }
-            data = new int[capacity];
-            System.arraycopy(tmp, 0, data, 0, size);
-        }
     }
 
     public Prefix concat(Prefix right, int k) {
