@@ -101,7 +101,7 @@ public class PDATest {
                 @Override
                 public Object createNonterminal(int production) throws SemanticError {
                     int length;
-                    
+
                     length = table.getLength(production);
                     for (int i = 0; i < length; i++) {
                         parser.pop();
@@ -115,7 +115,7 @@ public class PDATest {
     private PDA check(int states, int k, Grammar grammar) {
         PDA pda;
 
-        pda = PDA.create(grammar, k);
+        pda = PDA.create(grammar, grammar.firsts(k), k);
         // pda.print(System.out);
         assertEquals(states, pda.size() - 1 /* TODO: artificial end state */);
         return pda;

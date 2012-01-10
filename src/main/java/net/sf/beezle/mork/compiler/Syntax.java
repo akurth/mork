@@ -19,6 +19,7 @@ package net.sf.beezle.mork.compiler;
 
 import net.sf.beezle.mork.grammar.Ebnf;
 import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.grammar.PrefixSet;
 import net.sf.beezle.mork.grammar.Rule;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.misc.StringArrayList;
@@ -29,6 +30,8 @@ import net.sf.beezle.mork.scanner.FABuilder;
 import net.sf.beezle.mork.scanner.Modes;
 import net.sf.beezle.mork.scanner.ScannerFactory;
 import net.sf.beezle.sushi.util.IntBitSet;
+
+import java.util.Map;
 
 /**
  * Grammar syntax specification. Represents a grammar syntax file with
@@ -75,6 +78,7 @@ public class Syntax {
         long started;
         PDA pda;
         ParserTable parserTable;
+        Map<Integer, PrefixSet> firsts;
         ScannerFactory scannerFactory;
         IntBitSet usedTerminals;
         IntBitSet usedSymbols;
@@ -83,9 +87,11 @@ public class Syntax {
         ConflictHandler handler;
         ConflictResolver[] resolvers;
 
-        output.verbose("creating pda");
         started = System.currentTimeMillis();
-        pda = PDA.create(grammar, k);
+        output.verbose("computing firsts");
+        firsts = grammar.firsts(k);
+        output.verbose("creating pda");
+        pda = PDA.create(grammar, firsts, k);
         output.verbose("done: " + pda.size() + " states, " + (System.currentTimeMillis() - started) + " ms");
         symbolCount = Math.max(grammar.getSymbolCount(), whiteSymbols.last() + 1);
         handler = new ConflictHandler(grammar, resolutions);
