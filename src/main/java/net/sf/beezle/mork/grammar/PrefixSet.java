@@ -41,6 +41,11 @@ public class PrefixSet extends HashSet<Prefix> {
         this.k = k;
     }
 
+    public PrefixSet(PrefixSet orig) {
+        super(orig);
+        this.k = orig.k;
+    }
+
     public void toString(StringArrayList symbolTable, StringBuilder result) {
         boolean first;
         List<Prefix> sorted;

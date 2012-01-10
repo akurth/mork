@@ -23,17 +23,20 @@ import java.util.Arrays;
 
 /** Immutable */
 public class Prefix implements Comparable<Prefix> {
-    public static final Prefix EMPTY = new Prefix(new int[] {});
+    public static final Prefix EMPTY = new Prefix(new char[] {});
 
-    private final int[] data;
+    private final char[] data;
 
     public Prefix(int first) {
-        this(new int[] { first });
+        this(new char[] { (char) first });
+        if (((char) first) != first) {
+            throw new IllegalArgumentException("" + first);
+        }
     }
 
     /** Private because the caller has to ensure the array is passed to nobody else (and modified) */
-    private Prefix(int[] elements) {
-        data = elements;
+    private Prefix(char[] data) {
+        this.data = data;
     }
 
     public int first() {
@@ -41,12 +44,12 @@ public class Prefix implements Comparable<Prefix> {
     }
 
     public Prefix concat(Prefix right, int k) {
-        int[] next;
+        char[] next;
 
         if (data.length == 0) {
             return right;
         }
-        next = new int[Math.min(k, size() + right.size())];
+        next = new char[Math.min(k, size() + right.size())];
         System.arraycopy(data, 0, next, 0, size());
         System.arraycopy(right.data, 0, next, size(), next.length - size());
         return new Prefix(next);

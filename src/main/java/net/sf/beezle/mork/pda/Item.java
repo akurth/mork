@@ -99,11 +99,16 @@ public class Item implements Comparable<Item> {
     }
 
     private static PrefixSet first(Grammar grammar, Map<Integer, PrefixSet> firsts, int production, int dot, PrefixSet lookahead) {
+        int len;
         int symbol;
         Concat concat;
 
+        len = grammar.getLength(production);
+        if (len == dot) {
+            return new PrefixSet(lookahead);
+        }
         concat = new Concat(lookahead.k);
-        for (int ofs = dot; ofs < grammar.getLength(production); ofs++) {
+        for (int ofs = dot; ofs < len; ofs++) {
             symbol = grammar.getRight(production, ofs);
             if (concat.with(firsts.get(symbol))) {
                 return concat.result();
