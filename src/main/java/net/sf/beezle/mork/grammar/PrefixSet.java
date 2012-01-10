@@ -29,7 +29,7 @@ public class PrefixSet extends HashSet<Prefix> {
         PrefixSet result;
 
         result = new PrefixSet(k);
-        result.add(Prefix.create(symbol));
+        result.add(new Prefix(symbol));
         return result;
     }
 

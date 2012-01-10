@@ -20,23 +20,16 @@ package net.sf.beezle.mork.grammar;
 import net.sf.beezle.mork.misc.StringArrayList;
 
 public class Prefix implements Comparable<Prefix> {
-    public static Prefix create(int element) {
-        Prefix result;
-
-        result = new Prefix();
-        result.add(element);
-        return result;
-    }
-
-    //--
-
     private int[] data;
 
     private int size;
 
-    public Prefix() {
+    public Prefix(int ... elements) {
         data = new int[3];
         size = 0;
+        for (int element : elements) {
+            add(element);
+        }
     }
 
     private Prefix(Prefix orig) {

@@ -52,7 +52,7 @@ public class GrammarTest {
         assertEquals(2, firsts.size());
         prefix = firsts.get(symbolTable.indexOf("I"));
         assertEquals(2, prefix.size());
-        assertTrue(prefix.contains(Prefix.create(symbolTable.indexOf("a"))));
+        assertTrue(prefix.contains(new Prefix(symbolTable.indexOf("a"))));
         assertTrue(prefix.contains(new Prefix()));
     }
 }
