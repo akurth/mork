@@ -73,13 +73,6 @@ public class Prefix implements Comparable<Prefix> {
         }
     }
 
-    public void add(int idx, int ele) {
-        ensureCapacity(size + 1);
-        System.arraycopy(data, idx, data, idx + 1, size - idx);
-        data[idx] = ele;
-        size++;
-    }
-
     public void add(int ele) {
         ensureCapacity(size + 1);
         data[size++] = ele;
@@ -99,21 +92,6 @@ public class Prefix implements Comparable<Prefix> {
             result.add(right.data[i]);
         }
         return result;
-    }
-
-    public int indexOf(int ele) {
-        int i;
-
-        for (i = 0; i < size; i++) {
-            if (data[i] == ele) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    public boolean contains(int ele) {
-        return indexOf(ele) != -1;
     }
 
     public int size() {
