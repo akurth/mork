@@ -51,12 +51,8 @@ public class State {
     private final List<Item> items;
 
     public State(int id) {
-        this(id, new ArrayList<Item>());
-    }
-
-    public State(int id, List<Item> items) {
         this.id = id;
-        this.items = items;
+        this.items = new ArrayList<Item>();
         this.shifts = new ArrayList<Shift>();
     }
 
