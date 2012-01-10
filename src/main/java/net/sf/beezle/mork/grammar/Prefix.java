@@ -19,18 +19,17 @@ package net.sf.beezle.mork.grammar;
 
 import net.sf.beezle.mork.misc.StringArrayList;
 
+/** Immutable */
 public class Prefix implements Comparable<Prefix> {
-    private final int[] data;
+    public static final Prefix EMPTY = new Prefix(new int[] {});
 
-    public Prefix() {
-        this(new int[] { });
-    }
+    private final int[] data;
 
     public Prefix(int first) {
         this(new int[] { first });
     }
 
-    /** this is private because the caller has to ensure the array is passed to nobody else (and modified) */
+    /** Private because the caller has to ensure the array is passed to nobody else (and modified) */
     private Prefix(int[] elements) {
         data = elements;
     }

@@ -9,7 +9,7 @@ public class Concat {
     public Concat(int k) {
         done = new PrefixSet(k);
         todo = new PrefixSet(k);
-        todo.add(new Prefix());
+        todo.add(Prefix.EMPTY);
     }
 
     /** true when done */
