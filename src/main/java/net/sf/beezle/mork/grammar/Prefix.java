@@ -24,7 +24,15 @@ public class Prefix implements Comparable<Prefix> {
 
     private int size;
 
-    public Prefix(int ... elements) {
+    public Prefix() {
+        this(new int[] { });
+    }
+
+    public Prefix(int first) {
+        this(new int[] { first });
+    }
+
+    private Prefix(int[] elements) {
         data = new int[elements.length];
         size = 0;
         for (int element : elements) {
