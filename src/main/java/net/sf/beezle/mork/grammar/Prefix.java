@@ -21,7 +21,6 @@ import net.sf.beezle.mork.misc.StringArrayList;
 
 public class Prefix implements Comparable<Prefix> {
     private final int[] data;
-    private final int size;
 
     public Prefix() {
         this(new int[] { });
@@ -34,7 +33,6 @@ public class Prefix implements Comparable<Prefix> {
     /** this is private because the caller has to ensure the array is passed to nobody else (and modified) */
     private Prefix(int[] elements) {
         data = elements;
-        size = elements.length;
     }
 
     public int first() {
@@ -54,7 +52,7 @@ public class Prefix implements Comparable<Prefix> {
     }
 
     public int size() {
-        return size;
+        return data.length;
     }
 
     @Override
@@ -72,7 +70,7 @@ public class Prefix implements Comparable<Prefix> {
     }
 
     public void toString(StringArrayList symbolTable, StringBuilder result) {
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < data.length; i++) {
             if (i > 0) {
                 result.append(' ');
             }
@@ -107,8 +105,8 @@ public class Prefix implements Comparable<Prefix> {
 
         if (obj instanceof Prefix) {
             operand = (Prefix) obj;
-            if (size == operand.size) {
-                for (i = 0; i < size; i++) {
+            if (data.length == operand.data.length) {
+                for (i = 0; i < data.length; i++) {
                     if (data[i] != operand.data[i]) {
                         return false;
                     }
@@ -121,8 +119,8 @@ public class Prefix implements Comparable<Prefix> {
 
     @Override
     public int compareTo(Prefix right) {
-        if (size == right.size()) {
-            for (int i = 0; i < size; i++) {
+        if (data.length == right.size()) {
+            for (int i = 0; i < data.length; i++) {
                 if (data[i] < right.data[i]) {
                     return -1;
                 } else if (data[i] > right.data[i]) {
@@ -131,7 +129,7 @@ public class Prefix implements Comparable<Prefix> {
             }
             return 0;
         } else {
-            return size - right.size();
+            return data.length - right.size();
         }
     }
 }
