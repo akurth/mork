@@ -19,6 +19,8 @@ package net.sf.beezle.mork.grammar;
 
 import net.sf.beezle.mork.misc.StringArrayList;
 
+import java.util.Arrays;
+
 /** Immutable */
 public class Prefix implements Comparable<Prefix> {
     public static final Prefix EMPTY = new Prefix(new int[] {});
@@ -100,18 +102,10 @@ public class Prefix implements Comparable<Prefix> {
     @Override
     public boolean equals(Object obj) {
         Prefix operand;
-        int i;
 
         if (obj instanceof Prefix) {
             operand = (Prefix) obj;
-            if (data.length == operand.data.length) {
-                for (i = 0; i < data.length; i++) {
-                    if (data[i] != operand.data[i]) {
-                        return false;
-                    }
-                }
-                return true;
-            }
+            return Arrays.equals(data, operand.data);
         }
         return false;
     }
