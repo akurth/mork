@@ -28,7 +28,8 @@ public class Prefix implements Comparable<Prefix> {
         data = new int[3];
         size = 0;
         for (int element : elements) {
-            add(element);
+            ensureCapacity(size + 1);
+            data[size++] = element;
         }
     }
 
@@ -51,11 +52,6 @@ public class Prefix implements Comparable<Prefix> {
             data = new int[capacity];
             System.arraycopy(tmp, 0, data, 0, size);
         }
-    }
-
-    private void add(int ele) {
-        ensureCapacity(size + 1);
-        data[size++] = ele;
     }
 
     public Prefix concat(Prefix right, int k) {
