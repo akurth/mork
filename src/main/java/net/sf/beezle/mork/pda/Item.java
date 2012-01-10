@@ -102,7 +102,7 @@ public class Item implements Comparable<Item> {
     private static PrefixSet first(Grammar grammar, Map<Integer, PrefixSet> firsts, int production, int dot, PrefixSet lookahead) {
         int symbol;
         Concat concat;
-        
+
         concat = new Concat(lookahead.k);
         for (int ofs = dot; ofs < grammar.getLength(production); ofs++) {
             symbol = grammar.getRight(production, ofs);
@@ -173,10 +173,9 @@ public class Item implements Comparable<Item> {
             result.append(symbolTable.getOrIndex(grammar.getRight(production, ofs)));
         }
         if (ofs == dot) {
-            result.append(" .");
+            result.append(" . \t");
+            lookahead.toString(symbolTable, result);
         }
-        result.append(" \t");
-        lookahead.toString(symbolTable, result);
         result.append('\n');
         return result.toString();
     }
