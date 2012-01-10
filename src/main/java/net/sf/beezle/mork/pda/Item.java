@@ -21,7 +21,6 @@ import net.sf.beezle.mork.grammar.Concat;
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.grammar.PrefixSet;
 import net.sf.beezle.mork.misc.StringArrayList;
-import net.sf.beezle.sushi.util.IntArrayList;
 
 import java.util.List;
 import java.util.Map;
@@ -29,7 +28,7 @@ import java.util.Map;
 /** LR(k) item. */
 public class Item implements Comparable<Item> {
     /** production with dot */
-    private final int core;
+    public final int core;
 
     public final PrefixSet lookahead;
 
@@ -127,14 +126,10 @@ public class Item implements Comparable<Item> {
 
         if (obj instanceof Item) {
             cmp = (Item) obj;
-            return sameCore(cmp) && lookahead.equals(cmp.lookahead);
+            return core == cmp.core && lookahead.equals(cmp.lookahead);
         } else {
             return false;
         }
-    }
-
-    public boolean sameCore(Item cmp) {
-        return core == cmp.core;
     }
 
     public int compareTo(Item obj) {

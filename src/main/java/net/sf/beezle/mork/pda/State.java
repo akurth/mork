@@ -77,7 +77,7 @@ public class State {
             item = items.get(i);
             for (int j = i + 1; j < items.size(); j++) {
                 cmp = items.get(j);
-                if (item.sameCore(cmp)) {
+                if (item.core == cmp.core) {
                     item.lookahead.addAll(cmp.lookahead);
                     items.remove(j);
                     j--;
