@@ -106,7 +106,7 @@ public class Item implements Comparable<Item> {
         for (int ofs = dot; ofs < grammar.getLength(production); ofs++) {
             symbol = grammar.getRight(production, ofs);
             if (concat.with(firsts.get(symbol))) {
-                break;
+                return concat.result();
             }
         }
         concat.with(lookahead);
