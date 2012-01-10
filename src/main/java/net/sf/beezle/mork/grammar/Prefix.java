@@ -20,9 +20,8 @@ package net.sf.beezle.mork.grammar;
 import net.sf.beezle.mork.misc.StringArrayList;
 
 public class Prefix implements Comparable<Prefix> {
-    private int[] data;
-
-    private int size;
+    private final int[] data;
+    private final int size;
 
     public Prefix() {
         this(new int[] { });
@@ -34,9 +33,9 @@ public class Prefix implements Comparable<Prefix> {
 
     private Prefix(int[] elements) {
         data = new int[elements.length];
-        size = 0;
-        for (int element : elements) {
-            data[size++] = element;
+        size = elements.length;
+        for (int i = 0; i < size; i++) {
+            data[i] = elements[i];
         }
     }
 
