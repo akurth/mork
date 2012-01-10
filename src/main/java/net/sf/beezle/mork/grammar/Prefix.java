@@ -30,19 +30,12 @@ public class Prefix implements Comparable<Prefix> {
 
     //--
 
-    /** Storage for elements. */
     private int[] data;
 
-    /** Number of data elements actually used. */
     private int size;
 
-    /** Creates a new empty List, initial size is 32. */
     public Prefix() {
-        this(3);  // TODO
-    }
-
-    private Prefix(int initialSize) {
-        data = new int[initialSize];
+        data = new int[3];
         size = 0;
     }
 
@@ -73,7 +66,7 @@ public class Prefix implements Comparable<Prefix> {
         }
     }
 
-    public void add(int ele) {
+    private void add(int ele) {
         ensureCapacity(size + 1);
         data[size++] = ele;
     }
