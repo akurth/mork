@@ -27,8 +27,8 @@ public class Prefix implements Comparable<Prefix> {
     public Prefix(int ... elements) {
         data = new int[3];
         size = 0;
+        ensureCapacity(elements.length);
         for (int element : elements) {
-            ensureCapacity(size + 1);
             data[size++] = element;
         }
     }
