@@ -81,6 +81,7 @@ public class Item implements Comparable<Item> {
         Item item;
         int production;
         int dot;
+        PrefixSet first;
 
         production = getProduction();
         dot = getDot();
@@ -88,7 +89,8 @@ public class Item implements Comparable<Item> {
             symbol = grammar.getRight(production, dot);
             maxAlt = grammar.getAlternativeCount(symbol);
             for (alt = 0; alt < maxAlt; alt++) {
-                item = new Item(grammar.getAlternative(symbol, alt), 0, first(grammar, firsts, production, dot + 1, lookahead));
+                first = first(grammar, firsts, production, dot + 1, lookahead);
+                item = new Item(grammar.getAlternative(symbol, alt), 0, first);
                 if (!result.contains(item)) {
                     result.add(item);
                 }

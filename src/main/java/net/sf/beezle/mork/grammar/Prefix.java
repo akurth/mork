@@ -115,17 +115,18 @@ public class Prefix implements Comparable<Prefix> {
 
     @Override
     public int compareTo(Prefix right) {
-        if (data.length == right.size()) {
-            for (int i = 0; i < data.length; i++) {
-                if (data[i] < right.data[i]) {
-                    return -1;
-                } else if (data[i] > right.data[i]) {
-                    return 1;
-                }
-            }
-            return 0;
-        } else {
-            return data.length - right.size();
+        int diff;
+
+        diff = data.length - right.data.length;
+        if (diff != 0) {
+            return diff;
         }
+        for (int i = 0; i < data.length; i++) {
+            diff = data[i] - right.data[i];
+            if (diff != 0) {
+                return diff;
+            }
+        }
+        return 0;
     }
 }
