@@ -31,12 +31,10 @@ public class Prefix implements Comparable<Prefix> {
         this(new int[] { first });
     }
 
+    /** this is private because the caller has to ensure the array is passed to nobody else (and modified) */
     private Prefix(int[] elements) {
-        data = new int[elements.length];
+        data = elements;
         size = elements.length;
-        for (int i = 0; i < size; i++) {
-            data[i] = elements[i];
-        }
     }
 
     public int first() {
