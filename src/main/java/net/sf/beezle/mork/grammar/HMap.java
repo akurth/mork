@@ -583,12 +583,6 @@ public class HMap implements Map<Prefix, Object>, Cloneable, Serializable {
 
     }
 
-    private final class ValueIterator extends HashIterator<Object> {
-        public Object next() {
-            return nextEntry().value;
-        }
-    }
-
     private final class KeyIterator extends HashIterator<Prefix> {
         public Prefix next() {
             return nextEntry().getKey();
@@ -605,9 +599,7 @@ public class HMap implements Map<Prefix, Object>, Cloneable, Serializable {
     Iterator<Prefix> newKeyIterator()   {
         return new KeyIterator();
     }
-    Iterator<Object> newValueIterator()   {
-        return new ValueIterator();
-    }
+
     Iterator<Map.Entry<Prefix, Object>> newEntryIterator()   {
         return new EntryIterator();
     }
