@@ -19,16 +19,13 @@ package net.sf.beezle.mork.grammar;
 
 import net.sf.beezle.mork.misc.StringArrayList;
 
-import java.util.AbstractCollection;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
-public class PrefixSet extends AbstractCollection<Prefix> {
+public class PrefixSet implements Iterable<Prefix> {
     public static PrefixSet one(int k, int symbol) {
         PrefixSet result;
 
@@ -52,8 +49,8 @@ public class PrefixSet extends AbstractCollection<Prefix> {
 
     public PrefixSet(PrefixSet orig) {
         map = new HashMap<Prefix, Object>(Math.max((int) (orig.size()/.75f) + 1, 16));
-        addAll(orig);
         this.k = orig.k;
+        addAll(orig);
     }
 
     public void toString(StringArrayList symbolTable, StringBuilder result) {
@@ -61,7 +58,7 @@ public class PrefixSet extends AbstractCollection<Prefix> {
         List<Prefix> sorted;
 
         // TODO: expensive
-        sorted = new ArrayList<Prefix>(this);
+        sorted = new ArrayList<Prefix>();
         Collections.sort(sorted);
         result.append('{');
         first = true;
@@ -112,6 +109,12 @@ public class PrefixSet extends AbstractCollection<Prefix> {
         return map.put(e, PRESENT)==null;
     }
 
+    public void addAll(PrefixSet set) {
+        for (Prefix e : set) {
+            add(e);
+        }
+    }
+
     public boolean equals(Object o) {
         if (o == this)
             return true;
@@ -128,6 +131,15 @@ public class PrefixSet extends AbstractCollection<Prefix> {
         } catch (NullPointerException unused) {
             return false;
         }
+    }
+
+    public boolean containsAll(PrefixSet c) {
+        for (Prefix e : c) {
+            if (!contains(e)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public int hashCode() {
