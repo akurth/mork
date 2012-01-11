@@ -1,7 +1,5 @@
 package net.sf.beezle.mork.grammar;
 
-import net.sf.beezle.sushi.util.IntArrayList;
-
 public class Concat {
     private final PrefixSet done;
     private PrefixSet todo;
@@ -15,16 +13,16 @@ public class Concat {
     /** true when done */
     public boolean with(PrefixSet op) {
         PrefixSet next;
-        Prefix array;
+        Prefix tmp;
 
         next = new PrefixSet(done.k);
         for (Prefix l : todo) {
             for (Prefix r : op) {
-                array = l.concat(r, done.k);
-                if (array.size() == done.k) {
-                    done.add(array);
+                tmp = l.concat(r, done.k);
+                if (tmp.size() == done.k) {
+                    done.add(tmp);
                 } else {
-                    next.add(array);
+                    next.add(tmp);
                 }
             }
         }
