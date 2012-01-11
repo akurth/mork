@@ -19,14 +19,16 @@ package net.sf.beezle.mork.grammar;
 
 import net.sf.beezle.mork.misc.StringArrayList;
 
-import java.util.AbstractSet;
+import java.util.AbstractCollection;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
-public class PrefixSet extends AbstractSet<Prefix> {
+public class PrefixSet extends AbstractCollection<Prefix> implements Set<Prefix> {
     public static PrefixSet one(int k, int symbol) {
         PrefixSet result;
 
@@ -109,4 +111,53 @@ public class PrefixSet extends AbstractSet<Prefix> {
     public boolean add(Prefix e) {
         return map.put(e, PRESENT)==null;
     }
+
+    //--
+
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+
+        if (!(o instanceof Set))
+            return false;
+        Collection c = (Collection) o;
+        if (c.size() != size())
+            return false;
+        try {
+            return containsAll(c);
+        } catch (ClassCastException unused)   {
+            return false;
+        } catch (NullPointerException unused) {
+            return false;
+        }
+    }
+
+    public int hashCode() {
+        int h = 0;
+        Iterator<Prefix> i = iterator();
+        while (i.hasNext()) {
+            Prefix obj = i.next();
+            if (obj != null)
+                h += obj.hashCode();
+        }
+        return h;
+    }
+
+    public boolean removeAll(Collection<?> c) {
+        boolean modified = false;
+
+        if (size() > c.size()) {
+            for (Iterator<?> i = c.iterator(); i.hasNext(); )
+                modified |= remove(i.next());
+        } else {
+            for (Iterator<?> i = iterator(); i.hasNext(); ) {
+                if (c.contains(i.next())) {
+                    i.remove();
+                    modified = true;
+                }
+            }
+        }
+        return modified;
+    }
+
 }
