@@ -104,13 +104,14 @@ public class Prefix implements Comparable<Prefix> {
 
     @Override
     public boolean equals(Object obj) {
-        Prefix operand;
-
         if (obj instanceof Prefix) {
-            operand = (Prefix) obj;
-            return Arrays.equals(data, operand.data);
+            return eq((Prefix) obj);
         }
         return false;
+    }
+
+    public boolean eq(Prefix operand) {
+        return Arrays.equals(data, operand.data);
     }
 
     @Override
