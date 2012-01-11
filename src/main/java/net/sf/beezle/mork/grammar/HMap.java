@@ -241,39 +241,6 @@ public class HMap {
     }
 
     /**
-     * Special version of remove for EntrySet.
-     */
-    final Entry<Prefix, Object> removeMapping(Object o) {
-        if (!(o instanceof Map.Entry))
-            return null;
-
-        Map.Entry<Prefix, Object> entry = (Map.Entry<Prefix, Object>) o;
-        Object key = entry.getKey();
-        int hash = (key == null) ? 0 : hash(key.hashCode());
-        int i = indexFor(hash, table.length);
-        Entry<Prefix, Object> prev = table[i];
-        Entry<Prefix, Object> e = prev;
-
-        while (e != null) {
-            Entry<Prefix, Object> next = e.next;
-            if (e.hash == hash && e.equals(entry)) {
-                modCount++;
-                size--;
-                if (prev == e)
-                    table[i] = next;
-                else
-                    prev.next = next;
-                e.recordRemoval(this);
-                return e;
-            }
-            prev = e;
-            e = next;
-        }
-
-        return e;
-    }
-
-    /**
      * Removes all of the mappings from this map.
      * The map will be empty after this call returns.
      */
@@ -369,20 +336,6 @@ public class HMap {
             resize(2 * table.length);
     }
 
-    /**
-     * Like addEntry except that this version is used when creating entries
-     * as part of Map construction or "pseudo-construction" (cloning,
-     * deserialization).  This version needn't worry about resizing the table.
-     *
-     * Subclass overrides this to alter the behavior of HashMap(Map),
-     * clone, and readObject.
-     */
-    void createEntry(int hash, Prefix key, Object value, int bucketIndex) {
-        Entry<Prefix, Object> e = table[bucketIndex];
-        table[bucketIndex] = new Entry<Prefix,Object>(hash, key, value, e);
-        size++;
-    }
-
     private abstract class HashIterator<E> implements Iterator<E> {
         Entry<Prefix,Object> next;        // next entry to return
         int expectedModCount;   // For fast-fail
@@ -441,10 +394,6 @@ public class HMap {
     Iterator<Prefix> newKeyIterator()   {
         return new KeyIterator();
     }
-
-    // Views
-
-    private transient Set<Map.Entry<Prefix, Object>> entrySet = null;
 
     /**
      * Returns a {@link Set} view of the keys contained in this map.
