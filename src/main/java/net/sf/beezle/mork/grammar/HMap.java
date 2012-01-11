@@ -2,7 +2,6 @@ package net.sf.beezle.mork.grammar;
 
 import java.util.AbstractSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
@@ -226,7 +225,7 @@ public class HMap {
         size = 0;
     }
 
-    static class Entry<K,V> implements Map.Entry<K,V> {
+    static class Entry<K,V> {
         final K key;
         V value;
         Entry<K,V> next;
@@ -257,9 +256,9 @@ public class HMap {
         }
 
         public final boolean equals(Object o) {
-            if (!(o instanceof Map.Entry))
+            if (!(o instanceof Entry))
                 return false;
-            Map.Entry e = (Map.Entry)o;
+            Entry e = (Entry) o;
             Object k1 = getKey();
             Object k2 = e.getKey();
             if (k1 == k2 || (k1 != null && k1.equals(k2))) {
