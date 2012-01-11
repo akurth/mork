@@ -1,7 +1,5 @@
 package net.sf.beezle.mork.grammar;
 
-import java.io.Serializable;
-
 import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
@@ -11,7 +9,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 
-public class HMap implements Map<Prefix, Object>, Cloneable, Serializable {
+public class HMap implements Map<Prefix, Object> {
 
     /**
      * The default initial capacity - MUST be a power of two.
@@ -89,7 +87,6 @@ public class HMap implements Map<Prefix, Object>, Cloneable, Serializable {
         this.loadFactor = loadFactor;
         threshold = (int)(capacity * loadFactor);
         table = new Entry[capacity];
-        init();
     }
 
     /**
@@ -111,20 +108,9 @@ public class HMap implements Map<Prefix, Object>, Cloneable, Serializable {
         this.loadFactor = DEFAULT_LOAD_FACTOR;
         threshold = (int)(DEFAULT_INITIAL_CAPACITY * DEFAULT_LOAD_FACTOR);
         table = new Entry[DEFAULT_INITIAL_CAPACITY];
-        init();
     }
 
     // internal utilities
-
-    /**
-     * Initialization hook for subclasses. This method is called
-     * in all constructors and pseudo-constructors (clone, readObject)
-     * after HashMap has been initialized but before any entries have
-     * been inserted.  (In the absence of this method, readObject would
-     * require explicit knowledge of subclasses.)
-     */
-    void init() {
-    }
 
     /**
      * Applies a supplemental hash function to a given hashCode, which
@@ -418,23 +404,6 @@ public class HMap implements Map<Prefix, Object>, Cloneable, Serializable {
                 if (e.value == null)
                     return true;
         return false;
-    }
-
-    public Object clone() {
-        HMap result = null;
-        try {
-            result = (HMap) super.clone();
-        } catch (CloneNotSupportedException e) {
-            // assert false;
-        }
-        result.table = new Entry[table.length];
-        result.entrySet = null;
-        result.modCount = 0;
-        result.size = 0;
-        result.init();
-        result.putAllForCreate(this);
-
-        return result;
     }
 
     static class Entry<K,V> implements Map.Entry<K,V> {
