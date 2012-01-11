@@ -81,19 +81,19 @@ public class HMap {
         return size;
     }
 
-    public boolean containsKey(Object key) {
-        return getEntry(key) != null;
+    public boolean containsKey(Prefix key) {
+        return lookup(key) != null;
     }
 
-    private Entry getEntry(Object key) {
-        int hash = (key == null) ? 0 : hash(key.hashCode());
+    private Entry lookup(Prefix key) {
+        int hash = hash(key.hashCode());
         for (Entry e = table[indexFor(hash, table.length)];
              e != null;
              e = e.next) {
             Object k;
-            if (e.hash == hash &&
-                    ((k = e.key) == key || (key != null && key.equals(k))))
+            if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
                 return e;
+            }
         }
         return null;
     }
@@ -110,8 +110,9 @@ public class HMap {
         }
         Entry e = table[i];
         table[i] = new Entry(hash, key, e);
-        if (size++ >= threshold)
+        if (size++ >= threshold) {
             resize(2 * table.length);
+        }
         return false;
     }
 
@@ -145,31 +146,6 @@ public class HMap {
                 } while (e != null);
             }
         }
-    }
-
-    private Entry removEntryForKey(Object key) {
-        int hash = (key == null) ? 0 : hash(key.hashCode());
-        int i = indexFor(hash, table.length);
-        Entry prev = table[i];
-        Entry e = prev;
-
-        while (e != null) {
-            Entry next = e.next;
-            Object k;
-            if (e.hash == hash &&
-                    ((k = e.key) == key || (key != null && key.equals(k)))) {
-                size--;
-                if (prev == e)
-                    table[i] = next;
-                else
-                    prev.next = next;
-                return e;
-            }
-            prev = e;
-            e = next;
-        }
-
-        return e;
     }
 
     private static class Entry {
