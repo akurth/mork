@@ -43,15 +43,6 @@ public class HMap {
      */
     private int threshold;
 
-    /**
-     * The number of times this HashMap has been structurally modified
-     * Structural modifications are those that change the number of mappings in
-     * the HashMap or otherwise modify its internal structure (e.g.,
-     * rehash).  This field is used to make iterators on Collection-views of
-     * the HashMap fail-fast.  (See ConcurrentModificationException).
-     */
-    private transient int modCount;
-
     // Views
 
     /**
@@ -156,8 +147,6 @@ public class HMap {
                 return oldValue;
             }
         }
-
-        modCount++;
         addEntry(hash, key, value, i);
         return null;
     }
@@ -215,7 +204,6 @@ public class HMap {
             Object k;
             if (e.hash == hash &&
                     ((k = e.key) == key || (key != null && key.equals(k)))) {
-                modCount++;
                 size--;
                 if (prev == e)
                     table[i] = next;
@@ -236,7 +224,6 @@ public class HMap {
      * The map will be empty after this call returns.
      */
     public void clear() {
-        modCount++;
         Entry[] tab = table;
         for (int i = 0; i < tab.length; i++)
             tab[i] = null;
@@ -329,12 +316,10 @@ public class HMap {
 
     private abstract class HashIterator<E> implements Iterator<E> {
         Entry<Prefix,Object> next;        // next entry to return
-        int expectedModCount;   // For fast-fail
         int index;              // current slot
         Entry<Prefix,Object> current;     // current entry
 
         HashIterator() {
-            expectedModCount = modCount;
             if (size > 0) { // advance to first entry
                 Entry[] t = table;
                 while (index < t.length && (next = t[index++]) == null)
@@ -347,8 +332,6 @@ public class HMap {
         }
 
         final Entry<Prefix, Object> nextEntry() {
-            if (modCount != expectedModCount)
-                throw new ConcurrentModificationException();
             Entry<Prefix,Object> e = next;
             if (e == null)
                 throw new NoSuchElementException();
@@ -365,12 +348,9 @@ public class HMap {
         public void remove() {
             if (current == null)
                 throw new IllegalStateException();
-            if (modCount != expectedModCount)
-                throw new ConcurrentModificationException();
             Object k = current.key;
             current = null;
             HMap.this.removeEntryForKey(k);
-            expectedModCount = modCount;
         }
 
     }
@@ -436,20 +416,13 @@ public class HMap {
         if (m.size() != size())
             return false;
 
-        try {
-            Iterator<Prefix> i = keySet().iterator();
-            while (i.hasNext()) {
-                Prefix key = i.next();
-                if (!m.containsKey(key)) {
-                    return false;
-                }
+        Iterator<Prefix> i = keySet().iterator();
+        while (i.hasNext()) {
+            Prefix key = i.next();
+            if (!m.containsKey(key)) {
+                return false;
             }
-        } catch (ClassCastException unused) {
-            return false;
-        } catch (NullPointerException unused) {
-            return false;
         }
-
         return true;
     }
 
