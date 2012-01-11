@@ -7,6 +7,8 @@ import java.util.Set;
 
 
 public class HMap {
+    private static final Object OBJECT = new Object();
+
     /**
      * The default initial capacity - MUST be a power of two.
      */
@@ -133,17 +135,17 @@ public class HMap {
     }
 
 
-    public boolean put(Prefix key, Object value) {
+    public boolean put(Prefix key) {
         int hash = hash(key.hashCode());
         int i = indexFor(hash, table.length);
         for (Entry<Prefix, Object> e = table[i]; e != null; e = e.next) {
             Object k;
             if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
-                e.value = value;
+                e.value = OBJECT;
                 return true;
             }
         }
-        addEntry(hash, key, value, i);
+        addEntry(hash, key, OBJECT, i);
         return false;
     }
 
@@ -214,10 +216,6 @@ public class HMap {
         return e;
     }
 
-    /**
-     * Removes all of the mappings from this map.
-     * The map will be empty after this call returns.
-     */
     public void clear() {
         Entry[] tab = table;
         for (int i = 0; i < tab.length; i++)

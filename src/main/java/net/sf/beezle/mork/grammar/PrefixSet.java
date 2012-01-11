@@ -38,9 +38,6 @@ public class PrefixSet implements Iterable<Prefix> {
     public final int k;
     private final HMap map;
 
-    // Dummy value to associate with an Object in the backing Map
-    private static final Object PRESENT = new Object();
-
     public PrefixSet(int k) {
         this.map = new HMap();
         this.k = k;
@@ -105,7 +102,7 @@ public class PrefixSet implements Iterable<Prefix> {
     }
 
     public boolean add(Prefix e) {
-        return map.put(e, PRESENT)==null;
+        return map.put(e);
     }
 
     public void addAll(PrefixSet set) {
