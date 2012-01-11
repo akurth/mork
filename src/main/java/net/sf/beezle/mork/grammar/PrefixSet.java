@@ -216,10 +216,14 @@ public class PrefixSet implements Iterable<Prefix> {
     }
 
     private void transfer(Entry[] newTable) {
-        Entry[] src = table;
-        int newCapacity = newTable.length;
+        Entry[] src;
+        int newCapacity;
+        Entry e;
+
+        src = table;
+        newCapacity = newTable.length;
         for (int j = 0; j < src.length; j++) {
-            Entry e = src[j];
+            e = src[j];
             if (e != null) {
                 src[j] = null;
                 do {
@@ -256,7 +260,7 @@ public class PrefixSet implements Iterable<Prefix> {
      * Returns index for hash code h.
      */
     private static int indexFor(int h, int length) {
-        return h & (length-1);
+        return h & (length - 1);
     }
 
     //--
@@ -267,32 +271,31 @@ public class PrefixSet implements Iterable<Prefix> {
         public Entry next;
         public final int hash;
 
-        Entry(int h, Prefix p, Entry n) {
+        public Entry(int h, Prefix p, Entry n) {
             next = n;
             prefix = p;
             hash = h;
         }
 
-        public final boolean equals(Object o) {
-            if (!(o instanceof Entry))
-                return false;
-            Entry e = (Entry) o;
-            return prefix.equals(e.prefix);
+        public boolean equals(Object o) {
+            Entry e;
+
+            if (o instanceof Entry) {
+                e = (Entry) o;
+                return prefix.equals(e.prefix);
+            }
+            return false;
         }
 
-        public final int hashCode() {
+        public int hashCode() {
             return prefix.hashCode();
-        }
-
-        public final String toString() {
-            return prefix.toString();
         }
     }
 
     private class PrefixIterator implements Iterator<Prefix> {
-        Entry next;        // next entry to return
-        int index;              // current slot
-        Entry current;     // current entry
+        private Entry next;        // next entry to return
+        private int index;              // current slot
+        private Entry current;     // current entry
 
         public PrefixIterator() {
             if (size > 0) { // advance to first entry
