@@ -22,15 +22,8 @@ public class HMap {
      */
     private static final float LOAD_FACTOR = 0.75f;
 
-    /**
-     * The table, resized as necessary. Length MUST Always be a power of two.
-     */
-    private transient Entry[] table;
-
-    /**
-     * The number of key-value mappings contained in this map.
-     */
-    private transient int size;
+    private Entry[] table;
+    private int size;
 
     /**
      * The next size value at which to resize (capacity * load factor).
@@ -69,7 +62,7 @@ public class HMap {
      * otherwise encounter collisions for hashCodes that do not differ
      * in lower bits. Note: Null keys always map to hash 0, thus index 0.
      */
-    static int hash(int h) {
+    private static int hash(int h) {
         // This function ensures that hashCodes that differ only by
         // constant multiples at each bit position have a bounded
         // number of collisions (approximately 8 at default load factor).
@@ -80,16 +73,12 @@ public class HMap {
     /**
      * Returns index for hash code h.
      */
-    static int indexFor(int h, int length) {
+    private static int indexFor(int h, int length) {
         return h & (length-1);
     }
 
     public int size() {
         return size;
-    }
-
-    public boolean isEmpty() {
-        return size == 0;
     }
 
     public boolean containsKey(Object key) {

@@ -94,7 +94,7 @@ public class PrefixSet implements Iterable<Prefix> {
     }
 
     public boolean isEmpty() {
-        return map.isEmpty();
+        return map.size() == 0;
     }
 
     public boolean contains(Prefix o) {
