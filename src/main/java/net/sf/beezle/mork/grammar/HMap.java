@@ -163,32 +163,6 @@ public class HMap {
         return null;
     }
 
-    private void putForCreate(Prefix key, Object value) {
-        int hash = (key == null) ? 0 : hash(key.hashCode());
-        int i = indexFor(hash, table.length);
-
-        /**
-         * Look for preexisting entry for key.  This will never happen for
-         * clone or deserialize.  It will only happen for construction if the
-         * input Map is a sorted map whose ordering is inconsistent w/ equals.
-         */
-        for (Entry<Prefix, Object> e = table[i]; e != null; e = e.next) {
-            Object k;
-            if (e.hash == hash &&
-                    ((k = e.key) == key || (key != null && key.equals(k)))) {
-                e.value = value;
-                return;
-            }
-        }
-
-        createEntry(hash, key, value, i);
-    }
-
-    private void putAllForCreate(Map<? extends Prefix, ? extends Object> m) {
-        for (Map.Entry<? extends Prefix, ? extends Object> e : m.entrySet())
-            putForCreate(e.getKey(), e.getValue());
-    }
-
     void resize(int newCapacity) {
         Entry[] oldTable = table;
         int oldCapacity = oldTable.length;
