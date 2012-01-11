@@ -141,11 +141,13 @@ public class HMap {
         for (Entry<Prefix, Object> e = table[i]; e != null; e = e.next) {
             Object k;
             if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
-                e.value = OBJECT;
                 return true;
             }
         }
-        addEntry(hash, key, OBJECT, i);
+        Entry<Prefix, Object> e = table[i];
+        table[i] = new Entry<Prefix, Object>(hash, key, OBJECT, e);
+        if (size++ >= threshold)
+            resize(2 * table.length);
         return false;
     }
 
@@ -270,20 +272,6 @@ public class HMap {
         public final String toString() {
             return getKey() + "=" + getValue();
         }
-    }
-
-    /**
-     * Adds a new entry with the specified key, value and hash code to
-     * the specified bucket.  It is the responsibility of this
-     * method to resize the table if appropriate.
-     *
-     * Subclass overrides this to alter the behavior of put method.
-     */
-    void addEntry(int hash, Prefix key, Object value, int bucketIndex) {
-        Entry<Prefix, Object> e = table[bucketIndex];
-        table[bucketIndex] = new Entry<Prefix, Object>(hash, key, value, e);
-        if (size++ >= threshold)
-            resize(2 * table.length);
     }
 
     private abstract class HashIterator<E> implements Iterator<E> {
