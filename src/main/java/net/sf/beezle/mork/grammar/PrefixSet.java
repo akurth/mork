@@ -310,13 +310,16 @@ public class PrefixSet implements Iterable<Prefix> {
         }
 
         public Prefix next() {
-            Entry e = next;
+            Entry e;
+            Entry[] t;
+
+            e = next;
             if (e == null) {
                 throw new NoSuchElementException();
             }
-
-            if ((next = e.next) == null) {
-                Entry[] t = table;
+            next = e.next;
+            if (next == null) {
+                t = table;
                 while (index < t.length && (next = t[index++]) == null)
                     ;
             }
