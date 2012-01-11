@@ -55,11 +55,12 @@ public class HMap {
     }
 
     public HMap(int initialCapacity) {
-        if (initialCapacity < 0)
-            throw new IllegalArgumentException("Illegal initial capacity: " +
-                    initialCapacity);
-        if (initialCapacity > MAXIMUM_CAPACITY)
-            initialCapacity = MAXIMUM_CAPACITY;
+        if (initialCapacity < 0) {
+            throw new IllegalArgumentException("Illegal initial capacity: " + initialCapacity);
+        }
+        if (initialCapacity > MAXIMUM_CAPACITY) {
+            throw new IllegalArgumentException();
+        }
 
         // Find a power of 2 >= initialCapacity
         int capacity = 1;
@@ -249,12 +250,6 @@ public class HMap {
             return value;
         }
 
-        public final V setValue(V newValue) {
-            V oldValue = value;
-            value = newValue;
-            return oldValue;
-        }
-
         public final boolean equals(Object o) {
             if (!(o instanceof Entry))
                 return false;
@@ -390,10 +385,6 @@ public class HMap {
     }
 
     public int hashCode() {
-        int h = 0;
-        Iterator<Prefix> i = keySet().iterator();
-        while (i.hasNext())
-            h += i.next().hashCode();
-        return h;
+        return size();
     }
 }
