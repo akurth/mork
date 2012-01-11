@@ -19,12 +19,26 @@ package net.sf.beezle.mork.grammar;
 
 import net.sf.beezle.mork.misc.StringArrayList;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class PrefixSet implements Iterable<Prefix> {
+    /**
+     * The default initial capacity - MUST be a power of two.
+     */
+    private static final int DEFAULT_INITIAL_CAPACITY = 16;
+
+    /**
+     * The maximum capacity, used if a higher value is implicitly specified
+     * by either of the constructors with arguments.
+     * MUST be a power of two <= 1<<30.
+     */
+    private static final int MAXIMUM_CAPACITY = 1 << 30;
+
+    /**
+     * The load factor used when none specified in constructor.
+     */
+    private static final float LOAD_FACTOR = 0.75f;
+
     public static PrefixSet one(int k, int symbol) {
         PrefixSet result;
 
@@ -36,17 +50,101 @@ public class PrefixSet implements Iterable<Prefix> {
     //--
 
     public final int k;
-    private final HMap map;
+    private Entry[] table;
+    private int size;
+
+    /**
+     * The next size value at which to resize (capacity * load factor).
+     * @serial
+     */
+    private int threshold;
 
     public PrefixSet(int k) {
-        this.map = new HMap();
+        this.threshold = (int)(DEFAULT_INITIAL_CAPACITY * LOAD_FACTOR);
+        this.table = new Entry[DEFAULT_INITIAL_CAPACITY];
         this.k = k;
     }
 
     public PrefixSet(PrefixSet orig) {
-        map = new HMap(Math.max((int) (orig.size()/.75f) + 1, 16));
+        int initialCapacity = Math.max((int) (orig.size()/.75f) + 1, 16);
+
+        if (initialCapacity < 0) {
+            throw new IllegalArgumentException("Illegal initial capacity: " + initialCapacity);
+        }
+        if (initialCapacity > MAXIMUM_CAPACITY) {
+            throw new IllegalArgumentException();
+        }
         this.k = orig.k;
+
+        // Find a power of 2 >= initialCapacity
+        int capacity = 1;
+        while (capacity < initialCapacity)
+            capacity <<= 1;
+
+        threshold = (int)(capacity * LOAD_FACTOR);
+        table = new Entry[capacity];
+
         addAll(orig);
+    }
+
+    public Iterator<Prefix> iterator() {
+        return new KeyIterator();
+    }
+
+    public int size() {
+        return size;
+    }
+
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+    public boolean contains(Prefix key) {
+        return lookup(key) != null;
+    }
+
+    public boolean add(Prefix key) {
+        int hash = hash(key.hashCode());
+        int i = indexFor(hash, table.length);
+        for (Entry e = table[i]; e != null; e = e.next) {
+            Object k;
+            if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
+                return true;
+            }
+        }
+        Entry e = table[i];
+        table[i] = new Entry(hash, key, e);
+        if (size++ >= threshold) {
+            resize(2 * table.length);
+        }
+        return false;
+    }
+
+    public void addAll(PrefixSet set) {
+        for (Prefix e : set) {
+            add(e);
+        }
+    }
+
+    public boolean equals(Object o) {
+        if (!(o instanceof PrefixSet)) {
+            return false;
+        }
+
+        PrefixSet c = (PrefixSet) o;
+        if (c.size() != size()) {
+            return false;
+        }
+        for (Prefix e : c) {
+            if (!contains(e)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int hashCode() {
+        return size();
     }
 
     public void toString(StringArrayList symbolTable, StringBuilder result) {
@@ -85,57 +183,142 @@ public class PrefixSet implements Iterable<Prefix> {
 
     //--
 
-    public Iterator<Prefix> iterator() {
-        return map.newKeyIterator();
-    }
-
-    public int size() {
-        return map.size();
-    }
-
-    public boolean isEmpty() {
-        return map.size() == 0;
-    }
-
-    public boolean contains(Prefix o) {
-        return map.containsKey(o);
-    }
-
-    public boolean add(Prefix e) {
-        return map.put(e);
-    }
-
-    public void addAll(PrefixSet set) {
-        for (Prefix e : set) {
-            add(e);
-        }
-    }
-
-    public boolean equals(Object o) {
-        if (!(o instanceof PrefixSet)) {
-            return false;
-        }
-
-        PrefixSet c = (PrefixSet) o;
-        if (c.size() != size()) {
-            return false;
-        }
-        for (Prefix e : c) {
-            if (!contains(e)) {
-                return false;
+    private Entry lookup(Prefix key) {
+        int hash = hash(key.hashCode());
+        for (Entry e = table[indexFor(hash, table.length)];
+             e != null;
+             e = e.next) {
+            Object k;
+            if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
+                return e;
             }
         }
-        return true;
+        return null;
     }
 
-    public int hashCode() {
-        int h = 0;
-        Iterator<Prefix> i = iterator();
-        while (i.hasNext()) {
-            Prefix obj = i.next();
-            if (obj != null)
-                h += obj.hashCode();
+    private void resize(int newCapacity) {
+        Entry[] oldTable = table;
+        int oldCapacity = oldTable.length;
+        if (oldCapacity == MAXIMUM_CAPACITY) {
+            threshold = Integer.MAX_VALUE;
+            return;
         }
-        return h;
+
+        Entry[] newTable = new Entry[newCapacity];
+        transfer(newTable);
+        table = newTable;
+        threshold = (int)(newCapacity * LOAD_FACTOR);
     }
+
+    private void transfer(Entry[] newTable) {
+        Entry[] src = table;
+        int newCapacity = newTable.length;
+        for (int j = 0; j < src.length; j++) {
+            Entry e = src[j];
+            if (e != null) {
+                src[j] = null;
+                do {
+                    Entry next = e.next;
+                    int i = indexFor(e.hash, newCapacity);
+                    e.next = newTable[i];
+                    newTable[i] = e;
+                    e = next;
+                } while (e != null);
+            }
+        }
+    }
+
+    //--
+
+    // internal utilities
+
+    /**
+     * Applies a supplemental hash function to a given hashCode, which
+     * defends against poor quality hash functions.  This is critical
+     * because HashMap uses power-of-two length hash tables, that
+     * otherwise encounter collisions for hashCodes that do not differ
+     * in lower bits. Note: Null keys always map to hash 0, thus index 0.
+     */
+    private static int hash(int h) {
+        // This function ensures that hashCodes that differ only by
+        // constant multiples at each bit position have a bounded
+        // number of collisions (approximately 8 at default load factor).
+        h ^= (h >>> 20) ^ (h >>> 12);
+        return h ^ (h >>> 7) ^ (h >>> 4);
+    }
+
+    /**
+     * Returns index for hash code h.
+     */
+    private static int indexFor(int h, int length) {
+        return h & (length-1);
+    }
+
+    //--
+
+    private static class Entry {
+        /** never null */
+        public final Prefix key;
+        public Entry next;
+        public final int hash;
+
+        Entry(int h, Prefix k, Entry n) {
+            next = n;
+            key = k;
+            hash = h;
+        }
+
+        public final boolean equals(Object o) {
+            if (!(o instanceof Entry))
+                return false;
+            Entry e = (Entry) o;
+            return key.equals(e.key);
+        }
+
+        public final int hashCode() {
+            return key.hashCode();
+        }
+
+        public final String toString() {
+            return key.toString();
+        }
+    }
+
+    private class KeyIterator implements Iterator<Prefix> {
+        Entry next;        // next entry to return
+        int index;              // current slot
+        Entry current;     // current entry
+
+        public KeyIterator() {
+            if (size > 0) { // advance to first entry
+                Entry[] t = table;
+                while (index < t.length && (next = t[index++]) == null)
+                    ;
+            }
+        }
+
+        public boolean hasNext() {
+            return next != null;
+        }
+
+        public Prefix next() {
+            Entry e = next;
+            if (e == null) {
+                throw new NoSuchElementException();
+            }
+
+            if ((next = e.next) == null) {
+                Entry[] t = table;
+                while (index < t.length && (next = t[index++]) == null)
+                    ;
+            }
+            current = e;
+            return e.key;
+        }
+
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
+    }
+
 }
