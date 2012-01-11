@@ -112,8 +112,6 @@ public class PrefixSet extends AbstractCollection<Prefix> {
         return map.put(e, PRESENT)==null;
     }
 
-    //--
-
     public boolean equals(Object o) {
         if (o == this)
             return true;
@@ -142,22 +140,4 @@ public class PrefixSet extends AbstractCollection<Prefix> {
         }
         return h;
     }
-
-    public boolean removeAll(Collection<?> c) {
-        boolean modified = false;
-
-        if (size() > c.size()) {
-            for (Iterator<?> i = c.iterator(); i.hasNext(); )
-                modified |= remove(i.next());
-        } else {
-            for (Iterator<?> i = iterator(); i.hasNext(); ) {
-                if (c.contains(i.next())) {
-                    i.remove();
-                    modified = true;
-                }
-            }
-        }
-        return modified;
-    }
-
 }
