@@ -1,8 +1,6 @@
 package net.sf.beezle.mork.grammar;
 
 import java.util.AbstractSet;
-import java.util.Collection;
-import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -143,7 +141,6 @@ public class HMap {
             if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
                 Object oldValue = e.value;
                 e.value = value;
-                e.recordAccess(this);
                 return oldValue;
             }
         }
@@ -209,7 +206,6 @@ public class HMap {
                     table[i] = next;
                 else
                     prev.next = next;
-                e.recordRemoval(this);
                 return e;
             }
             prev = e;
@@ -283,21 +279,6 @@ public class HMap {
         public final String toString() {
             return getKey() + "=" + getValue();
         }
-
-        /**
-         * This method is invoked whenever the value in an entry is
-         * overwritten by an invocation of put(k,v) for a key k that's already
-         * in the HashMap.
-         */
-        void recordAccess(HMap m) {
-        }
-
-        /**
-         * This method is invoked whenever the entry is
-         * removed from the table.
-         */
-        void recordRemoval(HMap m) {
-        }
     }
 
     /**
@@ -366,19 +347,6 @@ public class HMap {
         return new KeyIterator();
     }
 
-    /**
-     * Returns a {@link Set} view of the keys contained in this map.
-     * The set is backed by the map, so changes to the map are
-     * reflected in the set, and vice-versa.  If the map is modified
-     * while an iteration over the set is in progress (except through
-     * the iterator's own <tt>remove</tt> operation), the results of
-     * the iteration are undefined.  The set supports element removal,
-     * which removes the corresponding mapping from the map, via the
-     * <tt>Iterator.remove</tt>, <tt>Set.remove</tt>,
-     * <tt>removeAll</tt>, <tt>retainAll</tt>, and <tt>clear</tt>
-     * operations.  It does not support the <tt>add</tt> or <tt>addAll</tt>
-     * operations.
-     */
     public Set<Prefix> keySet() {
         Set<Prefix> ks = keySet;
         return (ks != null ? ks : (keySet = new KeySet()));
@@ -400,10 +368,6 @@ public class HMap {
         public void clear() {
             HMap.this.clear();
         }
-    }
-
-    public Collection<Object> values() {
-        throw new UnsupportedOperationException();
     }
 
     public boolean equals(Object o) {
