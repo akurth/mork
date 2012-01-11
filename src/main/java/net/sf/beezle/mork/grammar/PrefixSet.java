@@ -19,12 +19,14 @@ package net.sf.beezle.mork.grammar;
 
 import net.sf.beezle.mork.misc.StringArrayList;
 
+import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
-public class PrefixSet extends HashSet<Prefix> {
+public class PrefixSet extends AbstractSet<Prefix> {
     public static PrefixSet one(int k, int symbol) {
         PrefixSet result;
 
@@ -36,13 +38,19 @@ public class PrefixSet extends HashSet<Prefix> {
     //--
 
     public final int k;
+    private final HashMap<Prefix,Object> map;
+
+    // Dummy value to associate with an Object in the backing Map
+    private static final Object PRESENT = new Object();
 
     public PrefixSet(int k) {
+        this.map = new HashMap<Prefix, Object>();
         this.k = k;
     }
 
     public PrefixSet(PrefixSet orig) {
-        super(orig);
+        map = new HashMap<Prefix, Object>(Math.max((int) (orig.size()/.75f) + 1, 16));
+        addAll(orig);
         this.k = orig.k;
     }
 
@@ -78,5 +86,35 @@ public class PrefixSet extends HashSet<Prefix> {
             }
         }
         return result;
+    }
+
+    //--
+
+    public Iterator<Prefix> iterator() {
+        return map.keySet().iterator();
+    }
+
+    public int size() {
+        return map.size();
+    }
+
+    public boolean isEmpty() {
+        return map.isEmpty();
+    }
+
+    public boolean contains(Object o) {
+        return map.containsKey(o);
+    }
+
+    public boolean add(Prefix e) {
+        return map.put(e, PRESENT)==null;
+    }
+
+    public boolean remove(Object o) {
+        return map.remove(o)==PRESENT;
+    }
+
+    public void clear() {
+        map.clear();
     }
 }
