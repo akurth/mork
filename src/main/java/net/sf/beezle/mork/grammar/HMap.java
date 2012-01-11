@@ -3,7 +3,6 @@ package net.sf.beezle.mork.grammar;
 import java.io.IOException;
 import java.io.Serializable;
 
-import java.util.AbstractCollection;
 import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
@@ -789,37 +788,8 @@ public class HMap extends AbstractMap<Prefix, Object> implements Map<Prefix, Obj
         }
     }
 
-    /**
-     * Returns a {@link Collection} view of the values contained in this map.
-     * The collection is backed by the map, so changes to the map are
-     * reflected in the collection, and vice-versa.  If the map is
-     * modified while an iteration over the collection is in progress
-     * (except through the iterator's own <tt>remove</tt> operation),
-     * the results of the iteration are undefined.  The collection
-     * supports element removal, which removes the corresponding
-     * mapping from the map, via the <tt>Iterator.remove</tt>,
-     * <tt>Collection.remove</tt>, <tt>removeAll</tt>,
-     * <tt>retainAll</tt> and <tt>clear</tt> operations.  It does not
-     * support the <tt>add</tt> or <tt>addAll</tt> operations.
-     */
     public Collection<Object> values() {
-        Collection<Object> vs = values;
-        return (vs != null ? vs : (values = new Values()));
-    }
-
-    private final class Values extends AbstractCollection<Object> {
-        public Iterator<Object> iterator() {
-            return newValueIterator();
-        }
-        public int size() {
-            return size;
-        }
-        public boolean contains(Object o) {
-            return containsValue(o);
-        }
-        public void clear() {
-            HMap.this.clear();
-        }
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -868,73 +838,4 @@ public class HMap extends AbstractMap<Prefix, Object> implements Map<Prefix, Obj
             HMap.this.clear();
         }
     }
-
-    /**
-     * Save the state of the <tt>HashMap</tt> instance to a stream (i.e.,
-     * serialize it).
-     *
-     * @serialData The <i>capacity</i> of the HashMap (the length of the
-     *             bucket array) is emitted (int), followed by the
-     *             <i>size</i> (an int, the number of key-value
-     *             mappings), followed by the key (Object) and value (Object)
-     *             for each key-value mapping.  The key-value mappings are
-     *             emitted in no particular order.
-     */
-    private void writeObject(java.io.ObjectOutputStream s)
-            throws IOException
-    {
-        Iterator<Map.Entry<Prefix, Object>> i =
-                (size > 0) ? entrySet0().iterator() : null;
-
-        // Write out the threshold, loadfactor, and any hidden stuff
-        s.defaultWriteObject();
-
-        // Write out number of buckets
-        s.writeInt(table.length);
-
-        // Write out size (number of Mappings)
-        s.writeInt(size);
-
-        // Write out keys and values (alternating)
-        if (i != null) {
-            while (i.hasNext()) {
-                Map.Entry<Prefix, Object> e = i.next();
-                s.writeObject(e.getKey());
-                s.writeObject(e.getValue());
-            }
-        }
-    }
-
-    private static final long serialVersionUID = 362498820763181265L;
-
-    /**
-     * Reconstitute the <tt>HashMap</tt> instance from a stream (i.e.,
-     * deserialize it).
-     */
-    private void readObject(java.io.ObjectInputStream s)
-            throws IOException, ClassNotFoundException
-    {
-        // Read in the threshold, loadfactor, and any hidden stuff
-        s.defaultReadObject();
-
-        // Read in number of buckets and allocate the bucket array;
-        int numBuckets = s.readInt();
-        table = new Entry[numBuckets];
-
-        init();  // Give subclass a chance to do its thing.
-
-        // Read in size (number of Mappings)
-        int size = s.readInt();
-
-        // Read the keys and values, and put the mappings in the HashMap
-        for (int i=0; i<size; i++) {
-            Prefix key = (Prefix) s.readObject();
-            Object value = s.readObject();
-            putForCreate(key, value);
-        }
-    }
-
-    // These methods are used when serializing HashSets
-    int   capacity()     { return table.length; }
-    float loadFactor()   { return loadFactor;   }
 }
