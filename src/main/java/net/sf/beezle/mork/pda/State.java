@@ -48,7 +48,7 @@ public class State {
 
     public final int id;
     public final List<Shift> shifts;
-    private final List<Item> items;
+    public final List<Item> items;
 
     public State(int id) {
         this.id = id;

@@ -115,6 +115,35 @@ public class PDA implements Iterable<State> {
     }
 
     public void print(PrintStream dest) {
+        int size;
+        int itemsCount;
+        int itemsMin;
+        int itemsMax;
+        int lookaheadSizes;
+        int lookaheadMin;
+        int lookaheadMax;
+
+        itemsCount = 0;
+        itemsMin = Integer.MAX_VALUE;
+        itemsMax = Integer.MIN_VALUE;
+        lookaheadMax = Integer.MIN_VALUE;
+        lookaheadMin = Integer.MAX_VALUE;
+        lookaheadSizes = 0;
+        for (State state : this) {
+            size = state.items.size();
+            itemsCount += size;
+            itemsMin = Math.min(itemsMin, size);
+            itemsMax = Math.max(itemsMax, size);
+            for (Item item : state.items) {
+                size = item.lookahead.size();
+                lookaheadSizes += size;
+                lookaheadMin = Math.min(lookaheadMin, size);
+                lookaheadMax = Math.max(lookaheadMax, size);
+            }
+        }
+        dest.println("states: " + states.size());
+        dest.println("items: " + itemsCount + " (min: " + itemsMin + ", max: " + itemsMax + ")");
+        dest.println("lookahead avg: " + (lookaheadSizes / itemsCount) + ", min: " + lookaheadMin + ", max: " + lookaheadMax);
         for (State state : this) {
             dest.println(state.toString(grammar));
         }
