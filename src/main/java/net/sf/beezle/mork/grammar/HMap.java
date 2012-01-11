@@ -25,7 +25,7 @@ public class HMap {
     /**
      * The load factor used when none specified in constructor.
      */
-    private static final float DEFAULT_LOAD_FACTOR = 0.75f;
+    private static final float LOAD_FACTOR = 0.75f;
 
     /**
      * The table, resized as necessary. Length MUST Always be a power of two.
@@ -42,13 +42,6 @@ public class HMap {
      * @serial
      */
     private int threshold;
-
-    /**
-     * The load factor for the hash table.
-     *
-     * @serial
-     */
-    private final float loadFactor;
 
     /**
      * The number of times this HashMap has been structurally modified
@@ -69,8 +62,7 @@ public class HMap {
     private transient volatile Set<Prefix>        keySet = null;
 
     public HMap() {
-        this.loadFactor = DEFAULT_LOAD_FACTOR;
-        threshold = (int)(DEFAULT_INITIAL_CAPACITY * DEFAULT_LOAD_FACTOR);
+        threshold = (int)(DEFAULT_INITIAL_CAPACITY * LOAD_FACTOR);
         table = new Entry[DEFAULT_INITIAL_CAPACITY];
     }
 
@@ -86,8 +78,7 @@ public class HMap {
         while (capacity < initialCapacity)
             capacity <<= 1;
 
-        this.loadFactor = DEFAULT_LOAD_FACTOR;
-        threshold = (int)(capacity * DEFAULT_LOAD_FACTOR);
+        threshold = (int)(capacity * LOAD_FACTOR);
         table = new Entry[capacity];
     }
 
@@ -182,7 +173,7 @@ public class HMap {
         Entry[] newTable = new Entry[newCapacity];
         transfer(newTable);
         table = newTable;
-        threshold = (int)(newCapacity * loadFactor);
+        threshold = (int)(newCapacity * LOAD_FACTOR);
     }
 
     void transfer(Entry[] newTable) {
