@@ -112,24 +112,14 @@ public class PrefixSet implements Iterable<Prefix> {
     }
 
     public boolean equals(Object o) {
-        if (o == this)
-            return true;
-
-        if (!(o instanceof PrefixSet))
-            return false;
-        PrefixSet c = (PrefixSet) o;
-        if (c.size() != size())
-            return false;
-        try {
-            return containsAll(c);
-        } catch (ClassCastException unused)   {
-            return false;
-        } catch (NullPointerException unused) {
+        if (!(o instanceof PrefixSet)) {
             return false;
         }
-    }
 
-    public boolean containsAll(PrefixSet c) {
+        PrefixSet c = (PrefixSet) o;
+        if (c.size() != size()) {
+            return false;
+        }
         for (Prefix e : c) {
             if (!contains(e)) {
                 return false;
