@@ -1,6 +1,5 @@
 package net.sf.beezle.mork.grammar;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 import java.util.AbstractSet;
@@ -12,7 +11,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 
-public class HMap extends AbstractMap<Prefix, Object> implements Map<Prefix, Object>, Cloneable, Serializable {
+public class HMap implements Map<Prefix, Object>, Cloneable, Serializable {
 
     /**
      * The default initial capacity - MUST be a power of two.
@@ -838,4 +837,413 @@ public class HMap extends AbstractMap<Prefix, Object> implements Map<Prefix, Obj
             HMap.this.clear();
         }
     }
+
+    //--  ABSTRACTMAP
+
+    // Bulk Operations
+
+
+
+    // Views
+
+    /**
+     * Each of these fields are initialized to contain an instance of the
+     * appropriate view the first time this view is requested.  The views are
+     * stateless, so there's no reason to create more than one of each.
+     */
+    transient volatile Set<Prefix>        keySet = null;
+
+
+    // Comparison and hashing
+
+    /**
+     * Compares the specified object with this map for equality.  Returns
+     * <tt>true</tt> if the given object is also a map and the two maps
+     * represent the same mappings.  More formally, two maps <tt>m1</tt> and
+     * <tt>m2</tt> represent the same mappings if
+     * <tt>m1.entrySet().equals(m2.entrySet())</tt>.  This ensures that the
+     * <tt>equals</tt> method works properly across different implementations
+     * of the <tt>Map</tt> interface.
+     *
+     * <p>This implementation first checks if the specified object is this map;
+     * if so it returns <tt>true</tt>.  Then, it checks if the specified
+     * object is a map whose size is identical to the size of this map; if
+     * not, it returns <tt>false</tt>.  If so, it iterates over this map's
+     * <tt>entrySet</tt> collection, and checks that the specified map
+     * contains each mapping that this map contains.  If the specified map
+     * fails to contain such a mapping, <tt>false</tt> is returned.  If the
+     * iteration completes, <tt>true</tt> is returned.
+     *
+     * @param o object to be compared for equality with this map
+     * @return <tt>true</tt> if the specified object is equal to this map
+     */
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+
+        if (!(o instanceof Map))
+            return false;
+        Map<Prefix, Object> m = (Map<Prefix, Object>) o;
+        if (m.size() != size())
+            return false;
+
+        try {
+            Iterator<Map.Entry<Prefix, Object>> i = entrySet().iterator();
+            while (i.hasNext()) {
+                Map.Entry<Prefix, Object> e = i.next();
+                Prefix key = e.getKey();
+                Object value = e.getValue();
+                if (value == null) {
+                    if (!(m.get(key)==null && m.containsKey(key)))
+                        return false;
+                } else {
+                    if (!value.equals(m.get(key)))
+                        return false;
+                }
+            }
+        } catch (ClassCastException unused) {
+            return false;
+        } catch (NullPointerException unused) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns the hash code value for this map.  The hash code of a map is
+     * defined to be the sum of the hash codes of each entry in the map's
+     * <tt>entrySet()</tt> view.  This ensures that <tt>m1.equals(m2)</tt>
+     * implies that <tt>m1.hashCode()==m2.hashCode()</tt> for any two maps
+     * <tt>m1</tt> and <tt>m2</tt>, as required by the general contract of
+     * {@link Object#hashCode}.
+     *
+     * <p>This implementation iterates over <tt>entrySet()</tt>, calling
+     * {@link Map.Entry#hashCode hashCode()} on each element (entry) in the
+     * set, and adding up the results.
+     *
+     * @return the hash code value for this map
+     * @see Map.Entry#hashCode()
+     * @see Object#equals(Object)
+     * @see Set#equals(Object)
+     */
+    public int hashCode() {
+        int h = 0;
+        Iterator<Map.Entry<Prefix, Object>> i = entrySet().iterator();
+        while (i.hasNext())
+            h += i.next().hashCode();
+        return h;
+    }
+
+    /**
+     * Returns a string representation of this map.  The string representation
+     * consists of a list of key-value mappings in the order returned by the
+     * map's <tt>entrySet</tt> view's iterator, enclosed in braces
+     * (<tt>"{}"</tt>).  Adjacent mappings are separated by the characters
+     * <tt>", "</tt> (comma and space).  Each key-value mapping is rendered as
+     * the key followed by an equals sign (<tt>"="</tt>) followed by the
+     * associated value.  Keys and values are converted to strings as by
+     * {@link String#valueOf(Object)}.
+     *
+     * @return a string representation of this map
+     */
+    public String toString() {
+        Iterator<Map.Entry<Prefix, Object>> i = entrySet().iterator();
+        if (! i.hasNext())
+            return "{}";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append('{');
+        for (;;) {
+            Map.Entry<Prefix, Object> e = i.next();
+            Prefix key = e.getKey();
+            Object value = e.getValue();
+            sb.append(key);
+            sb.append('=');
+            sb.append(value);
+            if (! i.hasNext())
+                return sb.append('}').toString();
+            sb.append(',').append(' ');
+        }
+    }
+
+    /**
+     * Utility method for SimpleEntry and SimpleImmutableEntry.
+     * Test for equality, checking for nulls.
+     */
+    private static boolean eq(Object o1, Object o2) {
+        return o1 == null ? o2 == null : o1.equals(o2);
+    }
+
+    // Implementation Note: SimpleEntry and SimpleImmutableEntry
+    // are distinct unrelated classes, even though they share
+    // some code. Since you can't add or subtract final-ness
+    // of a field in a subclass, they can't share representations,
+    // and the amount of duplicated code is too small to warrant
+    // exposing a common abstract class.
+
+
+    /**
+     * An Entry maintaining a key and a value.  The value may be
+     * changed using the <tt>setValue</tt> method.  This class
+     * facilitates the process of building custom map
+     * implementations. For example, it may be convenient to return
+     * arrays of <tt>SimpleEntry</tt> instances in method
+     * <tt>Map.entrySet().toArray</tt>.
+     *
+     * @since 1.6
+     */
+    public static class SimpleEntry<K,V>
+            implements Map.Entry<K,V>, java.io.Serializable
+    {
+        private static final long serialVersionUID = -8499721149061103585L;
+
+        private final K key;
+        private V value;
+
+        /**
+         * Creates an entry representing a mapping from the specified
+         * key to the specified value.
+         *
+         * @param key the key represented by this entry
+         * @param value the value represented by this entry
+         */
+        public SimpleEntry(K key, V value) {
+            this.key   = key;
+            this.value = value;
+        }
+
+        /**
+         * Creates an entry representing the same mapping as the
+         * specified entry.
+         *
+         * @param entry the entry to copy
+         */
+        public SimpleEntry(Map.Entry<? extends K, ? extends V> entry) {
+            this.key   = entry.getKey();
+            this.value = entry.getValue();
+        }
+
+        /**
+         * Returns the key corresponding to this entry.
+         *
+         * @return the key corresponding to this entry
+         */
+        public K getKey() {
+            return key;
+        }
+
+        /**
+         * Returns the value corresponding to this entry.
+         *
+         * @return the value corresponding to this entry
+         */
+        public V getValue() {
+            return value;
+        }
+
+        /**
+         * Replaces the value corresponding to this entry with the specified
+         * value.
+         *
+         * @param value new value to be stored in this entry
+         * @return the old value corresponding to the entry
+         */
+        public V setValue(V value) {
+            V oldValue = this.value;
+            this.value = value;
+            return oldValue;
+        }
+
+        /**
+         * Compares the specified object with this entry for equality.
+         * Returns {@code true} if the given object is also a map entry and
+         * the two entries represent the same mapping.  More formally, two
+         * entries {@code e1} and {@code e2} represent the same mapping
+         * if<pre>
+         *   (e1.getKey()==null ?
+         *    e2.getKey()==null :
+         *    e1.getKey().equals(e2.getKey()))
+         *   &amp;&amp;
+         *   (e1.getValue()==null ?
+         *    e2.getValue()==null :
+         *    e1.getValue().equals(e2.getValue()))</pre>
+         * This ensures that the {@code equals} method works properly across
+         * different implementations of the {@code Map.Entry} interface.
+         *
+         * @param o object to be compared for equality with this map entry
+         * @return {@code true} if the specified object is equal to this map
+         *         entry
+         * @see    #hashCode
+         */
+        public boolean equals(Object o) {
+            if (!(o instanceof Map.Entry))
+                return false;
+            Map.Entry e = (Map.Entry)o;
+            return eq(key, e.getKey()) && eq(value, e.getValue());
+        }
+
+        /**
+         * Returns the hash code value for this map entry.  The hash code
+         * of a map entry {@code e} is defined to be: <pre>
+         *   (e.getKey()==null   ? 0 : e.getKey().hashCode()) ^
+         *   (e.getValue()==null ? 0 : e.getValue().hashCode())</pre>
+         * This ensures that {@code e1.equals(e2)} implies that
+         * {@code e1.hashCode()==e2.hashCode()} for any two Entries
+         * {@code e1} and {@code e2}, as required by the general
+         * contract of {@link Object#hashCode}.
+         *
+         * @return the hash code value for this map entry
+         * @see    #equals
+         */
+        public int hashCode() {
+            return (key   == null ? 0 :   key.hashCode()) ^
+                    (value == null ? 0 : value.hashCode());
+        }
+
+        /**
+         * Returns a String representation of this map entry.  This
+         * implementation returns the string representation of this
+         * entry's key followed by the equals character ("<tt>=</tt>")
+         * followed by the string representation of this entry's value.
+         *
+         * @return a String representation of this map entry
+         */
+        public String toString() {
+            return key + "=" + value;
+        }
+
+    }
+
+    /**
+     * An Entry maintaining an immutable key and value.  This class
+     * does not support method <tt>setValue</tt>.  This class may be
+     * convenient in methods that return thread-safe snapshots of
+     * key-value mappings.
+     *
+     * @since 1.6
+     */
+    public static class SimpleImmutableEntry<K,V>
+            implements Map.Entry<K,V>, java.io.Serializable
+    {
+        private static final long serialVersionUID = 7138329143949025153L;
+
+        private final K key;
+        private final V value;
+
+        /**
+         * Creates an entry representing a mapping from the specified
+         * key to the specified value.
+         *
+         * @param key the key represented by this entry
+         * @param value the value represented by this entry
+         */
+        public SimpleImmutableEntry(K key, V value) {
+            this.key   = key;
+            this.value = value;
+        }
+
+        /**
+         * Creates an entry representing the same mapping as the
+         * specified entry.
+         *
+         * @param entry the entry to copy
+         */
+        public SimpleImmutableEntry(Map.Entry<? extends K, ? extends V> entry) {
+            this.key   = entry.getKey();
+            this.value = entry.getValue();
+        }
+
+        /**
+         * Returns the key corresponding to this entry.
+         *
+         * @return the key corresponding to this entry
+         */
+        public K getKey() {
+            return key;
+        }
+
+        /**
+         * Returns the value corresponding to this entry.
+         *
+         * @return the value corresponding to this entry
+         */
+        public V getValue() {
+            return value;
+        }
+
+        /**
+         * Replaces the value corresponding to this entry with the specified
+         * value (optional operation).  This implementation simply throws
+         * <tt>UnsupportedOperationException</tt>, as this class implements
+         * an <i>immutable</i> map entry.
+         *
+         * @param value new value to be stored in this entry
+         * @return (Does not return)
+         * @throws UnsupportedOperationException always
+         */
+        public V setValue(V value) {
+            throw new UnsupportedOperationException();
+        }
+
+        /**
+         * Compares the specified object with this entry for equality.
+         * Returns {@code true} if the given object is also a map entry and
+         * the two entries represent the same mapping.  More formally, two
+         * entries {@code e1} and {@code e2} represent the same mapping
+         * if<pre>
+         *   (e1.getKey()==null ?
+         *    e2.getKey()==null :
+         *    e1.getKey().equals(e2.getKey()))
+         *   &amp;&amp;
+         *   (e1.getValue()==null ?
+         *    e2.getValue()==null :
+         *    e1.getValue().equals(e2.getValue()))</pre>
+         * This ensures that the {@code equals} method works properly across
+         * different implementations of the {@code Map.Entry} interface.
+         *
+         * @param o object to be compared for equality with this map entry
+         * @return {@code true} if the specified object is equal to this map
+         *         entry
+         * @see    #hashCode
+         */
+        public boolean equals(Object o) {
+            if (!(o instanceof Map.Entry))
+                return false;
+            Map.Entry e = (Map.Entry)o;
+            return eq(key, e.getKey()) && eq(value, e.getValue());
+        }
+
+        /**
+         * Returns the hash code value for this map entry.  The hash code
+         * of a map entry {@code e} is defined to be: <pre>
+         *   (e.getKey()==null   ? 0 : e.getKey().hashCode()) ^
+         *   (e.getValue()==null ? 0 : e.getValue().hashCode())</pre>
+         * This ensures that {@code e1.equals(e2)} implies that
+         * {@code e1.hashCode()==e2.hashCode()} for any two Entries
+         * {@code e1} and {@code e2}, as required by the general
+         * contract of {@link Object#hashCode}.
+         *
+         * @return the hash code value for this map entry
+         * @see    #equals
+         */
+        public int hashCode() {
+            return (key   == null ? 0 :   key.hashCode()) ^
+                    (value == null ? 0 : value.hashCode());
+        }
+
+        /**
+         * Returns a String representation of this map entry.  This
+         * implementation returns the string representation of this
+         * entry's key followed by the equals character ("<tt>=</tt>")
+         * followed by the string representation of this entry's value.
+         *
+         * @return a String representation of this map entry
+         */
+        public String toString() {
+            return key + "=" + value;
+        }
+
+    }
+
 }
