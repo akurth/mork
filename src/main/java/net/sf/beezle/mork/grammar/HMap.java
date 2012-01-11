@@ -150,9 +150,9 @@ public class HMap {
 
     private static class Entry {
         /** never null */
-        Prefix key;
-        Entry next;
-        final int hash;
+        public final Prefix key;
+        public Entry next;
+        public final int hash;
 
         Entry(int h, Prefix k, Entry n) {
             next = n;
@@ -160,17 +160,11 @@ public class HMap {
             hash = h;
         }
 
-        public final Prefix getKey() {
-            return key;
-        }
-
         public final boolean equals(Object o) {
             if (!(o instanceof Entry))
                 return false;
             Entry e = (Entry) o;
-            Object k1 = getKey();
-            Object k2 = e.getKey();
-            return k1 == k2 || (k1 != null && k1.equals(k2));
+            return key.equals(e.key);
         }
 
         public final int hashCode() {
@@ -178,7 +172,7 @@ public class HMap {
         }
 
         public final String toString() {
-            return getKey().toString();
+            return key.toString();
         }
     }
 
@@ -201,16 +195,17 @@ public class HMap {
 
         public Prefix next() {
             Entry e = next;
-            if (e == null)
+            if (e == null) {
                 throw new NoSuchElementException();
-
+            }
+            
             if ((next = e.next) == null) {
                 Entry[] t = table;
                 while (index < t.length && (next = t[index++]) == null)
                     ;
             }
             current = e;
-            return e.getKey();
+            return e.key;
         }
 
         public void remove() {
