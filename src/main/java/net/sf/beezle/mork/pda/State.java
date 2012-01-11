@@ -201,15 +201,6 @@ public class State {
         return result;
     }
 
-    private static boolean containsProd(List<Item> all, int prod) {
-        for (Item item : all) {
-            if (item.getProduction() == prod) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public Shift lookupShift(int symbol) {
         for (Shift shift : shifts) {
             if (shift.symbol == symbol) {
