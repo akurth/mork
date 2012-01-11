@@ -107,12 +107,12 @@ public class HMap {
 
     public Object get(Object key) {
         int hash = hash(key.hashCode());
-        for (Entry<Prefix, Object> e = table[indexFor(hash, table.length)];
+        for (Entry e = table[indexFor(hash, table.length)];
              e != null;
              e = e.next) {
             Object k;
             if (e.hash == hash && ((k = e.key) == key || key.equals(k)))
-                return e.value;
+                return OBJECT;
         }
         return null;
     }
@@ -121,9 +121,9 @@ public class HMap {
         return getEntry(key) != null;
     }
 
-    final Entry<Prefix, Object> getEntry(Object key) {
+    final Entry getEntry(Object key) {
         int hash = (key == null) ? 0 : hash(key.hashCode());
-        for (Entry<Prefix, Object> e = table[indexFor(hash, table.length)];
+        for (Entry e = table[indexFor(hash, table.length)];
              e != null;
              e = e.next) {
             Object k;
@@ -138,14 +138,14 @@ public class HMap {
     public boolean put(Prefix key) {
         int hash = hash(key.hashCode());
         int i = indexFor(hash, table.length);
-        for (Entry<Prefix, Object> e = table[i]; e != null; e = e.next) {
+        for (Entry e = table[i]; e != null; e = e.next) {
             Object k;
             if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
                 return true;
             }
         }
-        Entry<Prefix, Object> e = table[i];
-        table[i] = new Entry<Prefix, Object>(hash, key, OBJECT, e);
+        Entry e = table[i];
+        table[i] = new Entry(hash, key, e);
         if (size++ >= threshold)
             resize(2 * table.length);
         return false;
@@ -169,11 +169,11 @@ public class HMap {
         Entry[] src = table;
         int newCapacity = newTable.length;
         for (int j = 0; j < src.length; j++) {
-            Entry<Prefix,Object> e = src[j];
+            Entry e = src[j];
             if (e != null) {
                 src[j] = null;
                 do {
-                    Entry<Prefix, Object> next = e.next;
+                    Entry next = e.next;
                     int i = indexFor(e.hash, newCapacity);
                     e.next = newTable[i];
                     newTable[i] = e;
@@ -184,8 +184,8 @@ public class HMap {
     }
 
     public Object remove(Object key) {
-        Entry<Prefix, Object> e = removeEntryForKey(key);
-        return (e == null ? null : e.value);
+        Entry e = removeEntryForKey(key);
+        return (e == null ? null : OBJECT);
     }
 
     /**
@@ -193,14 +193,14 @@ public class HMap {
      * in the HashMap.  Returns null if the HashMap contains no mapping
      * for this key.
      */
-    final Entry<Prefix, Object> removeEntryForKey(Object key) {
+    final Entry removeEntryForKey(Object key) {
         int hash = (key == null) ? 0 : hash(key.hashCode());
         int i = indexFor(hash, table.length);
-        Entry<Prefix, Object> prev = table[i];
-        Entry<Prefix, Object> e = prev;
+        Entry prev = table[i];
+        Entry e = prev;
 
         while (e != null) {
-            Entry<Prefix, Object> next = e.next;
+            Entry next = e.next;
             Object k;
             if (e.hash == hash &&
                     ((k = e.key) == key || (key != null && key.equals(k)))) {
@@ -225,28 +225,23 @@ public class HMap {
         size = 0;
     }
 
-    static class Entry<K,V> {
-        final K key;
-        V value;
-        Entry<K,V> next;
+    static class Entry {
+        Prefix key;
+        Entry next;
         final int hash;
 
-        /**
-         * Creates new entry.
-         */
-        Entry(int h, K k, V v, Entry<K,V> n) {
-            value = v;
+        Entry(int h, Prefix k, Entry n) {
             next = n;
             key = k;
             hash = h;
         }
 
-        public final K getKey() {
+        public final Prefix getKey() {
             return key;
         }
 
-        public final V getValue() {
-            return value;
+        public final Object getValue() {
+            return OBJECT;
         }
 
         public final boolean equals(Object o) {
@@ -265,8 +260,7 @@ public class HMap {
         }
 
         public final int hashCode() {
-            return (key==null   ? 0 : key.hashCode()) ^
-                    (value==null ? 0 : value.hashCode());
+            return key.hashCode();
         }
 
         public final String toString() {
@@ -275,9 +269,9 @@ public class HMap {
     }
 
     private abstract class HashIterator<E> implements Iterator<E> {
-        Entry<Prefix,Object> next;        // next entry to return
+        Entry next;        // next entry to return
         int index;              // current slot
-        Entry<Prefix,Object> current;     // current entry
+        Entry current;     // current entry
 
         HashIterator() {
             if (size > 0) { // advance to first entry
@@ -291,8 +285,8 @@ public class HMap {
             return next != null;
         }
 
-        final Entry<Prefix, Object> nextEntry() {
-            Entry<Prefix,Object> e = next;
+        final Entry nextEntry() {
+            Entry e = next;
             if (e == null)
                 throw new NoSuchElementException();
 
