@@ -116,22 +116,12 @@ public class HMap {
     }
 
     public Object get(Object key) {
-        if (key == null)
-            return getForNullKey();
         int hash = hash(key.hashCode());
         for (Entry<Prefix, Object> e = table[indexFor(hash, table.length)];
              e != null;
              e = e.next) {
             Object k;
             if (e.hash == hash && ((k = e.key) == key || key.equals(k)))
-                return e.value;
-        }
-        return null;
-    }
-
-    private Object getForNullKey() {
-        for (Entry<Prefix, Object> e = table[0]; e != null; e = e.next) {
-            if (e.key == null)
                 return e.value;
         }
         return null;
@@ -156,8 +146,6 @@ public class HMap {
 
 
     public Object put(Prefix key, Object value) {
-        if (key == null)
-            return putForNullKey(value);
         int hash = hash(key.hashCode());
         int i = indexFor(hash, table.length);
         for (Entry<Prefix, Object> e = table[i]; e != null; e = e.next) {
@@ -172,20 +160,6 @@ public class HMap {
 
         modCount++;
         addEntry(hash, key, value, i);
-        return null;
-    }
-
-    private Object putForNullKey(Object value) {
-        for (Entry<Prefix, Object> e = table[0]; e != null; e = e.next) {
-            if (e.key == null) {
-                Object oldValue = e.value;
-                e.value = value;
-                e.recordAccess(this);
-                return oldValue;
-            }
-        }
-        modCount++;
-        addEntry(0, null, value, 0);
         return null;
     }
 
