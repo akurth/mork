@@ -429,21 +429,10 @@ public class HMap {
         }
     }
 
-    private final class EntryIterator extends HashIterator<Map.Entry<Prefix,Object>> {
-        public Map.Entry<Prefix, Object> next() {
-            return nextEntry();
-        }
-    }
-
     // Subclass overrides these to alter behavior of views' iterator() method
     Iterator<Prefix> newKeyIterator()   {
         return new KeyIterator();
     }
-
-    Iterator<Map.Entry<Prefix, Object>> newEntryIterator()   {
-        return new EntryIterator();
-    }
-
 
     // Views
 
@@ -487,53 +476,6 @@ public class HMap {
 
     public Collection<Object> values() {
         throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Returns a {@link Set} view of the mappings contained in this map.
-     * The set is backed by the map, so changes to the map are
-     * reflected in the set, and vice-versa.  If the map is modified
-     * while an iteration over the set is in progress (except through
-     * the iterator's own <tt>remove</tt> operation, or through the
-     * <tt>setValue</tt> operation on a map entry returned by the
-     * iterator) the results of the iteration are undefined.  The set
-     * supports element removal, which removes the corresponding
-     * mapping from the map, via the <tt>Iterator.remove</tt>,
-     * <tt>Set.remove</tt>, <tt>removeAll</tt>, <tt>retainAll</tt> and
-     * <tt>clear</tt> operations.  It does not support the
-     * <tt>add</tt> or <tt>addAll</tt> operations.
-     *
-     * @return a set view of the mappings contained in this map
-     */
-    public Set<Map.Entry<Prefix, Object>> entrySet() {
-        return entrySet0();
-    }
-
-    private Set<Map.Entry<Prefix, Object>> entrySet0() {
-        Set<Map.Entry<Prefix, Object>> es = entrySet;
-        return es != null ? es : (entrySet = new EntrySet());
-    }
-
-    private final class EntrySet extends AbstractSet<Map.Entry<Prefix, Object>> {
-        public Iterator<Map.Entry<Prefix, Object>> iterator() {
-            return newEntryIterator();
-        }
-        public boolean contains(Object o) {
-            if (!(o instanceof Map.Entry))
-                return false;
-            Map.Entry<Prefix, Object> e = (Map.Entry<Prefix, Object>) o;
-            Entry<Prefix,Object> candidate = getEntry(e.getKey());
-            return candidate != null && candidate.equals(e);
-        }
-        public boolean remove(Object o) {
-            return removeMapping(o) != null;
-        }
-        public int size() {
-            return size;
-        }
-        public void clear() {
-            HMap.this.clear();
-        }
     }
 
     //--  ABSTRACTMAP
@@ -586,17 +528,11 @@ public class HMap {
             return false;
 
         try {
-            Iterator<Map.Entry<Prefix, Object>> i = entrySet().iterator();
+            Iterator<Prefix> i = keySet().iterator();
             while (i.hasNext()) {
-                Map.Entry<Prefix, Object> e = i.next();
-                Prefix key = e.getKey();
-                Object value = e.getValue();
-                if (value == null) {
-                    if (!(m.get(key)==null && m.containsKey(key)))
-                        return false;
-                } else {
-                    if (!value.equals(m.get(key)))
-                        return false;
+                Prefix key = i.next();
+                if (!m.containsKey(key)) {
+                    return false;
                 }
             }
         } catch (ClassCastException unused) {
@@ -627,7 +563,7 @@ public class HMap {
      */
     public int hashCode() {
         int h = 0;
-        Iterator<Map.Entry<Prefix, Object>> i = entrySet().iterator();
+        Iterator<Prefix> i = keySet().iterator();
         while (i.hasNext())
             h += i.next().hashCode();
         return h;
