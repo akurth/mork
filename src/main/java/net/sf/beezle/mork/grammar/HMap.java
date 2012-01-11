@@ -226,12 +226,12 @@ public class HMap {
         }
     }
 
-    private abstract class HashIterator<E> implements Iterator<E> {
+    private class KeyIterator implements Iterator<Prefix> {
         Entry next;        // next entry to return
         int index;              // current slot
         Entry current;     // current entry
 
-        HashIterator() {
+        public KeyIterator() {
             if (size > 0) { // advance to first entry
                 Entry[] t = table;
                 while (index < t.length && (next = t[index++]) == null)
@@ -239,11 +239,11 @@ public class HMap {
             }
         }
 
-        public final boolean hasNext() {
+        public boolean hasNext() {
             return next != null;
         }
 
-        public Entry nextEntry() {
+        public Prefix next() {
             Entry e = next;
             if (e == null)
                 throw new NoSuchElementException();
@@ -254,7 +254,7 @@ public class HMap {
                     ;
             }
             current = e;
-            return e;
+            return e.getKey();
         }
 
         public void remove() {
@@ -264,14 +264,8 @@ public class HMap {
             current = null;
             HMap.this.removeEntryForKey(k);
         }
-
     }
 
-    private final class KeyIterator extends HashIterator<Prefix> {
-        public Prefix next() {
-            return nextEntry().getKey();
-        }
-    }
 
     // Subclass overrides these to alter behavior of views' iterator() method
     Iterator<Prefix> newKeyIterator()   {
