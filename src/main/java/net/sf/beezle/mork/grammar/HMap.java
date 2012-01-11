@@ -10,46 +10,45 @@ import java.util.Set;
 
 
 public class HMap {
-
     /**
      * The default initial capacity - MUST be a power of two.
      */
-    static final int DEFAULT_INITIAL_CAPACITY = 16;
+    private static final int DEFAULT_INITIAL_CAPACITY = 16;
 
     /**
      * The maximum capacity, used if a higher value is implicitly specified
      * by either of the constructors with arguments.
      * MUST be a power of two <= 1<<30.
      */
-    static final int MAXIMUM_CAPACITY = 1 << 30;
+    private static final int MAXIMUM_CAPACITY = 1 << 30;
 
     /**
      * The load factor used when none specified in constructor.
      */
-    static final float DEFAULT_LOAD_FACTOR = 0.75f;
+    private static final float DEFAULT_LOAD_FACTOR = 0.75f;
 
     /**
      * The table, resized as necessary. Length MUST Always be a power of two.
      */
-    transient Entry[] table;
+    private transient Entry[] table;
 
     /**
      * The number of key-value mappings contained in this map.
      */
-    transient int size;
+    private transient int size;
 
     /**
      * The next size value at which to resize (capacity * load factor).
      * @serial
      */
-    int threshold;
+    private int threshold;
 
     /**
      * The load factor for the hash table.
      *
      * @serial
      */
-    final float loadFactor;
+    private final float loadFactor;
 
     /**
      * The number of times this HashMap has been structurally modified
@@ -58,7 +57,16 @@ public class HMap {
      * rehash).  This field is used to make iterators on Collection-views of
      * the HashMap fail-fast.  (See ConcurrentModificationException).
      */
-    transient int modCount;
+    private transient int modCount;
+
+    // Views
+
+    /**
+     * Each of these fields are initialized to contain an instance of the
+     * appropriate view the first time this view is requested.  The views are
+     * stateless, so there's no reason to create more than one of each.
+     */
+    private transient volatile Set<Prefix>        keySet = null;
 
     public HMap() {
         this.loadFactor = DEFAULT_LOAD_FACTOR;
@@ -478,52 +486,13 @@ public class HMap {
         throw new UnsupportedOperationException();
     }
 
-    //--  ABSTRACTMAP
-
-    // Bulk Operations
-
-
-
-    // Views
-
-    /**
-     * Each of these fields are initialized to contain an instance of the
-     * appropriate view the first time this view is requested.  The views are
-     * stateless, so there's no reason to create more than one of each.
-     */
-    transient volatile Set<Prefix>        keySet = null;
-
-
-    // Comparison and hashing
-
-    /**
-     * Compares the specified object with this map for equality.  Returns
-     * <tt>true</tt> if the given object is also a map and the two maps
-     * represent the same mappings.  More formally, two maps <tt>m1</tt> and
-     * <tt>m2</tt> represent the same mappings if
-     * <tt>m1.entrySet().equals(m2.entrySet())</tt>.  This ensures that the
-     * <tt>equals</tt> method works properly across different implementations
-     * of the <tt>Map</tt> interface.
-     *
-     * <p>This implementation first checks if the specified object is this map;
-     * if so it returns <tt>true</tt>.  Then, it checks if the specified
-     * object is a map whose size is identical to the size of this map; if
-     * not, it returns <tt>false</tt>.  If so, it iterates over this map's
-     * <tt>entrySet</tt> collection, and checks that the specified map
-     * contains each mapping that this map contains.  If the specified map
-     * fails to contain such a mapping, <tt>false</tt> is returned.  If the
-     * iteration completes, <tt>true</tt> is returned.
-     *
-     * @param o object to be compared for equality with this map
-     * @return <tt>true</tt> if the specified object is equal to this map
-     */
     public boolean equals(Object o) {
         if (o == this)
             return true;
 
-        if (!(o instanceof Map))
+        if (!(o instanceof HMap))
             return false;
-        Map<Prefix, Object> m = (Map<Prefix, Object>) o;
+        HMap m = (HMap) o;
         if (m.size() != size())
             return false;
 
@@ -544,23 +513,6 @@ public class HMap {
         return true;
     }
 
-    /**
-     * Returns the hash code value for this map.  The hash code of a map is
-     * defined to be the sum of the hash codes of each entry in the map's
-     * <tt>entrySet()</tt> view.  This ensures that <tt>m1.equals(m2)</tt>
-     * implies that <tt>m1.hashCode()==m2.hashCode()</tt> for any two maps
-     * <tt>m1</tt> and <tt>m2</tt>, as required by the general contract of
-     * {@link Object#hashCode}.
-     *
-     * <p>This implementation iterates over <tt>entrySet()</tt>, calling
-     * {@link Map.Entry#hashCode hashCode()} on each element (entry) in the
-     * set, and adding up the results.
-     *
-     * @return the hash code value for this map
-     * @see Map.Entry#hashCode()
-     * @see Object#equals(Object)
-     * @see Set#equals(Object)
-     */
     public int hashCode() {
         int h = 0;
         Iterator<Prefix> i = keySet().iterator();
