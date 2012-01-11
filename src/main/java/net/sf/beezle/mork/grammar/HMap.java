@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 
-public class HMap implements Map<Prefix, Object> {
+public class HMap {
 
     /**
      * The default initial capacity - MUST be a power of two.
