@@ -109,12 +109,4 @@ public class PrefixSet extends AbstractSet<Prefix> {
     public boolean add(Prefix e) {
         return map.put(e, PRESENT)==null;
     }
-
-    public boolean remove(Object o) {
-        return map.remove(o)==PRESENT;
-    }
-
-    public void clear() {
-        map.clear();
-    }
 }
