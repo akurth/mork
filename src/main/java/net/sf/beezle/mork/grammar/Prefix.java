@@ -99,7 +99,7 @@ public class Prefix implements Comparable<Prefix> {
 
     @Override
     public int hashCode() {
-        return data.length == 0 ? 0 : data[0];
+        return data.length == 0 ? 0 : data[0] + data[data.length - 1] << 8;
     }
 
     @Override
