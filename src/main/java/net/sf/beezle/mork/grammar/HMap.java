@@ -1,6 +1,5 @@
 package net.sf.beezle.mork.grammar;
 
-import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -39,15 +38,6 @@ public class HMap {
      * @serial
      */
     private int threshold;
-
-    // Views
-
-    /**
-     * Each of these fields are initialized to contain an instance of the
-     * appropriate view the first time this view is requested.  The views are
-     * stateless, so there's no reason to create more than one of each.
-     */
-    private transient volatile Set<Prefix>        keySet = null;
 
     public HMap() {
         threshold = (int)(DEFAULT_INITIAL_CAPACITY * LOAD_FACTOR);
@@ -296,29 +286,6 @@ public class HMap {
         return new KeyIterator();
     }
 
-    public Set<Prefix> keySet() {
-        Set<Prefix> ks = keySet;
-        return (ks != null ? ks : (keySet = new KeySet()));
-    }
-
-    private final class KeySet extends AbstractSet<Prefix> {
-        public Iterator<Prefix> iterator() {
-            return newKeyIterator();
-        }
-        public int size() {
-            return size;
-        }
-        public boolean contains(Object o) {
-            return containsKey(o);
-        }
-        public boolean remove(Object o) {
-            return HMap.this.removeEntryForKey(o) != null;
-        }
-        public void clear() {
-            HMap.this.clear();
-        }
-    }
-
     public boolean equals(Object o) {
         if (o == this)
             return true;
@@ -329,7 +296,7 @@ public class HMap {
         if (m.size() != size())
             return false;
 
-        Iterator<Prefix> i = keySet().iterator();
+        Iterator<Prefix> i = newKeyIterator();
         while (i.hasNext()) {
             Prefix key = i.next();
             if (!m.containsKey(key)) {

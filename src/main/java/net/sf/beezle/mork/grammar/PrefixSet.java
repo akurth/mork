@@ -86,7 +86,7 @@ public class PrefixSet implements Iterable<Prefix> {
     //--
 
     public Iterator<Prefix> iterator() {
-        return map.keySet().iterator();
+        return map.newKeyIterator();
     }
 
     public int size() {
