@@ -7,8 +7,6 @@ import java.util.Set;
 
 
 public class HMap {
-    private static final Object OBJECT = new Object();
-
     /**
      * The default initial capacity - MUST be a power of two.
      */
@@ -105,18 +103,6 @@ public class HMap {
         return size == 0;
     }
 
-    public Object get(Object key) {
-        int hash = hash(key.hashCode());
-        for (Entry e = table[indexFor(hash, table.length)];
-             e != null;
-             e = e.next) {
-            Object k;
-            if (e.hash == hash && ((k = e.key) == key || key.equals(k)))
-                return OBJECT;
-        }
-        return null;
-    }
-
     public boolean containsKey(Object key) {
         return getEntry(key) != null;
     }
@@ -183,9 +169,8 @@ public class HMap {
         }
     }
 
-    public Object remove(Object key) {
-        Entry e = removeEntryForKey(key);
-        return (e == null ? null : OBJECT);
+    public boolean remove(Object key) {
+        return removeEntryForKey(key) == null;
     }
 
     /**
@@ -226,6 +211,7 @@ public class HMap {
     }
 
     static class Entry {
+        /** never null */
         Prefix key;
         Entry next;
         final int hash;
@@ -240,23 +226,13 @@ public class HMap {
             return key;
         }
 
-        public final Object getValue() {
-            return OBJECT;
-        }
-
         public final boolean equals(Object o) {
             if (!(o instanceof Entry))
                 return false;
             Entry e = (Entry) o;
             Object k1 = getKey();
             Object k2 = e.getKey();
-            if (k1 == k2 || (k1 != null && k1.equals(k2))) {
-                Object v1 = getValue();
-                Object v2 = e.getValue();
-                if (v1 == v2 || (v1 != null && v1.equals(v2)))
-                    return true;
-            }
-            return false;
+            return k1 == k2 || (k1 != null && k1.equals(k2));
         }
 
         public final int hashCode() {
@@ -264,7 +240,7 @@ public class HMap {
         }
 
         public final String toString() {
-            return getKey() + "=" + getValue();
+            return getKey().toString();
         }
     }
 
