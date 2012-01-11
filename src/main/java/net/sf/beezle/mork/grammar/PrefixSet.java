@@ -78,11 +78,12 @@ public class PrefixSet implements Iterable<Prefix> {
 
         // Find a power of 2 >= initialCapacity
         int capacity = 1;
-        while (capacity < initialCapacity)
+        while (capacity < initialCapacity) {
             capacity <<= 1;
+        }
 
-        threshold = (int)(capacity * LOAD_FACTOR);
-        table = new Entry[capacity];
+        this.threshold = (int)(capacity * LOAD_FACTOR);
+        this.table = new Entry[capacity];
 
         addAll(orig);
     }
@@ -96,7 +97,7 @@ public class PrefixSet implements Iterable<Prefix> {
     }
 
     public boolean isEmpty() {
-        return size() == 0;
+        return size == 0;
     }
 
     public boolean contains(Prefix prefix) {
@@ -104,11 +105,13 @@ public class PrefixSet implements Iterable<Prefix> {
     }
 
     public boolean add(Prefix prefix) {
-        int hash = hash(prefix.hashCode());
-        int i = indexFor(hash, table.length);
+        int hash;
+        int i;
+        
+        hash = hash(prefix.hashCode());
+        i = indexFor(hash, table.length);
         for (Entry e = table[i]; e != null; e = e.next) {
-            Object k;
-            if (e.hash == hash && ((k = e.prefix) == prefix || prefix.equals(k))) {
+            if (e.hash == hash && prefix.equals(e.prefix)) {
                 return true;
             }
         }
@@ -131,12 +134,12 @@ public class PrefixSet implements Iterable<Prefix> {
             return false;
         }
 
-        PrefixSet c = (PrefixSet) o;
-        if (c.size() != size()) {
+        PrefixSet s = (PrefixSet) o;
+        if (s.size != size) {
             return false;
         }
-        for (Prefix e : c) {
-            if (!contains(e)) {
+        for (Prefix p : s) {
+            if (!contains(p)) {
                 return false;
             }
         }
@@ -184,12 +187,11 @@ public class PrefixSet implements Iterable<Prefix> {
     //--
 
     private Entry lookup(Prefix prefix) {
-        int hash = hash(prefix.hashCode());
-        for (Entry e = table[indexFor(hash, table.length)];
-             e != null;
-             e = e.next) {
-            Object k;
-            if (e.hash == hash && ((k = e.prefix) == prefix || prefix.equals(k))) {
+        int hash;
+
+        hash = hash(prefix.hashCode());
+        for (Entry e = table[indexFor(hash, table.length)]; e != null; e = e.next) {
+            if (e.hash == hash && prefix.equals(e.prefix)) {
                 return e;
             }
         }
@@ -197,14 +199,17 @@ public class PrefixSet implements Iterable<Prefix> {
     }
 
     private void resize(int newCapacity) {
-        Entry[] oldTable = table;
-        int oldCapacity = oldTable.length;
+        Entry[] oldTable;
+        int oldCapacity;
+        Entry[] newTable;
+
+        oldTable = table;
+        oldCapacity = oldTable.length;
         if (oldCapacity == MAXIMUM_CAPACITY) {
             threshold = Integer.MAX_VALUE;
             return;
         }
-
-        Entry[] newTable = new Entry[newCapacity];
+        newTable = new Entry[newCapacity];
         transfer(newTable);
         table = newTable;
         threshold = (int)(newCapacity * LOAD_FACTOR);
