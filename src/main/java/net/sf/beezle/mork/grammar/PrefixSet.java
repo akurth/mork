@@ -36,18 +36,18 @@ public class PrefixSet implements Iterable<Prefix> {
     //--
 
     public final int k;
-    private final HMap<Prefix,Object> map;
+    private final HMap map;
 
     // Dummy value to associate with an Object in the backing Map
     private static final Object PRESENT = new Object();
 
     public PrefixSet(int k) {
-        this.map = new HMap<Prefix, Object>();
+        this.map = new HMap();
         this.k = k;
     }
 
     public PrefixSet(PrefixSet orig) {
-        map = new HMap<Prefix, Object>(Math.max((int) (orig.size()/.75f) + 1, 16));
+        map = new HMap(Math.max((int) (orig.size()/.75f) + 1, 16));
         this.k = orig.k;
         addAll(orig);
     }

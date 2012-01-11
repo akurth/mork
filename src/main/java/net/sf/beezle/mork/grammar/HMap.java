@@ -13,10 +13,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 
-public class HMap<K,V>
-        extends AbstractMap<K,V>
-        implements Map<K,V>, Cloneable, Serializable
-{
+public class HMap extends AbstractMap<Prefix, Object> implements Map<Prefix, Object>, Cloneable, Serializable {
 
     /**
      * The default initial capacity - MUST be a power of two.
@@ -128,7 +125,7 @@ public class HMap<K,V>
      * @param   m the map whose mappings are to be placed in this map
      * @throws  NullPointerException if the specified map is null
      */
-    public HMap(Map<? extends K, ? extends V> m) {
+    public HMap(Map<? extends Prefix, ? extends Object> m) {
         this(Math.max((int) (m.size() / DEFAULT_LOAD_FACTOR) + 1,
                 DEFAULT_INITIAL_CAPACITY), DEFAULT_LOAD_FACTOR);
         putAllForCreate(m);
@@ -203,11 +200,11 @@ public class HMap<K,V>
      *
      * @see #put(Object, Object)
      */
-    public V get(Object key) {
+    public Object get(Object key) {
         if (key == null)
             return getForNullKey();
         int hash = hash(key.hashCode());
-        for (Entry<K,V> e = table[indexFor(hash, table.length)];
+        for (Entry<Prefix, Object> e = table[indexFor(hash, table.length)];
              e != null;
              e = e.next) {
             Object k;
@@ -224,8 +221,8 @@ public class HMap<K,V>
      * operations (get and put), but incorporated with conditionals in
      * others.
      */
-    private V getForNullKey() {
-        for (Entry<K,V> e = table[0]; e != null; e = e.next) {
+    private Object getForNullKey() {
+        for (Entry<Prefix, Object> e = table[0]; e != null; e = e.next) {
             if (e.key == null)
                 return e.value;
         }
@@ -249,9 +246,9 @@ public class HMap<K,V>
      * HashMap.  Returns null if the HashMap contains no mapping
      * for the key.
      */
-    final Entry<K,V> getEntry(Object key) {
+    final Entry<Prefix, Object> getEntry(Object key) {
         int hash = (key == null) ? 0 : hash(key.hashCode());
-        for (Entry<K,V> e = table[indexFor(hash, table.length)];
+        for (Entry<Prefix, Object> e = table[indexFor(hash, table.length)];
              e != null;
              e = e.next) {
             Object k;
@@ -275,15 +272,15 @@ public class HMap<K,V>
      *         (A <tt>null</tt> return can also indicate that the map
      *         previously associated <tt>null</tt> with <tt>key</tt>.)
      */
-    public V put(K key, V value) {
+    public Object put(Prefix key, Object value) {
         if (key == null)
             return putForNullKey(value);
         int hash = hash(key.hashCode());
         int i = indexFor(hash, table.length);
-        for (Entry<K,V> e = table[i]; e != null; e = e.next) {
+        for (Entry<Prefix, Object> e = table[i]; e != null; e = e.next) {
             Object k;
             if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
-                V oldValue = e.value;
+                Object oldValue = e.value;
                 e.value = value;
                 e.recordAccess(this);
                 return oldValue;
@@ -298,10 +295,10 @@ public class HMap<K,V>
     /**
      * Offloaded version of put for null keys
      */
-    private V putForNullKey(V value) {
-        for (Entry<K,V> e = table[0]; e != null; e = e.next) {
+    private Object putForNullKey(Object value) {
+        for (Entry<Prefix, Object> e = table[0]; e != null; e = e.next) {
             if (e.key == null) {
-                V oldValue = e.value;
+                Object oldValue = e.value;
                 e.value = value;
                 e.recordAccess(this);
                 return oldValue;
@@ -318,7 +315,7 @@ public class HMap<K,V>
      * check for comodification, etc.  It calls createEntry rather than
      * addEntry.
      */
-    private void putForCreate(K key, V value) {
+    private void putForCreate(Prefix key, Object value) {
         int hash = (key == null) ? 0 : hash(key.hashCode());
         int i = indexFor(hash, table.length);
 
@@ -327,7 +324,7 @@ public class HMap<K,V>
          * clone or deserialize.  It will only happen for construction if the
          * input Map is a sorted map whose ordering is inconsistent w/ equals.
          */
-        for (Entry<K,V> e = table[i]; e != null; e = e.next) {
+        for (Entry<Prefix, Object> e = table[i]; e != null; e = e.next) {
             Object k;
             if (e.hash == hash &&
                     ((k = e.key) == key || (key != null && key.equals(k)))) {
@@ -339,8 +336,8 @@ public class HMap<K,V>
         createEntry(hash, key, value, i);
     }
 
-    private void putAllForCreate(Map<? extends K, ? extends V> m) {
-        for (Map.Entry<? extends K, ? extends V> e : m.entrySet())
+    private void putAllForCreate(Map<? extends Prefix, ? extends Object> m) {
+        for (Map.Entry<? extends Prefix, ? extends Object> e : m.entrySet())
             putForCreate(e.getKey(), e.getValue());
     }
 
@@ -379,11 +376,11 @@ public class HMap<K,V>
         Entry[] src = table;
         int newCapacity = newTable.length;
         for (int j = 0; j < src.length; j++) {
-            Entry<K,V> e = src[j];
+            Entry<Prefix,Object> e = src[j];
             if (e != null) {
                 src[j] = null;
                 do {
-                    Entry<K,V> next = e.next;
+                    Entry<Prefix, Object> next = e.next;
                     int i = indexFor(e.hash, newCapacity);
                     e.next = newTable[i];
                     newTable[i] = e;
@@ -401,7 +398,7 @@ public class HMap<K,V>
      * @param m mappings to be stored in this map
      * @throws NullPointerException if the specified map is null
      */
-    public void putAll(Map<? extends K, ? extends V> m) {
+    public void putAll(Map<? extends Prefix, ? extends Object> m) {
         int numKeysToBeAdded = m.size();
         if (numKeysToBeAdded == 0)
             return;
@@ -426,7 +423,7 @@ public class HMap<K,V>
                 resize(newCapacity);
         }
 
-        for (Map.Entry<? extends K, ? extends V> e : m.entrySet())
+        for (Map.Entry<? extends Prefix, ? extends Object> e : m.entrySet())
             put(e.getKey(), e.getValue());
     }
 
@@ -439,8 +436,8 @@ public class HMap<K,V>
      *         (A <tt>null</tt> return can also indicate that the map
      *         previously associated <tt>null</tt> with <tt>key</tt>.)
      */
-    public V remove(Object key) {
-        Entry<K,V> e = removeEntryForKey(key);
+    public Object remove(Object key) {
+        Entry<Prefix, Object> e = removeEntryForKey(key);
         return (e == null ? null : e.value);
     }
 
@@ -449,14 +446,14 @@ public class HMap<K,V>
      * in the HashMap.  Returns null if the HashMap contains no mapping
      * for this key.
      */
-    final Entry<K,V> removeEntryForKey(Object key) {
+    final Entry<Prefix, Object> removeEntryForKey(Object key) {
         int hash = (key == null) ? 0 : hash(key.hashCode());
         int i = indexFor(hash, table.length);
-        Entry<K,V> prev = table[i];
-        Entry<K,V> e = prev;
+        Entry<Prefix, Object> prev = table[i];
+        Entry<Prefix, Object> e = prev;
 
         while (e != null) {
-            Entry<K,V> next = e.next;
+            Entry<Prefix, Object> next = e.next;
             Object k;
             if (e.hash == hash &&
                     ((k = e.key) == key || (key != null && key.equals(k)))) {
@@ -479,19 +476,19 @@ public class HMap<K,V>
     /**
      * Special version of remove for EntrySet.
      */
-    final Entry<K,V> removeMapping(Object o) {
+    final Entry<Prefix, Object> removeMapping(Object o) {
         if (!(o instanceof Map.Entry))
             return null;
 
-        Map.Entry<K,V> entry = (Map.Entry<K,V>) o;
+        Map.Entry<Prefix, Object> entry = (Map.Entry<Prefix, Object>) o;
         Object key = entry.getKey();
         int hash = (key == null) ? 0 : hash(key.hashCode());
         int i = indexFor(hash, table.length);
-        Entry<K,V> prev = table[i];
-        Entry<K,V> e = prev;
+        Entry<Prefix, Object> prev = table[i];
+        Entry<Prefix, Object> e = prev;
 
         while (e != null) {
-            Entry<K,V> next = e.next;
+            Entry<Prefix, Object> next = e.next;
             if (e.hash == hash && e.equals(entry)) {
                 modCount++;
                 size--;
@@ -560,9 +557,9 @@ public class HMap<K,V>
      * @return a shallow copy of this map
      */
     public Object clone() {
-        HMap<K,V> result = null;
+        HMap result = null;
         try {
-            result = (HMap<K,V>)super.clone();
+            result = (HMap) super.clone();
         } catch (CloneNotSupportedException e) {
             // assert false;
         }
@@ -635,14 +632,14 @@ public class HMap<K,V>
          * overwritten by an invocation of put(k,v) for a key k that's already
          * in the HashMap.
          */
-        void recordAccess(HMap<K,V> m) {
+        void recordAccess(HMap m) {
         }
 
         /**
          * This method is invoked whenever the entry is
          * removed from the table.
          */
-        void recordRemoval(HMap<K,V> m) {
+        void recordRemoval(HMap m) {
         }
     }
 
@@ -653,9 +650,9 @@ public class HMap<K,V>
      *
      * Subclass overrides this to alter the behavior of put method.
      */
-    void addEntry(int hash, K key, V value, int bucketIndex) {
-        Entry<K,V> e = table[bucketIndex];
-        table[bucketIndex] = new Entry<K, V>(hash, key, value, e);
+    void addEntry(int hash, Prefix key, Object value, int bucketIndex) {
+        Entry<Prefix, Object> e = table[bucketIndex];
+        table[bucketIndex] = new Entry<Prefix, Object>(hash, key, value, e);
         if (size++ >= threshold)
             resize(2 * table.length);
     }
@@ -668,17 +665,17 @@ public class HMap<K,V>
      * Subclass overrides this to alter the behavior of HashMap(Map),
      * clone, and readObject.
      */
-    void createEntry(int hash, K key, V value, int bucketIndex) {
-        Entry<K,V> e = table[bucketIndex];
-        table[bucketIndex] = new Entry<K,V>(hash, key, value, e);
+    void createEntry(int hash, Prefix key, Object value, int bucketIndex) {
+        Entry<Prefix, Object> e = table[bucketIndex];
+        table[bucketIndex] = new Entry<Prefix,Object>(hash, key, value, e);
         size++;
     }
 
     private abstract class HashIterator<E> implements Iterator<E> {
-        Entry<K,V> next;        // next entry to return
+        Entry<Prefix,Object> next;        // next entry to return
         int expectedModCount;   // For fast-fail
         int index;              // current slot
-        Entry<K,V> current;     // current entry
+        Entry<Prefix,Object> current;     // current entry
 
         HashIterator() {
             expectedModCount = modCount;
@@ -693,10 +690,10 @@ public class HMap<K,V>
             return next != null;
         }
 
-        final Entry<K,V> nextEntry() {
+        final Entry<Prefix, Object> nextEntry() {
             if (modCount != expectedModCount)
                 throw new ConcurrentModificationException();
-            Entry<K,V> e = next;
+            Entry<Prefix,Object> e = next;
             if (e == null)
                 throw new NoSuchElementException();
 
@@ -722,39 +719,39 @@ public class HMap<K,V>
 
     }
 
-    private final class ValueIterator extends HashIterator<V> {
-        public V next() {
+    private final class ValueIterator extends HashIterator<Object> {
+        public Object next() {
             return nextEntry().value;
         }
     }
 
-    private final class KeyIterator extends HashIterator<K> {
-        public K next() {
+    private final class KeyIterator extends HashIterator<Prefix> {
+        public Prefix next() {
             return nextEntry().getKey();
         }
     }
 
-    private final class EntryIterator extends HashIterator<Map.Entry<K,V>> {
-        public Map.Entry<K,V> next() {
+    private final class EntryIterator extends HashIterator<Map.Entry<Prefix,Object>> {
+        public Map.Entry<Prefix, Object> next() {
             return nextEntry();
         }
     }
 
     // Subclass overrides these to alter behavior of views' iterator() method
-    Iterator<K> newKeyIterator()   {
+    Iterator<Prefix> newKeyIterator()   {
         return new KeyIterator();
     }
-    Iterator<V> newValueIterator()   {
+    Iterator<Object> newValueIterator()   {
         return new ValueIterator();
     }
-    Iterator<Map.Entry<K,V>> newEntryIterator()   {
+    Iterator<Map.Entry<Prefix, Object>> newEntryIterator()   {
         return new EntryIterator();
     }
 
 
     // Views
 
-    private transient Set<Map.Entry<K,V>> entrySet = null;
+    private transient Set<Map.Entry<Prefix, Object>> entrySet = null;
 
     /**
      * Returns a {@link Set} view of the keys contained in this map.
@@ -769,13 +766,13 @@ public class HMap<K,V>
      * operations.  It does not support the <tt>add</tt> or <tt>addAll</tt>
      * operations.
      */
-    public Set<K> keySet() {
-        Set<K> ks = keySet;
+    public Set<Prefix> keySet() {
+        Set<Prefix> ks = keySet;
         return (ks != null ? ks : (keySet = new KeySet()));
     }
 
-    private final class KeySet extends AbstractSet<K> {
-        public Iterator<K> iterator() {
+    private final class KeySet extends AbstractSet<Prefix> {
+        public Iterator<Prefix> iterator() {
             return newKeyIterator();
         }
         public int size() {
@@ -805,13 +802,13 @@ public class HMap<K,V>
      * <tt>retainAll</tt> and <tt>clear</tt> operations.  It does not
      * support the <tt>add</tt> or <tt>addAll</tt> operations.
      */
-    public Collection<V> values() {
-        Collection<V> vs = values;
+    public Collection<Object> values() {
+        Collection<Object> vs = values;
         return (vs != null ? vs : (values = new Values()));
     }
 
-    private final class Values extends AbstractCollection<V> {
-        public Iterator<V> iterator() {
+    private final class Values extends AbstractCollection<Object> {
+        public Iterator<Object> iterator() {
             return newValueIterator();
         }
         public int size() {
@@ -841,24 +838,24 @@ public class HMap<K,V>
      *
      * @return a set view of the mappings contained in this map
      */
-    public Set<Map.Entry<K,V>> entrySet() {
+    public Set<Map.Entry<Prefix, Object>> entrySet() {
         return entrySet0();
     }
 
-    private Set<Map.Entry<K,V>> entrySet0() {
-        Set<Map.Entry<K,V>> es = entrySet;
+    private Set<Map.Entry<Prefix, Object>> entrySet0() {
+        Set<Map.Entry<Prefix, Object>> es = entrySet;
         return es != null ? es : (entrySet = new EntrySet());
     }
 
-    private final class EntrySet extends AbstractSet<Map.Entry<K,V>> {
-        public Iterator<Map.Entry<K,V>> iterator() {
+    private final class EntrySet extends AbstractSet<Map.Entry<Prefix, Object>> {
+        public Iterator<Map.Entry<Prefix, Object>> iterator() {
             return newEntryIterator();
         }
         public boolean contains(Object o) {
             if (!(o instanceof Map.Entry))
                 return false;
-            Map.Entry<K,V> e = (Map.Entry<K,V>) o;
-            Entry<K,V> candidate = getEntry(e.getKey());
+            Map.Entry<Prefix, Object> e = (Map.Entry<Prefix, Object>) o;
+            Entry<Prefix,Object> candidate = getEntry(e.getKey());
             return candidate != null && candidate.equals(e);
         }
         public boolean remove(Object o) {
@@ -886,7 +883,7 @@ public class HMap<K,V>
     private void writeObject(java.io.ObjectOutputStream s)
             throws IOException
     {
-        Iterator<Map.Entry<K,V>> i =
+        Iterator<Map.Entry<Prefix, Object>> i =
                 (size > 0) ? entrySet0().iterator() : null;
 
         // Write out the threshold, loadfactor, and any hidden stuff
@@ -901,7 +898,7 @@ public class HMap<K,V>
         // Write out keys and values (alternating)
         if (i != null) {
             while (i.hasNext()) {
-                Map.Entry<K,V> e = i.next();
+                Map.Entry<Prefix, Object> e = i.next();
                 s.writeObject(e.getKey());
                 s.writeObject(e.getValue());
             }
@@ -931,8 +928,8 @@ public class HMap<K,V>
 
         // Read the keys and values, and put the mappings in the HashMap
         for (int i=0; i<size; i++) {
-            K key = (K) s.readObject();
-            V value = (V) s.readObject();
+            Prefix key = (Prefix) s.readObject();
+            Object value = s.readObject();
             putForCreate(key, value);
         }
     }
