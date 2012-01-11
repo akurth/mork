@@ -114,21 +114,6 @@ public class HMap implements Map<Prefix, Object>, Cloneable, Serializable {
         init();
     }
 
-    /**
-     * Constructs a new <tt>HashMap</tt> with the same mappings as the
-     * specified <tt>Map</tt>.  The <tt>HashMap</tt> is created with
-     * default load factor (0.75) and an initial capacity sufficient to
-     * hold the mappings in the specified <tt>Map</tt>.
-     *
-     * @param   m the map whose mappings are to be placed in this map
-     * @throws  NullPointerException if the specified map is null
-     */
-    public HMap(Map<? extends Prefix, ? extends Object> m) {
-        this(Math.max((int) (m.size() / DEFAULT_LOAD_FACTOR) + 1,
-                DEFAULT_INITIAL_CAPACITY), DEFAULT_LOAD_FACTOR);
-        putAllForCreate(m);
-    }
-
     // internal utilities
 
     /**
@@ -163,41 +148,14 @@ public class HMap implements Map<Prefix, Object>, Cloneable, Serializable {
         return h & (length-1);
     }
 
-    /**
-     * Returns the number of key-value mappings in this map.
-     *
-     * @return the number of key-value mappings in this map
-     */
     public int size() {
         return size;
     }
 
-    /**
-     * Returns <tt>true</tt> if this map contains no key-value mappings.
-     *
-     * @return <tt>true</tt> if this map contains no key-value mappings
-     */
     public boolean isEmpty() {
         return size == 0;
     }
 
-    /**
-     * Returns the value to which the specified key is mapped,
-     * or {@code null} if this map contains no mapping for the key.
-     *
-     * <p>More formally, if this map contains a mapping from a key
-     * {@code k} to a value {@code v} such that {@code (key==null ? k==null :
-     * key.equals(k))}, then this method returns {@code v}; otherwise
-     * it returns {@code null}.  (There can be at most one such mapping.)
-     *
-     * <p>A return value of {@code null} does not <i>necessarily</i>
-     * indicate that the map contains no mapping for the key; it's also
-     * possible that the map explicitly maps the key to {@code null}.
-     * The {@link #containsKey containsKey} operation may be used to
-     * distinguish these two cases.
-     *
-     * @see #put(Object, Object)
-     */
     public Object get(Object key) {
         if (key == null)
             return getForNullKey();
@@ -212,13 +170,6 @@ public class HMap implements Map<Prefix, Object>, Cloneable, Serializable {
         return null;
     }
 
-    /**
-     * Offloaded version of get() to look up null keys.  Null keys map
-     * to index 0.  This null case is split out into separate methods
-     * for the sake of performance in the two most commonly used
-     * operations (get and put), but incorporated with conditionals in
-     * others.
-     */
     private Object getForNullKey() {
         for (Entry<Prefix, Object> e = table[0]; e != null; e = e.next) {
             if (e.key == null)
@@ -227,23 +178,10 @@ public class HMap implements Map<Prefix, Object>, Cloneable, Serializable {
         return null;
     }
 
-    /**
-     * Returns <tt>true</tt> if this map contains a mapping for the
-     * specified key.
-     *
-     * @param   key   The key whose presence in this map is to be tested
-     * @return <tt>true</tt> if this map contains a mapping for the specified
-     * key.
-     */
     public boolean containsKey(Object key) {
         return getEntry(key) != null;
     }
 
-    /**
-     * Returns the entry associated with the specified key in the
-     * HashMap.  Returns null if the HashMap contains no mapping
-     * for the key.
-     */
     final Entry<Prefix, Object> getEntry(Object key) {
         int hash = (key == null) ? 0 : hash(key.hashCode());
         for (Entry<Prefix, Object> e = table[indexFor(hash, table.length)];
@@ -258,18 +196,6 @@ public class HMap implements Map<Prefix, Object>, Cloneable, Serializable {
     }
 
 
-    /**
-     * Associates the specified value with the specified key in this map.
-     * If the map previously contained a mapping for the key, the old
-     * value is replaced.
-     *
-     * @param key key with which the specified value is to be associated
-     * @param value value to be associated with the specified key
-     * @return the previous value associated with <tt>key</tt>, or
-     *         <tt>null</tt> if there was no mapping for <tt>key</tt>.
-     *         (A <tt>null</tt> return can also indicate that the map
-     *         previously associated <tt>null</tt> with <tt>key</tt>.)
-     */
     public Object put(Prefix key, Object value) {
         if (key == null)
             return putForNullKey(value);
@@ -290,9 +216,6 @@ public class HMap implements Map<Prefix, Object>, Cloneable, Serializable {
         return null;
     }
 
-    /**
-     * Offloaded version of put for null keys
-     */
     private Object putForNullKey(Object value) {
         for (Entry<Prefix, Object> e = table[0]; e != null; e = e.next) {
             if (e.key == null) {
@@ -307,12 +230,6 @@ public class HMap implements Map<Prefix, Object>, Cloneable, Serializable {
         return null;
     }
 
-    /**
-     * This method is used instead of put by constructors and
-     * pseudoconstructors (clone, readObject).  It does not resize the table,
-     * check for comodification, etc.  It calls createEntry rather than
-     * addEntry.
-     */
     private void putForCreate(Prefix key, Object value) {
         int hash = (key == null) ? 0 : hash(key.hashCode());
         int i = indexFor(hash, table.length);
@@ -339,20 +256,6 @@ public class HMap implements Map<Prefix, Object>, Cloneable, Serializable {
             putForCreate(e.getKey(), e.getValue());
     }
 
-    /**
-     * Rehashes the contents of this map into a new array with a
-     * larger capacity.  This method is called automatically when the
-     * number of keys in this map reaches its threshold.
-     *
-     * If current capacity is MAXIMUM_CAPACITY, this method does not
-     * resize the map, but sets threshold to Integer.MAX_VALUE.
-     * This has the effect of preventing future calls.
-     *
-     * @param newCapacity the new capacity, MUST be a power of two;
-     *        must be greater than current capacity unless current
-     *        capacity is MAXIMUM_CAPACITY (in which case value
-     *        is irrelevant).
-     */
     void resize(int newCapacity) {
         Entry[] oldTable = table;
         int oldCapacity = oldTable.length;
@@ -367,9 +270,6 @@ public class HMap implements Map<Prefix, Object>, Cloneable, Serializable {
         threshold = (int)(newCapacity * loadFactor);
     }
 
-    /**
-     * Transfers all entries from current table to newTable.
-     */
     void transfer(Entry[] newTable) {
         Entry[] src = table;
         int newCapacity = newTable.length;
@@ -388,14 +288,6 @@ public class HMap implements Map<Prefix, Object>, Cloneable, Serializable {
         }
     }
 
-    /**
-     * Copies all of the mappings from the specified map to this map.
-     * These mappings will replace any mappings that this map had for
-     * any of the keys currently in the specified map.
-     *
-     * @param m mappings to be stored in this map
-     * @throws NullPointerException if the specified map is null
-     */
     public void putAll(Map<? extends Prefix, ? extends Object> m) {
         int numKeysToBeAdded = m.size();
         if (numKeysToBeAdded == 0)
@@ -425,15 +317,6 @@ public class HMap implements Map<Prefix, Object>, Cloneable, Serializable {
             put(e.getKey(), e.getValue());
     }
 
-    /**
-     * Removes the mapping for the specified key from this map if present.
-     *
-     * @param  key key whose mapping is to be removed from the map
-     * @return the previous value associated with <tt>key</tt>, or
-     *         <tt>null</tt> if there was no mapping for <tt>key</tt>.
-     *         (A <tt>null</tt> return can also indicate that the map
-     *         previously associated <tt>null</tt> with <tt>key</tt>.)
-     */
     public Object remove(Object key) {
         Entry<Prefix, Object> e = removeEntryForKey(key);
         return (e == null ? null : e.value);
@@ -516,14 +399,6 @@ public class HMap implements Map<Prefix, Object>, Cloneable, Serializable {
         size = 0;
     }
 
-    /**
-     * Returns <tt>true</tt> if this map maps one or more keys to the
-     * specified value.
-     *
-     * @param value value whose presence in this map is to be tested
-     * @return <tt>true</tt> if this map maps one or more keys to the
-     *         specified value
-     */
     public boolean containsValue(Object value) {
         if (value == null)
             return containsNullValue();
@@ -536,9 +411,6 @@ public class HMap implements Map<Prefix, Object>, Cloneable, Serializable {
         return false;
     }
 
-    /**
-     * Special-case code for containsValue with null argument
-     */
     private boolean containsNullValue() {
         Entry[] tab = table;
         for (int i = 0; i < tab.length ; i++)
@@ -548,12 +420,6 @@ public class HMap implements Map<Prefix, Object>, Cloneable, Serializable {
         return false;
     }
 
-    /**
-     * Returns a shallow copy of this <tt>HashMap</tt> instance: the keys and
-     * values themselves are not cloned.
-     *
-     * @return a shallow copy of this map
-     */
     public Object clone() {
         HMap result = null;
         try {
