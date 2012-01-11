@@ -88,7 +88,7 @@ public class PrefixSet implements Iterable<Prefix> {
     }
 
     public Iterator<Prefix> iterator() {
-        return new KeyIterator();
+        return new PrefixIterator();
     }
 
     public int size() {
@@ -99,21 +99,21 @@ public class PrefixSet implements Iterable<Prefix> {
         return size() == 0;
     }
 
-    public boolean contains(Prefix key) {
-        return lookup(key) != null;
+    public boolean contains(Prefix prefix) {
+        return lookup(prefix) != null;
     }
 
-    public boolean add(Prefix key) {
-        int hash = hash(key.hashCode());
+    public boolean add(Prefix prefix) {
+        int hash = hash(prefix.hashCode());
         int i = indexFor(hash, table.length);
         for (Entry e = table[i]; e != null; e = e.next) {
             Object k;
-            if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
+            if (e.hash == hash && ((k = e.prefix) == prefix || prefix.equals(k))) {
                 return true;
             }
         }
         Entry e = table[i];
-        table[i] = new Entry(hash, key, e);
+        table[i] = new Entry(hash, prefix, e);
         if (size++ >= threshold) {
             resize(2 * table.length);
         }
@@ -183,13 +183,13 @@ public class PrefixSet implements Iterable<Prefix> {
 
     //--
 
-    private Entry lookup(Prefix key) {
-        int hash = hash(key.hashCode());
+    private Entry lookup(Prefix prefix) {
+        int hash = hash(prefix.hashCode());
         for (Entry e = table[indexFor(hash, table.length)];
              e != null;
              e = e.next) {
             Object k;
-            if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
+            if (e.hash == hash && ((k = e.prefix) == prefix || prefix.equals(k))) {
                 return e;
             }
         }
@@ -258,13 +258,13 @@ public class PrefixSet implements Iterable<Prefix> {
 
     private static class Entry {
         /** never null */
-        public final Prefix key;
+        public final Prefix prefix;
         public Entry next;
         public final int hash;
 
-        Entry(int h, Prefix k, Entry n) {
+        Entry(int h, Prefix p, Entry n) {
             next = n;
-            key = k;
+            prefix = p;
             hash = h;
         }
 
@@ -272,24 +272,24 @@ public class PrefixSet implements Iterable<Prefix> {
             if (!(o instanceof Entry))
                 return false;
             Entry e = (Entry) o;
-            return key.equals(e.key);
+            return prefix.equals(e.prefix);
         }
 
         public final int hashCode() {
-            return key.hashCode();
+            return prefix.hashCode();
         }
 
         public final String toString() {
-            return key.toString();
+            return prefix.toString();
         }
     }
 
-    private class KeyIterator implements Iterator<Prefix> {
+    private class PrefixIterator implements Iterator<Prefix> {
         Entry next;        // next entry to return
         int index;              // current slot
         Entry current;     // current entry
 
-        public KeyIterator() {
+        public PrefixIterator() {
             if (size > 0) { // advance to first entry
                 Entry[] t = table;
                 while (index < t.length && (next = t[index++]) == null)
@@ -313,7 +313,7 @@ public class PrefixSet implements Iterable<Prefix> {
                     ;
             }
             current = e;
-            return e.key;
+            return e.prefix;
         }
 
         public void remove() {
