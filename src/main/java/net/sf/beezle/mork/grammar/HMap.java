@@ -158,16 +158,7 @@ public class HMap {
         }
     }
 
-    public boolean remove(Object key) {
-        return removeEntryForKey(key) == null;
-    }
-
-    /**
-     * Removes and returns the entry associated with the specified key
-     * in the HashMap.  Returns null if the HashMap contains no mapping
-     * for this key.
-     */
-    private Entry removeEntryForKey(Object key) {
+    private Entry removEntryForKey(Object key) {
         int hash = (key == null) ? 0 : hash(key.hashCode());
         int i = indexFor(hash, table.length);
         Entry prev = table[i];
@@ -258,17 +249,11 @@ public class HMap {
         }
 
         public void remove() {
-            if (current == null)
-                throw new IllegalStateException();
-            Object k = current.key;
-            current = null;
-            HMap.this.removeEntryForKey(k);
+            throw new UnsupportedOperationException();
         }
     }
 
-
-    // Subclass overrides these to alter behavior of views' iterator() method
-    Iterator<Prefix> newKeyIterator()   {
+    public Iterator<Prefix> newKeyIterator()   {
         return new KeyIterator();
     }
 
