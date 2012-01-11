@@ -53,30 +53,6 @@ public class HMap {
         table = new Entry[capacity];
     }
 
-    // internal utilities
-
-    /**
-     * Applies a supplemental hash function to a given hashCode, which
-     * defends against poor quality hash functions.  This is critical
-     * because HashMap uses power-of-two length hash tables, that
-     * otherwise encounter collisions for hashCodes that do not differ
-     * in lower bits. Note: Null keys always map to hash 0, thus index 0.
-     */
-    private static int hash(int h) {
-        // This function ensures that hashCodes that differ only by
-        // constant multiples at each bit position have a bounded
-        // number of collisions (approximately 8 at default load factor).
-        h ^= (h >>> 20) ^ (h >>> 12);
-        return h ^ (h >>> 7) ^ (h >>> 4);
-    }
-
-    /**
-     * Returns index for hash code h.
-     */
-    private static int indexFor(int h, int length) {
-        return h & (length-1);
-    }
-
     public int size() {
         return size;
     }
@@ -84,20 +60,6 @@ public class HMap {
     public boolean containsKey(Prefix key) {
         return lookup(key) != null;
     }
-
-    private Entry lookup(Prefix key) {
-        int hash = hash(key.hashCode());
-        for (Entry e = table[indexFor(hash, table.length)];
-             e != null;
-             e = e.next) {
-            Object k;
-            if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
-                return e;
-            }
-        }
-        return null;
-    }
-
 
     public boolean put(Prefix key) {
         int hash = hash(key.hashCode());
@@ -114,6 +76,49 @@ public class HMap {
             resize(2 * table.length);
         }
         return false;
+    }
+
+    public Iterator<Prefix> newKeyIterator()   {
+        return new KeyIterator();
+    }
+
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+
+        if (!(o instanceof HMap))
+            return false;
+        HMap m = (HMap) o;
+        if (m.size() != size())
+            return false;
+
+        Iterator<Prefix> i = newKeyIterator();
+        while (i.hasNext()) {
+            Prefix key = i.next();
+            if (!m.containsKey(key)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int hashCode() {
+        return size();
+    }
+
+    //--
+
+    private Entry lookup(Prefix key) {
+        int hash = hash(key.hashCode());
+        for (Entry e = table[indexFor(hash, table.length)];
+             e != null;
+             e = e.next) {
+            Object k;
+            if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
+                return e;
+            }
+        }
+        return null;
     }
 
     private void resize(int newCapacity) {
@@ -147,6 +152,34 @@ public class HMap {
             }
         }
     }
+
+    //--
+
+    // internal utilities
+
+    /**
+     * Applies a supplemental hash function to a given hashCode, which
+     * defends against poor quality hash functions.  This is critical
+     * because HashMap uses power-of-two length hash tables, that
+     * otherwise encounter collisions for hashCodes that do not differ
+     * in lower bits. Note: Null keys always map to hash 0, thus index 0.
+     */
+    private static int hash(int h) {
+        // This function ensures that hashCodes that differ only by
+        // constant multiples at each bit position have a bounded
+        // number of collisions (approximately 8 at default load factor).
+        h ^= (h >>> 20) ^ (h >>> 12);
+        return h ^ (h >>> 7) ^ (h >>> 4);
+    }
+
+    /**
+     * Returns index for hash code h.
+     */
+    private static int indexFor(int h, int length) {
+        return h & (length-1);
+    }
+
+    //--
 
     private static class Entry {
         /** never null */
@@ -198,7 +231,7 @@ public class HMap {
             if (e == null) {
                 throw new NoSuchElementException();
             }
-            
+
             if ((next = e.next) == null) {
                 Entry[] t = table;
                 while (index < t.length && (next = t[index++]) == null)
@@ -211,33 +244,5 @@ public class HMap {
         public void remove() {
             throw new UnsupportedOperationException();
         }
-    }
-
-    public Iterator<Prefix> newKeyIterator()   {
-        return new KeyIterator();
-    }
-
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-
-        if (!(o instanceof HMap))
-            return false;
-        HMap m = (HMap) o;
-        if (m.size() != size())
-            return false;
-
-        Iterator<Prefix> i = newKeyIterator();
-        while (i.hasNext()) {
-            Prefix key = i.next();
-            if (!m.containsKey(key)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public int hashCode() {
-        return size();
     }
 }
