@@ -21,7 +21,6 @@ import net.sf.beezle.mork.misc.StringArrayList;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,18 +36,18 @@ public class PrefixSet implements Iterable<Prefix> {
     //--
 
     public final int k;
-    private final HashMap<Prefix,Object> map;
+    private final HMap<Prefix,Object> map;
 
     // Dummy value to associate with an Object in the backing Map
     private static final Object PRESENT = new Object();
 
     public PrefixSet(int k) {
-        this.map = new HashMap<Prefix, Object>();
+        this.map = new HMap<Prefix, Object>();
         this.k = k;
     }
 
     public PrefixSet(PrefixSet orig) {
-        map = new HashMap<Prefix, Object>(Math.max((int) (orig.size()/.75f) + 1, 16));
+        map = new HMap<Prefix, Object>(Math.max((int) (orig.size()/.75f) + 1, 16));
         this.k = orig.k;
         addAll(orig);
     }
