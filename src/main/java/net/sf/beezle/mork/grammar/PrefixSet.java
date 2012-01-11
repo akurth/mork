@@ -28,7 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class PrefixSet extends AbstractCollection<Prefix> implements Set<Prefix> {
+public class PrefixSet extends AbstractCollection<Prefix> {
     public static PrefixSet one(int k, int symbol) {
         PrefixSet result;
 
@@ -118,9 +118,9 @@ public class PrefixSet extends AbstractCollection<Prefix> implements Set<Prefix>
         if (o == this)
             return true;
 
-        if (!(o instanceof Set))
+        if (!(o instanceof PrefixSet))
             return false;
-        Collection c = (Collection) o;
+        PrefixSet c = (PrefixSet) o;
         if (c.size() != size())
             return false;
         try {
