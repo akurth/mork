@@ -133,19 +133,18 @@ public class HMap {
     }
 
 
-    public Object put(Prefix key, Object value) {
+    public boolean put(Prefix key, Object value) {
         int hash = hash(key.hashCode());
         int i = indexFor(hash, table.length);
         for (Entry<Prefix, Object> e = table[i]; e != null; e = e.next) {
             Object k;
             if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
-                Object oldValue = e.value;
                 e.value = value;
-                return oldValue;
+                return true;
             }
         }
         addEntry(hash, key, value, i);
-        return null;
+        return false;
     }
 
     void resize(int newCapacity) {
