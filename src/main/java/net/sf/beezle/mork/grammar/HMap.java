@@ -2,7 +2,6 @@ package net.sf.beezle.mork.grammar;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Set;
 
 
 public class HMap {
@@ -97,7 +96,7 @@ public class HMap {
         return getEntry(key) != null;
     }
 
-    final Entry getEntry(Object key) {
+    private Entry getEntry(Object key) {
         int hash = (key == null) ? 0 : hash(key.hashCode());
         for (Entry e = table[indexFor(hash, table.length)];
              e != null;
@@ -127,7 +126,7 @@ public class HMap {
         return false;
     }
 
-    void resize(int newCapacity) {
+    private void resize(int newCapacity) {
         Entry[] oldTable = table;
         int oldCapacity = oldTable.length;
         if (oldCapacity == MAXIMUM_CAPACITY) {
@@ -141,7 +140,7 @@ public class HMap {
         threshold = (int)(newCapacity * LOAD_FACTOR);
     }
 
-    void transfer(Entry[] newTable) {
+    private void transfer(Entry[] newTable) {
         Entry[] src = table;
         int newCapacity = newTable.length;
         for (int j = 0; j < src.length; j++) {
@@ -168,7 +167,7 @@ public class HMap {
      * in the HashMap.  Returns null if the HashMap contains no mapping
      * for this key.
      */
-    final Entry removeEntryForKey(Object key) {
+    private Entry removeEntryForKey(Object key) {
         int hash = (key == null) ? 0 : hash(key.hashCode());
         int i = indexFor(hash, table.length);
         Entry prev = table[i];
@@ -193,14 +192,7 @@ public class HMap {
         return e;
     }
 
-    public void clear() {
-        Entry[] tab = table;
-        for (int i = 0; i < tab.length; i++)
-            tab[i] = null;
-        size = 0;
-    }
-
-    static class Entry {
+    private static class Entry {
         /** never null */
         Prefix key;
         Entry next;
@@ -251,7 +243,7 @@ public class HMap {
             return next != null;
         }
 
-        final Entry nextEntry() {
+        public Entry nextEntry() {
             Entry e = next;
             if (e == null)
                 throw new NoSuchElementException();
