@@ -335,10 +335,10 @@ public class Grammar extends GrammarBase {
         getTerminals(terminals);
         getNonterminals(nonterminals);
         for (int symbol = terminals.first(); symbol != -1; symbol = terminals.next(symbol)) {
-            result.put(symbol, PrefixSet.one(k, symbol));
+            result.put(symbol, PrefixSet.one(symbol));
         }
         for (int symbol = nonterminals.first(); symbol != -1; symbol = nonterminals.next(symbol)) {
-            result.put(symbol, new PrefixSet(k));
+            result.put(symbol, new PrefixSet());
         }
         do {
             modified = false;

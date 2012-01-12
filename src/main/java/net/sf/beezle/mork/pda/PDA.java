@@ -38,15 +38,15 @@ public class PDA implements Iterable<State> {
         State state;
         List<State> todo;
 
-        state = State.forStartSymbol(0, grammar, grammar.getSymbolCount(), k);
-        state.closure(grammar, firsts);
+        state = State.forStartSymbol(0, grammar, grammar.getSymbolCount());
+        state.closure(grammar, firsts, k);
         pda = new PDA(grammar, state);
         todo = new ArrayList<State>();
         todo.add(state);
         // size grows!
         for (int i = 0; i < todo.size(); i++) {
             state = todo.get(i);
-            state.gotos(pda, firsts, todo);
+            state.gotos(pda, firsts, todo, k);
         }
 
         // TODO: hack hack hack

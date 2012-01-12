@@ -27,40 +27,37 @@ public class PrefixSet implements Iterable<Prefix> {
     private static final int MAXIMUM_CAPACITY = 1 << 30;
     private static final float LOAD_FACTOR = 0.75f;
 
-    public static PrefixSet one(int k, int symbol) {
+    public static PrefixSet one(int symbol) {
         PrefixSet result;
 
-        result = new PrefixSet(k);
+        result = new PrefixSet();
         result.addSymbol(symbol);
         return result;
     }
 
-    public static PrefixSet zero(int k) {
+    public static PrefixSet zero() {
         PrefixSet result;
 
-        result = new PrefixSet(k);
+        result = new PrefixSet();
         result.add(EMPTY);
         return result;
     }
 
     //--
 
-    public final int k;
     private Prefix[] table;
     private int size;
 
     private int threshold;
 
-    public PrefixSet(int k) {
+    public PrefixSet() {
         this.threshold = (int) (DEFAULT_INITIAL_CAPACITY * LOAD_FACTOR);
         this.table = new Prefix[DEFAULT_INITIAL_CAPACITY];
-        this.k = k;
     }
 
     public PrefixSet(PrefixSet orig) {
         this.threshold = orig.threshold;
         this.table = new Prefix[orig.table.length];
-        this.k = orig.k;
         addAll(orig);
     }
 
@@ -266,5 +263,4 @@ public class PrefixSet implements Iterable<Prefix> {
                 ;
         }
     }
-
 }

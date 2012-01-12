@@ -34,9 +34,9 @@ public class GrammarTest {
         symbolTable = g.getSymbolTable();
         firsts = g.firsts(k);
         assertEquals(6, firsts.size());
-        assertEquals(PrefixSet.one(k, symbolTable.indexOf("b")), firsts.get(symbolTable.indexOf("Z")));
-        assertEquals(PrefixSet.one(k, symbolTable.indexOf("b")), firsts.get(symbolTable.indexOf("S")));
-        assertEquals(PrefixSet.one(k, symbolTable.indexOf("a")), firsts.get(symbolTable.indexOf("A")));
+        assertEquals(PrefixSet.one(symbolTable.indexOf("b")), firsts.get(symbolTable.indexOf("Z")));
+        assertEquals(PrefixSet.one(symbolTable.indexOf("b")), firsts.get(symbolTable.indexOf("S")));
+        assertEquals(PrefixSet.one(symbolTable.indexOf("a")), firsts.get(symbolTable.indexOf("A")));
     }
 
     @Test
@@ -52,7 +52,7 @@ public class GrammarTest {
         firsts = g.firsts(1);
         assertEquals(2, firsts.size());
         set = firsts.get(symbolTable.indexOf("I"));
-        expected = PrefixSet.zero(1);
+        expected = PrefixSet.zero();
         expected.addSymbol(symbolTable.indexOf("a"));
         assertEquals(expected, set);
     }

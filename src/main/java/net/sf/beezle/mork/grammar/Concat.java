@@ -1,12 +1,14 @@
 package net.sf.beezle.mork.grammar;
 
 public class Concat {
+    private final int k;
     private final PrefixSet done;
     private PrefixSet todo;
 
     public Concat(int k) {
-        done = new PrefixSet(k);
-        todo = PrefixSet.zero(k);
+        this.k = k;
+        this.done = new PrefixSet();
+        this.todo = PrefixSet.zero();
     }
 
     /** true when done */
@@ -14,11 +16,11 @@ public class Concat {
         PrefixSet next;
         char[] tmp;
 
-        next = new PrefixSet(done.k);
+        next = new PrefixSet();
         for (Prefix l : todo) {
             for (Prefix r : op) {
-                tmp = l.concat(r, done.k);
-                if (tmp.length == done.k) {
+                tmp = l.concat(r, k);
+                if (tmp.length == k) {
                     done.add(tmp);
                 } else {
                     next.add(tmp);

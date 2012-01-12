@@ -75,7 +75,7 @@ public class Item implements Comparable<Item> {
         }
     }
 
-    public void expanded(Grammar grammar, Map<Integer, PrefixSet> firsts, List<Item> result) {
+    public void expanded(Grammar grammar, Map<Integer, PrefixSet> firsts, List<Item> result, int k) {
         int symbol;
         int alt, maxAlt;
         Item item;
@@ -89,7 +89,7 @@ public class Item implements Comparable<Item> {
             symbol = grammar.getRight(production, dot);
             maxAlt = grammar.getAlternativeCount(symbol);
             for (alt = 0; alt < maxAlt; alt++) {
-                first = first(grammar, firsts, production, dot + 1, lookahead);
+                first = first(grammar, firsts, production, dot + 1, lookahead, k);
                 item = new Item(grammar.getAlternative(symbol, alt), 0, first);
                 if (!result.contains(item)) {
                     result.add(item);
@@ -100,7 +100,7 @@ public class Item implements Comparable<Item> {
         }
     }
 
-    private static PrefixSet first(Grammar grammar, Map<Integer, PrefixSet> firsts, int production, int dot, PrefixSet lookahead) {
+    private static PrefixSet first(Grammar grammar, Map<Integer, PrefixSet> firsts, int production, int dot, PrefixSet lookahead, int k) {
         int len;
         int symbol;
         Concat concat;
@@ -109,7 +109,7 @@ public class Item implements Comparable<Item> {
         if (len == dot) {
             return new PrefixSet(lookahead);
         }
-        concat = new Concat(lookahead.k);
+        concat = new Concat(k);
         for (int ofs = dot; ofs < len; ofs++) {
             symbol = grammar.getRight(production, ofs);
             if (concat.with(firsts.get(symbol))) {
