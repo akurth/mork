@@ -22,23 +22,9 @@ import net.sf.beezle.mork.misc.StringArrayList;
 import java.util.*;
 
 public class PrefixSet implements Iterable<Prefix> {
-    public static final char[] EMPTY = new char[0];
-
-    /**
-     * The default initial capacity - MUST be a power of two.
-     */
+    private static final char[] EMPTY = new char[0];
     private static final int DEFAULT_INITIAL_CAPACITY = 16;
-
-    /**
-     * The maximum capacity, used if a higher value is implicitly specified
-     * by either of the constructors with arguments.
-     * MUST be a power of two <= 1<<30.
-     */
     private static final int MAXIMUM_CAPACITY = 1 << 30;
-
-    /**
-     * The load factor used when none specified in constructor.
-     */
     private static final float LOAD_FACTOR = 0.75f;
 
     public static PrefixSet one(int k, int symbol) {
@@ -66,7 +52,7 @@ public class PrefixSet implements Iterable<Prefix> {
     private int threshold;
 
     public PrefixSet(int k) {
-        this.threshold = (int)(DEFAULT_INITIAL_CAPACITY * LOAD_FACTOR);
+        this.threshold = (int) (DEFAULT_INITIAL_CAPACITY * LOAD_FACTOR);
         this.table = new Prefix[DEFAULT_INITIAL_CAPACITY];
         this.k = k;
     }
