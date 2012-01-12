@@ -147,7 +147,7 @@ public class PrefixSet implements Iterable<Prefix> {
     }
 
     public int hashCode() {
-        return size();
+        return size;
     }
 
     public void toString(StringArrayList symbolTable, StringBuilder result) {
