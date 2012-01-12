@@ -130,20 +130,21 @@ public class PrefixSet implements Iterable<Prefix> {
     }
 
     public boolean equals(Object o) {
-        if (!(o instanceof PrefixSet)) {
-            return false;
-        }
+        PrefixSet s;
 
-        PrefixSet s = (PrefixSet) o;
-        if (s.size != size) {
-            return false;
-        }
-        for (Prefix p : s) {
-            if (!contains(p)) {
+        if (o instanceof PrefixSet) {
+            s = (PrefixSet) o;
+            if (s.size != size) {
                 return false;
             }
+            for (Prefix p : s) {
+                if (!contains(p)) {
+                    return false;
+                }
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
     public int hashCode() {
