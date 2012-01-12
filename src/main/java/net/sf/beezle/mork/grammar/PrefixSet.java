@@ -219,11 +219,6 @@ public class PrefixSet implements Iterable<Prefix> {
 
     //--
 
-    // internal utilities
-
-    /**
-     * Returns index for hash code h.
-     */
     private static int indexFor(int h, int length) {
         return h & (length - 1);
     }
@@ -235,10 +230,8 @@ public class PrefixSet implements Iterable<Prefix> {
         private int index;
 
         public PrefixIterator() {
-            if (size > 0) { // advance to first entry
-                Prefix[] t = table;
-                while (index < t.length && (next = t[index++]) == null)
-                    ;
+            if (size > 0) {
+                findNext();
             }
         }
 
@@ -247,24 +240,29 @@ public class PrefixSet implements Iterable<Prefix> {
         }
 
         public Prefix next() {
-            Prefix prefix;
-            Prefix[] t;
+            Prefix result;
 
-            prefix = next;
-            if (prefix == null) {
+            result = next;
+            if (result == null) {
                 throw new NoSuchElementException();
             }
-            next = prefix.next;
+            next = result.next;
             if (next == null) {
-                t = table;
-                while (index < t.length && (next = t[index++]) == null)
-                    ;
+                findNext();
             }
-            return prefix;
+            return result;
         }
 
         public void remove() {
             throw new UnsupportedOperationException();
+        }
+
+        private void findNext() {
+            Prefix[] t;
+
+            t = table;
+            while (index < t.length && (next = t[index++]) == null)
+                ;
         }
     }
 
