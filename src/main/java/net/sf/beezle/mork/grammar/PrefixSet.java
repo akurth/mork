@@ -105,18 +105,17 @@ public class PrefixSet implements Iterable<Prefix> {
     }
 
     public boolean add(Prefix prefix) {
-        int hash;
         int i;
+        Entry e;
 
-        hash = prefix.hashCode();
-        i = indexFor(hash, table.length);
-        for (Entry e = table[i]; e != null; e = e.next) {
+        i = indexFor(prefix.hashCode(), table.length);
+        for (e = table[i]; e != null; e = e.next) {
             if (prefix.eq(e.prefix)) {
                 return true;
             }
         }
-        Entry e = table[i];
-        table[i] = new Entry(hash, prefix, e);
+        e = table[i];
+        table[i] = new Entry(prefix, e);
         if (size++ >= threshold) {
             resize(2 * table.length);
         }
@@ -256,7 +255,7 @@ public class PrefixSet implements Iterable<Prefix> {
         public final Prefix prefix;
         public Entry next;
 
-        public Entry(int h, Prefix p, Entry n) {
+        public Entry(Prefix p, Entry n) {
             next = n;
             prefix = p;
         }
