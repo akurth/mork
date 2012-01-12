@@ -17,6 +17,8 @@
 
 package net.sf.beezle.mork.grammar;
 
+import net.sf.beezle.sushi.util.IntArrayList;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,6 +100,61 @@ public class GrammarBase {
         symbols = new Symbol[pre.size()];
         for (sym = 0; sym < symbols.length; sym++) {
             symbols[sym] = pre.get(sym).createSymbol();
+        }
+    }
+
+    //--
+
+    /**
+     * Helper class to instantiate symbols.
+     */
+    public static class PreSymbol {
+        /** productions for this symbol */
+        private final IntArrayList alternatives;
+
+        /** productions using this symbol. */
+        private final IntArrayList users;
+
+        /** ofsets in the using productions. List of IntArrayLists. */
+        private final List<IntArrayList> userOfs;
+
+        public PreSymbol() {
+            alternatives = new IntArrayList();
+            users = new IntArrayList();
+            userOfs = new ArrayList<IntArrayList>();
+        }
+
+        public void addAlternative(int prod) {
+            alternatives.add(prod);
+        }
+
+        public void addUser(int prod, int ofs) {
+            int i;
+            IntArrayList ofsArray;
+
+            i = users.indexOf(prod);
+            if (i == -1) {
+                i = users.size();
+                users.add(prod);
+                userOfs.add(new IntArrayList());
+            }
+
+            ofsArray = userOfs.get(i);
+            ofsArray.add(ofs);
+        }
+
+        public Symbol createSymbol() {
+            int[][] ofss;
+            int i;
+            IntArrayList ofsArray;
+
+            ofss = new int[users.size()][];
+            for (i = 0; i < ofss.length; i++) {
+                ofsArray = userOfs.get(i);
+                ofss[i] = ofsArray.toArray();
+            }
+
+            return new Symbol(alternatives.toArray(), users.toArray(), ofss);
         }
     }
 }
