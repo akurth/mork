@@ -112,6 +112,7 @@ public class PrefixSet implements Iterable<Prefix> {
     public boolean equals(Object o) {
         PrefixSet set;
 
+        /** Prefix Set *are* shared when shifting, but in this case, the core always differs */
         if (o instanceof PrefixSet) {
             set = (PrefixSet) o;
             if (set.size != size) {
