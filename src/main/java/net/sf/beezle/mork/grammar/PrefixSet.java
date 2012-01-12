@@ -262,26 +262,11 @@ public class PrefixSet implements Iterable<Prefix> {
             prefix = p;
             hash = h;
         }
-
-        public boolean equals(Object o) {
-            Entry e;
-
-            if (o instanceof Entry) {
-                e = (Entry) o;
-                return prefix.equals(e.prefix);
-            }
-            return false;
-        }
-
-        public int hashCode() {
-            return prefix.hashCode();
-        }
     }
 
     private class PrefixIterator implements Iterator<Prefix> {
         private Entry next;        // next entry to return
         private int index;              // current slot
-        private Entry current;     // current entry
 
         public PrefixIterator() {
             if (size > 0) { // advance to first entry
@@ -309,7 +294,6 @@ public class PrefixSet implements Iterable<Prefix> {
                 while (index < t.length && (next = t[index++]) == null)
                     ;
             }
-            current = e;
             return e.prefix;
         }
 
