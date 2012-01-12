@@ -21,20 +21,28 @@ import net.sf.beezle.mork.misc.StringArrayList;
 
 /** Immutable */
 public class Prefix implements Comparable<Prefix> {
-    public static final Prefix EMPTY = new Prefix(new char[] {});
+    public static final Prefix EMPTY = new Prefix(new char[] {}, null);
 
     private final char[] data;
 
+    /** for PrefixSet only */
+    public Prefix next;
+
     public Prefix(int first) {
-        this(new char[] { (char) first });
+        this(new char[] { (char) first }, null);
         if (((char) first) != first) {
             throw new IllegalArgumentException("" + first);
         }
     }
 
+    public Prefix(Prefix orig, Prefix next) {
+        this(orig.data, next);
+    }
+
     /** Private because the caller has to ensure the array is passed to nobody else (and modified) */
-    private Prefix(char[] data) {
+    private Prefix(char[] data, Prefix next) {
         this.data = data;
+        this.next = next;
     }
 
     public int first() {
@@ -50,7 +58,7 @@ public class Prefix implements Comparable<Prefix> {
         next = new char[Math.min(k, size() + right.size())];
         System.arraycopy(data, 0, next, 0, size());
         System.arraycopy(right.data, 0, next, size(), next.length - size());
-        return new Prefix(next);
+        return new Prefix(next, null);
     }
 
     public int size() {

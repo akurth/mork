@@ -50,7 +50,7 @@ public class PrefixSet implements Iterable<Prefix> {
     //--
 
     public final int k;
-    private Entry[] table;
+    private Prefix[] table;
     private int size;
 
     /**
@@ -61,7 +61,7 @@ public class PrefixSet implements Iterable<Prefix> {
 
     public PrefixSet(int k) {
         this.threshold = (int)(DEFAULT_INITIAL_CAPACITY * LOAD_FACTOR);
-        this.table = new Entry[DEFAULT_INITIAL_CAPACITY];
+        this.table = new Prefix[DEFAULT_INITIAL_CAPACITY];
         this.k = k;
     }
 
@@ -83,7 +83,7 @@ public class PrefixSet implements Iterable<Prefix> {
         }
 
         this.threshold = (int)(capacity * LOAD_FACTOR);
-        this.table = new Entry[capacity];
+        this.table = new Prefix[capacity];
 
         addAll(orig);
     }
@@ -106,16 +106,15 @@ public class PrefixSet implements Iterable<Prefix> {
 
     public boolean add(Prefix prefix) {
         int i;
-        Entry e;
+        Prefix cmp;
 
         i = indexFor(prefix.hashCode(), table.length);
-        for (e = table[i]; e != null; e = e.next) {
-            if (prefix.eq(e.prefix)) {
+        for (cmp = table[i]; cmp != null; cmp = cmp.next) {
+            if (prefix.eq(cmp)) {
                 return true;
             }
         }
-        e = table[i];
-        table[i] = new Entry(prefix, e);
+        table[i] = new Prefix(prefix, table[i]);
         if (size++ >= threshold) {
             resize(2 * table.length);
         }
@@ -186,22 +185,22 @@ public class PrefixSet implements Iterable<Prefix> {
 
     //--
 
-    private Entry lookup(Prefix prefix) {
+    private Prefix lookup(Prefix prefix) {
         int hash;
 
         hash = prefix.hashCode();
-        for (Entry e = table[indexFor(hash, table.length)]; e != null; e = e.next) {
-            if (prefix.eq(e.prefix)) {
-                return e;
+        for (Prefix cmp = table[indexFor(hash, table.length)]; cmp != null; cmp = cmp.next) {
+            if (prefix.eq(cmp)) {
+                return cmp;
             }
         }
         return null;
     }
 
     private void resize(int newCapacity) {
-        Entry[] oldTable;
+        Prefix[] oldTable;
         int oldCapacity;
-        Entry[] newTable;
+        Prefix[] newTable;
 
         oldTable = table;
         oldCapacity = oldTable.length;
@@ -209,16 +208,16 @@ public class PrefixSet implements Iterable<Prefix> {
             threshold = Integer.MAX_VALUE;
             return;
         }
-        newTable = new Entry[newCapacity];
+        newTable = new Prefix[newCapacity];
         transfer(newTable);
         table = newTable;
         threshold = (int)(newCapacity * LOAD_FACTOR);
     }
 
-    private void transfer(Entry[] newTable) {
-        Entry[] src;
+    private void transfer(Prefix[] newTable) {
+        Prefix[] src;
         int newCapacity;
-        Entry e;
+        Prefix e;
 
         src = table;
         newCapacity = newTable.length;
@@ -227,8 +226,8 @@ public class PrefixSet implements Iterable<Prefix> {
             if (e != null) {
                 src[j] = null;
                 do {
-                    Entry next = e.next;
-                    int i = indexFor(e.prefix.hashCode(), newCapacity);
+                    Prefix next = e.next;
+                    int i = indexFor(e.hashCode(), newCapacity);
                     e.next = newTable[i];
                     newTable[i] = e;
                     e = next;
@@ -250,24 +249,13 @@ public class PrefixSet implements Iterable<Prefix> {
 
     //--
 
-    private static class Entry {
-        /** never null */
-        public final Prefix prefix;
-        public Entry next;
-
-        public Entry(Prefix p, Entry n) {
-            next = n;
-            prefix = p;
-        }
-    }
-
     private class PrefixIterator implements Iterator<Prefix> {
-        private Entry next;        // next entry to return
+        private Prefix next;        // next entry to return
         private int index;              // current slot
 
         public PrefixIterator() {
             if (size > 0) { // advance to first entry
-                Entry[] t = table;
+                Prefix[] t = table;
                 while (index < t.length && (next = t[index++]) == null)
                     ;
             }
@@ -278,8 +266,8 @@ public class PrefixSet implements Iterable<Prefix> {
         }
 
         public Prefix next() {
-            Entry e;
-            Entry[] t;
+            Prefix e;
+            Prefix[] t;
 
             e = next;
             if (e == null) {
@@ -291,7 +279,7 @@ public class PrefixSet implements Iterable<Prefix> {
                 while (index < t.length && (next = t[index++]) == null)
                     ;
             }
-            return e.prefix;
+            return e;
         }
 
         public void remove() {
