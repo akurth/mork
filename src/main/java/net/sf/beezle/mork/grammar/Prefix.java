@@ -53,16 +53,16 @@ public class Prefix implements Comparable<Prefix> {
 
     @Override
     public String toString() {
-        StringBuilder buffer;
+        StringBuilder builder;
         int i, max;
 
         max = size();
-        buffer = new StringBuilder();
+        builder = new StringBuilder();
         for (i = 0; i < max; i++) {
-            buffer.append(' ');
-            buffer.append(data[i]);
+            builder.append(' ');
+            builder.append(data[i]);
         }
-        return buffer.toString();
+        return builder.toString();
     }
 
     public void toString(StringArrayList symbolTable, StringBuilder result) {
