@@ -63,10 +63,6 @@ public class PrefixSet implements Iterable<Prefix> {
     private Prefix[] table;
     private int size;
 
-    /**
-     * The next size value at which to resize (capacity * load factor).
-     * @serial
-     */
     private int threshold;
 
     public PrefixSet(int k) {
@@ -76,25 +72,9 @@ public class PrefixSet implements Iterable<Prefix> {
     }
 
     public PrefixSet(PrefixSet orig) {
-        int initialCapacity = Math.max((int) (orig.size()/.75f) + 1, 16);
-
-        if (initialCapacity < 0) {
-            throw new IllegalArgumentException("Illegal initial capacity: " + initialCapacity);
-        }
-        if (initialCapacity > MAXIMUM_CAPACITY) {
-            throw new IllegalArgumentException();
-        }
+        this.threshold = orig.threshold;
+        this.table = new Prefix[orig.table.length];
         this.k = orig.k;
-
-        // Find a power of 2 >= initialCapacity
-        int capacity = 1;
-        while (capacity < initialCapacity) {
-            capacity <<= 1;
-        }
-
-        this.threshold = (int)(capacity * LOAD_FACTOR);
-        this.table = new Prefix[capacity];
-
         addAll(orig);
     }
 
