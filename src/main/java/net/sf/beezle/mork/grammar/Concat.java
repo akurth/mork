@@ -6,20 +6,19 @@ public class Concat {
 
     public Concat(int k) {
         done = new PrefixSet(k);
-        todo = new PrefixSet(k);
-        todo.add(Prefix.EMPTY);
+        todo = PrefixSet.zero(k);
     }
 
     /** true when done */
     public boolean with(PrefixSet op) {
         PrefixSet next;
-        Prefix tmp;
+        char[] tmp;
 
         next = new PrefixSet(done.k);
         for (Prefix l : todo) {
             for (Prefix r : op) {
                 tmp = l.concat(r, done.k);
-                if (tmp.size() == done.k) {
+                if (tmp.length == done.k) {
                     done.add(tmp);
                 } else {
                     next.add(tmp);

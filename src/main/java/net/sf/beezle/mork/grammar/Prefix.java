@@ -21,26 +21,13 @@ import net.sf.beezle.mork.misc.StringArrayList;
 
 /** Immutable */
 public class Prefix implements Comparable<Prefix> {
-    public static final Prefix EMPTY = new Prefix(new char[] {}, null);
-
-    private final char[] data;
+    final char[] data;
 
     /** for PrefixSet only */
-    public Prefix next;
+    Prefix next;
 
-    public Prefix(int first) {
-        this(new char[] { (char) first }, null);
-        if (((char) first) != first) {
-            throw new IllegalArgumentException("" + first);
-        }
-    }
-
-    public Prefix(Prefix orig, Prefix next) {
-        this(orig.data, next);
-    }
-
-    /** Private because the caller has to ensure the array is passed to nobody else (and modified) */
-    private Prefix(char[] data, Prefix next) {
+    /* for PrefixSet only */
+    Prefix(char[] data, Prefix next) {
         this.data = data;
         this.next = next;
     }
@@ -49,16 +36,16 @@ public class Prefix implements Comparable<Prefix> {
         return data[0];
     }
 
-    public Prefix concat(Prefix right, int k) {
+    public char[] concat(Prefix right, int k) {
         char[] next;
 
         if (data.length == 0) {
-            return right;
+            return right.data;
         }
         next = new char[Math.min(k, size() + right.size())];
         System.arraycopy(data, 0, next, 0, size());
         System.arraycopy(right.data, 0, next, size(), next.length - size());
-        return new Prefix(next, null);
+        return next;
     }
 
     public int size() {
@@ -105,6 +92,10 @@ public class Prefix implements Comparable<Prefix> {
 
     @Override
     public int hashCode() {
+        return hashCode(data);
+    }
+
+    public static int hashCode(char[] data) {
         int h;
 
         h = data.length == 0 ? 0 : data[0] + data[data.length - 1] << 8;
@@ -121,12 +112,14 @@ public class Prefix implements Comparable<Prefix> {
     }
 
     public boolean eq(Prefix operand) {
+        return eq(operand.data);
+    }
+
+    public boolean eq(char[] right) {
         int length;
         char[] left;
-        char[] right;
 
         left = data;
-        right = operand.data;
         length = left.length;
         if (length != right.length) {
             return false;

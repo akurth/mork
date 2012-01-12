@@ -44,15 +44,16 @@ public class GrammarTest {
         Grammar g;
         Map<Integer, PrefixSet> firsts;
         StringArrayList symbolTable;
-        PrefixSet prefix;
+        PrefixSet set;
+        PrefixSet expected;
 
         g = Grammar.forProductions("I I a", "I");
         symbolTable = g.getSymbolTable();
         firsts = g.firsts(1);
         assertEquals(2, firsts.size());
-        prefix = firsts.get(symbolTable.indexOf("I"));
-        assertEquals(2, prefix.size());
-        assertTrue(prefix.contains(new Prefix(symbolTable.indexOf("a"))));
-        assertTrue(prefix.contains(Prefix.EMPTY));
+        set = firsts.get(symbolTable.indexOf("I"));
+        expected = PrefixSet.zero(1);
+        expected.addSymbol(symbolTable.indexOf("a"));
+        assertEquals(expected, set);
     }
 }

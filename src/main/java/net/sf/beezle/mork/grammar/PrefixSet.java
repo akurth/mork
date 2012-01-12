@@ -22,6 +22,8 @@ import net.sf.beezle.mork.misc.StringArrayList;
 import java.util.*;
 
 public class PrefixSet implements Iterable<Prefix> {
+    public static final char[] EMPTY = new char[0];
+
     /**
      * The default initial capacity - MUST be a power of two.
      */
@@ -43,7 +45,15 @@ public class PrefixSet implements Iterable<Prefix> {
         PrefixSet result;
 
         result = new PrefixSet(k);
-        result.add(new Prefix(symbol));
+        result.addSymbol(symbol);
+        return result;
+    }
+
+    public static PrefixSet zero(int k) {
+        PrefixSet result;
+
+        result = new PrefixSet(k);
+        result.add(EMPTY);
         return result;
     }
 
@@ -104,17 +114,27 @@ public class PrefixSet implements Iterable<Prefix> {
         return lookup(prefix) != null;
     }
 
-    public boolean add(Prefix prefix) {
+    public boolean addSymbol(int symbol) {
+        char[] data;
+
+        data = new char[] { (char) symbol };
+        if (data[0] != symbol) {
+            throw new IllegalArgumentException("" + symbol);
+        }
+        return add(data);
+    }
+
+    public boolean add(char[] data) {
         int i;
         Prefix cmp;
 
-        i = indexFor(prefix.hashCode(), table.length);
+        i = indexFor(Prefix.hashCode(data), table.length);
         for (cmp = table[i]; cmp != null; cmp = cmp.next) {
-            if (prefix.eq(cmp)) {
+            if (cmp.eq(data)) {
                 return true;
             }
         }
-        table[i] = new Prefix(prefix, table[i]);
+        table[i] = new Prefix(data, table[i]);
         if (size++ >= threshold) {
             resize(2 * table.length);
         }
@@ -123,7 +143,7 @@ public class PrefixSet implements Iterable<Prefix> {
 
     public void addAll(PrefixSet set) {
         for (Prefix e : set) {
-            add(e);
+            add(e.data);
         }
     }
 
