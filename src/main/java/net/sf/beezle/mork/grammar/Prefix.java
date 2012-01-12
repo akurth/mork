@@ -97,7 +97,7 @@ public class Prefix implements Comparable<Prefix> {
     public static int hashCode(char[] data) {
         int h;
 
-        h = data.length == 0 ? 0 : data[0] + data[data.length - 1] << 8;
+        h = data.length == 0 ? 0 : data[0] + (data[data.length - 1] << 8);
         h ^= (h >>> 20) ^ (h >>> 12);
         return h ^ (h >>> 7) ^ (h >>> 4);
     }
