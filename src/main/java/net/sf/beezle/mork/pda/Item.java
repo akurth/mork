@@ -30,6 +30,7 @@ public class Item implements Comparable<Item> {
     /** production with dot */
     public final int core;
 
+    /** do NOT inline this object into Item because the lookahead is shared when shifting */
     public final PrefixSet lookahead;
 
     public Item(int production, int dot, PrefixSet lookahead) {
