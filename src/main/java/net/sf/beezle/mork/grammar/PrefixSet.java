@@ -206,7 +206,6 @@ public class PrefixSet implements Iterable<Prefix> {
         for (int j = 0; j < src.length; j++) {
             prefix = src[j];
             if (prefix != null) {
-                src[j] = null;
                 do {
                     Prefix next = prefix.next;
                     int i = indexFor(prefix.hashCode(), newCapacity);
