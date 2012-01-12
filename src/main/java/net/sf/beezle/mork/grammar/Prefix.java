@@ -19,7 +19,6 @@ package net.sf.beezle.mork.grammar;
 
 import net.sf.beezle.mork.misc.StringArrayList;
 
-/** Immutable */
 public class Prefix implements Comparable<Prefix> {
     final char[] data;
 

@@ -270,8 +270,8 @@ public class PrefixSet implements Iterable<Prefix> {
     //--
 
     private class PrefixIterator implements Iterator<Prefix> {
-        private Prefix next;        // next entry to return
-        private int index;              // current slot
+        private Prefix next;
+        private int index;
 
         public PrefixIterator() {
             if (size > 0) { // advance to first entry
@@ -286,20 +286,20 @@ public class PrefixSet implements Iterable<Prefix> {
         }
 
         public Prefix next() {
-            Prefix e;
+            Prefix prefix;
             Prefix[] t;
 
-            e = next;
-            if (e == null) {
+            prefix = next;
+            if (prefix == null) {
                 throw new NoSuchElementException();
             }
-            next = e.next;
+            next = prefix.next;
             if (next == null) {
                 t = table;
                 while (index < t.length && (next = t[index++]) == null)
                     ;
             }
-            return e;
+            return prefix;
         }
 
         public void remove() {
