@@ -142,20 +142,20 @@ public class PrefixSet implements Iterable<Prefix> {
     }
 
     public void addAll(PrefixSet set) {
-        for (Prefix e : set) {
-            add(e.data);
+        for (Prefix prefix : set) {
+            add(prefix.data);
         }
     }
 
     public boolean equals(Object o) {
-        PrefixSet s;
+        PrefixSet set;
 
         if (o instanceof PrefixSet) {
-            s = (PrefixSet) o;
-            if (s.size != size) {
+            set = (PrefixSet) o;
+            if (set.size != size) {
                 return false;
             }
-            for (Prefix p : s) {
+            for (Prefix p : set) {
                 if (!contains(p)) {
                     return false;
                 }
@@ -237,21 +237,21 @@ public class PrefixSet implements Iterable<Prefix> {
     private void transfer(Prefix[] newTable) {
         Prefix[] src;
         int newCapacity;
-        Prefix e;
+        Prefix prefix;
 
         src = table;
         newCapacity = newTable.length;
         for (int j = 0; j < src.length; j++) {
-            e = src[j];
-            if (e != null) {
+            prefix = src[j];
+            if (prefix != null) {
                 src[j] = null;
                 do {
-                    Prefix next = e.next;
-                    int i = indexFor(e.hashCode(), newCapacity);
-                    e.next = newTable[i];
-                    newTable[i] = e;
-                    e = next;
-                } while (e != null);
+                    Prefix next = prefix.next;
+                    int i = indexFor(prefix.hashCode(), newCapacity);
+                    prefix.next = newTable[i];
+                    newTable[i] = prefix;
+                    prefix = next;
+                } while (prefix != null);
             }
         }
     }
