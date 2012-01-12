@@ -76,10 +76,6 @@ public class PrefixSet implements Iterable<Prefix> {
         return size == 0;
     }
 
-    public boolean contains(Prefix prefix) {
-        return lookup(prefix) != null;
-    }
-
     public boolean addSymbol(int symbol) {
         char[] data;
 
@@ -122,7 +118,7 @@ public class PrefixSet implements Iterable<Prefix> {
                 return false;
             }
             for (Prefix p : set) {
-                if (!contains(p)) {
+                if (lookup(p) == null) {
                     return false;
                 }
             }
