@@ -323,7 +323,6 @@ public class Grammar extends GrammarBase {
     public Map<Integer, PrefixSet> firsts(int k) {
         IntBitSet terminals;
         IntBitSet nonterminals;
-        int symbol;
         Map<Integer, PrefixSet> result;
         PrefixSet first;
         int oldSize;
@@ -335,10 +334,10 @@ public class Grammar extends GrammarBase {
         nonterminals = new IntBitSet();
         getTerminals(terminals);
         getNonterminals(nonterminals);
-        for (symbol = terminals.first(); symbol != -1; symbol = terminals.next(symbol)) {
+        for (int symbol = terminals.first(); symbol != -1; symbol = terminals.next(symbol)) {
             result.put(symbol, PrefixSet.one(k, symbol));
         }
-        for (symbol = nonterminals.first(); symbol != -1; symbol = nonterminals.next(symbol)) {
+        for (int symbol = nonterminals.first(); symbol != -1; symbol = nonterminals.next(symbol)) {
             result.put(symbol, new PrefixSet(k));
         }
         do {
@@ -347,9 +346,8 @@ public class Grammar extends GrammarBase {
                 first = result.get(getLeft(p));
                 oldSize = first.size();
                 concat = new Concat(k);
-                for (int ofs = 0; ofs < getLength(p); ofs++) {
-                    symbol = getRight(p, ofs);
-                    if (concat.with(result.get(symbol))) {
+                for (int ofs = 0, length = getLength(p); ofs < length; ofs++) {
+                    if (concat.with(result.get(getRight(p, ofs)))) {
                         break;
                     }
                 }
@@ -359,7 +357,7 @@ public class Grammar extends GrammarBase {
                 }
             }
         } while (modified);
-        for (symbol = nonterminals.first(); symbol != -1; symbol = nonterminals.next(symbol)) {
+        for (int symbol = nonterminals.first(); symbol != -1; symbol = nonterminals.next(symbol)) {
             if (result.get(symbol).size() == 0) {
                 throw new IllegalStateException("" + symbol);
             }
