@@ -14,13 +14,13 @@ public class Concat {
     /** true when done */
     public boolean with(PrefixSet op) {
         PrefixSet next;
-        char[] tmp;
+        Prefix tmp;
 
         next = new PrefixSet();
         for (Prefix l : todo) {
             for (Prefix r : op) {
                 tmp = l.concat(r, k);
-                if (tmp.length == k) {
+                if (tmp.size() == k) {
                     done.add(tmp);
                 } else {
                     next.add(tmp);

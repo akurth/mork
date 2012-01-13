@@ -22,7 +22,6 @@ import net.sf.beezle.mork.misc.StringArrayList;
 import java.util.*;
 
 public class PrefixSet implements Iterable<Prefix> {
-    private static final char[] EMPTY = new char[0];
     /** the average lookahead size for k = 1 in Java and Ssass is 17 */
     private static final int DEFAULT_INITIAL_CAPACITY = 32;
     private static final int MAXIMUM_CAPACITY = 1 << 30;
@@ -32,7 +31,7 @@ public class PrefixSet implements Iterable<Prefix> {
         PrefixSet result;
 
         result = new PrefixSet();
-        result.addSymbol(symbol);
+        result.add(Prefix.forSymbol(symbol));
         return result;
     }
 
@@ -40,7 +39,7 @@ public class PrefixSet implements Iterable<Prefix> {
         PrefixSet result;
 
         result = new PrefixSet();
-        result.add(EMPTY);
+        result.add(Prefix.EMPTY);
         return result;
     }
 
@@ -76,30 +75,20 @@ public class PrefixSet implements Iterable<Prefix> {
         return size == 0;
     }
 
-    public boolean addSymbol(int symbol) {
-        char[] data;
-
-        data = new char[] { (char) symbol };
-        if (data[0] != symbol) {
-            throw new IllegalArgumentException("" + symbol);
-        }
-        return add(data);
-    }
-
-    public boolean add(char[] data) {
+    public boolean add(Prefix prefix) {
         int i;
         Prefix cmp;
 
-        for (i = indexFor(Prefix.hashCode(data), table.length); true; i = (i + 1) % table.length) {
+        for (i = indexFor(prefix.hashCode(), table.length); true; i = (i + 1) % table.length) {
             cmp = table[i];
             if (cmp == null) {
-                table[i] = new Prefix(data);
+                table[i] = prefix;
                 if (size++ >= threshold) {
                     resize(2 * table.length);
                 }
                 return false;
             }
-            if (cmp.eq(data)) {
+            if (cmp.eq(prefix)) {
                 return true;
             }
             collisions++;
@@ -108,7 +97,7 @@ public class PrefixSet implements Iterable<Prefix> {
 
     public void addAll(PrefixSet set) {
         for (Prefix prefix : set) {
-            add(prefix.data);
+            add(prefix);
         }
     }
 
@@ -188,36 +177,19 @@ public class PrefixSet implements Iterable<Prefix> {
         }
     }
 
-    private void resize(int newCapacity) {
+    private void resize(int size) {
         Prefix[] oldTable;
-        int oldCapacity;
-        Prefix[] newTable;
-
-        oldTable = table;
-        oldCapacity = oldTable.length;
-        if (oldCapacity == MAXIMUM_CAPACITY) {
-            threshold = Integer.MAX_VALUE;
-            return;
-        }
-        newTable = new Prefix[newCapacity];
-        transfer(newTable);
-        table = newTable;
-        threshold = (int)(newCapacity * LOAD_FACTOR);
-    }
-
-    private void transfer(Prefix[] newTable) {
-        Prefix[] src;
-        int newCapacity;
         Prefix prefix;
 
-        src = table;
-        newCapacity = newTable.length;
-        for (int i = 0; i < src.length; i++) {
-            prefix = src[i];
+        oldTable = table;
+        table = new Prefix[size];
+        for (int i = 0; i < oldTable.length; i++) {
+            prefix = oldTable[i];
             if (prefix != null) {
-                newTable[indexFor(prefix.hashCode(), newCapacity)] = prefix;
+                table[indexFor(prefix.hashCode(), size)] = prefix;
             }
         }
+        threshold = (int) (size * LOAD_FACTOR);
     }
 
     //--
@@ -233,6 +205,7 @@ public class PrefixSet implements Iterable<Prefix> {
 
         public PrefixIterator() {
             if (size > 0) {
+                index = 0;
                 step();
             } else {
                 index = table.length;

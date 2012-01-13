@@ -19,11 +19,23 @@ package net.sf.beezle.mork.grammar;
 
 import net.sf.beezle.mork.misc.StringArrayList;
 
+/** Immutable, heavily shared between PrefixSets. */
 public class Prefix implements Comparable<Prefix> {
-    final char[] data;
+    public static Prefix EMPTY = new Prefix(new char[0]);
 
-    /* for PrefixSet only */
-    Prefix(char[] data) {
+    public static Prefix forSymbol(int symbol) {
+        char[] data;
+
+        data = new char[] { (char) symbol };
+        if (data[0] != symbol) {
+            throw new IllegalArgumentException("" + symbol);
+        }
+        return new Prefix(data);
+    }
+
+    private final char[] data;
+
+    public Prefix(char[] data) {
         this.data = data;
     }
 
@@ -31,16 +43,19 @@ public class Prefix implements Comparable<Prefix> {
         return data[0];
     }
 
-    public char[] concat(Prefix right, int k) {
+    public Prefix concat(Prefix right, int k) {
         char[] next;
 
         if (data.length == 0) {
-            return right.data;
+            return right;
+        }
+        if (right.data.length == 0) {
+            return this;
         }
         next = new char[Math.min(k, size() + right.size())];
         System.arraycopy(data, 0, next, 0, size());
         System.arraycopy(right.data, 0, next, size(), next.length - size());
-        return next;
+        return new Prefix(next);
     }
 
     public int size() {
@@ -87,10 +102,6 @@ public class Prefix implements Comparable<Prefix> {
 
     @Override
     public int hashCode() {
-        return hashCode(data);
-    }
-
-    public static int hashCode(char[] data) {
         return data.length == 0 ? 0 : data[0] ^ (data[data.length - 1] << 2);
     }
 
