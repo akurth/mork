@@ -51,6 +51,8 @@ public class PrefixSet implements Iterable<Prefix> {
 
     private int threshold;
 
+    private int collisions;
+
     public PrefixSet() {
         this.threshold = (int) (DEFAULT_INITIAL_CAPACITY * LOAD_FACTOR);
         this.table = new Prefix[DEFAULT_INITIAL_CAPACITY];
@@ -88,17 +90,20 @@ public class PrefixSet implements Iterable<Prefix> {
         int i;
         Prefix cmp;
 
-        i = indexFor(Prefix.hashCode(data), table.length);
-        for (cmp = table[i]; cmp != null; cmp = cmp.next) {
+        for (i = indexFor(Prefix.hashCode(data), table.length); true; i = (i + 1) % table.length) {
+            cmp = table[i];
+            if (cmp == null) {
+                table[i] = new Prefix(data);
+                if (size++ >= threshold) {
+                    resize(2 * table.length);
+                }
+                return false;
+            }
             if (cmp.eq(data)) {
                 return true;
             }
+            collisions++;
         }
-        table[i] = new Prefix(data, table[i]);
-        if (size++ >= threshold) {
-            resize(2 * table.length);
-        }
-        return false;
     }
 
     public void addAll(PrefixSet set) {
@@ -168,14 +173,19 @@ public class PrefixSet implements Iterable<Prefix> {
 
     private Prefix lookup(Prefix prefix) {
         int hash;
+        int i;
+        Prefix cmp;
 
         hash = prefix.hashCode();
-        for (Prefix cmp = table[indexFor(hash, table.length)]; cmp != null; cmp = cmp.next) {
-            if (prefix.eq(cmp)) {
+        for (i = indexFor(hash, table.length); true; i = (i + 1) % table.length) {
+            cmp = table[i];
+            if (cmp == null) {
+                return null;
+            }
+            if (cmp.eq(prefix)) {
                 return cmp;
             }
         }
-        return null;
     }
 
     private void resize(int newCapacity) {
@@ -202,16 +212,10 @@ public class PrefixSet implements Iterable<Prefix> {
 
         src = table;
         newCapacity = newTable.length;
-        for (int j = 0; j < src.length; j++) {
-            prefix = src[j];
+        for (int i = 0; i < src.length; i++) {
+            prefix = src[i];
             if (prefix != null) {
-                do {
-                    Prefix next = prefix.next;
-                    int i = indexFor(prefix.hashCode(), newCapacity);
-                    prefix.next = newTable[i];
-                    newTable[i] = prefix;
-                    prefix = next;
-                } while (prefix != null);
+                newTable[indexFor(prefix.hashCode(), newCapacity)] = prefix;
             }
         }
     }
@@ -225,30 +229,28 @@ public class PrefixSet implements Iterable<Prefix> {
     //--
 
     private class PrefixIterator implements Iterator<Prefix> {
-        private Prefix next;
         private int index;
 
         public PrefixIterator() {
             if (size > 0) {
-                findNext();
+                step();
+            } else {
+                index = table.length;
             }
         }
 
         public boolean hasNext() {
-            return next != null;
+            return index < table.length;
         }
 
         public Prefix next() {
             Prefix result;
 
-            result = next;
-            if (result == null) {
+            if (index >= table.length) {
                 throw new NoSuchElementException();
             }
-            next = result.next;
-            if (next == null) {
-                findNext();
-            }
+            result = table[index++];
+            step();
             return result;
         }
 
@@ -256,12 +258,12 @@ public class PrefixSet implements Iterable<Prefix> {
             throw new UnsupportedOperationException();
         }
 
-        private void findNext() {
-            Prefix[] t;
-
-            t = table;
-            while (index < t.length && (next = t[index++]) == null)
-                ;
+        private void step() {
+            for (; index < table.length; index++) {
+                if (table[index] != null) {
+                    break;
+                }
+            }
         }
     }
 }

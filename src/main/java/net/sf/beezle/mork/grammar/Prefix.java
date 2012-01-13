@@ -22,13 +22,9 @@ import net.sf.beezle.mork.misc.StringArrayList;
 public class Prefix implements Comparable<Prefix> {
     final char[] data;
 
-    /** for PrefixSet only */
-    Prefix next;
-
     /* for PrefixSet only */
-    Prefix(char[] data, Prefix next) {
+    Prefix(char[] data) {
         this.data = data;
-        this.next = next;
     }
 
     public int first() {
