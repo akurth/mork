@@ -39,7 +39,17 @@ public class Prefix implements Comparable<Prefix> {
     }
 
     public int first() {
-        return symbols()[0];
+        long remaining;
+        long next;
+
+        remaining = data;
+        while (true) {
+            next = remaining / BASE;
+            if (next == 0) {
+                return (int) remaining - 1;
+            }
+            remaining = next;
+        }
     }
 
     public Prefix concat(Prefix right, int k) {
