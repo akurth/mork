@@ -114,20 +114,16 @@ public class Prefix implements Comparable<Prefix> {
     }
 
     public boolean eq(Prefix operand) {
-        return eq(operand.data);
-    }
-
-    public boolean eq(char[] right) {
         int length;
         char[] left;
 
         left = data;
         length = left.length;
-        if (length != right.length) {
+        if (length != operand.data.length) {
             return false;
         }
         for (int i = 0; i < length; i++) {
-            if (left[i] != right[i]) {
+            if (left[i] != operand.data[i]) {
                 return false;
             }
         }
