@@ -46,7 +46,7 @@ public class PrefixTest {
         Prefix test;
         
         left = Prefix.forSymbol(10).concat(Prefix.forSymbol(11), 2);
-        right = Prefix.forSymbol(20).concat(Prefix.forSymbol(21), 2);
+        right = Prefix.forSymbol(20).concat(Prefix.forSymbol(21), 2).concat(Prefix.forSymbol(22), 3);
         test = left.concat(right, 2);
         assertEquals(left, test);
         test = left.concat(right, 3);
@@ -54,6 +54,10 @@ public class PrefixTest {
         test = left.concat(right, 4);
         assertEquals(" 10 11 20 21", test.toString());
         test = left.concat(right, 5);
-        assertEquals(" 10 11 20 21", test.toString());
+        assertEquals(" 10 11 20 21 22", test.toString());
+        test = left.concat(right, 6);
+        assertEquals(" 10 11 20 21 22", test.toString());
+        test = left.concat(right, 7);
+        assertEquals(" 10 11 20 21 22", test.toString());
     }
 }
