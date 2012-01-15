@@ -21,78 +21,109 @@ import net.sf.beezle.mork.misc.StringArrayList;
 
 /** Immutable, heavily shared between PrefixSets. */
 public class Prefix implements Comparable<Prefix> {
-    public static Prefix EMPTY = new Prefix(new char[0]);
+    private static final int BASE = 1024;
+    
+    public static Prefix EMPTY = new Prefix(0);
 
     public static Prefix forSymbol(int symbol) {
-        char[] data;
-
-        data = new char[] { (char) symbol };
-        if (data[0] != symbol) {
+        if (symbol >= BASE - 1) {
             throw new IllegalArgumentException("" + symbol);
         }
-        return new Prefix(data);
+        return new Prefix(symbol + 1);
     }
 
-    private final char[] data;
+    private final long data;
 
-    public Prefix(char[] data) {
+    private Prefix(long data) {
         this.data = data;
     }
 
     public int first() {
-        return data[0];
+        return symbols()[0];
     }
 
     public Prefix concat(Prefix right, int k) {
-        char[] next;
-
-        if (data.length == 0) {
+        int[] rightSymbols;
+        int size;
+        long newData;
+        
+        if (data == 0) {
             return right;
         }
-        if (right.data.length == 0) {
+        if (right.data == 0) {
             return this;
         }
-        next = new char[Math.min(k, size() + right.size())];
-        System.arraycopy(data, 0, next, 0, size());
-        System.arraycopy(right.data, 0, next, size(), next.length - size());
-        return new Prefix(next);
+        rightSymbols = right.symbols();
+        size = size();
+        newData = data;
+        for (int i = size(); i < k; i++) {
+            if (i - size >= rightSymbols.length) {
+                break;
+            }
+            newData = newData * BASE + rightSymbols[i - size] + 1;
+        }
+        return new Prefix(newData);
     }
 
     public int size() {
-        return data.length;
+        long remaining;
+        int size;
+        
+        for (size = 0, remaining = data; remaining != 0; remaining /= BASE) {
+            size++;
+        }
+        return size;
     }
 
+    private int[] symbols() {
+        int[] result;
+        long remaining;
+
+        remaining = data;
+        result = new int[size()];
+        for (int i = result.length - 1; i >= 0; i--) {
+            result[i] = (int) (remaining % BASE) - 1;
+            remaining /= BASE;
+        }
+        return result;
+    }
+    
     @Override
     public String toString() {
         StringBuilder builder;
-        int i, max;
+        int[] symbols;
 
-        max = size();
+        symbols = symbols();
         builder = new StringBuilder();
-        for (i = 0; i < max; i++) {
+        for (int i = 0; i < symbols.length; i++) {
             builder.append(' ');
-            builder.append(data[i]);
+            builder.append(symbols[i]);
         }
         return builder.toString();
     }
 
     public void toString(StringArrayList symbolTable, StringBuilder result) {
-        for (int i = 0; i < data.length; i++) {
+        int[] symbols;
+        
+        symbols = symbols();
+        for (int i = 0; i < symbols.length; i++) {
             if (i > 0) {
                 result.append(' ');
             }
-            result.append(symbolTable.getOrIndex(data[i]));
+            result.append(symbolTable.getOrIndex(symbols[i]));
         }
     }
 
     public int[] follows(int first) {
         int[] terminals;
+        int[] symbols;
 
-        if (size() > 0) {
-            if (data[0] == first) {
-                terminals = new int[size() - 1];
+        symbols = symbols();
+        if (symbols.length > 0) {
+            if (symbols[0] == first) {
+                terminals = new int[symbols.length - 1];
                 for (int i = 0; i < terminals.length; i++) {
-                    terminals[i] = data[(i + 1)];
+                    terminals[i] = symbols[(i + 1)];
                 }
                 return terminals;
             }
@@ -102,7 +133,7 @@ public class Prefix implements Comparable<Prefix> {
 
     @Override
     public int hashCode() {
-        return data.length == 0 ? 0 : data[0] ^ (data[data.length - 1] << 2);
+        return (int) (data / (BASE - 1)); 
     }
 
     @Override
@@ -114,36 +145,11 @@ public class Prefix implements Comparable<Prefix> {
     }
 
     public boolean eq(Prefix operand) {
-        int length;
-        char[] left;
-
-        left = data;
-        length = left.length;
-        if (length != operand.data.length) {
-            return false;
-        }
-        for (int i = 0; i < length; i++) {
-            if (left[i] != operand.data[i]) {
-                return false;
-            }
-        }
-        return true;
+        return data == operand.data;
     }
 
     @Override
-    public int compareTo(Prefix right) {
-        int diff;
-
-        diff = data.length - right.data.length;
-        if (diff != 0) {
-            return diff;
-        }
-        for (int i = 0; i < data.length; i++) {
-            diff = data[i] - right.data[i];
-            if (diff != 0) {
-                return diff;
-            }
-        }
-        return 0;
+    public int compareTo(Prefix operand) {
+        return (int) (data - operand.data);
     }
 }
