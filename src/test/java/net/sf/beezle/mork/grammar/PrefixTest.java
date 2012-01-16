@@ -24,7 +24,7 @@ public class PrefixTest {
     public void symbol() {
         Prefix p;
 
-        p = forSymbol(0);
+        p = prefix(0);
         assertEquals(1, p.size());
         assertEquals(0, p.first());
         assertEquals(0, p.follows(0).length);
@@ -35,7 +35,7 @@ public class PrefixTest {
     public void twoSymbols() {
         Prefix p;
 
-        p = new Prefix(forSymbol(1).concat(forSymbol(2).data, 2));
+        p = prefix(1, 2);
         assertEquals(2, p.size());
         assertEquals(1, p.first());
         assertTrue(Arrays.equals(new int[]{2}, p.follows(1)));
