@@ -113,7 +113,7 @@ public class PrefixSet implements Iterable<Prefix> {
                 return false;
             }
             for (Prefix p : set) {
-                if (!lookup(p)) {
+                if (!contains(p.data)) {
                     return false;
                 }
             }
@@ -162,18 +162,18 @@ public class PrefixSet implements Iterable<Prefix> {
 
     //--
 
-    private boolean lookup(Prefix prefix) {
+    private boolean contains(long prefix) {
         int hash;
         int i;
         long cmp;
 
-        hash = prefix.hashCode();
+        hash = Prefix.hashCode(prefix);
         for (i = indexFor(hash, table.length); true; i = (i + 1) % table.length) {
             cmp = table[i];
             if (cmp == FREE) {
                 return false;
             }
-            if (cmp == prefix.data) {
+            if (cmp == prefix) {
                 return true;
             }
         }
