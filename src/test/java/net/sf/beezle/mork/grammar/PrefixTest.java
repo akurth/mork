@@ -53,16 +53,15 @@ public class PrefixTest {
         right = prefix(20, 21, 22);
         test = Prefix.concat(left, right.data, 2);
         assertEquals(left, test);
-        test = Prefix.concat(left, right.data, 3);
-        assertEquals(" 10 11 20", Prefix.toString(test));
-        test = Prefix.concat(left, right.data, 4);
-        assertEquals(" 10 11 20 21", Prefix.toString(test));
-        test = Prefix.concat(left, right.data, 5);
-        assertEquals(" 10 11 20 21 22", Prefix.toString(test));
-        test = Prefix.concat(left, right.data, 6);
-        assertEquals(" 10 11 20 21 22", Prefix.toString(test));
-        test = Prefix.concat(left, right.data, 7);
-        assertEquals(" 10 11 20 21 22", Prefix.toString(test));
+        check(Prefix.concat(left, right.data, 3), 10, 11, 20);
+        check(Prefix.concat(left, right.data, 4), 10, 11, 20, 21);
+        check(Prefix.concat(left, right.data, 5), 10, 11, 20, 21, 22);
+        check(Prefix.concat(left, right.data, 6), 10, 11, 20, 21, 22);
+        check(Prefix.concat(left, right.data, 7), 10, 11, 20, 21, 22);
+    }
+
+    private void check(long actual, int ... expected) {
+        assertTrue(Arrays.equals(Prefix.toSymbols(actual), expected));
     }
 
     private Prefix prefix(int head, int ... tail) {

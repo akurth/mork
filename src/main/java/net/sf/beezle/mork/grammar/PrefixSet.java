@@ -83,7 +83,7 @@ public class PrefixSet {
         return add(EMPTY);
     }
 
-    public boolean addSymbol(long symbol) {
+    public boolean addSymbol(int symbol) {
         if (symbol >= Prefix.BASE - 1) {
             throw new IllegalArgumentException("" + symbol);
         }

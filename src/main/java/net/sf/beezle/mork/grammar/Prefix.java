@@ -19,9 +19,7 @@ package net.sf.beezle.mork.grammar;
 
 import net.sf.beezle.mork.misc.StringArrayList;
 
-import java.util.NoSuchElementException;
-
-/** Immutable, heavily shared between PrefixSets. */
+/** Element in a prefix set, and an iterator. Immutable, heavily shared between PrefixSets. */
 public class Prefix {
     public static final int BASE = 1024;
 
@@ -29,14 +27,18 @@ public class Prefix {
     private int index;
     private final long[] table;
 
-    public long data;
+    /** access only for PrefixSet */
+    long data;
 
     //--
 
-    public Prefix(long[] table, int size) {
+    /** Constructor for PrefixSet only */
+    Prefix(long[] table, int size) {
         this.table = table;
         this.index = size == 0 ? table.length : 0;
     }
+
+    //-- iterator
 
     public boolean next() {
         for (; index < table.length; index++) {
@@ -112,7 +114,7 @@ public class Prefix {
         int[] terminals;
         int[] symbols;
 
-        symbols = symbols();
+        symbols = toSymbols(data);
         if (symbols.length > 0) {
             if (symbols[0] == first) {
                 terminals = new int[symbols.length - 1];
@@ -134,7 +136,7 @@ public class Prefix {
         StringBuilder builder;
         int[] symbols;
 
-        symbols = Prefix.symbols(prefix);
+        symbols = toSymbols(prefix);
         builder = new StringBuilder();
         for (int i = 0; i < symbols.length; i++) {
             builder.append(' ');
@@ -146,7 +148,7 @@ public class Prefix {
     public void toString(StringArrayList symbolTable, StringBuilder result) {
         int[] symbols;
 
-        symbols = symbols();
+        symbols = toSymbols(data);
         for (int i = 0; i < symbols.length; i++) {
             if (i > 0) {
                 result.append(' ');
@@ -178,11 +180,7 @@ public class Prefix {
 
     //--
 
-    private int[] symbols() {
-        return symbols(data);
-    }
-
-    private static int[] symbols(long data) {
+    public static int[] toSymbols(long data) {
         int[] result;
 
         result = new int[size(data)];
