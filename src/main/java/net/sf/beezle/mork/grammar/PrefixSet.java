@@ -22,10 +22,6 @@ import net.sf.beezle.mork.misc.StringArrayList;
 import java.util.*;
 
 public class PrefixSet {
-    /** the average lookahead size for k = 1 in Java and Ssass is 17 */
-    private static final int DEFAULT_INITIAL_CAPACITY = 32;
-    private static final float LOAD_FACTOR = 0.75f;
-
     public static final long FREE = -1;
 
     public static PrefixSet one(int ... symbols) {
@@ -41,18 +37,15 @@ public class PrefixSet {
     private long[] table;
     private int size;
 
-    private int threshold;
-
     private int collisions;
 
     public PrefixSet() {
-        this.threshold = (int) (DEFAULT_INITIAL_CAPACITY * LOAD_FACTOR);
-        this.table = new long[DEFAULT_INITIAL_CAPACITY];
+        // the average lookahead size for k = 1 in Java and Ssass is 17
+        this.table = new long[32];
         Arrays.fill(table, FREE);
     }
 
     public PrefixSet(PrefixSet orig) {
-        this.threshold = orig.threshold;
         this.table = new long[orig.table.length];
         this.size = orig.size;
         System.arraycopy(orig.table, 0, table, 0, table.length);
@@ -82,8 +75,8 @@ public class PrefixSet {
             cmp = table[i];
             if (cmp == FREE) {
                 table[i] = prefix;
-                if (size++ >= threshold) {
-                    resize(2 * table.length);
+                if (size++ >= table.length * 3 / 4) {
+                    table = resize(table, 2 * table.length);
                 }
                 return false;
             }
@@ -182,20 +175,17 @@ public class PrefixSet {
         }
     }
 
-    private void resize(int size) {
-        long[] oldTable;
-        long prefix;
+    private static long[] resize(long[] oldTable, int size) {
+        long[] table;
 
-        oldTable = table;
         table = new long[size];
         Arrays.fill(table, FREE);
-        for (int i = 0; i < oldTable.length; i++) {
-            prefix = oldTable[i];
+        for (long prefix : oldTable) {
             if (prefix != FREE) {
                 table[indexFor(Prefix.hashCode(prefix), size)] = prefix;
             }
         }
-        threshold = (int) (size * LOAD_FACTOR);
+        return table;
     }
 
     //--
