@@ -19,7 +19,7 @@ public class Concat {
         next = new PrefixSet();
         for (Prefix l : todo) {
             for (Prefix r : op) {
-                tmp = l.concat(r, k);
+                tmp = l.concat(r.data, k);
                 if (Prefix.size(tmp) == k) {
                     done.add(tmp);
                 } else {

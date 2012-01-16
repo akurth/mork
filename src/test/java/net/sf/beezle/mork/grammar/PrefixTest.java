@@ -35,7 +35,7 @@ public class PrefixTest {
     public void twoSymbols() {
         Prefix p;
 
-        p = new Prefix(forSymbol(1).concat(forSymbol(2), 2));
+        p = new Prefix(forSymbol(1).concat(forSymbol(2).data, 2));
         assertEquals(2, p.size());
         assertEquals(1, p.first());
         assertTrue(Arrays.equals(new int[]{2}, p.follows(1)));
@@ -48,20 +48,33 @@ public class PrefixTest {
         Prefix right;
         Prefix test;
 
-        left = new Prefix(forSymbol(10).concat(forSymbol(11), 2));
-        right = new Prefix(new Prefix(forSymbol(20).concat(forSymbol(21), 2)).concat(forSymbol(22), 3));
-        test = new Prefix(left.concat(right, 2));
+        left = prefix(10, 11);
+        right = prefix(20, 21, 22);
+        test = new Prefix(left.concat(right.data, 2));
         assertEquals(left, test);
-        test = new Prefix(left.concat(right, 3));
+        test = new Prefix(left.concat(right.data, 3));
         assertEquals(" 10 11 20", test.toString());
-        test = new Prefix(left.concat(right, 4));
+        test = new Prefix(left.concat(right.data, 4));
         assertEquals(" 10 11 20 21", test.toString());
-        test = new Prefix(left.concat(right, 5));
+        test = new Prefix(left.concat(right.data, 5));
         assertEquals(" 10 11 20 21 22", test.toString());
-        test = new Prefix(left.concat(right, 6));
+        test = new Prefix(left.concat(right.data, 6));
         assertEquals(" 10 11 20 21 22", test.toString());
-        test = new Prefix(left.concat(right, 7));
+        test = new Prefix(left.concat(right.data, 7));
         assertEquals(" 10 11 20 21 22", test.toString());
+    }
+
+    private Prefix prefix(int head, int ... tail) {
+        PrefixSet set;
+        Prefix prefix;
+
+        set = new PrefixSet();
+        set.addSymbol(head);
+        prefix = set.iterator().next();
+        for (int symbol : tail) {
+            prefix = new Prefix(prefix.concat(forSymbol(symbol).data, tail.length + 1));
+        }
+        return prefix;
     }
 
     private Prefix forSymbol(int symbol) {
