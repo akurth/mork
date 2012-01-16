@@ -23,8 +23,6 @@ import net.sf.beezle.mork.misc.StringArrayList;
 public class Prefix implements Comparable<Prefix> {
     public static final int BASE = 1024;
 
-    public static Prefix EMPTY = new Prefix(0);
-
     public final long data;
 
     public Prefix(long data) {

@@ -11,9 +11,12 @@ import static org.junit.Assert.assertTrue;
 public class PrefixTest {
     @Test
     public void empty() {
+        PrefixSet s;
         Prefix p;
 
-        p = Prefix.EMPTY;
+        s = new PrefixSet();
+        s.addEmpty();
+        p = s.iterator().next();
         assertEquals(0, p.size());
     }
 
