@@ -65,7 +65,7 @@ public class Prefix {
     /** Constructor for PrefixSet only */
     Prefix(long[] table, int size) {
         this.table = table;
-        this.index = size == 0 ? table.length : 0;
+        this.index = 0; // we don't have empty tables
     }
 
     //-- iterator

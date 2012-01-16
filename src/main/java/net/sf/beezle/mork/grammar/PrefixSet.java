@@ -108,7 +108,7 @@ public class PrefixSet {
             }
             prefix = set.iterator();
             while (prefix.step()) {
-                if (!contains(prefix.data)) {
+                if (notContains(prefix.data)) {
                     return false;
                 }
             }
@@ -158,7 +158,7 @@ public class PrefixSet {
 
     //--
 
-    private boolean contains(long prefix) {
+    private boolean notContains(long prefix) {
         int hash;
         int i;
         long cmp;
@@ -167,10 +167,10 @@ public class PrefixSet {
         for (i = indexFor(hash, table.length); true; i = (i + 1) % table.length) {
             cmp = table[i];
             if (cmp == FREE) {
-                return false;
+                return true;
             }
             if (cmp == prefix) {
-                return true;
+                return false;
             }
         }
     }
@@ -193,7 +193,4 @@ public class PrefixSet {
     private static int indexFor(int h, int length) {
         return h & (length - 1);
     }
-
-    //--
-
 }
