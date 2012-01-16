@@ -200,7 +200,7 @@ public class PrefixSet implements Iterable<Prefix> {
         for (int i = 0; i < oldTable.length; i++) {
             prefix = oldTable[i];
             if (prefix != FREE) {
-                table[indexFor(new Prefix(prefix).hashCode(), size)] = prefix;
+                table[indexFor(Prefix.hashCode(prefix), size)] = prefix;
             }
         }
         threshold = (int) (size * LOAD_FACTOR);

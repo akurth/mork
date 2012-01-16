@@ -106,10 +106,14 @@ public class Prefix implements Comparable<Prefix> {
 
     @Override
     public String toString() {
+        return toString(data);
+    }
+
+    public static String toString(long prefix) {
         StringBuilder builder;
         int[] symbols;
 
-        symbols = symbols();
+        symbols = Prefix.symbols(prefix);
         builder = new StringBuilder();
         for (int i = 0; i < symbols.length; i++) {
             builder.append(' ');
@@ -159,14 +163,16 @@ public class Prefix implements Comparable<Prefix> {
     //--
 
     private int[] symbols() {
-        int[] result;
-        long remaining;
+        return symbols(data);
+    }
 
-        remaining = data;
-        result = new int[size()];
+    private static int[] symbols(long data) {
+        int[] result;
+
+        result = new int[size(data)];
         for (int i = result.length - 1; i >= 0; i--) {
-            result[i] = (int) (remaining % BASE) - 1;
-            remaining /= BASE;
+            result[i] = (int) (data % BASE) - 1;
+            data /= BASE;
         }
         return result;
     }

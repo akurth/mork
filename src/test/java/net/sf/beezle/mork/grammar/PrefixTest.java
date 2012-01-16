@@ -44,24 +44,24 @@ public class PrefixTest {
 
     @Test
     public void concat() {
-        Prefix left;
+        long left;
         Prefix right;
-        Prefix test;
+        long test;
 
-        left = prefix(10, 11);
+        left = prefix(10, 11).data;
         right = prefix(20, 21, 22);
-        test = new Prefix(Prefix.concat(left.data, right.data, 2));
+        test = Prefix.concat(left, right.data, 2);
         assertEquals(left, test);
-        test = new Prefix(Prefix.concat(left.data, right.data, 3));
-        assertEquals(" 10 11 20", test.toString());
-        test = new Prefix(Prefix.concat(left.data, right.data, 4));
-        assertEquals(" 10 11 20 21", test.toString());
-        test = new Prefix(Prefix.concat(left.data, right.data, 5));
-        assertEquals(" 10 11 20 21 22", test.toString());
-        test = new Prefix(Prefix.concat(left.data, right.data, 6));
-        assertEquals(" 10 11 20 21 22", test.toString());
-        test = new Prefix(Prefix.concat(left.data, right.data, 7));
-        assertEquals(" 10 11 20 21 22", test.toString());
+        test = Prefix.concat(left, right.data, 3);
+        assertEquals(" 10 11 20", Prefix.toString(test));
+        test = Prefix.concat(left, right.data, 4);
+        assertEquals(" 10 11 20 21", Prefix.toString(test));
+        test = Prefix.concat(left, right.data, 5);
+        assertEquals(" 10 11 20 21 22", Prefix.toString(test));
+        test = Prefix.concat(left, right.data, 6);
+        assertEquals(" 10 11 20 21 22", Prefix.toString(test));
+        test = Prefix.concat(left, right.data, 7);
+        assertEquals(" 10 11 20 21 22", Prefix.toString(test));
     }
 
     private Prefix prefix(int head, int ... tail) {
