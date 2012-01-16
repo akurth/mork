@@ -31,7 +31,7 @@ public class PrefixSet implements Iterable<Prefix> {
         PrefixSet result;
 
         result = new PrefixSet();
-        result.add(Prefix.forSymbol(symbol).data);
+        result.addSymbol(symbol);
         return result;
     }
 
@@ -75,6 +75,13 @@ public class PrefixSet implements Iterable<Prefix> {
 
     public boolean isEmpty() {
         return size == 0;
+    }
+
+    public boolean addSymbol(long symbol) {
+        if (symbol >= Prefix.BASE - 1) {
+            throw new IllegalArgumentException("" + symbol);
+        }
+        return add(symbol + 1);
     }
 
     public boolean add(long prefix) {

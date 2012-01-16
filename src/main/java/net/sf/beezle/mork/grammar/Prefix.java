@@ -21,16 +21,9 @@ import net.sf.beezle.mork.misc.StringArrayList;
 
 /** Immutable, heavily shared between PrefixSets. */
 public class Prefix implements Comparable<Prefix> {
-    private static final int BASE = 1024;
+    public static final int BASE = 1024;
 
     public static Prefix EMPTY = new Prefix(0);
-
-    public static Prefix forSymbol(int symbol) {
-        if (symbol >= BASE - 1) {
-            throw new IllegalArgumentException("" + symbol);
-        }
-        return new Prefix(symbol + 1);
-    }
 
     public final long data;
 

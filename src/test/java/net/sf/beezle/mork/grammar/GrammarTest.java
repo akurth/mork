@@ -52,7 +52,7 @@ public class GrammarTest {
         assertEquals(2, firsts.size());
         set = firsts.get(symbolTable.indexOf("I"));
         expected = PrefixSet.zero();
-        expected.add(Prefix.forSymbol(symbolTable.indexOf("a")).data);
+        expected.addSymbol(symbolTable.indexOf("a"));
         assertEquals(expected, set);
     }
 }
