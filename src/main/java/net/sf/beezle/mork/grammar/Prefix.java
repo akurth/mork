@@ -22,7 +22,7 @@ import net.sf.beezle.mork.misc.StringArrayList;
 /** Immutable, heavily shared between PrefixSets. */
 public class Prefix implements Comparable<Prefix> {
     private static final int BASE = 1024;
-    
+
     public static Prefix EMPTY = new Prefix(0);
 
     public static Prefix forSymbol(int symbol) {
@@ -32,9 +32,9 @@ public class Prefix implements Comparable<Prefix> {
         return new Prefix(symbol + 1);
     }
 
-    private final long data;
+    public final long data;
 
-    private Prefix(long data) {
+    public Prefix(long data) {
         this.data = data;
     }
 
@@ -86,7 +86,7 @@ public class Prefix implements Comparable<Prefix> {
     public int size() {
         long remaining;
         int size;
-        
+
         for (size = 0, remaining = data; remaining != 0; remaining /= BASE) {
             size++;
         }
@@ -126,7 +126,7 @@ public class Prefix implements Comparable<Prefix> {
 
     public void toString(StringArrayList symbolTable, StringBuilder result) {
         int[] symbols;
-        
+
         symbols = symbols();
         for (int i = 0; i < symbols.length; i++) {
             if (i > 0) {
@@ -138,7 +138,7 @@ public class Prefix implements Comparable<Prefix> {
 
     @Override
     public int hashCode() {
-        return (int) (data / (BASE - 1)); 
+        return (int) (data / (BASE - 1));
     }
 
     @Override

@@ -25,6 +25,7 @@ public class PrefixSet implements Iterable<Prefix> {
     /** the average lookahead size for k = 1 in Java and Ssass is 17 */
     private static final int DEFAULT_INITIAL_CAPACITY = 32;
     private static final float LOAD_FACTOR = 0.75f;
+    private static final long FREE = -1;
 
     public static PrefixSet one(int symbol) {
         PrefixSet result;
@@ -44,7 +45,7 @@ public class PrefixSet implements Iterable<Prefix> {
 
     //--
 
-    private Prefix[] table;
+    private long[] table;
     private int size;
 
     private int threshold;
@@ -53,13 +54,15 @@ public class PrefixSet implements Iterable<Prefix> {
 
     public PrefixSet() {
         this.threshold = (int) (DEFAULT_INITIAL_CAPACITY * LOAD_FACTOR);
-        this.table = new Prefix[DEFAULT_INITIAL_CAPACITY];
+        this.table = new long[DEFAULT_INITIAL_CAPACITY];
+        Arrays.fill(table, FREE);
     }
 
     public PrefixSet(PrefixSet orig) {
         this.threshold = orig.threshold;
-        this.table = new Prefix[orig.table.length];
-        addAll(orig);
+        this.table = new long[orig.table.length];
+        this.size = orig.size;
+        System.arraycopy(orig.table, 0, table, 0, table.length);
     }
 
     public Iterator<Prefix> iterator() {
@@ -76,18 +79,18 @@ public class PrefixSet implements Iterable<Prefix> {
 
     public boolean add(Prefix prefix) {
         int i;
-        Prefix cmp;
+        long cmp;
 
         for (i = indexFor(prefix.hashCode(), table.length); true; i = (i + 1) % table.length) {
             cmp = table[i];
-            if (cmp == null) {
-                table[i] = prefix;
+            if (cmp == FREE) {
+                table[i] = prefix.data;
                 if (size++ >= threshold) {
                     resize(2 * table.length);
                 }
                 return false;
             }
-            if (cmp.eq(prefix)) {
+            if (cmp == prefix.data) {
                 return true;
             }
             collisions++;
@@ -110,7 +113,7 @@ public class PrefixSet implements Iterable<Prefix> {
                 return false;
             }
             for (Prefix p : set) {
-                if (lookup(p) == null) {
+                if (!lookup(p)) {
                     return false;
                 }
             }
@@ -159,33 +162,34 @@ public class PrefixSet implements Iterable<Prefix> {
 
     //--
 
-    private Prefix lookup(Prefix prefix) {
+    private boolean lookup(Prefix prefix) {
         int hash;
         int i;
-        Prefix cmp;
+        long cmp;
 
         hash = prefix.hashCode();
         for (i = indexFor(hash, table.length); true; i = (i + 1) % table.length) {
             cmp = table[i];
-            if (cmp == null) {
-                return null;
+            if (cmp == FREE) {
+                return false;
             }
-            if (cmp.eq(prefix)) {
-                return cmp;
+            if (cmp == prefix.data) {
+                return true;
             }
         }
     }
 
     private void resize(int size) {
-        Prefix[] oldTable;
-        Prefix prefix;
+        long[] oldTable;
+        long prefix;
 
         oldTable = table;
-        table = new Prefix[size];
+        table = new long[size];
+        Arrays.fill(table, FREE);
         for (int i = 0; i < oldTable.length; i++) {
             prefix = oldTable[i];
-            if (prefix != null) {
-                table[indexFor(prefix.hashCode(), size)] = prefix;
+            if (prefix != FREE) {
+                table[indexFor(new Prefix(prefix).hashCode(), size)] = prefix;
             }
         }
         threshold = (int) (size * LOAD_FACTOR);
@@ -221,7 +225,7 @@ public class PrefixSet implements Iterable<Prefix> {
             if (index >= table.length) {
                 throw new NoSuchElementException();
             }
-            result = table[index++];
+            result = new Prefix(table[index++]);
             step();
             return result;
         }
@@ -232,7 +236,7 @@ public class PrefixSet implements Iterable<Prefix> {
 
         private void step() {
             for (; index < table.length; index++) {
-                if (table[index] != null) {
+                if (table[index] != FREE) {
                     break;
                 }
             }
