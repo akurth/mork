@@ -43,25 +43,25 @@ public class Prefix implements Comparable<Prefix> {
         }
     }
 
-    public long concat(long rightPrefix, int k) {
+    public static long concat(long leftPrefix, long rightPrefix, int k) {
         int leftSize;
         int rightSize;
         long newData;
         int newSize;
         int count;
 
-        if (data == 0) {
+        if (leftPrefix == 0) {
             return rightPrefix;
         }
         if (rightPrefix == 0) {
-            return data;
+            return leftPrefix;
         }
-        leftSize = size();
+        leftSize = size(leftPrefix);
         if (leftSize == k) {
-            return data;
+            return leftPrefix;
         }
         rightSize = Prefix.size(rightPrefix);
-        newData = data;
+        newData = leftPrefix;
         newSize = Math.min(k, leftSize + rightSize);
         count = newSize - leftSize;
         for (int i = count; i > 0; i--) {
