@@ -25,7 +25,8 @@ public class PrefixSet implements Iterable<Prefix> {
     /** the average lookahead size for k = 1 in Java and Ssass is 17 */
     private static final int DEFAULT_INITIAL_CAPACITY = 32;
     private static final float LOAD_FACTOR = 0.75f;
-    private static final long FREE = -1;
+
+    public static final long FREE = -1;
 
     public static PrefixSet one(int symbol) {
         PrefixSet result;
@@ -66,7 +67,7 @@ public class PrefixSet implements Iterable<Prefix> {
     }
 
     public Iterator<Prefix> iterator() {
-        return new PrefixIterator();
+        return new PrefixIterator(table, size);
     }
 
     public int size() {
@@ -214,43 +215,4 @@ public class PrefixSet implements Iterable<Prefix> {
 
     //--
 
-    private class PrefixIterator implements Iterator<Prefix> {
-        private int index;
-
-        public PrefixIterator() {
-            if (size > 0) {
-                index = 0;
-                step();
-            } else {
-                index = table.length;
-            }
-        }
-
-        public boolean hasNext() {
-            return index < table.length;
-        }
-
-        public Prefix next() {
-            Prefix result;
-
-            if (index >= table.length) {
-                throw new NoSuchElementException();
-            }
-            result = new Prefix(table[index++]);
-            step();
-            return result;
-        }
-
-        public void remove() {
-            throw new UnsupportedOperationException();
-        }
-
-        private void step() {
-            for (; index < table.length; index++) {
-                if (table[index] != FREE) {
-                    break;
-                }
-            }
-        }
-    }
 }
