@@ -3,7 +3,7 @@ package net.sf.beezle.mork.grammar;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class PrefixIterator implements Iterator<Prefix> {
+public class PrefixIterator {
     private int index;
     private final long[] table;
 

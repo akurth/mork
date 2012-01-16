@@ -20,6 +20,7 @@ package net.sf.beezle.mork.pda;
 import net.sf.beezle.mork.compiler.ConflictHandler;
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.grammar.Prefix;
+import net.sf.beezle.mork.grammar.PrefixIterator;
 import net.sf.beezle.mork.grammar.PrefixSet;
 import net.sf.beezle.mork.parser.ParserTable;
 import net.sf.beezle.sushi.util.IntBitSet;
@@ -169,11 +170,15 @@ public class State {
 
     private IntBitSet reduceTerminals(Grammar grammar) {
         IntBitSet result;
+        PrefixIterator iter;
+        Prefix prefix;
 
         result = new IntBitSet();
         for (Item item : items) {
             if (item.getShift(grammar) == -1) {
-                for (Prefix prefix : item.lookahead) {
+                iter = item.lookahead.iterator();
+                while (iter.hasNext()) {
+                    prefix = iter.next();
                     if (prefix.size() < 1) {
                         throw new IllegalStateException();
                     }
@@ -186,11 +191,15 @@ public class State {
 
     private List<Item> reduceItems(int terminal, Grammar grammar) {
         List<Item> result;
+        PrefixIterator iter;
+        Prefix prefix;
 
         result = new ArrayList<Item>();
         for (Item item : items) {
             if (item.getShift(grammar) == -1) {
-                for (Prefix prefix : item.lookahead) {
+                iter = item.lookahead.iterator();
+                while (iter.hasNext()) {
+                    prefix = iter.next();
                     if (prefix.first() == terminal) {
                         result.add(item);
                         break;

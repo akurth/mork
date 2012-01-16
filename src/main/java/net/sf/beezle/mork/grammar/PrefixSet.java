@@ -21,7 +21,7 @@ import net.sf.beezle.mork.misc.StringArrayList;
 
 import java.util.*;
 
-public class PrefixSet implements Iterable<Prefix> {
+public class PrefixSet {
     /** the average lookahead size for k = 1 in Java and Ssass is 17 */
     private static final int DEFAULT_INITIAL_CAPACITY = 32;
     private static final float LOAD_FACTOR = 0.75f;
@@ -66,7 +66,7 @@ public class PrefixSet implements Iterable<Prefix> {
         System.arraycopy(orig.table, 0, table, 0, table.length);
     }
 
-    public Iterator<Prefix> iterator() {
+    public PrefixIterator iterator() {
         return new PrefixIterator(table, size);
     }
 
@@ -110,13 +110,17 @@ public class PrefixSet implements Iterable<Prefix> {
     }
 
     public void addAll(PrefixSet set) {
-        for (Prefix prefix : set) {
-            add(prefix.data);
+        PrefixIterator iter;
+
+        iter = set.iterator();
+        while (iter.hasNext()) {
+            add(iter.next().data);
         }
     }
 
     public boolean equals(Object o) {
         PrefixSet set;
+        PrefixIterator iter;
 
         /* No o == this check: PefixSets *are* shared when shifting, but in this case, the cores always differ */
         if (o instanceof PrefixSet) {
@@ -124,8 +128,9 @@ public class PrefixSet implements Iterable<Prefix> {
             if (set.size != size) {
                 return false;
             }
-            for (Prefix p : set) {
-                if (!contains(p.data)) {
+            iter = set.iterator();
+            while (iter.hasNext()) {
+                if (!contains(iter.next().data)) {
                     return false;
                 }
             }
@@ -161,9 +166,13 @@ public class PrefixSet implements Iterable<Prefix> {
     public List<int[]> follows(int first) {
         List<int[]> result;
         int[] terminals;
+        PrefixIterator iter;
+
 
         result = new ArrayList<int[]>();
-        for (Prefix prefix : this) {
+        iter = iterator();
+        while (iter.hasNext()) {
+            Prefix prefix = iter.next();
             terminals = prefix.follows(first);
             if (terminals != null) {
                 result.add(terminals);
