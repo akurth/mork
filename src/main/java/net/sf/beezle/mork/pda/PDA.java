@@ -27,6 +27,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,7 +63,7 @@ public class PDA implements Iterable<State> {
 
     public PDA(Grammar grammar, State start) {
         this.grammar = grammar;
-        this.states = new HashMap<State, State>();
+        this.states = new LinkedHashMap<State, State>();
         this.start = start;
         add(start);
     }

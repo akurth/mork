@@ -136,7 +136,7 @@ public class PrefixSet {
             }
             prefix.toString(symbolTable, result);
         }
-        result.append('}');
+        result.append(" }");
     }
 
     public List<int[]> follows(int first) {
