@@ -20,7 +20,7 @@ package net.sf.beezle.mork.grammar;
 import net.sf.beezle.mork.misc.StringArrayList;
 
 /** Immutable, heavily shared between PrefixSets. */
-public class Prefix implements Comparable<Prefix> {
+public class Prefix {
     public static final int BASE = 1024;
 
     public final long data;
@@ -153,11 +153,6 @@ public class Prefix implements Comparable<Prefix> {
 
     public boolean eq(Prefix operand) {
         return data == operand.data;
-    }
-
-    @Override
-    public int compareTo(Prefix operand) {
-        return (int) (data - operand.data);
     }
 
     //--

@@ -145,20 +145,20 @@ public class PrefixSet {
 
     public void toString(StringArrayList symbolTable, StringBuilder result) {
         boolean first;
-        List<Prefix> sorted;
+        PrefixIterator iter;
+        Prefix prefix;
 
-        // TODO: expensive
-        sorted = new ArrayList<Prefix>();
-        Collections.sort(sorted);
         result.append('{');
         first = true;
-        for (Prefix entry : sorted) {
+        iter = iterator();
+        while (iter.hasNext()) {
+            prefix = iter.next();
             if (first) {
                 first = false;
             } else {
                 result.append(", ");
             }
-            entry.toString(symbolTable, result);
+            prefix.toString(symbolTable, result);
         }
         result.append('}');
     }
