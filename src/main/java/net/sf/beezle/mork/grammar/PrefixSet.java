@@ -27,6 +27,7 @@ public class PrefixSet {
     private static final float LOAD_FACTOR = 0.75f;
 
     public static final long FREE = -1;
+    public static final long EMPTY = 0;
 
     public static PrefixSet one(int symbol) {
         PrefixSet result;
@@ -79,7 +80,7 @@ public class PrefixSet {
     }
 
     public boolean addEmpty() {
-        return add(0);
+        return add(EMPTY);
     }
 
     public boolean addSymbol(long symbol) {
