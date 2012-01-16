@@ -24,7 +24,6 @@ import java.util.*;
 public class PrefixSet implements Iterable<Prefix> {
     /** the average lookahead size for k = 1 in Java and Ssass is 17 */
     private static final int DEFAULT_INITIAL_CAPACITY = 32;
-    private static final int MAXIMUM_CAPACITY = 1 << 30;
     private static final float LOAD_FACTOR = 0.75f;
 
     public static PrefixSet one(int symbol) {
