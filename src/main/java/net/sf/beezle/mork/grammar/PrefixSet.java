@@ -66,8 +66,8 @@ public class PrefixSet {
         System.arraycopy(orig.table, 0, table, 0, table.length);
     }
 
-    public PrefixIterator iterator() {
-        return new PrefixIterator(table, size);
+    public Prefix iterator() {
+        return new Prefix(table, size);
     }
 
     public int size() {
@@ -110,17 +110,17 @@ public class PrefixSet {
     }
 
     public void addAll(PrefixSet set) {
-        PrefixIterator iter;
+        Prefix prefix;
 
-        iter = set.iterator();
-        while (iter.hasNext()) {
-            add(iter.next().data);
+        prefix = set.iterator();
+        while (prefix.next()) {
+            add(prefix.data);
         }
     }
 
     public boolean equals(Object o) {
         PrefixSet set;
-        PrefixIterator iter;
+        Prefix prefix;
 
         /* No o == this check: PefixSets *are* shared when shifting, but in this case, the cores always differ */
         if (o instanceof PrefixSet) {
@@ -128,9 +128,9 @@ public class PrefixSet {
             if (set.size != size) {
                 return false;
             }
-            iter = set.iterator();
-            while (iter.hasNext()) {
-                if (!contains(iter.next().data)) {
+            prefix = set.iterator();
+            while (prefix.next()) {
+                if (!contains(prefix.data)) {
                     return false;
                 }
             }
@@ -145,14 +145,12 @@ public class PrefixSet {
 
     public void toString(StringArrayList symbolTable, StringBuilder result) {
         boolean first;
-        PrefixIterator iter;
         Prefix prefix;
 
         result.append('{');
         first = true;
-        iter = iterator();
-        while (iter.hasNext()) {
-            prefix = iter.next();
+        prefix = iterator();
+        while (prefix.next()) {
             if (first) {
                 first = false;
             } else {
@@ -166,13 +164,12 @@ public class PrefixSet {
     public List<int[]> follows(int first) {
         List<int[]> result;
         int[] terminals;
-        PrefixIterator iter;
+        Prefix prefix;
 
 
         result = new ArrayList<int[]>();
-        iter = iterator();
-        while (iter.hasNext()) {
-            Prefix prefix = iter.next();
+        prefix = iterator();
+        while (prefix.next()) {
             terminals = prefix.follows(first);
             if (terminals != null) {
                 result.add(terminals);

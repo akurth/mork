@@ -15,18 +15,14 @@ public class Concat {
     public boolean with(PrefixSet op) {
         PrefixSet next;
         long tmp;
-        PrefixIterator todoIter;
         Prefix l;
-        PrefixIterator opIter;
         Prefix r;
 
         next = new PrefixSet();
-        todoIter = todo.iterator();
-        while (todoIter.hasNext()) {
-            l = todoIter.next();
-            opIter = op.iterator();
-            while (opIter.hasNext()) {
-                r = opIter.next();
+        l = todo.iterator();
+        while (l.next()) {
+            r = op.iterator();
+            while (r.next()) {
                 tmp = Prefix.concat(l.data, r.data, k);
                 if (Prefix.size(tmp) == k) {
                     done.add(tmp);

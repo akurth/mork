@@ -19,15 +19,36 @@ package net.sf.beezle.mork.grammar;
 
 import net.sf.beezle.mork.misc.StringArrayList;
 
+import java.util.NoSuchElementException;
+
 /** Immutable, heavily shared between PrefixSets. */
 public class Prefix {
     public static final int BASE = 1024;
 
-    public final long data;
+    /** behind current prefix - first index to check for next element */
+    private int index;
+    private final long[] table;
 
-    public Prefix(long data) {
-        this.data = data;
+    public long data;
+
+    //--
+
+    public Prefix(long[] table, int size) {
+        this.table = table;
+        this.index = size == 0 ? table.length : 0;
     }
+
+    public boolean next() {
+        for (; index < table.length; index++) {
+            if (table[index] != PrefixSet.FREE) {
+                data = table[index++];
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //-- prefix methods
 
     public int first() {
         long remaining;

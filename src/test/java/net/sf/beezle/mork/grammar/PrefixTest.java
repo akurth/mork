@@ -16,7 +16,8 @@ public class PrefixTest {
 
         s = new PrefixSet();
         s.addEmpty();
-        p = s.iterator().next();
+        p = s.iterator();
+        p.next();
         assertEquals(0, p.size());
     }
 
@@ -66,22 +67,30 @@ public class PrefixTest {
 
     private Prefix prefix(int head, int ... tail) {
         PrefixSet set;
-        Prefix prefix;
+        Prefix result;
+        PrefixSet tmp;
 
         set = new PrefixSet();
         set.addSymbol(head);
-        prefix = set.iterator().next();
+        result = set.iterator();
+        result.next();
         for (int symbol : tail) {
-            prefix = new Prefix(Prefix.concat(prefix.data, symbol(symbol).data, tail.length + 1));
+            tmp = new PrefixSet();
+            tmp.add(Prefix.concat(result.data, symbol(symbol).data, tail.length + 1));
+            result = tmp.iterator();
+            result.next();
         }
-        return prefix;
+        return result;
     }
 
     private Prefix symbol(int symbol) {
         PrefixSet set;
+        Prefix prefix;
 
         set = new PrefixSet();
         set.addSymbol(symbol);
-        return set.iterator().next();
+        prefix = set.iterator();
+        prefix.next();
+        return prefix;
     }
 }
