@@ -27,21 +27,12 @@ public class PrefixSet {
     private static final float LOAD_FACTOR = 0.75f;
 
     public static final long FREE = -1;
-    public static final long EMPTY = 0;
 
-    public static PrefixSet one(int symbol) {
+    public static PrefixSet one(int ... symbols) {
         PrefixSet result;
 
         result = new PrefixSet();
-        result.addSymbol(symbol);
-        return result;
-    }
-
-    public static PrefixSet zero() {
-        PrefixSet result;
-
-        result = new PrefixSet();
-        result.addEmpty();
+        result.addUnpacked(symbols);
         return result;
     }
 
@@ -79,15 +70,8 @@ public class PrefixSet {
         return size == 0;
     }
 
-    public boolean addEmpty() {
-        return add(EMPTY);
-    }
-
-    public boolean addSymbol(int symbol) {
-        if (symbol >= Prefix.BASE - 1) {
-            throw new IllegalArgumentException("" + symbol);
-        }
-        return add(symbol + 1);
+    public boolean addUnpacked(int ... symbols) {
+        return add(Prefix.pack(symbols));
     }
 
     public boolean add(long prefix) {
@@ -114,7 +98,7 @@ public class PrefixSet {
         Prefix prefix;
 
         prefix = set.iterator();
-        while (prefix.next()) {
+        while (prefix.step()) {
             add(prefix.data);
         }
     }
@@ -130,7 +114,7 @@ public class PrefixSet {
                 return false;
             }
             prefix = set.iterator();
-            while (prefix.next()) {
+            while (prefix.step()) {
                 if (!contains(prefix.data)) {
                     return false;
                 }
@@ -151,7 +135,7 @@ public class PrefixSet {
         result.append('{');
         first = true;
         prefix = iterator();
-        while (prefix.next()) {
+        while (prefix.step()) {
             if (first) {
                 first = false;
             } else {
@@ -170,7 +154,7 @@ public class PrefixSet {
 
         result = new ArrayList<int[]>();
         prefix = iterator();
-        while (prefix.next()) {
+        while (prefix.step()) {
             terminals = prefix.follows(first);
             if (terminals != null) {
                 result.add(terminals);

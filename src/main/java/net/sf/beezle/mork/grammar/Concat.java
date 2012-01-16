@@ -8,7 +8,7 @@ public class Concat {
     public Concat(int k) {
         this.k = k;
         this.done = new PrefixSet();
-        this.todo = PrefixSet.zero();
+        this.todo = PrefixSet.one();
     }
 
     /** true when done */
@@ -20,9 +20,9 @@ public class Concat {
 
         next = new PrefixSet();
         l = todo.iterator();
-        while (l.next()) {
+        while (l.step()) {
             r = op.iterator();
-            while (r.next()) {
+            while (r.step()) {
                 tmp = Prefix.concat(l.data, r.data, k);
                 if (Prefix.size(tmp) == k) {
                     done.add(tmp);

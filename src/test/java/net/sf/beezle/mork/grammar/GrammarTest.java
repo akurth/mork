@@ -51,8 +51,8 @@ public class GrammarTest {
         firsts = g.firsts(1);
         assertEquals(2, firsts.size());
         set = firsts.get(symbolTable.indexOf("I"));
-        expected = PrefixSet.zero();
-        expected.addSymbol(symbolTable.indexOf("a"));
+        expected = PrefixSet.one();
+        expected.addUnpacked(symbolTable.indexOf("a"));
         assertEquals(expected, set);
     }
 }

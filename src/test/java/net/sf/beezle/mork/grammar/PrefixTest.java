@@ -11,13 +11,10 @@ import static org.junit.Assert.assertTrue;
 public class PrefixTest {
     @Test
     public void empty() {
-        PrefixSet s;
         Prefix p;
 
-        s = new PrefixSet();
-        s.addEmpty();
-        p = s.iterator();
-        p.next();
+        p = prefix();
+        p.step();
         assertEquals(0, p.size());
     }
 
@@ -61,35 +58,18 @@ public class PrefixTest {
     }
 
     private void check(long actual, int ... expected) {
-        assertTrue(Arrays.equals(Prefix.toSymbols(actual), expected));
+        assertTrue(Arrays.equals(Prefix.unpack(actual), expected));
     }
 
-    private Prefix prefix(int head, int ... tail) {
+    private Prefix prefix(int ... symbols) {
         PrefixSet set;
         Prefix result;
         PrefixSet tmp;
 
         set = new PrefixSet();
-        set.addSymbol(head);
+        set.addUnpacked(symbols);
         result = set.iterator();
-        result.next();
-        for (int symbol : tail) {
-            tmp = new PrefixSet();
-            tmp.add(Prefix.concat(result.data, symbol(symbol).data, tail.length + 1));
-            result = tmp.iterator();
-            result.next();
-        }
+        result.step();
         return result;
-    }
-
-    private Prefix symbol(int symbol) {
-        PrefixSet set;
-        Prefix prefix;
-
-        set = new PrefixSet();
-        set.addSymbol(symbol);
-        prefix = set.iterator();
-        prefix.next();
-        return prefix;
     }
 }

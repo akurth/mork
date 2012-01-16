@@ -23,6 +23,33 @@ import net.sf.beezle.mork.misc.StringArrayList;
 public class Prefix {
     public static final int BASE = 1024;
 
+    public static long pack(int ... symbols) {
+        long data;
+
+        data = 0;
+        for (int symbol : symbols) {
+            symbol++;
+            if (symbol >= BASE) {
+                throw new IllegalArgumentException("" + (symbol - 1));
+            }
+            data = data * BASE + symbol;
+        }
+        return data;
+    }
+
+    public static int[] unpack(long data) {
+        int[] result;
+
+        result = new int[size(data)];
+        for (int i = result.length - 1; i >= 0; i--) {
+            result[i] = (int) (data % BASE) - 1;
+            data /= BASE;
+        }
+        return result;
+    }
+
+    //--
+
     /** behind current prefix - first index to check for next element */
     private int index;
     private final long[] table;
@@ -40,7 +67,7 @@ public class Prefix {
 
     //-- iterator
 
-    public boolean next() {
+    public boolean step() {
         for (; index < table.length; index++) {
             if (table[index] != PrefixSet.FREE) {
                 data = table[index++];
@@ -114,7 +141,7 @@ public class Prefix {
         int[] terminals;
         int[] symbols;
 
-        symbols = toSymbols(data);
+        symbols = unpack(data);
         if (symbols.length > 0) {
             if (symbols[0] == first) {
                 terminals = new int[symbols.length - 1];
@@ -132,7 +159,7 @@ public class Prefix {
         StringBuilder builder;
 
         builder = new StringBuilder();
-        for (int symbol : toSymbols(data)) {
+        for (int symbol : unpack(data)) {
             builder.append(' ');
             builder.append(symbol);
         }
@@ -143,7 +170,7 @@ public class Prefix {
         boolean first;
 
         first = true;
-        for (int symbol : toSymbols(data)) {
+        for (int symbol : unpack(data)) {
             if (first) {
                 first = false;
             } else {
@@ -166,25 +193,8 @@ public class Prefix {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Prefix) {
-            return eq((Prefix) obj);
+            return data == ((Prefix) obj).data;
         }
         return false;
-    }
-
-    public boolean eq(Prefix operand) {
-        return data == operand.data;
-    }
-
-    //--
-
-    public static int[] toSymbols(long data) {
-        int[] result;
-
-        result = new int[size(data)];
-        for (int i = result.length - 1; i >= 0; i--) {
-            result[i] = (int) (data % BASE) - 1;
-            data /= BASE;
-        }
-        return result;
     }
 }

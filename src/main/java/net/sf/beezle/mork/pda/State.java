@@ -175,7 +175,7 @@ public class State {
         for (Item item : items) {
             if (item.getShift(grammar) == -1) {
                 prefix = item.lookahead.iterator();
-                while (prefix.next()) {
+                while (prefix.step()) {
                     if (prefix.size() < 1) {
                         throw new IllegalStateException();
                     }
@@ -194,7 +194,7 @@ public class State {
         for (Item item : items) {
             if (item.getShift(grammar) == -1) {
                 prefix = item.lookahead.iterator();
-                while (prefix.next()) {
+                while (prefix.step()) {
                     if (prefix.first() == terminal) {
                         result.add(item);
                         break;
