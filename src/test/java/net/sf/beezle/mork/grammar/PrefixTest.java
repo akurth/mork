@@ -72,12 +72,12 @@ public class PrefixTest {
         set.addSymbol(head);
         prefix = set.iterator().next();
         for (int symbol : tail) {
-            prefix = new Prefix(prefix.concat(forSymbol(symbol).data, tail.length + 1));
+            prefix = new Prefix(prefix.concat(symbol(symbol).data, tail.length + 1));
         }
         return prefix;
     }
 
-    private Prefix forSymbol(int symbol) {
+    private Prefix symbol(int symbol) {
         PrefixSet set;
 
         set = new PrefixSet();
