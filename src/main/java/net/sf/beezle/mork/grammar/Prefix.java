@@ -138,7 +138,11 @@ public class Prefix implements Comparable<Prefix> {
 
     @Override
     public int hashCode() {
-        return (int) (data / (BASE - 1));
+        return hashCode(data);
+    }
+
+    public static int hashCode(long prefix) {
+        return (int) (prefix / (BASE - 1));
     }
 
     @Override

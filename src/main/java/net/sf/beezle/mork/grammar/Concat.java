@@ -21,9 +21,9 @@ public class Concat {
             for (Prefix r : op) {
                 tmp = l.concat(r, k);
                 if (tmp.size() == k) {
-                    done.add(tmp);
+                    done.add(tmp.data);
                 } else {
-                    next.add(tmp);
+                    next.add(tmp.data);
                 }
             }
         }

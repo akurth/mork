@@ -6,7 +6,6 @@ import org.junit.Test;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class GrammarTest {
     @Test
@@ -53,7 +52,7 @@ public class GrammarTest {
         assertEquals(2, firsts.size());
         set = firsts.get(symbolTable.indexOf("I"));
         expected = PrefixSet.zero();
-        expected.add(Prefix.forSymbol(symbolTable.indexOf("a")));
+        expected.add(Prefix.forSymbol(symbolTable.indexOf("a")).data);
         assertEquals(expected, set);
     }
 }

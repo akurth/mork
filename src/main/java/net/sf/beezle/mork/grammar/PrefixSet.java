@@ -31,7 +31,7 @@ public class PrefixSet implements Iterable<Prefix> {
         PrefixSet result;
 
         result = new PrefixSet();
-        result.add(Prefix.forSymbol(symbol));
+        result.add(Prefix.forSymbol(symbol).data);
         return result;
     }
 
@@ -39,7 +39,7 @@ public class PrefixSet implements Iterable<Prefix> {
         PrefixSet result;
 
         result = new PrefixSet();
-        result.add(Prefix.EMPTY);
+        result.add(Prefix.EMPTY.data);
         return result;
     }
 
@@ -77,20 +77,20 @@ public class PrefixSet implements Iterable<Prefix> {
         return size == 0;
     }
 
-    public boolean add(Prefix prefix) {
+    public boolean add(long prefix) {
         int i;
         long cmp;
 
-        for (i = indexFor(prefix.hashCode(), table.length); true; i = (i + 1) % table.length) {
+        for (i = indexFor(Prefix.hashCode(prefix), table.length); true; i = (i + 1) % table.length) {
             cmp = table[i];
             if (cmp == FREE) {
-                table[i] = prefix.data;
+                table[i] = prefix;
                 if (size++ >= threshold) {
                     resize(2 * table.length);
                 }
                 return false;
             }
-            if (cmp == prefix.data) {
+            if (cmp == prefix) {
                 return true;
             }
             collisions++;
@@ -99,7 +99,7 @@ public class PrefixSet implements Iterable<Prefix> {
 
     public void addAll(PrefixSet set) {
         for (Prefix prefix : set) {
-            add(prefix);
+            add(prefix.data);
         }
     }
 
