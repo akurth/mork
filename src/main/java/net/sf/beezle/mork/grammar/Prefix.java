@@ -28,13 +28,16 @@ public class Prefix {
 
         data = 0;
         for (int symbol : symbols) {
-            symbol++;
-            if (symbol >= BASE) {
-                throw new IllegalArgumentException("" + (symbol - 1));
-            }
-            data = data * BASE + symbol;
+            data = data * BASE + pack(symbol);
         }
         return data;
+    }
+
+    public static long pack(int symbol) {
+        if (symbol >= BASE - 1) {
+            throw new IllegalArgumentException("" + symbol);
+        }
+        return symbol + 1;
     }
 
     public static int[] unpack(long data) {

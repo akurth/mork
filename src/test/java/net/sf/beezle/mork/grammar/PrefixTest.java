@@ -64,7 +64,6 @@ public class PrefixTest {
     private Prefix prefix(int ... symbols) {
         PrefixSet set;
         Prefix result;
-        PrefixSet tmp;
 
         set = new PrefixSet();
         set.addUnpacked(symbols);
