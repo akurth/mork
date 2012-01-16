@@ -129,31 +129,28 @@ public class Prefix {
 
     @Override
     public String toString() {
-        return toString(data);
-    }
-
-    public static String toString(long prefix) {
         StringBuilder builder;
-        int[] symbols;
 
-        symbols = toSymbols(prefix);
         builder = new StringBuilder();
-        for (int i = 0; i < symbols.length; i++) {
+        for (int symbol : toSymbols(data)) {
             builder.append(' ');
-            builder.append(symbols[i]);
+            builder.append(symbol);
         }
         return builder.toString();
     }
 
     public void toString(StringArrayList symbolTable, StringBuilder result) {
-        int[] symbols;
+        boolean first;
 
-        symbols = toSymbols(data);
-        for (int i = 0; i < symbols.length; i++) {
-            if (i > 0) {
+        first = true;
+        for (int symbol : toSymbols(data)) {
+            if (first) {
+                first = false;
+            } else {
                 result.append(' ');
             }
-            result.append(symbolTable.getOrIndex(symbols[i]));
+            result.append(' ');
+            result.append(symbolTable.getOrIndex(symbol));
         }
     }
 
