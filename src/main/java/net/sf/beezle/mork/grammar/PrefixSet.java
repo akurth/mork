@@ -121,6 +121,14 @@ public class PrefixSet {
         return size;
     }
 
+    public String toString(StringArrayList symbolTable) {
+        StringBuilder result;
+
+        result = new StringBuilder();
+        toString(symbolTable, result);
+        return result.toString();
+    }
+
     public void toString(StringArrayList symbolTable, StringBuilder result) {
         boolean first;
         Prefix prefix;

@@ -103,6 +103,10 @@ public class Syntax {
             output.listing.println(symbolTable.toString());
             output.listing.println("\nGrammar:");
             output.listing.println(grammar.toString());
+            output.listing.println("\nFirst Sets:");
+            for (Map.Entry<Integer, PrefixSet> entry : firsts.entrySet()) {
+                output.listing.println(symbolTable.get(entry.getKey()) + ":\t" + entry.getValue().toString(symbolTable));
+            }
             output.listing.println("\nAutomaton:");
             pda.print(output.listing);
         }
