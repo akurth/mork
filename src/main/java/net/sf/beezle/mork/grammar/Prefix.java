@@ -21,7 +21,7 @@ import net.sf.beezle.mork.misc.StringArrayList;
 
 /** Element in a prefix set, and an iterator. Immutable, heavily shared between PrefixSets. */
 public class Prefix {
-    public static final int BASE = 1024;
+    public static final int BASE = 512;
 
     public static long pack(int ... symbols) {
         long data;
