@@ -176,10 +176,9 @@ public class Item implements Comparable<Item> {
             result.append(symbolTable.getOrIndex(grammar.getRight(production, ofs)));
         }
         if (ofs == dot) {
-            result.append(" . ");
+            result.append(" . \t");
+            lookahead.toString(symbolTable, result);
         }
-        result.append('\t');
-        lookahead.toString(symbolTable, result);
         result.append('\n');
         return result.toString();
     }
