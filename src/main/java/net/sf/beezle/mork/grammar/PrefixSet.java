@@ -75,7 +75,7 @@ public class PrefixSet {
         long cmp;
         long[] old;
 
-        for (i = indexFor(Prefix.hashCode(prefix), table.length); true; i = (i + 1) % table.length) {
+        for (i = Prefix.hashCode(prefix, table.length); true; i = (i + 1) % table.length) {
             cmp = table[i];
             if (cmp == FREE) {
                 table[i] = prefix;
@@ -180,12 +180,10 @@ public class PrefixSet {
     //--
 
     private boolean notContains(long prefix) {
-        int hash;
         int i;
         long cmp;
 
-        hash = Prefix.hashCode(prefix);
-        for (i = indexFor(hash, table.length); true; i = (i + 1) % table.length) {
+        for (i = Prefix.hashCode(prefix, table.length); true; i = (i + 1) % table.length) {
             cmp = table[i];
             if (cmp == FREE) {
                 return true;
@@ -194,11 +192,5 @@ public class PrefixSet {
                 return false;
             }
         }
-    }
-
-    //--
-
-    private static int indexFor(int h, int length) {
-        return h & (length - 1);
     }
 }

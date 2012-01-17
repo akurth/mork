@@ -184,13 +184,14 @@ public class Prefix {
         }
     }
 
-    @Override
-    public int hashCode() {
-        return hashCode(data);
+    public static int hashCode(long prefix, int length) {
+        int h = (int) (prefix % (BASE - 1));
+        return h & (length - 1);
     }
 
-    public static int hashCode(long prefix) {
-        return (int) (prefix / (BASE - 1));
+    @Override
+    public int hashCode() {
+        throw new UnsupportedOperationException();
     }
 
     @Override
