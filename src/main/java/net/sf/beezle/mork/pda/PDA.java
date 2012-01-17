@@ -123,6 +123,10 @@ public class PDA implements Iterable<State> {
         int lookaheadSizes;
         int lookaheadMin;
         int lookaheadMax;
+        double collisionsMax;
+        double collisionsMin;
+        double collisionsSum;
+        double d;
 
         itemsCount = 0;
         itemsMin = Integer.MAX_VALUE;
@@ -130,6 +134,9 @@ public class PDA implements Iterable<State> {
         lookaheadMax = Integer.MIN_VALUE;
         lookaheadMin = Integer.MAX_VALUE;
         lookaheadSizes = 0;
+        collisionsSum = 0;
+        collisionsMax = Double.MIN_VALUE;
+        collisionsMin = Double.MAX_VALUE;
         for (State state : this) {
             size = state.items.size();
             itemsCount += size;
@@ -140,11 +147,16 @@ public class PDA implements Iterable<State> {
                 lookaheadSizes += size;
                 lookaheadMin = Math.min(lookaheadMin, size);
                 lookaheadMax = Math.max(lookaheadMax, size);
+                d = item.lookahead.collisionRatio();
+                collisionsSum += d;
+                collisionsMax = Math.max(d, collisionsMax);
+                collisionsMin = Math.min(d, collisionsMin);
             }
         }
         dest.println("states: " + states.size());
         dest.println("items: " + itemsCount + " (min: " + itemsMin + ", max: " + itemsMax + ")");
         dest.println("lookahead avg: " + (lookaheadSizes / itemsCount) + ", min: " + lookaheadMin + ", max: " + lookaheadMax);
+        dest.println("collisions avg: " + (collisionsSum / itemsCount) + ", min: " + collisionsMin + ", max: " + collisionsMax);
         for (State state : this) {
             dest.println(state.toString(grammar));
         }

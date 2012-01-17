@@ -36,7 +36,6 @@ public class PrefixSet {
 
     private long[] table;
     private int size;
-
     private int collisions;
 
     public PrefixSet() {
@@ -53,6 +52,10 @@ public class PrefixSet {
 
     public Prefix iterator() {
         return new Prefix(table, size);
+    }
+
+    public double collisionRatio() {
+        return (double) collisions;
     }
 
     public int size() {
