@@ -185,8 +185,7 @@ public class Prefix {
     }
 
     public static int hashCode(long prefix, int length) {
-        int h = (int) (prefix % (BASE - 1));
-        return h & (length - 1);
+        return (int) (prefix % length);
     }
 
     @Override

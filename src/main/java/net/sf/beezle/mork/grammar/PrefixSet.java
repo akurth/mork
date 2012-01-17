@@ -22,6 +22,35 @@ import net.sf.beezle.mork.misc.StringArrayList;
 import java.util.*;
 
 public class PrefixSet {
+    /** Right part of prime computed with PrefixSetTest. */
+    public static final int[] SIZES = {
+        // the average lookahead size for k = 1 in Java and Ssass is 17
+        31,
+        73,
+        199,
+        421,
+        883,
+        1873,
+        3673,
+        7333,
+        14869,
+        29389,
+        57559,
+        116533,
+        234961,
+        489871,
+        999961
+    };
+
+    private int nextSize(int oldSize) {
+        for (int i = 0; i < SIZES.length - 1; i++) {
+            if (oldSize == SIZES[i]) {
+                return SIZES[i + 1];
+            }
+        }
+        throw new IllegalStateException();
+    }
+
     public static final long FREE = -1;
 
     public static PrefixSet one(int ... symbols) {
@@ -39,8 +68,7 @@ public class PrefixSet {
     private int collisions;
 
     public PrefixSet() {
-        // the average lookahead size for k = 1 in Java and Ssass is 17
-        this.table = new long[32];
+        this.table = new long[SIZES[0]];
         Arrays.fill(table, FREE);
     }
 
@@ -83,7 +111,7 @@ public class PrefixSet {
                     old = table;
                     size = 0;
                     collisions = 0;
-                    table = new long[old.length * 2];
+                    table = new long[nextSize(old.length)];
                     Arrays.fill(table, FREE);
                     for (long p : old) {
                         if (p != FREE) {
