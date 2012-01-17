@@ -179,7 +179,6 @@ public class Prefix {
             } else {
                 result.append(' ');
             }
-            result.append(' ');
             result.append(symbolTable.getOrIndex(symbol));
         }
     }
