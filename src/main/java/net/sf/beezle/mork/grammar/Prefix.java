@@ -188,8 +188,8 @@ public class Prefix {
         return (int) (prefix % length);
     }
 
-    public static int hashNext(int hash, int length) {
-        return (hash + 2) % length;
+    public static int hashNext(long prefix, int i, int length) {
+        return (hashFirst(prefix, length) + i * (1 + (int) (prefix % (length - 2)))) % length;
     }
 
     @Override

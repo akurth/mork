@@ -99,11 +99,11 @@ public class PrefixSet {
     }
 
     public boolean add(long prefix) {
-        int i;
         long cmp;
         long[] old;
 
-        for (i = Prefix.hashFirst(prefix, table.length); true; i = Prefix.hashNext(i, table.length)) {
+        int first = Prefix.hashFirst(prefix, table.length);
+        for (int i = first, j = 0; true; i = Prefix.hashNext(first, ++j, table.length)) {
             cmp = table[i];
             if (cmp == FREE) {
                 table[i] = prefix;
@@ -208,10 +208,10 @@ public class PrefixSet {
     //--
 
     private boolean notContains(long prefix) {
-        int i;
         long cmp;
 
-        for (i = Prefix.hashFirst(prefix, table.length); true; i = Prefix.hashNext(i, table.length)) {
+        int first = Prefix.hashFirst(prefix, table.length);
+        for (int i = first, j = 0; true; i = Prefix.hashNext(first, ++j, table.length)) {
             cmp = table[i];
             if (cmp == FREE) {
                 return true;
