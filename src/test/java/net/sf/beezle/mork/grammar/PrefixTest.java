@@ -75,17 +75,18 @@ public class PrefixTest {
 
     @Test
     public void hash() {
+        long prefix;
         boolean[] hit;
-        int first;
-        int follow;
+        int hash;
 
+        prefix = 9;
         hit = new boolean[PrefixSet.SIZES[0]];
-        first = Prefix.hashFirst(9, hit.length);
-        hit[first] = true;
-        for (int j = 1; j < hit.length; j++) {
-            follow = Prefix.hashNext(first, j, hit.length);
-            assertFalse(hit[follow]);
-            hit[follow] = true;
+        hash = Prefix.hashFirst(prefix, hit.length);
+        hit[hash] = true;
+        for (int i = 1; i < hit.length; i++) {
+            hash = Prefix.hashNext(prefix, hash, hit.length);
+            assertFalse(hit[hash]);
+            hit[hash] = true;
         }
     }
 }
