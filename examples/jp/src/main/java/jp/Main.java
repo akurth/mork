@@ -2,6 +2,8 @@ package jp;
 
 import net.sf.beezle.mork.mapping.Mapper;
 
+import java.lang.System;
+
 public class Main {
     public static void main(String[] args) {
         int i;
@@ -40,6 +42,7 @@ public class Main {
 
     private static boolean parse(String name) {
         System.out.println(name + ":");
+        // mapper.setLogging(System.out, null);
         return mapper.run(name) != null;
     }
 }

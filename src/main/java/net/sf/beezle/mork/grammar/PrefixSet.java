@@ -70,18 +70,28 @@ public class PrefixSet {
     public boolean add(long prefix) {
         int i;
         long cmp;
+        long[] old;
 
         for (i = indexFor(Prefix.hashCode(prefix), table.length); true; i = (i + 1) % table.length) {
             cmp = table[i];
             if (cmp == FREE) {
                 table[i] = prefix;
                 if (size++ >= table.length * 3 / 4) {
-                    table = resize(table, 2 * table.length);
+                    old = table;
+                    size = 0;
+                    collisions = 0;
+                    table = new long[old.length * 2];
+                    Arrays.fill(table, FREE);
+                    for (long p : old) {
+                        if (p != FREE) {
+                            add(p);
+                        }
+                    }
                 }
-                return false;
+                return true;
             }
             if (cmp == prefix) {
-                return true;
+                return false;
             }
             collisions++;
         }
@@ -181,19 +191,6 @@ public class PrefixSet {
                 return false;
             }
         }
-    }
-
-    private static long[] resize(long[] oldTable, int size) {
-        long[] table;
-
-        table = new long[size];
-        Arrays.fill(table, FREE);
-        for (long prefix : oldTable) {
-            if (prefix != FREE) {
-                table[indexFor(Prefix.hashCode(prefix), size)] = prefix;
-            }
-        }
-        return table;
     }
 
     //--
