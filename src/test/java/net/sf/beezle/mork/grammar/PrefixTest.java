@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class PrefixTest {
@@ -70,5 +71,20 @@ public class PrefixTest {
         result = set.iterator();
         result.step();
         return result;
+    }
+
+    @Test
+    public void hash() {
+        boolean[] hit;
+        int hash;
+
+        hit = new boolean[PrefixSet.SIZES[0]];
+        hash = Prefix.hashFirst(9, hit.length);
+        hit[hash] = true;
+        for (int i = 1; i < hit.length; i++) {
+            hash = Prefix.hashNext(hash, hit.length);
+            assertFalse(hit[hash]);
+            hit[hash] = true;
+        }
     }
 }

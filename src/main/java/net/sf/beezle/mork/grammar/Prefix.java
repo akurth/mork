@@ -184,8 +184,12 @@ public class Prefix {
         }
     }
 
-    public static int hashCode(long prefix, int length) {
+    public static int hashFirst(long prefix, int length) {
         return (int) (prefix % length);
+    }
+
+    public static int hashNext(int hash, int length) {
+        return (hash + 2) % length;
     }
 
     @Override

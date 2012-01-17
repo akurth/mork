@@ -103,7 +103,7 @@ public class PrefixSet {
         long cmp;
         long[] old;
 
-        for (i = Prefix.hashCode(prefix, table.length); true; i = (i + 1) % table.length) {
+        for (i = Prefix.hashFirst(prefix, table.length); true; i = Prefix.hashNext(i, table.length)) {
             cmp = table[i];
             if (cmp == FREE) {
                 table[i] = prefix;
@@ -211,7 +211,7 @@ public class PrefixSet {
         int i;
         long cmp;
 
-        for (i = Prefix.hashCode(prefix, table.length); true; i = (i + 1) % table.length) {
+        for (i = Prefix.hashFirst(prefix, table.length); true; i = Prefix.hashNext(i, table.length)) {
             cmp = table[i];
             if (cmp == FREE) {
                 return true;
