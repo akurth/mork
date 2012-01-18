@@ -163,11 +163,19 @@ public class PDA implements Iterable<State> {
                 loadMin = Math.min(q, loadMin);
             }
         }
+        /*
+         max memory: 1.856.700.416
+        total memory:  298.123.264
+         free memory:  213.583.480
+
+         */
         dest.println("states: " + states.size());
         dest.println("items avg: " + (itemsCount / states.size()) + ", min: " + itemsMin + ", max: " + itemsMax + ")");
         dest.println("lookahead avg: " + (lookaheadSizes / itemsCount) + ", min: " + lookaheadMin + ", max: " + lookaheadMax);
         dest.println("hash quality avg: " + (hqSum / itemsCount) + ", min: " + hqMin + ", max: " + hqMax);
         dest.println("hash load avg: " + (loadSum / itemsCount) + ", min: " + loadMin + ", max: " + loadMax);
+        dest.println("heap size: " + Runtime.getRuntime().totalMemory());
+        dest.println("heap used: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()));
         for (State state : this) {
             dest.println(state.toString(grammar));
         }
