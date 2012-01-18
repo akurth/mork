@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -45,5 +46,29 @@ public class PrefixSetTest {
         for (int i = 0; i < 40; i++) {
             assertFalse("" + i, set.addUnpacked(i));
         }
+    }
+
+    @Test
+    public void qualityK1() {
+        PrefixSet set;
+
+        set = new PrefixSet();
+        for (int i = 0; i < Prefix.BASE - 1; i++) {
+            set.addUnpacked(i);
+        }
+        assertEquals(1.0, set.hashQuality(), 0.01);
+    }
+
+    @Test
+    public void qualityK2() {
+        PrefixSet set;
+
+        set = new PrefixSet();
+        for (int i = 0; i < Prefix.BASE - 1; i++) {
+            for (int j = 0; j < Prefix.BASE - 1; j++) {
+                set.addUnpacked(i, j);
+            }
+        }
+        assertEquals(1.0, set.hashQuality(), 0.01);
     }
 }

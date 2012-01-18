@@ -82,8 +82,13 @@ public class PrefixSet {
         return new Prefix(table, size);
     }
 
-    public double collisionRatio() {
-        return (double) collisions;
+    /** average comparisons for successfull search */
+    public double hashQuality() {
+        return ((double) collisions + size) / size;
+    }
+
+    public double load() {
+        return (double) size / table.length;
     }
 
     public int size() {

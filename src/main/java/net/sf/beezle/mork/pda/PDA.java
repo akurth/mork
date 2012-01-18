@@ -123,10 +123,13 @@ public class PDA implements Iterable<State> {
         int lookaheadSizes;
         int lookaheadMin;
         int lookaheadMax;
-        double collisionsMax;
-        double collisionsMin;
-        double collisionsSum;
-        double d;
+        double hqMax;
+        double hqMin;
+        double hqSum;
+        double loadMax;
+        double loadMin;
+        double loadSum;
+        double q;
 
         itemsCount = 0;
         itemsMin = Integer.MAX_VALUE;
@@ -134,9 +137,12 @@ public class PDA implements Iterable<State> {
         lookaheadMax = Integer.MIN_VALUE;
         lookaheadMin = Integer.MAX_VALUE;
         lookaheadSizes = 0;
-        collisionsSum = 0;
-        collisionsMax = Double.MIN_VALUE;
-        collisionsMin = Double.MAX_VALUE;
+        hqSum = 0;
+        hqMax = Double.MIN_VALUE;
+        hqMin = Double.MAX_VALUE;
+        loadSum = 0;
+        loadMax = Double.MIN_VALUE;
+        loadMin = Double.MAX_VALUE;
         for (State state : this) {
             size = state.items.size();
             itemsCount += size;
@@ -147,16 +153,21 @@ public class PDA implements Iterable<State> {
                 lookaheadSizes += size;
                 lookaheadMin = Math.min(lookaheadMin, size);
                 lookaheadMax = Math.max(lookaheadMax, size);
-                d = item.lookahead.collisionRatio();
-                collisionsSum += d;
-                collisionsMax = Math.max(d, collisionsMax);
-                collisionsMin = Math.min(d, collisionsMin);
+                q = item.lookahead.hashQuality();
+                hqSum += q;
+                hqMax = Math.max(q, hqMax);
+                hqMin = Math.min(q, hqMin);
+                q = item.lookahead.load();
+                loadSum += q;
+                loadMax = Math.max(q, loadMax);
+                loadMin = Math.min(q, loadMin);
             }
         }
         dest.println("states: " + states.size());
-        dest.println("items: " + itemsCount + " (min: " + itemsMin + ", max: " + itemsMax + ")");
+        dest.println("items avg: " + (itemsCount / states.size()) + ", min: " + itemsMin + ", max: " + itemsMax + ")");
         dest.println("lookahead avg: " + (lookaheadSizes / itemsCount) + ", min: " + lookaheadMin + ", max: " + lookaheadMax);
-        dest.println("collisions avg: " + (collisionsSum / itemsCount) + ", min: " + collisionsMin + ", max: " + collisionsMax);
+        dest.println("hash quality avg: " + (hqSum / itemsCount) + ", min: " + hqMin + ", max: " + hqMax);
+        dest.println("hash load avg: " + (loadSum / itemsCount) + ", min: " + loadMin + ", max: " + loadMax);
         for (State state : this) {
             dest.println(state.toString(grammar));
         }
