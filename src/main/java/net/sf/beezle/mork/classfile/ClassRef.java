@@ -21,6 +21,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClassRef extends Reference implements Bytecodes, Constants {
     //--
@@ -354,13 +356,34 @@ public class ClassRef extends Reference implements Bytecodes, Constants {
      * @return  the common base; b, if a == null;
      */
     public static Class<?> commonBase(Class<?> a, Class<?> b) {
+        Class<?> result;
+        Class<?> ifc;
+
         if (b == null) {
             throw new IllegalArgumentException();
         } else if (a == null) {
             return b;
         } else {
-            return commonSuperClass(a, b);
+            result = commonSuperClass(a, b);
+            if (Object.class.equals(result)) {
+                ifc = commonInterfaces(a, b);
+                if (ifc != null) {
+                    result = ifc;
+                }
+            }
+            return result;
         }
+    }
+
+    private static Class<?> commonInterfaces(Class<?> a, Class<?> b) {
+        for (Class<?> left : a.getInterfaces()) {
+            for (Class<?> right : b.getInterfaces()) {
+                if (left.equals(right)) {
+                    return left;
+                }
+            }
+        }
+        return null;
     }
 
     private static Class<?> commonSuperClass(Class<?> a, Class<?> b) {
