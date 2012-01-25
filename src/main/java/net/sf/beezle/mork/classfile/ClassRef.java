@@ -371,7 +371,7 @@ public class ClassRef extends Reference implements Bytecodes, Constants {
         } else {
             Class<?> c = b.getSuperclass();
             if (c == null) {
-                return null; // primitive type
+                return null; // primitive type, Void, or Interface
             } else {
                 return commonBaseRaw(a, c);
             }
