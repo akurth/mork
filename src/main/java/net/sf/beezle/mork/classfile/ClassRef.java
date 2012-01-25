@@ -359,11 +359,11 @@ public class ClassRef extends Reference implements Bytecodes, Constants {
         } else if (a == null) {
             return b;
         } else {
-            return commonBaseRaw(a, b);
+            return commonSuperClass(a, b);
         }
     }
 
-    private static Class<?> commonBaseRaw(Class<?> a, Class<?> b) {
+    private static Class<?> commonSuperClass(Class<?> a, Class<?> b) {
         if (a.isAssignableFrom(b)) {
             return a;
         } else if (b.isAssignableFrom(a)) {
@@ -373,7 +373,7 @@ public class ClassRef extends Reference implements Bytecodes, Constants {
             if (c == null) {
                 return null; // primitive type, Void, or Interface
             } else {
-                return commonBaseRaw(a, c);
+                return commonSuperClass(a, c);
             }
         }
     }
