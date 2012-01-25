@@ -355,7 +355,7 @@ public class ClassRef extends Reference implements Bytecodes, Constants {
      */
     public static Class<?> commonBase(Class<?> a, Class<?> b) {
         if (b == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException();
         } else if (a == null) {
             return b;
         } else {
