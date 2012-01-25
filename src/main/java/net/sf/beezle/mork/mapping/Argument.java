@@ -93,7 +93,7 @@ public class Argument implements Compare {
         mergedType = null;
         resultingSources = new ArrayList<Definition>();
         for (i = 0; i < max; i++) {
-            arg = (Argument) arguments.get(i);
+            arg = arguments.get(i);
             resultingSources.addAll(arg.sources);
             if (arg == null) {
                 throw new IllegalStateException();

@@ -20,10 +20,9 @@ package calc;
 import net.sf.beezle.mork.mapping.Mapper;
 
 /**
- * Calculate simple expression.
+ * Calculate simple expressions.
  * A kind of Hello-World example for tools like Mork.
  */
-
 public class Main {
     public static void main(String[] args) {
         Mapper mapper;
