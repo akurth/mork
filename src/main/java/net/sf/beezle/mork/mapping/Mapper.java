@@ -177,7 +177,7 @@ public class Mapper implements Serializable {
 
     public Object[] run(net.sf.beezle.sushi.fs.Node node) {
         try {
-            return run(node, node.createReader());
+            return run(node.toString(), node.createReader());
         } catch (IOException e) {
             errorHandler();
             errorHandler.ioError(node.toString(), "cannot open stream", e);
@@ -187,7 +187,7 @@ public class Mapper implements Serializable {
 
     public Object[] run(File file) {
         try {
-            return run(file.toURI().toURL(), new FileReader(file));
+            return run(file.toURI().toURL().toString(), new FileReader(file));
         } catch (MalformedURLException e) {
             System.err.println("malformed file name: " + file);
             return null;
@@ -198,7 +198,7 @@ public class Mapper implements Serializable {
         }
     }
 
-    public Object[] run(Object context, Reader src) {
+    public Object[] run(String context, Reader src) {
         return run(new Position(context), src);
     }
 

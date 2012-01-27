@@ -17,19 +17,10 @@
 
 package net.sf.beezle.mork.scanner;
 
-/**
- * <p>Position in a buffer.</p>
- *
- * <pre>
- * TODO
- * o expensive?
- * o URL?
- * o check corresponding jaxp class
- * </pre>
- */
+/** Position in a buffer. */
 public class Position {
-    /** Usually a string of a URL */
-    private Object context;
+    /** Usually a URL */
+    private String context;
 
     /** Starts at 1 */
     private int line;
@@ -44,14 +35,14 @@ public class Position {
         this(null);
     }
 
-    public Position(Object context) {
+    public Position(String context) {
         this.context = context;
         this.line = 1;
         this.col = 1;
         this.ofs = 0;
     }
 
-    public void set(Object context, int line, int col, int ofs) {
+    public void set(String context, int line, int col, int ofs) {
         this.context = context;
         this.line = line;
         this.col = col;
@@ -77,7 +68,7 @@ public class Position {
         ofs += (end - start);
     }
 
-    public Object getContext() {
+    public String getContext() {
         return context;
     }
 
