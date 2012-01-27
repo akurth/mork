@@ -46,20 +46,18 @@ public class MainFunctionalTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        String name;
         File[] all;
         String className;
 
         exitCode = 4242;  // to make it obvious if exitCode has not been assigned
 
         // TODO: guess project home
-        name = "target/test-tmp";
-        tmpDir = new File(name);
+        tmpDir = new File("target/test-tmp");
         if (!tmpDir.exists()) {
             tmpDir.mkdirs();
         }
         if (!tmpDir.isDirectory()) {
-            fail("no such directory: " + name);
+            fail("no such directory: " + tmpDir);
         }
 
         // do not delete the tmpDir directory (and create a new, empty one)
@@ -70,12 +68,8 @@ public class MainFunctionalTest extends TestCase {
             rmRf(f);
         }
 
-        name = "src/test/java";
-        if (name == null) {
-            fail("TEST_BASE property missing");
-        }
         className = MainFunctionalTest.class.getPackage().getName();
-        dataDir = new File(name, (className + ".files").replace('.', File.separatorChar));
+        dataDir = new File("src/test/java", (className + ".files").replace('.', File.separatorChar));
         if (!dataDir.isDirectory()) {
             fail("no such directory: " + dataDir);
         }

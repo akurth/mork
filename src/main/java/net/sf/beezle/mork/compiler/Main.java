@@ -21,7 +21,6 @@ import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.reflect.Function;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * Kick off code for the compiler, connects the Mork class with the operating system's command line.
@@ -52,7 +51,6 @@ public class Main {
     }
 
     // some exit codes
-    public static final int INTERNAL_ERROR = -42;
     public static final int COMMANDLINE_ERROR = -43;
     public static final int COMPILE_ERROR = -44;
     public static final int HELP = -45;
@@ -62,12 +60,7 @@ public class Main {
      * as internal errors.
      */
     public int run(String[] args) {
-        try {
-            return runCore(args);
-        } catch (Throwable e) {
-            printInternalError(args, e);
-            return INTERNAL_ERROR;
-        }
+        return runCore(args);
     }
 
     /** does not catch Throwable **/
@@ -206,41 +199,5 @@ public class Main {
         }
     }
 
-    // this should be the only method writing directly to System.err. All other code throught
-    // all packages should use configurable PrintWriters
-    private void printInternalError(String[] args, Throwable e) {
-        System.err.println("Internal error. ");
-        printSystemProperty("os.name");
-        printSystemProperty("os.version");
-        printSystemProperty("java.version");
-        printSystemProperty("java.vendor");
-        printSystemProperty("java.vm.version");
-        printSystemProperty("java.vm.vendor");
-        printSystemProperty("java.vm.name");
-        printSystemProperty("java.class.path");
-        printProperty("Mork version", getVersion());
-        printProperty("command-line arguments", Arrays.asList(args).toString());
-        printProperty("exception type", e.getClass().getName());
-        printProperty("exception message", e.getMessage());
-        printProperty("exception toString", e.toString());
-        printProperty("exception stacktrace", "");
-        e.printStackTrace();
-    }
-
-    private void printSystemProperty(String name) {
-        printProperty(name, System.getProperty(name));
-    }
-
     private static final int WIDTH = 24;
-
-    private void printProperty(String name, String value) {
-        int i;
-
-        for (i = name.length(); i < WIDTH; i++) {
-            System.err.print(' ');
-        }
-        System.err.print(name);
-        System.err.print(": ");
-        System.err.println(value);
-    }
 }
