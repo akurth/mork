@@ -84,21 +84,21 @@ public class MainFunctionalTest extends TestCase {
         run(new String[] {});
         assertTrue("stdout", !stdout.equals(""));
         assertEquals("stderr", "", stderr);
-        assertEquals("exit code", Main.HELP, exitCode);
+        assertEquals("exit code", -1, exitCode);
     }
 
     public void testHelp() {
         run(new String[] {"-help"});
         assertTrue("stdout", !stdout.isEmpty());
         assertEquals("stderr", "", stderr);
-        assertEquals("exit code", Main.HELP, exitCode);
+        assertEquals("exit code", -1, exitCode);
     }
 
     public void testInvalidOption() {
         run(new String[] {"-invalidoption"});
         assertEquals("stdout", "", stdout);
         assertTrue("stderr", !stderr.equals(""));
-        assertEquals("exit code", Main.COMMANDLINE_ERROR, exitCode);
+        assertEquals("exit code", -1, exitCode);
     }
 
     public void testNormal() throws IOException {
@@ -142,7 +142,7 @@ public class MainFunctionalTest extends TestCase {
         );
         assertTrue("stdout", !stdout.equals(""));
         assertTrue("stderr", !stderr.equals(""));
-        assertEquals("exit code", Main.COMPILE_ERROR, exitCode);
+        assertEquals("exit code", -1, exitCode);
 
         files = tmpDir.listFiles();
         assertEquals("no files", 1, files.length);
@@ -157,7 +157,7 @@ public class MainFunctionalTest extends TestCase {
         );
         assertTrue("stdout", !stdout.equals(""));
         assertTrue("stderr", !stderr.equals(""));
-        assertEquals("exit code", Main.COMPILE_ERROR, exitCode);
+        assertEquals("exit code", -1, exitCode);
 
         files = tmpDir.listFiles();
         assertEquals("no files", 2, files.length);
@@ -193,10 +193,9 @@ public class MainFunctionalTest extends TestCase {
 
     private void assertError(String mapFile, String grmFile, String error) throws IOException {
         runWithFiles(new String[] { mapFile, grmFile }, new String[] { mapFile });
-        assertEquals("exit code", Main.COMPILE_ERROR, exitCode);
+        assertEquals("exit code", -1, exitCode);
         assertTrue(stderr, stderr.indexOf(error) != -1);
     }
-
 
 
     public void testListing() throws IOException {
