@@ -108,6 +108,7 @@ public class Syntax {
                 output.listing.println(symbolTable.get(entry.getKey()) + ":\t" + entry.getValue().toString(symbolTable));
             }
             output.listing.println("\nAutomaton:");
+            pda.statistics(output);
             pda.print(output.listing);
         }
         output.statistics();

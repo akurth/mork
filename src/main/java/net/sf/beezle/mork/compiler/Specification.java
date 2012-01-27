@@ -114,18 +114,15 @@ public class Specification {
         Oag oag;
         Parser parser;
         int i;
-        Definition def;
 
         parser = syntax.translate(k, output);
         output.verbose("processing mapping section");
         semanticsBuffer = new Ag(syntax.getGrammar());
         for (i = 0; i < definitions.length; i++) {
-            def = definitions[i];
             definitions[i].translate(semanticsBuffer, transport, syntax.getGrammar());
         }
         output.verbose("computing oag");
-        oag = semanticsBuffer.createSemantics(
-                getDefinitionAttrs(syntax.getGrammar().getStart()));
+        oag = semanticsBuffer.createSemantics(getDefinitionAttrs(syntax.getGrammar().getStart()));
         output.verbose("oag done");
         output.statistics();
         output.statistics("Semantics statistics");

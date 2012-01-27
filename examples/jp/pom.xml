@@ -36,6 +36,7 @@
                   </classpath>
                   <arg value="-verbose" />
                   <arg value="-lst" />
+                  <arg value="-stat" />
                   <arg value="-d" />
                   <arg path="${basedir}/target/classes" />
                   <arg path="${basedir}/src/main/Java.mapper" />
