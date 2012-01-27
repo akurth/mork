@@ -23,8 +23,7 @@ public class Main {
             System.out.print("loading mapper ... ");
             tmp = System.currentTimeMillis();
             mapper = new Mapper("compiler.Mapper");
-            System.out.println("done (" + (System.currentTimeMillis() - tmp)
-                             + " ms)");
+            System.out.println("done (" + (System.currentTimeMillis() - tmp) + " ms)");
             tmp = System.currentTimeMillis();
             ok = 0;
             for (i = 0; i < args.length; i++) {
@@ -32,8 +31,7 @@ public class Main {
                     ok++;
                 }
             }
-            System.out.println(ok + "/" + args.length +
-                               " compiled successfully.");
+            System.out.println(ok + "/" + args.length + " compiled successfully.");
             System.out.println((System.currentTimeMillis() - tmp) + " ms");
         }
     }
