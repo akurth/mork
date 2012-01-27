@@ -20,8 +20,6 @@ package net.sf.beezle.mork.compiler;
 import junit.framework.TestCase;
 import net.sf.beezle.mork.mapping.Conversion;
 import net.sf.beezle.mork.mapping.Definition;
-import net.sf.beezle.mork.misc.GenericException;
-import net.sf.beezle.mork.semantics.SemanticError;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -97,7 +95,7 @@ public class MainFunctionalTest extends TestCase {
 
     public void testHelp() {
         run(new String[] {"-help"});
-        assertTrue("stdout", !stdout.equals(""));
+        assertTrue("stdout", !stdout.isEmpty());
         assertEquals("stderr", "", stderr);
         assertEquals("exit code", Main.HELP, exitCode);
     }
@@ -200,19 +198,9 @@ public class MainFunctionalTest extends TestCase {
     }
 
     private void assertError(String mapFile, String grmFile, String error) throws IOException {
-        Object obj;
-
         runWithFiles(new String[] { mapFile, grmFile }, new String[] { mapFile });
         assertEquals("exit code", Main.COMPILE_ERROR, exitCode);
-        assertEquals(1, output.getErrorCount());
-        obj = output.getLastError();
-        if (obj instanceof SemanticError) {
-            obj = ((SemanticError) obj).exception;
-        }
-        if (obj instanceof GenericException) {
-            obj = ((GenericException) obj).id;
-        }
-        assertEquals(error, obj);
+        assertTrue(stderr, stderr.indexOf(error) != -1);
     }
 
 

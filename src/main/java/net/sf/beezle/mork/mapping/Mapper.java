@@ -51,6 +51,8 @@ public class Mapper implements Serializable {
     private PrintStream logParsing;
     private PrintStream logAttribution;
     private Object environment;  // default environment is null
+    
+    /** never null */
     private ErrorHandler errorHandler;
 
     //--
@@ -65,12 +67,19 @@ public class Mapper implements Serializable {
      * my Mork when generating a mapper, applications will usually use <code>Mapper(String)</code>.
      */
     public Mapper(String name, Parser parser, Oag oag) {
+        this(name, parser, oag, PrintStreamErrorHandler.STDERR);
+    }
+    
+    public Mapper(String name, Parser parser, Oag oag, ErrorHandler errorHandler) {
+        if (errorHandler == null) {
+            throw new IllegalArgumentException();
+        }
         this.name = name;
         this.parser = parser;
         this.oag = oag;
+        this.errorHandler = errorHandler;
         this.logParsing = null;
         this.logAttribution = null;
-        this.errorHandler = null;
     }
 
     /**
@@ -140,6 +149,9 @@ public class Mapper implements Serializable {
      * @param errorHandler  may be null
      */
     public void setErrorHandler(ErrorHandler errorHandler) {
+        if (errorHandler == null) {
+            throw new IllegalArgumentException();
+        }
         this.errorHandler = errorHandler;
     }
 
@@ -179,7 +191,6 @@ public class Mapper implements Serializable {
         try {
             return run(node.toString(), node.createReader());
         } catch (IOException e) {
-            errorHandler();
             errorHandler.ioError(node.toString(), "cannot open stream", e);
             return null;
         }
@@ -192,7 +203,6 @@ public class Mapper implements Serializable {
             System.err.println("malformed file name: " + file);
             return null;
         } catch (FileNotFoundException e) {
-            errorHandler();
             errorHandler.ioError(file.toString(), "file not found", e);
             return null;
         }
@@ -216,7 +226,6 @@ public class Mapper implements Serializable {
         Node node;
 
         load();
-        errorHandler();
         oag.setEnvironment(environment);
         oag.setLogging(logAttribution);
         parser.setErrorHandler(errorHandler);
@@ -231,12 +240,6 @@ public class Mapper implements Serializable {
             return null;
         } else {
             return node.attrs;
-        }
-    }
-
-    private void errorHandler() {
-        if (errorHandler == null) {
-            errorHandler = new PrintStreamErrorHandler(System.err);
         }
     }
 

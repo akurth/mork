@@ -23,72 +23,50 @@ import net.sf.beezle.sushi.util.IntBitSet;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * ErrorHandler that prints messages to the PrintStream specified in the constructor.
  */
-
 public class PrintStreamErrorHandler implements ErrorHandler {
+    public static final PrintStreamErrorHandler STDERR = new PrintStreamErrorHandler(System.err);
+
     /**
      * Where to send error messages.
      */
     private final PrintStream dest;
 
-    private final List<Object> errors;
-
-    /**
-     * @param dest may be null
-     */
     public PrintStreamErrorHandler(PrintStream dest) {
+        if (dest == null) {
+            throw new IllegalArgumentException();
+        }
         this.dest = dest;
-        this.errors = new ArrayList<Object>();
     }
 
-    /**
-     * This method is used by the various <code>error</code> methods to actually print
-     * a message.
-     *
-     * @param pos      where the problem occurred
-     * @param message  problem description
-     */
-    public void report(String pos, String message, Object error) {
-        if (dest != null) {
-            dest.println(pos + ": " + message);
-        }
-        errors.add(error);
+    protected void report(String pos, String message) {
+        dest.println(pos + ": " + message);
     }
 
     public void lexicalError(Position pos) {
-        report(pos.toString(), "illegal token", pos);
+        report(pos.toString(), "illegal token");
     }
 
     public void syntaxError(Position pos, IntBitSet shiftable) {
-        report(pos.toString(), "syntax error", pos);
+        report(pos.toString(), "syntax error");
     }
 
     public void semanticError(Position pos, Exception e) {
-        report(pos.toString(), e.getMessage(), pos);
+        report(pos.toString(), e.getMessage());
     }
 
     public void ioError(String pos, String message, IOException e) {
-        report(pos, message + ": " + e.getMessage(), message);
+        report(pos, message + ": " + e.getMessage());
     }
 
     public void error(String pos, GenericException e) {
-        report(pos, e.getMessage(), e);
+        report(pos, e.getMessage());
     }
 
     public void error(String pos, String message) {
-        report(pos, message, message);
-    }
-
-    public int getErrorCount() {
-        return errors.size();
-    }
-
-    public Object getLastError() {
-        return errors.get(errors.size() - 1);
+        report(pos, message);
     }
 }
