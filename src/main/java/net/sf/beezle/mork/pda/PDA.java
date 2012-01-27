@@ -18,7 +18,6 @@
 package net.sf.beezle.mork.pda;
 
 import net.sf.beezle.mork.compiler.ConflictHandler;
-import net.sf.beezle.mork.compiler.Output;
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.grammar.PrefixSet;
 import net.sf.beezle.mork.misc.GenericException;
@@ -122,7 +121,7 @@ public class PDA implements Iterable<State> {
         }
     }
 
-    public void statistics(Output output) {
+    public void statistics(PrintStream output) {
         int size;
         int itemsCount;
         int itemsMin;
@@ -170,12 +169,13 @@ public class PDA implements Iterable<State> {
                 loadMin = Math.min(q, loadMin);
             }
         }
-        output.statistics("states: " + states.size());
-        output.statistics("items avg: " + (itemsCount / states.size()) + ", min: " + itemsMin + ", max: " + itemsMax + ")");
-        output.statistics("lookahead avg: " + (lookaheadSizes / itemsCount) + ", min: " + lookaheadMin + ", max: " + lookaheadMax);
-        output.statistics("hash quality avg: " + (hqSum / itemsCount) + ", min: " + hqMin + ", max: " + hqMax);
-        output.statistics("hash load avg: " + (loadSum / itemsCount) + ", min: " + loadMin + ", max: " + loadMax);
-        output.statistics("heap size: " + Runtime.getRuntime().totalMemory());
-        output.statistics("heap used: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()));
+        output.println("parser generation statistics");
+        output.println("  states: " + states.size());
+        output.println("  items avg: " + (itemsCount / states.size()) + ", min: " + itemsMin + ", max: " + itemsMax + ")");
+        output.println("  lookahead avg: " + (lookaheadSizes / itemsCount) + ", min: " + lookaheadMin + ", max: " + lookaheadMax);
+        output.println("  hash quality avg: " + (hqSum / itemsCount) + ", min: " + hqMin + ", max: " + hqMax);
+        output.println("  hash load avg: " + (loadSum / itemsCount) + ", min: " + loadMin + ", max: " + loadMax);
+        output.println("  heap size: " + Runtime.getRuntime().totalMemory());
+        output.println("  heap used: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()));
     }
 }

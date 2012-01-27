@@ -108,13 +108,15 @@ public class Syntax {
                 output.listing.println(symbolTable.get(entry.getKey()) + ":\t" + entry.getValue().toString(symbolTable));
             }
             output.listing.println("\nAutomaton:");
-            pda.statistics(output);
             pda.print(output.listing);
         }
-        output.statistics();
-        output.statistics("parser statistics");
-        output.statistics("  states: " + pda.size());
-        output.statistics("  table: [symbols=" + parserTable.getSymbolCount() + "][states=" + parserTable.getStateCount() + "]");
+        if (output.statistics != null) {
+            output.statistics.println();
+            output.statistics.println("parser statistics");
+            output.statistics.println("  states: " + pda.size());
+            output.statistics.println("  table: [symbols=" + parserTable.getSymbolCount() + "][states=" + parserTable.getStateCount() + "]");
+            pda.statistics(output.statistics);
+        }
 
         resolvers = handler.report(output, grammar);
 
@@ -138,10 +140,12 @@ public class Syntax {
         scannerFactory = ScannerFactory.create(
             builder.getFA(), builder.getErrorState(), parserTable, whiteSymbols, output.verbose, output.listing);
 
-        output.statistics();
-        output.statistics("scanner statistics");
-        output.statistics("  fa states : " + builder.getFA().size());
-        output.statistics("  table: char[" + scannerFactory.size() + "]");
+        if (output.statistics != null) {
+            output.statistics.println();
+            output.statistics.println("scanner statistics");
+            output.statistics.println("  fa states : " + builder.getFA().size());
+            output.statistics.println("  table: char[" + scannerFactory.size() + "]");
+        }
         output.verbose("scanner done");
 
         usedSymbols = new IntBitSet(whiteSymbols);

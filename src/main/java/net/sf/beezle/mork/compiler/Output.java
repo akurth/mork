@@ -68,16 +68,6 @@ public class Output extends PrintStreamErrorHandler {
         }
     }
 
-    public void statistics() {
-        statistics("");
-    }
-
-    public void statistics(String str) {
-        if (statistics != null) {
-            statistics.println(str);
-        }
-    }
-
     //-- listing
 
     public void openListing(File listingFile) {

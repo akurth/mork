@@ -124,9 +124,11 @@ public class Specification {
         output.verbose("computing oag");
         oag = semanticsBuffer.createSemantics(getDefinitionAttrs(syntax.getGrammar().getStart()));
         output.verbose("oag done");
-        output.statistics();
-        output.statistics("Semantics statistics");
-        output.statistics("  semantics: TODO"); /* mapping.getSize()); */
+        if (output.statistics != null) {
+            output.statistics.println();
+            output.statistics.println("Semantics statistics");
+            output.statistics.println("  semantics: TODO"); /* mapping.getSize()); */
+        }
         if (output.listing != null) {
             output.listing("\n\nAttribute Grammar\n");
             output.listing(semanticsBuffer.toString());
