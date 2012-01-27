@@ -109,19 +109,19 @@ public class Mapper implements Serializable {
         try {
             c = loader.loadClass(name);
         } catch (ClassNotFoundException e) {
-            throw new IllegalStateException(e.toString());
+            throw new IllegalStateException(e.getMessage(), e);
         }
         try {
             m = c.getMethod("load", new Class[]{});
         } catch (NoSuchMethodException e) {
-            throw new IllegalStateException(e.toString());
+            throw new IllegalStateException(e.getMessage(), e);
         }
         try {
             tables = (Object[]) m.invoke(null, new Object[] {});
         } catch (InvocationTargetException e) {
-            throw new IllegalStateException(e.getTargetException().toString());
+            throw new IllegalStateException(e.getTargetException().getMessage(), e);
         } catch (IllegalAccessException e) {
-            throw new IllegalStateException(e.toString());
+            throw new IllegalStateException(e.getMessage(), e);
         }
         parser = (Parser) tables[0];
         oag = (Oag) tables[1];
