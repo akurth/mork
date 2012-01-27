@@ -198,16 +198,6 @@ public class Mapper implements Serializable {
         }
     }
 
-    public Object[] run(URL url) {
-        try {
-            return run(url, new InputStreamReader(url.openStream()));
-        } catch (IOException e) {
-            errorHandler();
-            errorHandler.ioError(url.toString(), "cannot open stream", e);
-            return null;
-        }
-    }
-
     public Object[] run(Object context, Reader src) {
         return run(new Position(context), src);
     }
