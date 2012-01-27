@@ -44,21 +44,9 @@ public class Main extends Cli implements Command {
     @Option("help")
     private boolean help;
     
-    @Option("quiet")
-    private boolean quiet;
-    
     @Option("verbose")
     private boolean verbose;
-    
-    @Option("verbose:parsing")
-    private boolean verboseParsing;
-    
-    @Option("verbose:attribution")
-    private boolean verboseAttribution;
-    
-    @Option("verbose:translation")
-    private boolean verboseTranslation;
-    
+
     @Option("lst")
     private boolean lst;
     
@@ -81,8 +69,6 @@ public class Main extends Cli implements Command {
         files.add(file);
     }
 
-
-    // global options.
     private final Output output;
     private Function mapperFn;
 
@@ -102,20 +88,8 @@ public class Main extends Cli implements Command {
 
         outputPath = null;
         listing = false;
-        if (quiet) {
-            output.verbose = null;
-        }
         if (verbose) {
             output.verbose = System.out;
-        }
-        if (verboseParsing) {
-            output.verboseParsing = System.out;
-        }
-        if (verboseAttribution) {
-            output.verboseAttribution = System.out;
-        }
-        if (verboseTranslation) {
-            output.verboseTranslation = System.out;
         }
         if (lst) {
             listing = true;
@@ -150,14 +124,11 @@ public class Main extends Cli implements Command {
       "usage: \"mork\" option* mapperfile*\n"
     + "option:\n"
     + " -help                 print this message and quit\n"
-    + " -stat                 print mapper statistics\n"
     + " -lst                  generate mapper listing\n"
     + " -d directory          sets the destination directory for class files\n"
     + " -k num                specifies the number of lookahead token, default is 1\n"
-    + " -quiet                suppress normal progress information\n"
-    + " -verbose              issue overall progress information\n"
-    + " -verbose:parsing      issue scanner and parsing progress information\n"
-    + " -verbose:attribution  issue attribution progress information\n";
+    + " -stat                 print mapper statistics\n"
+    + " -verbose              issue overall progress information\n";
 
     public void printHelp() {
         output.normal("Mork compiler tool. ");

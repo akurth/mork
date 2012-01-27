@@ -33,10 +33,6 @@ import java.io.PrintStream;
 public class Output extends PrintStreamErrorHandler {
     public PrintStream normal;
     public PrintStream verbose;
-    public PrintStream verboseParsing;
-    public PrintStream verboseAttribution;
-    public PrintStream verboseTranslation;
-
     public PrintStream statistics;
 
     /**
@@ -54,10 +50,6 @@ public class Output extends PrintStreamErrorHandler {
 
         normal = System.out;
         verbose = null;
-        verboseParsing = null;
-        verboseAttribution = null;
-        verboseTranslation = null;
-
         statistics = null;
         listing = null;
     }

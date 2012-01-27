@@ -121,9 +121,6 @@ public class Specification {
         semanticsBuffer = new Ag(syntax.getGrammar());
         for (i = 0; i < definitions.length; i++) {
             def = definitions[i];
-            if (output.verboseTranslation != null) {
-                output.verboseTranslation.println("translating " + def.getName());
-            }
             definitions[i].translate(semanticsBuffer, transport, syntax.getGrammar());
         }
         output.verbose("computing oag");

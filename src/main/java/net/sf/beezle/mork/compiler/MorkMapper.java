@@ -80,7 +80,6 @@ public class MorkMapper extends Mapper {
 
         name = source.getPath();
         mork.output.verbose("mapping " + name);
-        setLogging(mork.output.verboseParsing, mork.output.verboseAttribution);
         results = run(name);
         mork.output.verbose("finished mapping " + name);
         if (results == null) {
