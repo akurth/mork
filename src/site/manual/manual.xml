@@ -2139,6 +2139,8 @@
           <para>Prints statistics about mappers to standard output. Use this
             option to see the size of the generated finite automatons and pushdown
             automatons.</para></formalpara></listitem>
+        <listitem><formalpara><title><literal>-k &lt;n&gt;</literal></title>
+            <para>Specifies the lookahead, the k in lr(k). Default is 1.</para></formalpara></listitem>
         <listitem><formalpara><title><literal>-lst</literal></title>
           <para>Generates listing files. If this option is given, Mork generates
             a listing of each compiled file. The listing includes a
@@ -2155,17 +2157,6 @@
           <para>Issues overall progress information to standard output. If compiling is slow,
             this option can be used to locate which part of the mapper generation is slow.
           </para></formalpara></listitem>
-        <listitem><formalpara><title><literal>-verbose:scanning</literal></title>
-          <para>Issues scanner progress information. Any token read by the
-            scanner is printed to standard output.</para></formalpara></listitem>
-        <listitem><formalpara><title><literal>-verbose:parsing</literal></title>
-          <para>Issues parser progress information. Any action performed
-            by the parser is printed to standard output. Use together with <literal>-lst</literal>,
-            this options helps to track down unexpected syntax errors.
-          </para></formalpara></listitem>
-        <listitem><formalpara><title><literal>-verbose:attribution</literal></title>
-          <para>Issues attribution progress information. Any computed attribute
-            is printed to standard output.</para></formalpara></listitem>
       </itemizedlist>
 
     </sect1>

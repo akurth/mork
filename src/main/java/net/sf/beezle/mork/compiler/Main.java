@@ -131,9 +131,7 @@ public class Main extends Cli implements Command {
     + " -verbose              issue overall progress information\n";
 
     public void printHelp() {
-        output.normal("Mork compiler tool. ");
-        output.normal("Version " + getVersion());
-        output.normal("Copyright (C) Michael Hartmeier 1998-2012");
+        output.normal("Mork compiler tool, version " + getVersion());
         output.normal("");
         output.normal(USAGE);
     }
