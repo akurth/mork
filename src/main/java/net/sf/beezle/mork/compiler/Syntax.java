@@ -44,17 +44,15 @@ public class Syntax {
     public static final String CONFLICT = "conflicts (use the -lst option to obtain a listing of the automaton):\n";
 
     private Grammar grammar;
-    private Resolution[] resolutions;
     private boolean priorities;
     private IntBitSet whiteSymbols;
     private Rule[] scannerRules;
 
-    public Syntax(StringArrayList symbolTable, Rule[] parserRules, Resolution[] resolutions, boolean priorities, IntBitSet whiteSymbols, Rule[] scannerRules) throws GenericException {
+    public Syntax(StringArrayList symbolTable, Rule[] parserRules, boolean priorities, IntBitSet whiteSymbols, Rule[] scannerRules) throws GenericException {
         if (parserRules.length == 0) {
             throw new IllegalArgumentException();
         }
         this.grammar = Ebnf.translate(parserRules, symbolTable);
-        this.resolutions = resolutions;
         this.priorities = priorities;
         if (whiteSymbols != null) {
             this.whiteSymbols = whiteSymbols;
@@ -94,7 +92,7 @@ public class Syntax {
         pda = PDA.create(grammar, firsts, k);
         output.verbose("done: " + pda.size() + " states, " + (System.currentTimeMillis() - started) + " ms");
         symbolCount = Math.max(grammar.getSymbolCount(), whiteSymbols.last() + 1);
-        handler = new ConflictHandler(grammar, resolutions);
+        handler = new ConflictHandler();
         parserTable = pda.createTable(symbolCount, handler);
         parserTable.addWhitespace(whiteSymbols, handler);
         symbolTable = grammar.getSymbolTable();

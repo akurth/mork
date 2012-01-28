@@ -24,7 +24,7 @@ import net.sf.beezle.mork.regexpr:
 import net.sf.beezle.mork.grammar:
     Rule;
 import net.sf.beezle.mork.compiler:
-    Resolution, ResolutionLine, Syntax, Stubs;
+    Syntax, Stubs;
 import net.sf.beezle.mork.semantics:
     BuiltIn;
 import java.lang:
@@ -38,8 +38,6 @@ Syntax              => Stubs.createSyntax ;
                          > Syntax
                          > //StringSymbol
                          > //IdentifierSymbol;
-Resolution          => Resolution;
-ResolutionLine      => ResolutionLine;
 SymbolSet           => Stubs.symbolSet;
 UsePriorities       => Boolean.TRUE;
 NoPriorities        => Boolean.FALSE;

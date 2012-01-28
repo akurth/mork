@@ -14,7 +14,6 @@ import net.sf.beezle.mork.scanner.Scanner;
 import net.sf.beezle.mork.scanner.ScannerFactory;
 import net.sf.beezle.mork.semantics.SemanticError;
 import net.sf.beezle.sushi.util.IntBitSet;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -72,7 +71,7 @@ public class PDATest {
         grammar.getTerminals(terminals);
         pda = check(states, k, grammar);
         pda.print(System.out);
-        conflictHandler = new ConflictHandler(grammar);
+        conflictHandler = new ConflictHandler();
         table = pda.createTable(pda.getEofSymbol(), conflictHandler);
         scannerRules = new Rule[terminals.size()];
         for (int i = 0, terminal = terminals.first(); terminal != -1; terminal = terminals.next(terminal)) {
