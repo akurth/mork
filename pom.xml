@@ -3,7 +3,7 @@
   <parent>
     <groupId>net.sf.beezle.maven.poms</groupId>
     <artifactId>parent</artifactId>
-    <version>1.0.7-SNAPSHOT</version>
+    <version>1.0.7</version>
   </parent>
 
   <name>Mork</name>
@@ -34,7 +34,7 @@
     <dependency>
       <groupId>net.sf.beezle.sushi</groupId>
       <artifactId>sushi</artifactId>
-      <version>2.7-SNAPSHOT</version>
+      <version>2.6.2</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
