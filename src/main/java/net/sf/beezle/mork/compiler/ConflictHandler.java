@@ -62,7 +62,7 @@ public class ConflictHandler {
         return resolvers.toArray(new ConflictResolver[resolvers.size()]);
     }
 
-    public int conflictCount() {
-        return conflicts.size();
+    public int conflicts() {
+        return resolvers.size();
     }
 }
