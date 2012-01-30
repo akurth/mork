@@ -3,7 +3,7 @@
   <parent>
     <groupId>net.sf.beezle.maven.poms</groupId>
     <artifactId>parent</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.8</version>
   </parent>
 
   <groupId>jp</groupId>
@@ -15,7 +15,7 @@
     <dependency>
       <groupId>net.sf.beezle.mork</groupId>
       <artifactId>mork</artifactId>
-      <version>0.8-SNAPSHOT</version>
+      <version>1.0</version>
     </dependency>
   </dependencies>
   <build>
@@ -34,7 +34,6 @@
                     <pathelement path="${basedir}/target/classes" />
                     <path refid="maven.compile.classpath" />
                   </classpath>
-                  <arg value="-verbose" />
                   <arg value="-lst" />
                   <arg value="-stat" />
                   <arg value="-d" />
