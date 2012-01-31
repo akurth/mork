@@ -117,7 +117,7 @@ public class ClassDef extends Definition {
         return null;
     }
 
-    public MethodDef lookupMethod(String name, ClassRef[] argumentTypes) {
+    public MethodDef lookupMethod(String name, ClassRef ... argumentTypes) {
         for (MethodDef m : methods) {
             if (m.name.equals(name) && Arrays.equals(m.argumentTypes, argumentTypes)) {
                 return m;
