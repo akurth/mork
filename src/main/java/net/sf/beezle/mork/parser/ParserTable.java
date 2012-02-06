@@ -143,7 +143,7 @@ public class ParserTable implements Serializable {
                 if (values[idx] != NOT_SET) {
                     throw new IllegalStateException();
                 }
-                values[idx] = (char) createValue(Parser.SKIP);
+                values[idx] = createValue(Parser.SKIP);
             }
         }
     }
