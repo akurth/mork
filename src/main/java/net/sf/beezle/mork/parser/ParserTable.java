@@ -150,8 +150,15 @@ public class ParserTable implements Serializable {
 
     /** @param  sym  may be a nonterminal */
     public void addShift(int state, int sym, int nextState) {
-        setTested(createValue(Parser.SHIFT, nextState), state, sym, null);
+        int idx;
+
+        idx = state * symbolCount + sym;
+        if (values[idx] != NOT_SET) {
+            throw new IllegalStateException();
+        }
+        values[idx] = createValue(Parser.SHIFT, nextState);
     }
+
 
     public void addAccept(int state, int eof) {
         // value is assigned untested, overwrites shift on EOF
