@@ -154,21 +154,26 @@ public class ParserTable implements Serializable {
     }
 
     public void addAccept(int state, int eof) {
-        // value is assigned uncheck, overwrites shift on EOF
+        // value is assigned untested, overwrites shift on EOF
         values[state * symbolCount + eof] = createValue(Parser.SPECIAL, Parser.SPECIAL_ACCEPT);
     }
 
     public static final int NOT_SET = createValue(Parser.SPECIAL, Parser.SPECIAL_ERROR);
 
     public void setTested(int value, int state, int sym, ConflictHandler handler) {
-        if (values[state * symbolCount + sym] != NOT_SET && values[state * symbolCount + sym] != value) {
+        int idx;
+        int old;
+
+        idx = state * symbolCount + sym;
+        old = values[idx];
+        if (old != NOT_SET && old != value) {
             if (handler != null) {
-                value = handler.conflict(state, sym, value, values[state * symbolCount + sym]);
+                value = handler.conflict(state, sym, value, old);
             } else {
                 throw new IllegalStateException(value + " " + state + " " + sym);
             }
         }
-        values[state * symbolCount + sym] = (char) value;
+        values[idx] = (char) value;
     }
 
     private char createValue(int action) {
