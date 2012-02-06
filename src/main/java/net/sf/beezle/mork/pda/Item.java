@@ -154,7 +154,7 @@ public class Item implements Comparable<Item> {
         }
     }
 
-    public String toString(Grammar grammar) {
+    public String toString(Grammar grammar, boolean suppressLookahead) {
         int production;
         int dot;
         StringArrayList symbolTable;
@@ -175,7 +175,7 @@ public class Item implements Comparable<Item> {
             }
             result.append(symbolTable.getOrIndex(grammar.getRight(production, ofs)));
         }
-        if (ofs == dot) {
+        if (ofs == dot && !suppressLookahead) {
             result.append(" . \t");
             lookahead.toString(symbolTable, result);
         }

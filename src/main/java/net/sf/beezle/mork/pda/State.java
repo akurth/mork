@@ -221,7 +221,22 @@ public class State {
         result.append("\n------------------------------\n");
         result.append("[state " + id + "]\n");
         for (Item item : items) {
-            result.append(item.toString(grammar));
+            result.append(item.toString(grammar, false));
+        }
+        result.append('\n');
+        for (Shift sh : shifts) {
+            result.append(sh.toString(grammar.getSymbolTable()));
+        }
+        result.append('\n');
+        return result.toString();
+    }
+
+    public String toShortString(Grammar grammar) {
+        StringBuilder result;
+
+        result = new StringBuilder();
+        for (Item item : items) {
+            result.append(item.toString(grammar, true));
         }
         result.append('\n');
         for (Shift sh : shifts) {
