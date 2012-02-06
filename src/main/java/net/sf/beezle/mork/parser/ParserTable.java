@@ -177,11 +177,7 @@ public class ParserTable implements Serializable {
         idx = state * symbolCount + sym;
         old = values[idx];
         if (old != NOT_SET && old != value) {
-            if (handler != null) {
-                value = handler.conflict(state, sym, value, old);
-            } else {
-                throw new IllegalStateException(value + " " + state + " " + sym);
-            }
+            value = handler.conflict(state, sym, value, old);
         }
         values[idx] = (char) value;
     }

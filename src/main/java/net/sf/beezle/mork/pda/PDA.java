@@ -108,7 +108,7 @@ public class PDA implements Iterable<State> {
     }
 
     public ParserTable createTable(int lastSymbol, ConflictHandler handler) throws GenericException {
-        // the initial syntax node created by the start action is ignoed!
+        // the initial syntax node created by the start action is ignored!
         ParserTable result;
         int eof;
         State end;
