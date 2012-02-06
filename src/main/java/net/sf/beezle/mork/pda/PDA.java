@@ -87,6 +87,15 @@ public class PDA implements Iterable<State> {
         return existing;
     }
 
+    public State get(int id) {
+        for (State state : states.values()) {
+            if (id == state.id) {
+                return state;
+            }
+        }
+        throw new IllegalStateException("" + id);
+    }
+
     public int size() {
         return states.size();
     }

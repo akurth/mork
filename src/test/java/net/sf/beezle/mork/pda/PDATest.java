@@ -71,7 +71,7 @@ public class PDATest {
         grammar.getTerminals(terminals);
         pda = check(states, k, grammar);
         pda.print(System.out);
-        conflictHandler = new ConflictHandler();
+        conflictHandler = new ConflictHandler(pda);
         table = pda.createTable(pda.getEofSymbol(), conflictHandler);
         scannerRules = new Rule[terminals.size()];
         for (int i = 0, terminal = terminals.first(); terminal != -1; terminal = terminals.next(terminal)) {

@@ -163,7 +163,7 @@ public class ParserTable implements Serializable {
     public void setTested(int value, int state, int sym, ConflictHandler handler) {
         if (values[state * symbolCount + sym] != NOT_SET && values[state * symbolCount + sym] != value) {
             if (handler != null) {
-                value = handler.resolve(state, sym, value, values[state * symbolCount + sym]);
+                value = handler.conflict(state, sym, value, values[state * symbolCount + sym]);
             } else {
                 throw new IllegalStateException(value + " " + state + " " + sym);
             }

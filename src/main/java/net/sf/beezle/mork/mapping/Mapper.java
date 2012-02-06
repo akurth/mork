@@ -51,7 +51,7 @@ public class Mapper implements Serializable {
     private PrintStream logParsing;
     private PrintStream logAttribution;
     private Object environment;  // default environment is null
-    
+
     /** never null */
     private ErrorHandler errorHandler;
 
@@ -69,7 +69,7 @@ public class Mapper implements Serializable {
     public Mapper(String name, Parser parser, Oag oag) {
         this(name, parser, oag, PrintStreamErrorHandler.STDERR);
     }
-    
+
     public Mapper(String name, Parser parser, Oag oag, ErrorHandler errorHandler) {
         if (errorHandler == null) {
             throw new IllegalArgumentException();

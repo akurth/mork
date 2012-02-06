@@ -18,14 +18,15 @@
 package net.sf.beezle.mork.parser;
 
 import net.sf.beezle.mork.grammar.Grammar;
+import net.sf.beezle.mork.pda.State;
 
 public class Conflict {
-    private final int state;
+    private final State state;
     private final int symbol;
     private final int actionA;
     private final int actionB;
 
-    public Conflict(int state, int symbol, int actionA, int actionB) {
+    public Conflict(State state, int symbol, int actionA, int actionB) {
         this.state = state;
         this.symbol = symbol;
         this.actionA = actionA;
@@ -33,8 +34,8 @@ public class Conflict {
     }
 
     public String toString(Grammar grammar) {
-        return "state " + state + " on symbol " + grammar.getSymbolTable().getOrIndex(symbol) + ": "
+        return "state " + state.id + " on symbol " + grammar.getSymbolTable().getOrIndex(symbol) + ": "
                 + ParserTable.actionToString(actionA, grammar)
-                + " vs " + ParserTable.actionToString(actionB, grammar) + "\n";
+                + " vs " + ParserTable.actionToString(actionB, grammar) + "\n" + state.toString(grammar);
     }
 }

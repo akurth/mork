@@ -92,7 +92,7 @@ public class Syntax {
         pda = PDA.create(grammar, firsts, k);
         output.verbose("done: " + pda.size() + " states, " + (System.currentTimeMillis() - started) + " ms");
         symbolCount = Math.max(grammar.getSymbolCount(), whiteSymbols.last() + 1);
-        handler = new ConflictHandler();
+        handler = new ConflictHandler(pda);
         parserTable = pda.createTable(symbolCount, handler);
         parserTable.addWhitespace(whiteSymbols, handler);
         symbolTable = grammar.getSymbolTable();
