@@ -14,12 +14,12 @@ import java.util.List;
 public class ConflictHandler {
     private final PDA pda;
     private final List<Conflict> conflicts;
-    private final List<ConflictResolver> resolvers;
+    private final List<LookaheadConflictResolver> resolvers;
 
     public ConflictHandler(PDA pda) {
         this.pda = pda;
         this.conflicts = new ArrayList<Conflict>();
-        this.resolvers = new ArrayList<ConflictResolver>();
+        this.resolvers = new ArrayList<LookaheadConflictResolver>();
     }
 
     public void resolve(int state, int symbol, List<Item> items, ParserTable result) {
@@ -55,14 +55,14 @@ public class ConflictHandler {
         return ParserTable.createValue(Parser.SPECIAL, Parser.SPECIAL_ERROR);
     }
 
-    public ConflictResolver[] report(Output output, Grammar grammar) throws GenericException {
+    public LookaheadConflictResolver[] report(Output output, Grammar grammar) throws GenericException {
         if (conflicts.size() > 0) {
             for (Conflict conflict : conflicts ) {
                 output.error("TODO", conflict.toString(grammar));
             }
             throw new GenericException("aborted with conflicts");
         }
-        return resolvers.toArray(new ConflictResolver[resolvers.size()]);
+        return resolvers.toArray(new LookaheadConflictResolver[resolvers.size()]);
     }
 
     public int conflicts() {

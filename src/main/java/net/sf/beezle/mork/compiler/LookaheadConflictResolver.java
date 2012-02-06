@@ -3,11 +3,10 @@ package net.sf.beezle.mork.compiler;
 import net.sf.beezle.mork.parser.Parser;
 import net.sf.beezle.mork.parser.ParserTable;
 import net.sf.beezle.mork.scanner.Scanner;
-import net.sf.beezle.sushi.util.IntBitSet;
 
 import java.io.IOException;
 
-public class LookaheadConflictResolver implements ConflictResolver {
+public class LookaheadConflictResolver {
     private final Line[] lines;
 
     public LookaheadConflictResolver(Line[] lines) {
