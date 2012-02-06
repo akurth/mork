@@ -113,7 +113,7 @@ public class Syntax {
             output.statistics.println("parser statistics");
             output.statistics.println("  states: " + pda.size());
             output.statistics.println("  table: [symbols=" + parserTable.getSymbolCount() + "][states=" + parserTable.getStateCount() + "]");
-            output.statistics.println("  k>1 used: " + handler.conflicts());
+            output.statistics.println("  lr(1) conflicts: " + handler.conflicts());
             pda.statistics(output.statistics);
         }
 
