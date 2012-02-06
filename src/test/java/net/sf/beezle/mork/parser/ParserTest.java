@@ -93,6 +93,7 @@ public class ParserTest extends TestCase {
         pda = PDA.create(grammar, grammar.firsts(1), 1);
         ch = new ConflictHandler(pda);
         table = pda.createTable(grammar.getSymbolCount(), ch);
+        assertEquals(0, ch.conflicts());
         assertTrue(table.getValueCount() > 0);
     }
 }

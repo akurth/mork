@@ -148,10 +148,6 @@ public class ParserTable implements Serializable {
         }
     }
 
-    public void addReduce(int state, int terminal, int prod, ConflictHandler handler) {
-        setTested(createValue(Parser.REDUCE, prod), state, terminal, handler);
-    }
-
     /** Cannot have conflicts. @param  sym  may be a nonterminal */
     public void addShift(int state, int sym, int nextState) {
         int idx;
@@ -163,6 +159,9 @@ public class ParserTable implements Serializable {
         values[idx] = createValue(Parser.SHIFT, nextState);
     }
 
+    public void addReduce(int state, int terminal, int prod, ConflictHandler handler) {
+        setTested(createValue(Parser.REDUCE, prod), state, terminal, handler);
+    }
 
     public void addAccept(int state, int eof) {
         // value is assigned untested, overwrites shift on EOF
