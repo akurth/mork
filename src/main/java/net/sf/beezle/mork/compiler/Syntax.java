@@ -94,7 +94,7 @@ public class Syntax {
         symbolCount = Math.max(grammar.getSymbolCount(), whiteSymbols.last() + 1);
         handler = new ConflictHandler(pda);
         parserTable = pda.createTable(symbolCount, handler);
-        parserTable.addWhitespace(whiteSymbols, handler);
+        parserTable.addWhitespace(whiteSymbols);
         symbolTable = grammar.getSymbolTable();
         if (output.listing != null) {
             output.listing.println("\nSymbols:");

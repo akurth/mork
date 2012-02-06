@@ -20,7 +20,6 @@ package net.sf.beezle.mork.parser;
 import net.sf.beezle.mork.compiler.ConflictHandler;
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.misc.GenericException;
-import net.sf.beezle.sushi.util.IntArrayList;
 import net.sf.beezle.sushi.util.IntBitSet;
 
 import java.io.Serializable;
@@ -131,15 +130,20 @@ public class ParserTable implements Serializable {
 
     //-- building the table
 
-    public void addWhitespace(IntBitSet whites, ConflictHandler handler) {
+    public void addWhitespace(IntBitSet whites) {
         int sym;
         int state;
         int stateCount;
+        int idx;
 
         stateCount = getStateCount();
         for (sym = whites.first(); sym != -1; sym = whites.next(sym)) {
             for (state = 0; state < stateCount; state++) {
-                setTested(createValue(Parser.SKIP), state, sym, handler);
+                idx = state * symbolCount + sym;
+                if (values[idx] != NOT_SET) {
+                    throw new IllegalStateException();
+                }
+                values[idx] = (char) createValue(Parser.SKIP);
             }
         }
     }
@@ -148,7 +152,7 @@ public class ParserTable implements Serializable {
         setTested(createValue(Parser.REDUCE, prod), state, terminal, handler);
     }
 
-    /** @param  sym  may be a nonterminal */
+    /** Cannot have conflicts. @param  sym  may be a nonterminal */
     public void addShift(int state, int sym, int nextState) {
         int idx;
 
