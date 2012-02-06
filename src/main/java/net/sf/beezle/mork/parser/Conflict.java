@@ -34,7 +34,7 @@ public class Conflict {
     }
 
     public String toString(Grammar grammar) {
-        return "state " + state.id + " on symbol " + grammar.getSymbolTable().getOrIndex(symbol) + ": "
+        return "lr(k) conflict in state " + state.id + " on symbol " + grammar.getSymbolTable().getOrIndex(symbol) + ": "
                 + ParserTable.actionToString(actionA, grammar)
                 + " vs " + ParserTable.actionToString(actionB, grammar) + "\n" + state.toString(grammar);
     }

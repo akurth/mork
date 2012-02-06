@@ -41,7 +41,7 @@ import java.util.Map;
  * scanner. This is because I might a features access the "[text]" of white space.
  */
 public class Syntax {
-    public static final String CONFLICT = "conflicts (use the -lst option to obtain a listing of the automaton):\n";
+    public static final String CONFLICT = "lr(k) conflict:\n";
 
     private Grammar grammar;
     private boolean priorities;

@@ -58,7 +58,7 @@ public class ConflictHandler {
     public ConflictResolver[] report(Output output, Grammar grammar) throws GenericException {
         if (conflicts.size() > 0) {
             for (Conflict conflict : conflicts ) {
-                output.error("TODO", Syntax.CONFLICT + conflict.toString(grammar));
+                output.error("TODO", conflict.toString(grammar));
             }
             throw new GenericException("aborted with conflicts");
         }
