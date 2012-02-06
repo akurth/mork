@@ -6,10 +6,10 @@ import net.sf.beezle.mork.scanner.Scanner;
 
 import java.io.IOException;
 
-public class LookaheadConflictResolver {
+public class ConflictResolver {
     private final Line[] lines;
 
-    public LookaheadConflictResolver(Line[] lines) {
+    public ConflictResolver(Line[] lines) {
         this.lines = lines;
     }
 

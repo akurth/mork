@@ -17,7 +17,7 @@
 
 package net.sf.beezle.mork.parser;
 
-import net.sf.beezle.mork.compiler.LookaheadConflictResolver;
+import net.sf.beezle.mork.compiler.ConflictResolver;
 import net.sf.beezle.mork.mapping.ErrorHandler;
 import net.sf.beezle.mork.scanner.Position;
 import net.sf.beezle.mork.scanner.Scanner;
@@ -34,7 +34,7 @@ import java.io.Reader;
 
 public class Parser {
     private final ParserTable table;
-    private final LookaheadConflictResolver[] resolvers;
+    private final ConflictResolver[] resolvers;
     private final ScannerFactory scannerFactory;
     private ErrorHandler errorHandler;
 
@@ -62,7 +62,7 @@ public class Parser {
         }
     }
 
-    public Parser(ParserTable table, LookaheadConflictResolver[] resolvers, ScannerFactory scannerFactory) {
+    public Parser(ParserTable table, ConflictResolver[] resolvers, ScannerFactory scannerFactory) {
         this.table = table;
         this.resolvers = resolvers;
         this.scannerFactory = scannerFactory;

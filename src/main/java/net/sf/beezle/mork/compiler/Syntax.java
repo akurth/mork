@@ -83,7 +83,7 @@ public class Syntax {
         int symbolCount;
         StringArrayList symbolTable;
         ConflictHandler handler;
-        LookaheadConflictResolver[] resolvers;
+        ConflictResolver[] resolvers;
 
         started = System.currentTimeMillis();
         output.verbose("computing firsts");
