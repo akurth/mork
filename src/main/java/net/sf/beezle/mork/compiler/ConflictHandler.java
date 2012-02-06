@@ -54,6 +54,10 @@ public class ConflictHandler {
         conflicts.add(new Conflict(pda.get(state), symbol, actionA, actionB));
         return ParserTable.createValue(Parser.SPECIAL, Parser.SPECIAL_ERROR);
     }
+    
+    public int conflicts() {
+        return conflicts.size();
+    }
 
     public ConflictResolver[] report(Output output, Grammar grammar) throws GenericException {
         if (conflicts.size() > 0) {

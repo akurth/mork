@@ -65,7 +65,7 @@ public class ParserTest extends TestCase {
     }
 
     public void testExercise2() throws GenericException {
-        check("S A",
+        check(2, "S A",
               "B",
               "C",
               "A B C A",
@@ -73,17 +73,21 @@ public class ParserTest extends TestCase {
     }
 
     public void testBlocks() throws GenericException {
-        check("S E $",
+        check(1, "S E $",
               "E E E",
               "E ( )");
     }
 
 
+    public static void check(String ... src) throws GenericException {
+        check(0, src);
+    }
+
     /**
      * Start symbol must be "S", symbol with example attribute
      * must be "I"
      */
-    public static void check(String ... src) throws GenericException {
+    public static void check(int conflicts, String ... src) throws GenericException {
         Grammar grammar;
         PDA pda;
         ConflictHandler ch;
@@ -94,6 +98,7 @@ public class ParserTest extends TestCase {
         ch = new ConflictHandler(pda);
         table = pda.createTable(grammar.getSymbolCount(), ch);
         assertEquals(0, ch.resolvers());
+        assertEquals(conflicts, ch.conflicts());
         assertTrue(table.getValueCount() > 0);
     }
 }
