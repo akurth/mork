@@ -21,21 +21,36 @@ import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.pda.State;
 
 public class Conflict {
+    private final String type;
     private final State state;
     private final int symbol;
-    private final int actionA;
-    private final int actionB;
+    private final int[] actions;
 
-    public Conflict(State state, int symbol, int actionA, int actionB) {
+    public Conflict(String type, State state, int symbol, int ... actions) {
+        this.type = type;
         this.state = state;
         this.symbol = symbol;
-        this.actionA = actionA;
-        this.actionB = actionB;
+        this.actions = actions;
     }
 
     public String toString(Grammar grammar) {
-        return "lr(k) conflict in state " + state.id + " on symbol " + grammar.getSymbolTable().getOrIndex(symbol) + ": "
-                + ParserTable.actionToString(actionA, grammar)
-                + " vs " + ParserTable.actionToString(actionB, grammar) + "\n" + state.toShortString(grammar);
+        StringBuilder builder;
+        boolean first;
+        
+        builder = new StringBuilder();
+        builder.append(type + " conflict in state " + state.id + " on symbol ");
+        builder.append(grammar.getSymbolTable().getOrIndex(symbol));
+        builder.append(": ");
+        first = true;
+        for (int action : actions) {
+            if (first) {
+                first = false;
+            } else {
+                builder.append(" vs ");
+            }
+            builder.append(ParserTable.actionToString(action, grammar));
+        }
+        builder.append("\n").append(state.toShortString(grammar));
+        return builder.toString();
     }
 }

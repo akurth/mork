@@ -140,38 +140,16 @@ public class State {
 
     @Override
     public int hashCode() {
-        return items.size() == 0 ? 0 : items.get(0).hashCode()  * 256 + items.get(items.size() - 1).hashCode();
+        return items.size() == 0 ? 0 : items.get(0).hashCode() * 256 + items.get(items.size() - 1).hashCode();
     }
 
     public void addActions(Grammar grammar, ParserTable result, ConflictHandler handler) {
-        IntBitSet reduceTerminals;
-        List<Item> lst;
+        Prefix prefix;
 
-        // shifts first - they cannot cause conflict
+        // shifts first - they cannot cause conflicts
         for (Shift sh : shifts) {
             result.addShift(id, sh.symbol, sh.end.id);
         }
-        reduceTerminals = reduceTerminals(grammar);
-        for (int terminal = reduceTerminals.first(); terminal != -1; terminal = reduceTerminals.next(terminal)) {
-            lst = reduceItems(terminal, grammar);
-            // TODO: can I have multiple items for the same production here?
-            switch (lst.size()) {
-                case 0:
-                    throw new IllegalStateException();
-                case 1:
-                    result.addReduce(id, terminal, lst.get(0).getProduction(), handler);
-                    break;
-                default:
-                    handler.resolve(id, terminal, lst, result);
-            }
-        }
-    }
-
-    private IntBitSet reduceTerminals(Grammar grammar) {
-        IntBitSet result;
-        Prefix prefix;
-
-        result = new IntBitSet();
         for (Item item : items) {
             if (item.getShift(grammar) == -1) {
                 prefix = item.lookahead.iterator();
@@ -179,30 +157,10 @@ public class State {
                     if (prefix.size() < 1) {
                         throw new IllegalStateException();
                     }
-                    result.add(prefix.first());
+                    result.addReduce(id, prefix.first(), item.getProduction(), handler);
                 }
             }
         }
-        return result;
-    }
-
-    private List<Item> reduceItems(int terminal, Grammar grammar) {
-        List<Item> result;
-        Prefix prefix;
-
-        result = new ArrayList<Item>();
-        for (Item item : items) {
-            if (item.getShift(grammar) == -1) {
-                prefix = item.lookahead.iterator();
-                while (prefix.step()) {
-                    if (prefix.first() == terminal) {
-                        result.add(item);
-                        break;
-                    }
-                }
-            }
-        }
-        return result;
     }
 
     public Shift lookupShift(int symbol) {
@@ -214,6 +172,15 @@ public class State {
         return null;
     }
 
+    public Item getReduceItem(Grammar grammar, int production) {
+        for (Item item : items) {
+            if ((item.getProduction() == production) && (item.getShift(grammar) == -1)) {
+                return item;
+            }
+        }
+        throw new IllegalStateException();
+    }
+    
     public String toString(Grammar grammar) {
         StringBuilder result;
 

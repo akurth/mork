@@ -160,7 +160,20 @@ public class ParserTable implements Serializable {
     }
 
     public void addReduce(int state, int terminal, int prod, ConflictHandler handler) {
-        setTested(createValue(Parser.REDUCE, prod), state, terminal, handler);
+        int idx;
+        char old;
+        char value;
+
+        idx = state * symbolCount + terminal;
+        old = values[idx];
+        value = createValue(Parser.REDUCE, prod);
+        if (old == NOT_SET) {
+            values[idx] = value;
+        } else if (value == old) {
+            // nothing to do
+        } else {
+            values[idx] = handler.resolve(state, terminal, old, value);
+        }
     }
 
     public void addAccept(int state, int eof) {
@@ -169,18 +182,6 @@ public class ParserTable implements Serializable {
     }
 
     public static final int NOT_SET = createValue(Parser.SPECIAL, Parser.SPECIAL_ERROR);
-
-    public void setTested(int value, int state, int sym, ConflictHandler handler) {
-        int idx;
-        int old;
-
-        idx = state * symbolCount + sym;
-        old = values[idx];
-        if (old != NOT_SET && old != value) {
-            value = handler.conflict(state, sym, value, old);
-        }
-        values[idx] = (char) value;
-    }
 
     private char createValue(int action) {
         return createValue(action, 0);
