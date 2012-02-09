@@ -82,7 +82,7 @@ public class PDA implements PDABuilder {
     public Grammar getGrammar() {
         return grammar;
     }
-    
+
     /** @return id of existing state, -id of newly added state */
     public int addIfNew(State state) {
         Integer existing;
