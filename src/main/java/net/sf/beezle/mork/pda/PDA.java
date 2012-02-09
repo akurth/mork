@@ -32,7 +32,7 @@ import java.util.Map;
 
 /* LR(k) automaton, follow the description in http://amor.cms.hu-berlin.de/~kunert/papers/lr-analyse/ */
 
-public class PDA {
+public class PDA implements PDABuilder {
     public static PDA create(Grammar grammar, Map<Integer, PrefixSet> firsts, int k) {
         PDA pda;
         State state;
@@ -56,7 +56,7 @@ public class PDA {
         return pda;
     }
 
-    public final Grammar grammar;
+    private final Grammar grammar;
     private final HashMap<State, Integer> states;
     private final State start;
 
@@ -79,6 +79,10 @@ public class PDA {
         return id;
     }
 
+    public Grammar getGrammar() {
+        return grammar;
+    }
+    
     /** @return id of existing state, -id of newly added state */
     public int addIfNew(State state) {
         Integer existing;

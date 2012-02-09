@@ -81,25 +81,27 @@ public class State {
         Collections.sort(items);
     }
 
-    public void gotos(PDA pda, Map<Integer, PrefixSet> firsts, List<State> created, int k) {
+    public void gotos(PDABuilder pda, Map<Integer, PrefixSet> firsts, List<State> created, int k) {
+        Grammar grammar;
         IntBitSet shiftSymbols;
         int symbol;
         State state;
         int target;
         Item shifted;
 
-        shiftSymbols = getShiftSymbols(pda.grammar);
+        grammar = pda.getGrammar();
+        shiftSymbols = getShiftSymbols(grammar);
         for (symbol = shiftSymbols.first(); symbol != -1; symbol = shiftSymbols.next(symbol)) {
             state = new State();
             for (Item item : items) {
-                if (item.getShift(pda.grammar) == symbol) {
-                    shifted = item.createShifted(pda.grammar);
+                if (item.getShift(grammar) == symbol) {
+                    shifted = item.createShifted(grammar);
                     if (shifted != null) {
                         state.items.add(shifted);
                     }
                 }
             }
-            state.closure(pda.grammar, firsts, k);
+            state.closure(grammar, firsts, k);
             target = pda.addIfNew(state);
             if (target < 0) {
                 created.add(state);
