@@ -130,24 +130,6 @@ public class ParserTable implements Serializable {
 
     //-- building the table
 
-    public void addWhitespace(IntBitSet whites) {
-        int sym;
-        int state;
-        int stateCount;
-        int idx;
-
-        stateCount = getStateCount();
-        for (sym = whites.first(); sym != -1; sym = whites.next(sym)) {
-            for (state = 0; state < stateCount; state++) {
-                idx = state * symbolCount + sym;
-                if (values[idx] != NOT_SET) {
-                    throw new IllegalStateException();
-                }
-                values[idx] = createValue(Parser.SKIP);
-            }
-        }
-    }
-
     /** Cannot have conflicts. @param  sym  may be a nonterminal */
     public void addShift(int state, int sym, int nextState) {
         int idx;
@@ -180,6 +162,26 @@ public class ParserTable implements Serializable {
         // value is assigned untested, overwrites shift on EOF
         values[state * symbolCount + eof] = createValue(Parser.SPECIAL, Parser.SPECIAL_ACCEPT);
     }
+
+    public void addWhitespace(IntBitSet whites) {
+        int sym;
+        int state;
+        int stateCount;
+        int idx;
+
+        stateCount = getStateCount();
+        for (sym = whites.first(); sym != -1; sym = whites.next(sym)) {
+            for (state = 0; state < stateCount; state++) {
+                idx = state * symbolCount + sym;
+                if (values[idx] != NOT_SET) {
+                    throw new IllegalStateException();
+                }
+                values[idx] = createValue(Parser.SKIP);
+            }
+        }
+    }
+
+    //--
 
     public static final int NOT_SET = createValue(Parser.SPECIAL, Parser.SPECIAL_ERROR);
 
