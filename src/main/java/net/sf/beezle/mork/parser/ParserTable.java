@@ -20,6 +20,7 @@ package net.sf.beezle.mork.parser;
 import net.sf.beezle.mork.compiler.ConflictHandler;
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.misc.GenericException;
+import net.sf.beezle.mork.pda.State;
 import net.sf.beezle.sushi.util.IntBitSet;
 
 import java.io.Serializable;
@@ -141,12 +142,12 @@ public class ParserTable implements Serializable {
         values[idx] = createValue(Parser.SHIFT, nextState);
     }
 
-    public void addReduce(int state, int terminal, int prod, ConflictHandler handler) {
+    public void addReduce(int stateId, State state, int terminal, int prod, ConflictHandler handler) {
         int idx;
         char old;
         char value;
 
-        idx = state * symbolCount + terminal;
+        idx = stateId * symbolCount + terminal;
         old = values[idx];
         value = createValue(Parser.REDUCE, prod);
         if (old == NOT_SET) {
@@ -154,7 +155,7 @@ public class ParserTable implements Serializable {
         } else if (value == old) {
             // nothing to do
         } else {
-            values[idx] = handler.resolve(state, terminal, old, value);
+            values[idx] = handler.resolve(stateId, state, terminal, old, value);
         }
     }
 

@@ -156,7 +156,7 @@ public class State {
                     if (prefix.size() < 1) {
                         throw new IllegalStateException();
                     }
-                    result.addReduce(id, prefix.first(), item.getProduction(), handler);
+                    result.addReduce(id, this, prefix.first(), item.getProduction(), handler);
                 }
             }
         }

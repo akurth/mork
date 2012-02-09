@@ -26,7 +26,6 @@ import net.sf.beezle.mork.parser.ParserTable;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,16 +85,6 @@ public class PDA {
 
         existing = states.get(state);
         return existing == null ? -add(state) : existing.intValue();
-    }
-
-    /** This method is expensive! */
-    public State get(int id) {
-        for (Map.Entry<State, Integer> entry : states.entrySet()) {
-            if (id == entry.getValue()) {
-                return entry.getKey();
-            }
-        }
-        throw new IllegalStateException("" + id);
     }
 
     public int size() {
