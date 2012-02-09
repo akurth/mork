@@ -22,9 +22,9 @@ import net.sf.beezle.mork.misc.StringArrayList;
 public class Shift {
     /** symbol or eof */
     public final int symbol;
-    public final State end;
+    public final int end;
 
-    public Shift(int symbol, State end) {
+    public Shift(int symbol, int end) {
         this.symbol = symbol;
         this.end = end;
     }
@@ -35,7 +35,7 @@ public class Shift {
         result = new StringBuilder();
         result.append("shift ");
         result.append(symbolTable.getOrIndex(symbol));
-        result.append(" -> " + end.id + '\n');
+        result.append(" -> " + end + '\n');
         return result.toString();
     }
 }

@@ -28,7 +28,7 @@ public class ConflictHandler {
 
         switch (ParserTable.getAction(oldAction)) {
             case Parser.SHIFT:
-                conflicts.add(new Conflict("shift-reduce", pda.get(state), symbol, oldAction, reduceAction));
+                conflicts.add(new Conflict("shift-reduce", state, pda.get(state), symbol, oldAction, reduceAction));
                 return ParserTable.createValue(Parser.SPECIAL, Parser.SPECIAL_ERROR);
             case Parser.REDUCE:
                 return reduceReduceConflict(state, symbol, -1, oldAction, reduceAction);
@@ -73,7 +73,7 @@ public class ConflictHandler {
                 line = new Line(terminals, ParserTable.createValue(Parser.REDUCE, item.getProduction()));
                 conflicting = Line.lookupTerminals(lines, line.terminals);
                 if (conflicting != null) {
-                    conflicts.add(new Conflict("reduce-reduce", state, symbol, reduceActions));
+                    conflicts.add(new Conflict("reduce-reduce", stateId, state, symbol, reduceActions));
                     return ParserTable.createValue(Parser.SPECIAL, Parser.SPECIAL_ERROR);
                 }
                 lines.add(line);

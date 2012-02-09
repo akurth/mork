@@ -38,8 +38,9 @@ public class PDA {
         PDA pda;
         State state;
         List<State> todo;
+        int end;
 
-        state = State.forStartSymbol(0, grammar, grammar.getSymbolCount());
+        state = State.forStartSymbol(grammar, grammar.getSymbolCount());
         state.closure(grammar, firsts, k);
         pda = new PDA(grammar, state);
         todo = new ArrayList<State>();
@@ -51,19 +52,18 @@ public class PDA {
         }
 
         // TODO: hack hack hack
-        state = new State(pda.size());
-        pda.add(state);
-        pda.start.shifts.add(new Shift(grammar.getStart(), state));
+        end = pda.add(new State());
+        pda.start.shifts.add(new Shift(grammar.getStart(), end));
         return pda;
     }
 
     public final Grammar grammar;
-    private final HashMap<State, State> states;
+    private final HashMap<State, Integer> states;
     private final State start;
 
     public PDA(Grammar grammar, State start) {
         this.grammar = grammar;
-        this.states = new LinkedHashMap<State, State>();
+        this.states = new LinkedHashMap<State, Integer>();
         this.start = start;
         add(start);
     }
@@ -72,25 +72,27 @@ public class PDA {
         return states.keySet();
     }
 
-    public void add(State state) {
-        states.put(state, state);
+    public int add(State state) {
+        int id;
+        
+        id = states.size();
+        states.put(state, id);
+        return id;
     }
 
-    public State addIfNew(State state) {
-        State existing;
+    /** @return id of existing state, -id of newly added state */
+    public int addIfNew(State state) {
+        Integer existing;
 
         existing = states.get(state);
-        if (existing == null) {
-            add(state);
-            return state;
-        }
-        return existing;
+        return existing == null ? -add(state) : existing.intValue();
     }
 
+    /** This method is expensive! */
     public State get(int id) {
-        for (State state : states.values()) {
-            if (id == state.id) {
-                return state;
+        for (Map.Entry<State, Integer> entry : states.entrySet()) {
+            if (id == entry.getValue()) {
+                return entry.getKey();
             }
         }
         throw new IllegalStateException("" + id);
@@ -111,21 +113,21 @@ public class PDA {
         // the initial syntax node created by the start action is ignored!
         ParserTable result;
         int eof;
-        State end;
+        int end;
 
         eof = getEofSymbol();
         result = new ParserTable(0, size(), lastSymbol + 1 /* +1 for EOF */, eof, grammar, null);
-        for (State state : states()) {
-            state.addActions(grammar, result, handler);
+        for (Map.Entry<State, Integer> entry : states.entrySet()) {
+            entry.getKey().addActions(entry.getValue(), grammar, result, handler);
         }
         end = start.lookupShift(grammar.getStart()).end;
-        result.addAccept(end.id, eof);
+        result.addAccept(end, eof);
         return result;
     }
 
     public void print(PrintStream dest) {
-        for (State state : states()) {
-            dest.println(state.toString(grammar));
+        for (Map.Entry<State, Integer> entry : states.entrySet()) {
+            dest.println(entry.getKey().toString(entry.getValue(), grammar));
         }
     }
 

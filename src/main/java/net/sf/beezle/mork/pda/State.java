@@ -32,12 +32,12 @@ import java.util.Map;
 /** LR(k) state */
 
 public class State {
-    public static State forStartSymbol(int id, Grammar grammar, int eof) {
+    public static State forStartSymbol(Grammar grammar, int eof) {
         int symbol;
         State state;
         int max;
 
-        state = new State(id);
+        state = new State();
         symbol = grammar.getStart();
         max = grammar.getAlternativeCount(symbol);
         for (int alt = 0; alt < max; alt++) {
@@ -46,12 +46,10 @@ public class State {
         return state;
     }
 
-    public final int id;
     public final List<Shift> shifts;
     public final List<Item> items;
 
-    public State(int id) {
-        this.id = id;
+    public State() {
         this.items = new ArrayList<Item>();
         this.shifts = new ArrayList<Shift>();
     }
@@ -87,12 +85,12 @@ public class State {
         IntBitSet shiftSymbols;
         int symbol;
         State state;
-        State target;
+        int target;
         Item shifted;
 
         shiftSymbols = getShiftSymbols(pda.grammar);
         for (symbol = shiftSymbols.first(); symbol != -1; symbol = shiftSymbols.next(symbol)) {
-            state = new State(pda.size());
+            state = new State();
             for (Item item : items) {
                 if (item.getShift(pda.grammar) == symbol) {
                     shifted = item.createShifted(pda.grammar);
@@ -103,8 +101,9 @@ public class State {
             }
             state.closure(pda.grammar, firsts, k);
             target = pda.addIfNew(state);
-            if (target == state) {
-                created.add(target);
+            if (target < 0) {
+                created.add(state);
+                target = -target;
             }
             this.shifts.add(new Shift(symbol, target));
         }
@@ -143,12 +142,12 @@ public class State {
         return items.size() == 0 ? 0 : items.get(0).hashCode() * 256 + items.get(items.size() - 1).hashCode();
     }
 
-    public void addActions(Grammar grammar, ParserTable result, ConflictHandler handler) {
+    public void addActions(int id, Grammar grammar, ParserTable result, ConflictHandler handler) {
         Prefix prefix;
 
         // shifts first - they cannot cause conflicts
         for (Shift sh : shifts) {
-            result.addShift(id, sh.symbol, sh.end.id);
+            result.addShift(id, sh.symbol, sh.end);
         }
         for (Item item : items) {
             if (item.getShift(grammar) == -1) {
@@ -181,7 +180,7 @@ public class State {
         throw new IllegalStateException();
     }
     
-    public String toString(Grammar grammar) {
+    public String toString(int id, Grammar grammar) {
         StringBuilder result;
 
         result = new StringBuilder();

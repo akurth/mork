@@ -22,12 +22,14 @@ import net.sf.beezle.mork.pda.State;
 
 public class Conflict {
     private final String type;
+    private final int stateId;
     private final State state;
     private final int symbol;
     private final int[] actions;
 
-    public Conflict(String type, State state, int symbol, int ... actions) {
+    public Conflict(String type, int stateId, State state, int symbol, int ... actions) {
         this.type = type;
+        this.stateId = stateId;
         this.state = state;
         this.symbol = symbol;
         this.actions = actions;
@@ -38,7 +40,7 @@ public class Conflict {
         boolean first;
         
         builder = new StringBuilder();
-        builder.append(type + " conflict in state " + state.id + " on symbol ");
+        builder.append(type + " conflict in state " + stateId + " on symbol ");
         builder.append(grammar.getSymbolTable().getOrIndex(symbol));
         builder.append(": ");
         first = true;
