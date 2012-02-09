@@ -24,16 +24,19 @@ public class ConflictHandler {
     }
 
     public char resolve(int state, int symbol, char oldAction, char reduceAction) {
+        int operand;
+
         switch (ParserTable.getAction(oldAction)) {
             case Parser.SHIFT:
                 conflicts.add(new Conflict("shift-reduce", pda.get(state), symbol, oldAction, reduceAction));
                 return ParserTable.createValue(Parser.SPECIAL, Parser.SPECIAL_ERROR);
             case Parser.REDUCE:
-                return reduceReduceConflict(state, symbol, oldAction, reduceAction);
+                return reduceReduceConflict(state, symbol, -1, oldAction, reduceAction);
             case Parser.SPECIAL:
-                switch (ParserTable.getOperand(oldAction)) {
+                operand = ParserTable.getOperand(oldAction);
+                switch (operand & 0x03) {
                     case Parser.SPECIAL_CONFLICT:
-                         throw new UnsupportedOperationException("TODO");
+                        return reduceReduceConflict(state, symbol, operand >> 2, reduceAction);
                     case Parser.SPECIAL_ERROR:
                         return oldAction;
                     default:
@@ -44,16 +47,23 @@ public class ConflictHandler {
         }
     }
 
-    public char reduceReduceConflict(int stateId, int symbol, int ... reduceActions) {
+    public char reduceReduceConflict(int stateId, int symbol, int no, int ... reduceActions) {
         State state;
         List<Item> items;
         List<Line> lines;
         Line[] array;
         Line line;
         Line conflicting;
+        ConflictResolver resolver;
 
         state = pda.get(stateId);
         items = new ArrayList<Item>();
+        if (no != -1) {
+            resolver = resolvers.get(no);
+            for (Line existing : resolver.lines) {
+                items.add(state.getReduceItem(pda.grammar, ParserTable.getOperand(existing.action)));
+            }
+        }
         for (int reduceAction : reduceActions) {
             items.add(state.getReduceItem(pda.grammar, ParserTable.getOperand(reduceAction)));
         }
@@ -71,8 +81,14 @@ public class ConflictHandler {
         }
         array = new Line[lines.size()];
         lines.toArray(array);
-        resolvers.add(new ConflictResolver(array));
-        return ParserTable.createValue(Parser.SPECIAL, Parser.SPECIAL_CONFLICT | ((resolvers.size() - 1) << 2));
+        resolver = new ConflictResolver(array);
+        if (no == -1) {
+            resolvers.add(resolver);
+            no = resolvers.size() - 1;
+        } else {
+            resolvers.set(no, resolver);
+        }
+        return ParserTable.createValue(Parser.SPECIAL, Parser.SPECIAL_CONFLICT | (no << 2));
     }
 
     public int conflicts() {

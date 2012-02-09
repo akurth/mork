@@ -7,7 +7,7 @@ import net.sf.beezle.mork.scanner.Scanner;
 import java.io.IOException;
 
 public class ConflictResolver {
-    private final Line[] lines;
+    public final Line[] lines;
 
     public ConflictResolver(Line[] lines) {
         this.lines = lines;

@@ -51,8 +51,11 @@ public class Parser {
     public static final char REDUCE  = 2;
     public static final char SKIP    = 3;
 
+    /** lowest two operand bits */
     public static final char SPECIAL_ERROR  = 0;
     public static final char SPECIAL_ACCEPT = 1;
+
+    /** higher operand bits used to index resolver. */
     public static final char SPECIAL_CONFLICT = 2;
 
     static {
