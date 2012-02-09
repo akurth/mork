@@ -33,7 +33,7 @@ import java.util.Map;
 
 /* LR(k) automaton, follow the description in http://amor.cms.hu-berlin.de/~kunert/papers/lr-analyse/ */
 
-public class PDA implements Iterable<State> {
+public class PDA {
     public static PDA create(Grammar grammar, Map<Integer, PrefixSet> firsts, int k) {
         PDA pda;
         State state;
@@ -68,8 +68,8 @@ public class PDA implements Iterable<State> {
         add(start);
     }
 
-    public Iterator<State> iterator() {
-        return states.keySet().iterator();
+    private Iterable<State> states() {
+        return states.keySet();
     }
 
     public void add(State state) {
@@ -115,7 +115,7 @@ public class PDA implements Iterable<State> {
 
         eof = getEofSymbol();
         result = new ParserTable(0, size(), lastSymbol + 1 /* +1 for EOF */, eof, grammar, null);
-        for (State state : this) {
+        for (State state : states()) {
             state.addActions(grammar, result, handler);
         }
         end = start.lookupShift(grammar.getStart()).end;
@@ -124,7 +124,7 @@ public class PDA implements Iterable<State> {
     }
 
     public void print(PrintStream dest) {
-        for (State state : this) {
+        for (State state : states()) {
             dest.println(state.toString(grammar));
         }
     }
@@ -157,7 +157,7 @@ public class PDA implements Iterable<State> {
         loadSum = 0;
         loadMax = Double.MIN_VALUE;
         loadMin = Double.MAX_VALUE;
-        for (State state : this) {
+        for (State state : states()) {
             size = state.items.size();
             itemsCount += size;
             itemsMin = Math.min(itemsMin, size);
