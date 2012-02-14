@@ -33,21 +33,45 @@ import java.util.Map;
 /* LR(k) automaton, follow the description in http://amor.cms.hu-berlin.de/~kunert/papers/lr-analyse/ */
 
 public class PDA implements PDABuilder {
-    public static PDA create(Grammar grammar, Map<Integer, PrefixSet> firsts, int k) {
-        PDA pda;
+    public static PDA create(Grammar grammar, final Map<Integer, PrefixSet> firsts, final int k, int threadCount) {
+        final PDA pda;
         State state;
-        List<State> todo;
+        final Queue todo;
         int end;
+        Thread[] threads;
 
+        threads = new Thread[threadCount];
+        todo = new Queue(threads.length);
         state = State.forStartSymbol(grammar, grammar.getSymbolCount());
         state.closure(grammar, firsts, k);
         pda = new PDA(grammar, state);
-        todo = new ArrayList<State>();
-        todo.add(state);
-        // size grows!
-        for (int i = 0; i < todo.size(); i++) {
-            state = todo.get(i);
-            state.gotos(pda, firsts, todo, k);
+        todo.put(state);
+        for (int i = 0; i < threads.length; i++) {
+            threads[i] = new Thread("pda-builder-" + i) {
+                public void run() {
+                    net.sf.beezle.mork.pda.State state;
+
+                    try {
+                        while (true) {
+                            state = todo.take();
+                            state.gotos(pda, firsts, todo, k);
+                        }
+                    } catch (InterruptedException e) {
+                        return; // terminate
+                    } catch (Throwable e) {
+                        // TODO
+                        e.printStackTrace();
+                    }
+                }
+            };
+            threads[i].start();
+        }
+        for (Thread thread : threads) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException("TODO", e);
+            }
         }
 
         // TODO: hack hack hack
@@ -73,7 +97,7 @@ public class PDA implements PDABuilder {
 
     public int add(State state) {
         int id;
-        
+
         id = states.size();
         states.put(state, id);
         return id;
@@ -84,7 +108,7 @@ public class PDA implements PDABuilder {
     }
 
     /** @return id of existing state, -id of newly added state */
-    public int addIfNew(State state) {
+    public synchronized int addIfNew(State state) {
         Integer existing;
 
         existing = states.get(state);

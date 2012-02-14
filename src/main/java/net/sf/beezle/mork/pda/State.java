@@ -81,7 +81,7 @@ public class State {
         Collections.sort(items);
     }
 
-    public void gotos(PDABuilder pda, Map<Integer, PrefixSet> firsts, List<State> created, int k) {
+    public void gotos(PDABuilder pda, Map<Integer, PrefixSet> firsts, Queue created, int k) {
         Grammar grammar;
         IntBitSet shiftSymbols;
         int symbol;
@@ -104,7 +104,7 @@ public class State {
             state.closure(grammar, firsts, k);
             target = pda.addIfNew(state);
             if (target < 0) {
-                created.add(state);
+                created.put(state);
                 target = -target;
             }
             this.shifts.add(new Shift(symbol, target));
@@ -181,7 +181,7 @@ public class State {
         }
         throw new IllegalStateException();
     }
-    
+
     public String toString(int id, Grammar grammar) {
         StringBuilder result;
 

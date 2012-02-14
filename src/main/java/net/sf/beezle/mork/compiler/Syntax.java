@@ -77,6 +77,7 @@ public class Syntax {
         PDA pda;
         ParserTable parserTable;
         Map<Integer, PrefixSet> firsts;
+        int threadCount;
         ScannerFactory scannerFactory;
         IntBitSet usedTerminals;
         IntBitSet usedSymbols;
@@ -88,8 +89,9 @@ public class Syntax {
         started = System.currentTimeMillis();
         output.verbose("computing firsts");
         firsts = grammar.firsts(k);
-        output.verbose("creating pda");
-        pda = PDA.create(grammar, firsts, k);
+        threadCount = Runtime.getRuntime().availableProcessors();
+        output.verbose("creating pda, " + threadCount + " threads");
+        pda = PDA.create(grammar, firsts, k, threadCount);
         output.verbose("done: " + pda.size() + " states, " + (System.currentTimeMillis() - started) + " ms");
         symbolCount = Math.max(grammar.getSymbolCount(), whiteSymbols.last() + 1);
         handler = new ConflictHandler(grammar);

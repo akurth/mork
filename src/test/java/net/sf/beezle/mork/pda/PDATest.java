@@ -114,7 +114,7 @@ public class PDATest {
     private PDA check(int states, int k, Grammar grammar) {
         PDA pda;
 
-        pda = PDA.create(grammar, grammar.firsts(k), k);
+        pda = PDA.create(grammar, grammar.firsts(k), k, 1);
         // pda.print(System.out);
         assertEquals(states, pda.size() - 1 /* TODO: artificial end state */);
         return pda;
