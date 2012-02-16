@@ -97,7 +97,7 @@
                   <include name="src/main/*.mapper" />
                 </fileset>
                 <pathconvert property="mapper.bs2" refid="mapper.bs2" pathsep=" " />
-                <java fork="false" dir="${basedir}" classname="net.sf.beezle.mork.compiler.Main" failonerror="true">
+                <java fork="true" dir="${basedir}" classname="net.sf.beezle.mork.compiler.Main" failonerror="true">
                   <classpath>
                     <pathelement path="${basedir}/src/bsmork.jar" />
                     <pathelement path="${basedir}/target/classes" />

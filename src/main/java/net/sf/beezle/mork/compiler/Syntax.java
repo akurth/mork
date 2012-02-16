@@ -71,13 +71,12 @@ public class Syntax {
      *
      * @return null for errors.
      */
-    public Parser translate(int k, Output output) throws GenericException {
+    public Parser translate(int k, int threadCount, Output output) throws GenericException {
         FABuilder builder;
         long started;
         PDA pda;
         ParserTable parserTable;
         Map<Integer, PrefixSet> firsts;
-        int threadCount;
         ScannerFactory scannerFactory;
         IntBitSet usedTerminals;
         IntBitSet usedSymbols;
@@ -89,7 +88,6 @@ public class Syntax {
         started = System.currentTimeMillis();
         output.verbose("computing firsts");
         firsts = grammar.firsts(k);
-        threadCount = Runtime.getRuntime().availableProcessors();
         output.verbose("creating pda, " + threadCount + " threads");
         pda = PDA.create(grammar, firsts, k, threadCount);
         output.verbose("done: " + pda.size() + " states, " + (System.currentTimeMillis() - started) + " ms");

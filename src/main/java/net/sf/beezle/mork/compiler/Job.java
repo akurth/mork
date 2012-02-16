@@ -43,6 +43,8 @@ public class Job {
 
     public final int k;
 
+    public final int threadCount;
+
     public static final String SRC_SUFFIX = ".mapper";
     public static final String LST_SUFFIX = ".lst";
 
@@ -54,10 +56,10 @@ public class Job {
     }
 
     public Job(String outputPathName, boolean listing, String srcName) throws IOException {
-        this(outputPathName, 1, listing, srcName);
+        this(outputPathName, 1, 1, listing, srcName);
     }
 
-    public Job(String outputPathName, int k, boolean listing, String srcName) throws IOException {
+    public Job(String outputPathName, int k, int threadCount, boolean listing, String srcName) throws IOException {
         String baseName;
 
         if (outputPathName == null) {
@@ -69,6 +71,7 @@ public class Job {
             }
         }
         this.k = k;
+        this.threadCount = threadCount;
         this.source = new File(srcName);
         if (listing) {
             baseName = Strings.removeRightOpt(source.getName(), SRC_SUFFIX);

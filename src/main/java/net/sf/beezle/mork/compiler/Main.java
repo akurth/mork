@@ -43,22 +43,25 @@ public class Main extends Cli implements Command {
 
     @Option("help")
     private boolean help;
-    
+
     @Option("verbose")
     private boolean verbose;
 
     @Option("lst")
     private boolean lst;
-    
+
     @Option("stat")
     private boolean stat;
-    
+
     @Option("d")
     private String directory;
-    
+
     @Option("k")
     private int k;
-    
+
+    @Option("t")
+    private int threadCount = Runtime.getRuntime().availableProcessors();
+;
     @Option("mapper")
     private String mapper;
 
@@ -107,11 +110,11 @@ public class Main extends Cli implements Command {
                 output.error(errorPos, e);
             }
         }
-      
+
         jobs = new Job[files.size()];
         for (int j = 0; j < jobs.length; j++) {
             try {
-                jobs[j] = new Job(outputPath, k, listing, files.get(j));
+                jobs[j] = new Job(outputPath, k, threadCount, listing, files.get(j));
             } catch (IOException e) {
                 output.error(errorPos, e.getMessage());
                 return null;
@@ -126,7 +129,8 @@ public class Main extends Cli implements Command {
     + " -help                 print this message and quit\n"
     + " -lst                  generate mapper listing\n"
     + " -d directory          sets the destination directory for class files\n"
-    + " -k num                specifies the number of lookahead token, default is 1\n"
+    + " -k num                number of lookahead token, default is 1\n"
+    + " -t num                parallel threads for pda generation, default is 1\n"
     + " -stat                 print mapper statistics\n"
     + " -verbose              issue overall progress information\n";
 
