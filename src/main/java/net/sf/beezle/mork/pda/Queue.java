@@ -31,7 +31,7 @@ public class Queue {
                 throw new IllegalStateException();
             }
             states = new Element(x, states);
-            monitor.notifyAll();
+            monitor.notify();
         }
     }
 
