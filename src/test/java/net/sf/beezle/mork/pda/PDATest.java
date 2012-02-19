@@ -49,6 +49,19 @@ public class PDATest {
         );
     }
 
+    @Test
+    public void lr3() throws GenericException {
+        checkOk(15, 3, new String[] { "xaaa", "xaab", "xaac" },
+                "Z S",
+                "S A a a a",
+                "S B a a b",
+                "S C a a c",
+                "A x",
+                "B x",
+                "C x"
+        );
+    }
+
     private void checkOk(int states, int k, String[] ok, String ... prods) throws GenericException {
         Grammar grammar;
 
