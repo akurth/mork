@@ -1,7 +1,7 @@
 package net.sf.beezle.mork.pda;
 
 public class Queue {
-    private final State[] array;
+    private final State[] states;
 
     private int putPtr = 0;      // circular indices
     private int takePtr = 0;
@@ -19,8 +19,8 @@ public class Queue {
     private final int threadCount;
 
     public Queue(int threadCount) throws IllegalArgumentException {
-        array = new State[1000];
-        free = array.length;
+        states = new State[1000];
+        free = states.length;
         used = 0;
         this.threadCount = threadCount;
     }
@@ -32,15 +32,14 @@ public class Queue {
                 try {
                     putMonitor.wait();
                 } catch(InterruptedException ie) {
-                    putMonitor.notify();
                     throw new IllegalStateException(ie);
                 } finally {
                     --waitingPuts;
                 }
             }
             --free;
-            array[putPtr] = x;
-            putPtr = (putPtr + 1) % array.length;
+            states[putPtr] = x;
+            putPtr = (putPtr + 1) % states.length;
         }
         synchronized(takeMonitor) { // directly notify
             if (terminate) {
@@ -72,8 +71,7 @@ public class Queue {
                 try {
                     takeMonitor.wait();
                 } catch(InterruptedException ie) {
-                    takeMonitor.notify();
-                    throw ie;
+                    throw new IllegalStateException(ie);
                 } finally {
                     --waitingTakes;
                 }
@@ -82,9 +80,9 @@ public class Queue {
                 }
             }
             --used;
-            old = array[takePtr];
-            array[takePtr] = null;
-            takePtr = (takePtr + 1) % array.length;
+            old = states[takePtr];
+            states[takePtr] = null;
+            takePtr = (takePtr + 1) % states.length;
         }
         synchronized(putMonitor) {
             ++free;
