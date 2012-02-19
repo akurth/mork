@@ -1,76 +1,57 @@
 package net.sf.beezle.mork.pda;
 
 public class Queue {
-    private final State[] states;
+    private static class Element {
+        public final State state;
+        public final Element next;
+        
+        public Element(State state, Element next) {
+            this.state = state;
+            this.next = next;
+        }
+    }
 
-    private int putPtr = 0;      // circular indices
-    private int takePtr = 0;
-
-    private int free;
-    private int used;
-
-    private int waitingPuts = 0;    // counts of waiting threads
-    private int waitingTakes = 0;
-
-    private final Object putMonitor = new Object();
-    private final Object takeMonitor = new Object();
-
-    private boolean terminate = false;
     private final int threadCount;
+    private Element states;
+    private final Object monitor;
+    private int waitingTakes;
+    private boolean terminate;
 
     public Queue(int threadCount) throws IllegalArgumentException {
-        states = new State[1000];
-        free = states.length;
-        used = 0;
         this.threadCount = threadCount;
+        this.states = null;
+        this.monitor = new Object();
+        this.waitingTakes = 0;
+        this.terminate = false;
     }
 
     public void put(State x) {
-        synchronized(putMonitor) {
-            while (free <= 0) {
-                ++waitingPuts;
-                try {
-                    putMonitor.wait();
-                } catch(InterruptedException ie) {
-                    throw new IllegalStateException(ie);
-                } finally {
-                    --waitingPuts;
-                }
-            }
-            --free;
-            states[putPtr] = x;
-            putPtr = (putPtr + 1) % states.length;
-        }
-        synchronized(takeMonitor) { // directly notify
+        synchronized (monitor) {
             if (terminate) {
                 throw new IllegalStateException();
             }
-            ++used;
-            if (waitingTakes > 0)
-                takeMonitor.notify();
+            states = new Element(x, states);
+            monitor.notifyAll();
         }
     }
 
     public State take() throws InterruptedException {
-        State old;
+        State result;
 
-        synchronized(takeMonitor) {
+        synchronized (monitor) {
             if (terminate) {
                 throw new IllegalStateException();
             }
-            while (used <= 0) {
+            while (states == null) {
                 ++waitingTakes;
                 if (waitingTakes == threadCount) {
-                    if (waitingPuts > 0) {
-                        throw new IllegalStateException();
-                    }
                     terminate = true;
-                    takeMonitor.notifyAll();
+                    monitor.notifyAll();
                     throw new InterruptedException();
                 }
                 try {
-                    takeMonitor.wait();
-                } catch(InterruptedException ie) {
+                    monitor.wait();
+                } catch (InterruptedException ie) {
                     throw new IllegalStateException(ie);
                 } finally {
                     --waitingTakes;
@@ -79,17 +60,9 @@ public class Queue {
                     throw new InterruptedException();
                 }
             }
-            --used;
-            old = states[takePtr];
-            states[takePtr] = null;
-            takePtr = (takePtr + 1) % states.length;
+            result = states.state;
+            states = states.next;
         }
-        synchronized(putMonitor) {
-            ++free;
-            if (waitingPuts > 0)
-                putMonitor.notify();
-        }
-        return old;
+        return result;
     }
-
 }
