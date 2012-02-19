@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Line {
+    /** sequence of terminals - not alternatives */
     public final int[] terminals;
     public final int action;
 

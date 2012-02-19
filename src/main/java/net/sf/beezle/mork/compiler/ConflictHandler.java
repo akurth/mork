@@ -6,7 +6,6 @@ import net.sf.beezle.mork.parser.Conflict;
 import net.sf.beezle.mork.parser.Parser;
 import net.sf.beezle.mork.parser.ParserTable;
 import net.sf.beezle.mork.pda.Item;
-import net.sf.beezle.mork.pda.PDA;
 import net.sf.beezle.mork.pda.State;
 
 import java.util.ArrayList;
@@ -47,23 +46,34 @@ public class ConflictHandler {
         }
     }
 
-    public char reduceReduceConflict(int stateId, State state, int symbol, int no, int ... reduceActions) {
+    public char reduceReduceConflict(int stateId, State state, int symbol, int resolverNo, int ... newReduceActions) {
         List<Item> items;
         List<Line> lines;
         Line[] array;
         Line line;
         Line conflicting;
         ConflictResolver resolver;
-
+        Item i;
+        List<Integer> allReduceActions;
+        
         items = new ArrayList<Item>();
-        if (no != -1) {
-            resolver = resolvers.get(no);
-            for (Line existing : resolver.lines) {
-                items.add(state.getReduceItem(grammar, ParserTable.getOperand(existing.action)));
+        allReduceActions = new ArrayList<Integer>();
+        if (resolverNo != -1) {
+            resolver = resolvers.get(resolverNo);
+            for (Line l : resolver.lines) {
+                i = state.getReduceItem(grammar, ParserTable.getOperand(l.action));
+                if (!items.contains(i)) {
+                    items.add(i);
+                    allReduceActions.add(l.action);
+                }
             }
         }
-        for (int reduceAction : reduceActions) {
-            items.add(state.getReduceItem(grammar, ParserTable.getOperand(reduceAction)));
+        for (int reduceAction : newReduceActions) {
+            i = state.getReduceItem(grammar, ParserTable.getOperand(reduceAction));
+            if (!items.contains(i)) {
+                items.add(i);
+                allReduceActions.add(reduceAction);
+            }
         }
         lines = new ArrayList<Line>();
         for (Item item : items) {
@@ -71,7 +81,7 @@ public class ConflictHandler {
                 line = new Line(terminals, ParserTable.createValue(Parser.REDUCE, item.getProduction()));
                 conflicting = Line.lookupTerminals(lines, line.terminals);
                 if (conflicting != null) {
-                    conflicts.add(new Conflict("reduce-reduce", stateId, state, symbol, reduceActions));
+                    conflicts.add(new Conflict("reduce-reduce", stateId, state, symbol, toArray(allReduceActions)));
                     return ParserTable.createValue(Parser.SPECIAL, Parser.SPECIAL_ERROR);
                 }
                 lines.add(line);
@@ -80,13 +90,23 @@ public class ConflictHandler {
         array = new Line[lines.size()];
         lines.toArray(array);
         resolver = new ConflictResolver(array);
-        if (no == -1) {
+        if (resolverNo == -1) {
             resolvers.add(resolver);
-            no = resolvers.size() - 1;
+            resolverNo = resolvers.size() - 1;
         } else {
-            resolvers.set(no, resolver);
+            resolvers.set(resolverNo, resolver);
         }
-        return ParserTable.createValue(Parser.SPECIAL, Parser.SPECIAL_CONFLICT | (no << 2));
+        return ParserTable.createValue(Parser.SPECIAL, Parser.SPECIAL_CONFLICT | (resolverNo << 2));
+    }
+
+    private static int[] toArray(List<Integer> lst) {
+        int[] result;
+        
+        result = new int[lst.size()];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = lst.get(i);
+        }
+        return result;
     }
 
     public int conflicts() {
