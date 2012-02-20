@@ -41,7 +41,7 @@ public class State {
         symbol = grammar.getStart();
         max = grammar.getAlternativeCount(symbol);
         for (int alt = 0; alt < max; alt++) {
-            state.items.add(new Item(grammar.getAlternative(symbol, alt), 0, PrefixSet.one(eof)));
+            state.items.add(Item.create(grammar.getAlternative(symbol, alt), PrefixSet.one(eof)));
         }
         return state;
     }

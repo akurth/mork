@@ -27,17 +27,17 @@ import java.util.Map;
 
 /** LR(k) item. */
 public class Item implements Comparable<Item> {
+    public static Item create(int production,  PrefixSet lookahead) {
+        return new Item(production << 8, lookahead);
+    }
+
     /** production with dot */
     public final int core;
 
     /** do NOT inline this object into Item because the lookahead is shared when shifting */
     public final PrefixSet lookahead;
 
-    public Item(int production, int dot, PrefixSet lookahead) {
-        this((production << 8) | dot, lookahead);
-    }
-
-    public Item(int core, PrefixSet lookahead) {
+    private Item(int core, PrefixSet lookahead) {
         this.core = core;
         this.lookahead = lookahead;
     }
@@ -91,7 +91,7 @@ public class Item implements Comparable<Item> {
             maxAlt = grammar.getAlternativeCount(symbol);
             for (alt = 0; alt < maxAlt; alt++) {
                 first = first(grammar, firsts, production, dot + 1, lookahead, k);
-                item = new Item(grammar.getAlternative(symbol, alt), 0, first);
+                item = Item.create(grammar.getAlternative(symbol, alt), first);
                 if (!result.contains(item)) {
                     result.add(item);
                 }
