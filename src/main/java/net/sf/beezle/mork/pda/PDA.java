@@ -39,6 +39,7 @@ public class PDA implements PDABuilder {
         final Queue todo;
         int end;
         Thread[] threads;
+        final List<Throwable> exceptions;
 
         threads = new Thread[threadCount];
         todo = new Queue(threads.length);
@@ -46,6 +47,7 @@ public class PDA implements PDABuilder {
         state.closure(grammar, firsts, k);
         pda = new PDA(grammar, state);
         todo.put(state);
+        exceptions = new ArrayList<Throwable>();
         for (int i = 0; i < threads.length; i++) {
             threads[i] = new Thread("pda-builder-" + i) {
                 public void run() {
@@ -59,8 +61,9 @@ public class PDA implements PDABuilder {
                     } catch (InterruptedException e) {
                         return; // terminate
                     } catch (Throwable e) {
-                        // TODO
-                        e.printStackTrace();
+                        synchronized (exceptions) {
+                            exceptions.add(e);
+                        }
                     }
                 }
             };
@@ -70,10 +73,13 @@ public class PDA implements PDABuilder {
             try {
                 thread.join();
             } catch (InterruptedException e) {
-                throw new RuntimeException("TODO", e);
+                throw new IllegalStateException(e);
             }
         }
 
+        if (exceptions.size() > 0) {
+            throw new IllegalStateException("thread exceptions: " + exceptions.size(), exceptions.get(0));
+        }
         // TODO: hack hack hack
         end = pda.add(new State());
         pda.start.shifts.add(new Shift(grammar.getStart(), end));
