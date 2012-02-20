@@ -27,11 +27,11 @@ import java.util.Map;
 
 /** LR(k) item. */
 public class Item implements Comparable<Item> {
-    public static Item create(int production,  PrefixSet lookahead) {
-        return new Item(production << 8, lookahead);
+    public static Item create(Grammar grammar, int production,  PrefixSet lookahead) {
+        return new Item((production << 8) | grammar.getLength(production), lookahead);
     }
 
-    /** production with dot */
+    /** production with remaining. remaining = prodLength - dot */
     public final int core;
 
     /** do NOT inline this object into Item because the lookahead is shared when shifting */
@@ -47,32 +47,33 @@ public class Item implements Comparable<Item> {
     }
 
     /** grammar.getProdLength() for end */
-    public int getDot() {
+    public int getRemaining() {
         return (byte) core;
     }
 
     /** @return symbol of -1 if nothing can be shifted */
     public int getShift(Grammar grammar) {
         int production;
-        int dot;
+        int remaining;
 
-        production = getProduction();
-        dot = getDot();
-        if (dot < grammar.getLength(production)) {
-            return grammar.getRight(production, dot);
-        } else {
+        remaining = getRemaining();
+        if (remaining == 0) {
             return -1;
+        } else {
+            production = getProduction();
+            return grammar.getRight(production, grammar.getLength(production) - remaining);
         }
     }
 
-    public Item createShifted(Grammar grammar) {
-        int symbol;
+    public boolean isReduce() {
+        return getRemaining() == 0;
+    }
 
-        symbol = getShift(grammar);
-        if (symbol == -1) {
+    public Item createShifted() {
+        if (isReduce()) {
             return null;
         } else {
-            return new Item(core + 1, lookahead);
+            return new Item(core - 1, lookahead);
         }
     }
 
@@ -81,17 +82,19 @@ public class Item implements Comparable<Item> {
         int alt, maxAlt;
         Item item;
         int production;
+        int remaining;
         int dot;
         PrefixSet first;
 
-        production = getProduction();
-        dot = getDot();
-        if (dot < grammar.getLength(production)) {
+        remaining = getRemaining();
+        if (remaining > 0) {
+            production = getProduction();
+            dot = grammar.getLength(production) - remaining;
             symbol = grammar.getRight(production, dot);
             maxAlt = grammar.getAlternativeCount(symbol);
             for (alt = 0; alt < maxAlt; alt++) {
                 first = first(grammar, firsts, production, dot + 1, lookahead, k);
-                item = Item.create(grammar.getAlternative(symbol, alt), first);
+                item = Item.create(grammar, grammar.getAlternative(symbol, alt), first);
                 if (!result.contains(item)) {
                     result.add(item);
                 }
@@ -162,7 +165,7 @@ public class Item implements Comparable<Item> {
         int ofs, len;
 
         production = getProduction();
-        dot = getDot();
+        dot = grammar.getLength(production) - getRemaining();
         symbolTable = grammar.getSymbolTable();
         result = new StringBuilder();
         result.append(symbolTable.getOrIndex(grammar.getLeft(production)));

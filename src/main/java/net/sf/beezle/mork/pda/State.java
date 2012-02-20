@@ -41,7 +41,7 @@ public class State {
         symbol = grammar.getStart();
         max = grammar.getAlternativeCount(symbol);
         for (int alt = 0; alt < max; alt++) {
-            state.items.add(Item.create(grammar.getAlternative(symbol, alt), PrefixSet.one(eof)));
+            state.items.add(Item.create(grammar, grammar.getAlternative(symbol, alt), PrefixSet.one(eof)));
         }
         return state;
     }
@@ -95,7 +95,7 @@ public class State {
             state = new State();
             for (Item item : items) {
                 if (item.getShift(grammar) == symbol) {
-                    shifted = item.createShifted(grammar);
+                    shifted = item.createShifted();
                     if (shifted != null) {
                         state.items.add(shifted);
                     }
@@ -144,7 +144,7 @@ public class State {
         return items.size() == 0 ? 0 : items.get(0).hashCode() * 256 + items.get(items.size() - 1).hashCode();
     }
 
-    public void addActions(int id, Grammar grammar, ParserTable result, ConflictHandler handler) {
+    public void addActions(int id, ParserTable result, ConflictHandler handler) {
         Prefix prefix;
 
         // shifts first - they cannot cause conflicts
@@ -152,7 +152,7 @@ public class State {
             result.addShift(id, sh.symbol, sh.end);
         }
         for (Item item : items) {
-            if (item.getShift(grammar) == -1) {
+            if (item.isReduce()) {
                 prefix = item.lookahead.iterator();
                 while (prefix.step()) {
                     if (prefix.size() < 1) {
@@ -173,9 +173,9 @@ public class State {
         return null;
     }
 
-    public Item getReduceItem(Grammar grammar, int production) {
+    public Item getReduceItem(int production) {
         for (Item item : items) {
-            if ((item.getProduction() == production) && (item.getShift(grammar) == -1)) {
+            if (item.isReduce() && (item.getProduction() == production)) {
                 return item;
             }
         }

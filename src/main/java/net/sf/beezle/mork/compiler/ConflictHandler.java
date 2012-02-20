@@ -55,13 +55,13 @@ public class ConflictHandler {
         ConflictResolver resolver;
         Item i;
         List<Integer> allReduceActions;
-        
+
         items = new ArrayList<Item>();
         allReduceActions = new ArrayList<Integer>();
         if (resolverNo != -1) {
             resolver = resolvers.get(resolverNo);
             for (Line l : resolver.lines) {
-                i = state.getReduceItem(grammar, ParserTable.getOperand(l.action));
+                i = state.getReduceItem(ParserTable.getOperand(l.action));
                 if (!items.contains(i)) {
                     items.add(i);
                     allReduceActions.add(l.action);
@@ -69,7 +69,7 @@ public class ConflictHandler {
             }
         }
         for (int reduceAction : newReduceActions) {
-            i = state.getReduceItem(grammar, ParserTable.getOperand(reduceAction));
+            i = state.getReduceItem(ParserTable.getOperand(reduceAction));
             if (!items.contains(i)) {
                 items.add(i);
                 allReduceActions.add(reduceAction);
@@ -101,7 +101,7 @@ public class ConflictHandler {
 
     private static int[] toArray(List<Integer> lst) {
         int[] result;
-        
+
         result = new int[lst.size()];
         for (int i = 0; i < result.length; i++) {
             result[i] = lst.get(i);

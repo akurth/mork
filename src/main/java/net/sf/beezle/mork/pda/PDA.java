@@ -135,7 +135,7 @@ public class PDA implements PDABuilder {
         eof = getEofSymbol();
         result = new ParserTable(0, size(), lastSymbol + 1 /* +1 for EOF */, eof, grammar, null);
         for (Map.Entry<State, Integer> entry : states.entrySet()) {
-            entry.getKey().addActions(entry.getValue(), grammar, result, handler);
+            entry.getKey().addActions(entry.getValue(), result, handler);
         }
         end = start.lookupShift(grammar.getStart()).end;
         result.addAccept(end, eof);
