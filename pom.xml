@@ -20,6 +20,7 @@
   <groupId>net.sf.beezle.mork</groupId>
   <artifactId>mork</artifactId>
   <version>1.0.1-SNAPSHOT</version>
+  <!-- YP link: http://go.1and1.org/yp/YP-FE.16894 -->
 
   <packaging>jar</packaging>
   <inceptionYear>1998</inceptionYear>
