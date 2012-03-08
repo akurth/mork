@@ -2680,7 +2680,7 @@
 
     <para>Mork is bootstrapped, the file listed in here are written in their own language.</para>
 
-    <para><literal>Syntax.syntax</literal> defines the syntax of syntax files.
+    <para><literal>Syntax.syntax</literal> defines the syntax of syntax files.</para>
 
     <para>
       <programlisting><xi:include href="../../main/Syntax.syntax" parse="text" /></programlisting>
