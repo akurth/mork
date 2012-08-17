@@ -3,11 +3,11 @@
   <parent>
     <groupId>net.sf.beezle.maven.poms</groupId>
     <artifactId>parent</artifactId>
-    <version>1.0.9</version>
+    <version>2.0.0-SNAPSHOT</version>
   </parent>
 
   <name>Mork</name>
-  <url>https://beezle.sf.net</url>
+  <url>https://github.com/mlhartme/mork</url>
   <description>See ${project.url}.</description>
   <licenses>
     <license>
@@ -26,9 +26,9 @@
   <inceptionYear>1998</inceptionYear>
 
   <scm>
-    <connection>scm:svn:https://beezle.svn.sourceforge.net/svnroot/beezle/mork/trunk</connection>
-    <developerConnection>scm:svn:https://beezle.svn.sourceforge.net/svnroot/beezle/mork/trunk</developerConnection>
-    <url>http://beezle.svn.sourceforge.net/viewvc/beezle/mork/trunk</url>
+    <connection>scm:git:https://github.com/mlhartme/mork.git</connection>
+    <developerConnection>scm:git:https://github.com/mlhartme/mork.git</developerConnection>
+    <url>https://github.com/mlhartme/mork</url>
   </scm>
 
   <dependencies>
@@ -197,11 +197,4 @@
       </plugin>
     </plugins>
   </build>
-
-  <distributionManagement>
-    <site>
-      <id>sourceforge</id>
-      <url>scp://shell.sourceforge.net/home/project-web/beezle/htdocs/mork/site</url>
-    </site>
-  </distributionManagement>
 </project>
