@@ -7,7 +7,7 @@
   </parent>
 
   <name>Mork</name>
-  <url>https://github.com/mlhartme/mork</url>
+  <url>https://github.com/mlhartme/mork/wiki/mork</url>
   <description>See ${project.url}.</description>
   <licenses>
     <license>
