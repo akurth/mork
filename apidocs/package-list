@@ -1,0 +1,12 @@
+net.sf.beezle.mork.classfile
+net.sf.beezle.mork.classfile.attribute
+net.sf.beezle.mork.compiler
+net.sf.beezle.mork.grammar
+net.sf.beezle.mork.mapping
+net.sf.beezle.mork.misc
+net.sf.beezle.mork.parser
+net.sf.beezle.mork.pda
+net.sf.beezle.mork.reflect
+net.sf.beezle.mork.regexpr
+net.sf.beezle.mork.scanner
+net.sf.beezle.mork.semantics

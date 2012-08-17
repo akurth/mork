@@ -1,0 +1,11 @@
+net.sf.beezle.mork.bootstrap
+net.sf.beezle.mork.classfile
+net.sf.beezle.mork.compiler
+net.sf.beezle.mork.compiler.tests.env
+net.sf.beezle.mork.compiler.tests.sideeffect
+net.sf.beezle.mork.grammar
+net.sf.beezle.mork.mapping
+net.sf.beezle.mork.parser
+net.sf.beezle.mork.pda
+net.sf.beezle.mork.scanner
+net.sf.beezle.mork.semantics

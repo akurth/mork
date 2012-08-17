@@ -1,0 +1,238 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;4.&nbsp;Syntax files</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><link rel="home" href="manual.html" title="Mork"><link rel="up" href="manual.html" title="Mork"><link rel="prev" href="ch03.html" title="Chapter&nbsp;3.&nbsp;First steps"><link rel="next" href="ch05.html" title="Chapter&nbsp;5.&nbsp;Mapper files"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;4.&nbsp;Syntax files</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch05.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;4.&nbsp;Syntax files"><div class="titlepage"><div><div><h2 class="title"><a name="d0e1194"></a>Chapter&nbsp;4.&nbsp;Syntax files</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch04.html#d0e1213">Overall structure</a></span></dt><dt><span class="sect1"><a href="ch04.html#d0e1272">Symbols</a></span></dt><dt><span class="sect1"><a href="ch04.html#d0e1375">Regular expression</a></span></dt><dt><span class="sect1"><a href="ch04.html#d0e1573">Lexical structure</a></span></dt><dt><span class="sect1"><a href="ch04.html#d0e1646">Scanner modes</a></span></dt></dl></div><p title="About"><b>About.&nbsp;</b>This chapter is about syntax files. A syntax file defines the structure of
+        an input stream. Mork reads syntax files when processing a mapper file. The syntax
+        is defined by a list of BNF-style rules. The list of rules is divided into a parser
+        section defining a pushdown automaton and a scanner section defining a finite
+        automaton.</p><p title="Naming convention"><b>Naming convention.&nbsp;</b>My naming convention for syntax files is as follows. The base name of
+        a syntax file is the name of the language specified in the file, capitalized
+        like Java class names. The file name extension is <code class="literal">.syntax</code>.
+        Examples: <code class="literal">Java.syntax</code> for a Java syntax.
+      </p><div class="sect1" title="Overall structure"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e1213"></a>Overall structure</h2></div></div></div><div class="figure"><a name="d0e1216"></a><p class="title"><b>Figure&nbsp;4.1.&nbsp;Overall structure</b></p><div class="figure-contents"><pre class="programlisting">
+          Syntax              ::= Parser Scanner ;
+          Parser              ::= "[" "PARSER" "]" Rule+ ;
+          Scanner             ::= "[" "SCANNER" "]" Priorities WhiteOpt Rule* ;
+          Priorities          ::= UsePriorities | NoPriorities;
+          UsePriorities       ::= ;
+          NoPriorities        ::= "nopriorities;";
+          WhiteOpt            ::= ("white" "=" SymbolSet ";")? ;
+          SymbolSet           ::= ( Symbol ("," Symbol)* )? ;
+        </pre></div></div><br class="figure-break"><p>Start symbol of a syntax file is <code class="literal">Syntax</code>.</p><p title="Sections"><b>Sections.&nbsp;</b>A syntax file is divided into a parser section and a scanner
+          section. Sections have a header and a body. Headers adjusts global options
+          that apply to the whole body. The body is comprised of a set of rules. The rules within
+          both sections should proceed from large element to small elements, i.e. the
+          start symbol should be specified first, and terminal symbols should be
+          specified last. For that reason, the parser section precedes the scanner
+          section. </p><p title="Parser section"><b>Parser section.&nbsp;</b>The parser section defines the context-free structure of the input
+          stream. The section header identifies that parser section, no other options
+          are given. The section body specifies a list of rules, each of them comprised
+          of a symbol and a regular expression. These rules define the context-free
+          grammar that parses the input stream. The symbol of the first rule is the
+          start symbol of the grammar. </p><p title="Scanner section"><b>Scanner section.&nbsp;</b>The scanner section defines the regular structure of the input
+          stream. The section header specifies white symbols, i.e. terminal symbols
+          to be removed from the input stream; these symbols are never returned to
+          the parser. Typical examples for white symbols are white space and comments.
+          The section body is comprised of a list of rules, each of them comprised of
+          a symbol and a regular expression.</p><p title="Priorities"><b>Priorities.&nbsp;</b>Specifies how to resolve conflicts between two terminals that match
+          the same input. A typical example is a keyword like <code class="literal">begin</code> and an
+          <code class="literal">identifier</code> terminal that also matches the input <code class="literal">begin</code>.
+          Traditionally, scanner generators use priorities to resolve this conflict: if the input
+          <code class="literal">begin</code> is found, the terminal defined first will be matched. This behavior
+          is useful for programming languages like Java where a keyword is not a valid identifier:
+          just define the keywords before the identifier and you scanner will never match an identifier
+          if there is also a keyword for the respective input.</p><p title="No Priorities"><b>No Priorities.&nbsp;</b>Specify <code class="literal">nopriorities</code> if you don't want to resolve scanner
+          conflicts based on their priority. In this case, Mork will try to resolve the conflict
+          by choosing appropriate scanner modes. Example: in XML, the <code class="literal">Name</code>
+          terminal conflicts with the <code class="literal">Nmtoken</code>. This conflict must not be solved
+          by priorities because the scanner needs to match both terminals. Mork ensures that
+          no parser state can shift both terminals and adds both terminals to different scanner modes.
+          The generated parser automatically switches it's scanner into the mode that matches all
+          terminals currently shiftable.</p></div><div class="sect1" title="Symbols"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e1272"></a>Symbols</h2></div></div></div><p>The syntax of input streams is defined in terms of symbols. Any symbol
+        has a language which is defined by the parser and scanner section. A language
+        is a set of strings. The set might be empty, it might include the empty
+        string, and in may cases, the set in infinite. A symbol is said to match the
+        current input, if the current input starts with an element of its language. Otherwise,
+        the symbol does not match. Example: a symbol  <code class="literal">Integer</code> typically
+        matches <code class="literal">57...</code>, but not <code class="literal">xyz...</code>. </p><div class="figure"><a name="d0e1286"></a><p class="title"><b>Figure&nbsp;4.2.&nbsp;Symbols</b></p><div class="figure-contents"><pre class="programlisting">
+          Symbol              ::= StringSymbol | IdentifierSymbol ;
+          StringSymbol        ::= StringLiteral ;
+          IdentifierSymbol    ::= Identifier ;
+          Rule                ::= Subject "::=" RegExpr ";" ;
+          Subject             ::= Symbol ;
+        </pre></div></div><br class="figure-break"><p title="Symbols"><b>Symbols.&nbsp;</b>A symbol is a string symbol or an identifier symbol. The language of a
+          string symbol is defined implicitly by its string, whereas the language of
+          an identifier symbol is defined explicitly by one or more regular expressions.
+          Symbols are case-sensitive.</p><p title="String symbol"><b>String symbol.&nbsp;</b>A string symbol is specified like a Java string literal. The language of a
+          string symbol is the string itself. For example, a string symbol <code class="literal">"foo"</code>
+          matches the string <code class="literal">foo</code>, nothing else. String symbols may contain all
+          escapes known from Java. It is an error to use different escapes to denote the same string.
+          For examples, Mork issues an error if you use both <code class="literal">"foo\n"</code>
+          and <code class="literal">"foo\x0a"</code> in a syntax file.</p><p title="Identifier symbols"><b>Identifier symbols.&nbsp;</b>An identifier symbol is specified like a Java identifier. For any
+          identifier symbol used in the parser section, the must be at least one
+          rule. Let <code class="literal">A ::= w1; A ::= w2; .. A ::= wn;</code> be the set of all rules
+          with subject <code class="literal">A</code>. The language of <code class="literal">A</code> is defined by
+          the regular expression <code class="literal">(w1) | (w2) ... | (wn)</code>. </p><p title="Rules"><b>Rules.&nbsp;</b>Rules define identifier symbols. The symbol on the left side of a
+          rule is called the subject of the rule. The subject must be an identifier
+          symbol. Regular expression in the parser may refer to any symbol, include
+          those defined later in the parser section and to symbols defined in the
+          scanner section. Regular expressions in the scanner section may not refer
+          to symbols in the parser section; they may refer to symbols in the scanner
+          section as long as not recursion is introduced. The same subject may be defined
+          by multiple rules, but all rules must be specified in the same section.
+        </p><p title="Inline symbols"><b>Inline symbols.&nbsp;</b>A symbol defined in the scanner section and not referred from the parser section
+          is called an inline symbol. Inline symbols are used to simplify rules in the scanner section
+          (by factoring out common parts), they are not considered terminals. As a consequence, inline
+          symbols cannot be have attributes.
+        </p><p title="Conflicts"><b>Conflicts.&nbsp;</b>A conflict arises if a given input can be matched by two or more
+          symbols. The parser section is tested for conflicts at compile-time. If Mork
+          does not report conflicts, all conflicts, if any, have been resolved.
+        </p><p title="Conflicts on nonterminals"><b>Conflicts on nonterminals.&nbsp;</b>Mork issues an error message for all conflicts on nonterminal
+          symbols. The user must change the rules in the parser section to resolve
+          the conflict. There is currently no way to resolve conflicts by additional
+          declarations, e.g. operator precedence.</p><p title="Conflicts on terminals"><b>Conflicts on terminals.&nbsp;</b>In contrast to nonterminals, all conflicts on terminal symbols are
+          resolved automatically. This conflict resolution follows the scheme used
+          most frequently by scanner tools: (1) if conflicting matches have different
+          lengths, the symbol with the longest match is applied; (2) otherwise, the
+          symbol defined first is applied. String symbols are considered to be defined
+          before identifier symbols. </p><p title="Example"><b>Example.&nbsp;</b>The input <code class="literal">if</code> can typically be matched by the symbol
+          <code class="literal">Identifier</code> and the string symbol <code class="literal">"if"</code>. Mork
+          matches the <code class="literal">"if"</code> symbols because its definition proceeds the
+          definition of the <code class="literal">Identifier</code> symbol.</p></div><div class="sect1" title="Regular expression"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e1375"></a>Regular expression</h2></div></div></div><p>Regular expressions define languages.</p><div class="figure"><a name="d0e1380"></a><p class="title"><b>Figure&nbsp;4.3.&nbsp;Regular expression syntax</b></p><div class="figure-contents"><pre class="programlisting">
+          RegExpr             ::= Choice ;
+          Choice              ::= Choice "|" Sequence | Sequence ;
+          Sequence            ::= (Factor | Restriction)* ;
+          Restriction         ::= Factor "-" Factor;
+          Factor              ::= Operation | Reference | Range | "(" RegExpr ")" ;
+          Operation           ::= Star | Plus | Option | Times | Not ;
+
+          Star                ::= Factor "*" ;
+          Plus                ::= Factor "+" ;
+          Option              ::= Factor "?" ;
+          Times               ::= Factor ":" IntegerLiteral ;
+          Not                 ::= Factor "!" ;
+
+          Reference           ::= Symbol ;
+
+          Range               ::= Atom (".." Atom)? ;
+          Atom                ::= CharacterLiteral | Code ;
+          Code                ::= IntegerLiteral ;
+        </pre></div></div><br class="figure-break"><p title="Regular Expression"><b>Regular Expression.&nbsp;</b>A regular expression defines a language, which is a set of strings.
+          In the parser section, regular expressions define context-free languages;
+          in the scanner section, regular expressions define regular expressions.
+          A regular expression is said to match a string if the string is an element
+          of the language. </p><p title="Choice"><b>Choice.&nbsp;</b>A choice is a list of one or more sequences. A choice matches a string
+          if one of its sequences matches the string. Formally, the language of an
+          choice is the union of the languages of its sequences.
+          Example: <code class="literal">A ::= "a" | "b";</code> matches <code class="literal">a</code> or
+          <code class="literal">b</code>.</p><p title="Sequence"><b>Sequence.&nbsp;</b>A sequence is a list of zero or more factors or restrictions. A sequence matches
+          any string that is the concatenation of strings matched by its factors. Formally,
+          the language of a sequence is the set of concatenations of element,
+          one element taken from any of its factors. An empty sequence matches
+          the empty string. Example: <code class="literal">A ::= "a" "b";</code> matches
+          <code class="literal">ab</code>.</p><p title="Restrictions"><b>Restrictions.&nbsp;</b>A restriction matches a string if the left factor matches the string and the right
+          factory does not match the string. This is useful, for example, to specify block
+          comments: <code class="literal">comment ::= "/*" any* - (any* "*/" any*) "*/" ;</code>.
+          Note that the syntax for restrictions does not permit <code class="literal">A - B - C</code> because
+          the precedence is not obvious. Use <code class="literal">A - (B - C)</code> or
+          <code class="literal">(A - B) - C</code> instead.
+        </p><p title="Operation"><b>Operation.&nbsp;</b>Operations are specified in postfix notation, giving priority to the
+          inner-most operator. The factor left of an operator is called its operand.
+          The following operations are available:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p title="Plus"><b>Plus.&nbsp;</b>A loop. Matches any string that is the concatenation of at
+            least one string matched by the operand. Example:
+            <code class="literal">A ::= "a"+;</code> matches <code class="literal">a</code>,
+            <code class="literal">aa</code>, <code class="literal">aaa</code> etc.
+          </p></li><li class="listitem"><p title="Star"><b>Star.&nbsp;</b>Optional loop; matches any string that is the concatenation
+            of zero or more strings matched by the operand. Example:
+            <code class="literal">A ::= "a"*;</code> matches empty string,
+            <code class="literal">a</code>, <code class="literal">aa</code>, etc.
+          </p></li><li class="listitem"><p title="Option"><b>Option.&nbsp;</b>Matches the empty string and any string matched by
+            the operand. Example: <code class="literal">A ::= "a"?;</code> matches
+            the empty string and <code class="literal">a</code>.
+          </p></li><li class="listitem"><p title="Times"><b>Times.&nbsp;</b>Matches any string that is the concatenation of the given
+            number of strings matched by the operand. Example:
+            <code class="literal">A ::= "a":4; </code> matches <code class="literal">aaaa</code>.
+          </p></li><li class="listitem"><p title="Not"><b>Not.&nbsp;</b>matches the inverted character set of the operand. It is an error
+            to apply this operator to an operand which is not a character set.
+            A character set is a regular expression with only ranges and choices.
+            Example: <code class="literal">A ::= 'a'..'z'!;</code> matches any character which
+            is not a lower case letter. Advanced note: not inverts ranges, not languages;
+            otherwise, <code class="literal">'a'!</code> would match any string except <code class="literal">a</code>,
+            e.g. <code class="literal">aa</code>, <code class="literal">aaa</code>, etc. To invert languages
+            use restrictions with an unmatchable left factory.</p></li></ul></div><p title="Reference"><b>Reference.&nbsp;</b>Matches any string matched by the specified symbol. It is an error
+          to reference parser symbols from the scanner section. References to scanner symbols
+          from the scanner section are valid as long as no recursion is introduced; these symbols
+          are automatically inlined, i.e. the symbol is replaced by it's definition.
+        </p><p title="Ranges"><b>Ranges.&nbsp;</b>A range <code class="literal">a..z</code> matches any character <code class="literal">x</code> with
+          <code class="literal">a &lt;= x &lt;= z</code>. A single boundary range <code class="literal">a</code>
+          abbreviates the range <code class="literal">a..a</code>.  An empty range is a range where the upper
+          bound is smaller than its lower bound. Empty ranges are legal, they match nothing.
+        </p><p title="Atom"><b>Atom.&nbsp;</b>An atom matches the Unicode character it denotes. The character can
+          be specified by a character literal or by a Unicode number.
+        </p><p title="Translation into BNF"><b>Translation into BNF.&nbsp;</b>The following substitutions are used by Mork to turn regular expression
+          rules into plain context-free grammar rules. This is used to translate the
+          parser section into a context-free grammar. Substitutions have been chosen
+          to avoid nonterminal conflicts. In particular, the substitution of empty
+          loops <code class="literal">Lst ::= Item*</code> into <code class="literal">Lst::= ;  Lst::= Item Lst;</code>
+          is not used, even though the rules are less complicated.</p><p>
+        </p><pre class="programlisting">
+          A ::= B | C   -&gt;  A ::= B;   A ::= C;
+          A ::= B C? D; -&gt;  A ::= B D; A ::= B C D;
+          A ::= B+;     -&gt;  A ::= X;   X ::= X B;   X ::= B;
+          A ::= B*;     -&gt;  A ::= B*?;
+          -&gt;  A ::= X;   A ::= ;      X ::= X B; X ::= B;
+        </pre><p>Notes: (1) The plus operator introduces new internal symbols.
+        (2) Negation is not mentioned here, because it is illegal in the parser
+        section.</p><p title="Example"><b>Example.&nbsp;</b>The rule <code class="literal">New ::= "new" Name "(" (Object ("," Object)*)? ")";</code> is
+          internally turned to:
+          </p><pre class="programlisting">
+            New ::= "new" Name "(" Object ")" ;
+            New ::= "new" Name "(" Object "," Object ")" ;
+            New ::= "new" Name "(" Object Lst ")" ;
+            Lst ::= Lst "," Object ;
+            Lst ::= "," Object ;
+          </pre></div><div class="sect1" title="Lexical structure"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e1573"></a>Lexical structure</h2></div></div></div><p>Syntax files essentially follow the lexical conventions of Java.
+        The only major difference is the <code class="literal">EndOfLineComment</code>.</p><div class="figure"><a name="d0e1581"></a><p class="title"><b>Figure&nbsp;4.4.&nbsp;Lexical structure</b></p><div class="figure-contents"><pre class="programlisting">
+          WhiteSpace         ::= ( ' ' | '\t' | '\n' | '\f' | '\r' )+ ;
+          EndOfLineComment   ::= '/' '/' ('\n' | '\r')!* ('\n' | '\r') ;
+          TraditionalComment ::= '/' '*' ('*'! | '*' '/'!)* '*' '/' ;
+
+
+          IntegerLiteral     ::= '0'
+          | '1'..'9' '0'..'9'*
+          | '0' ('x'|'X')
+          ('0'..'9' | 'a'..'f' | 'A'..'F')+
+          | '0' ('0'..'7')+ ;
+
+          StringLiteral      ::= '"' (('\\' 0..65535)
+          | ('\\' | '"' | '\n' | '\r')!)+ '"' ;
+
+          CharacterLiteral   ::= '\'' (('\\' 0..65535) |
+          ('\\' |'\'' |'\n' | '\r')!)+ '\'' ;
+
+          Identifier ::=
+          ( 0x0024..0x0024 | 0x0041..0x005a | 0x005f..0x005f |
+          0x0061..0x007a | 0x00a2..0x00a5 | 0x00aa..0x00aa |
+          0x00b5..0x00b5 | 0x00ba..0x00ba | 0x00c0..0x00d6 |
+          0x00d8..0x00f6 | 0x00f8..0x00ff )
+          ( 0x0000..0x0008 | 0x000e..0x001b | 0x0024..0x0024 |
+          0x0030..0x0039 | 0x0041..0x005a | 0x005f..0x005f |
+          0x0061..0x007a | 0x007f..0x009f | 0x00a2..0x00a5 |
+          0x00aa..0x00aa | 0x00b5..0x00b5 | 0x00ba..0x00ba |
+          0x00c0..0x00d6 | 0x00d8..0x00f6 | 0x00f8..0x00ff )* ;
+        </pre></div></div><br class="figure-break"><p>Differences from Java:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p title="EndOfLineComment"><b><code class="literal">EndOfLineComment</code>.&nbsp;</b><code class="literal">EndOfLineComment</code> start with the hash character <code class="literal">#</code>.
+            Double slashes <code class="literal">//</code> known from Java <code class="literal">EndOfLineComment</code>s have
+            a different meaning (they are used in paths).</p></li><li class="listitem"><p title="Documentation comments"><b>Documentation comments.&nbsp;</b>Documentation comments are not distinguished from block comments.
+          </p></li><li class="listitem"><p title="literals"><b>literals.&nbsp;</b>Floating-point and boolean literals are not available;
+            type suffixes in <code class="literal">IntegerLiterals</code> are not available.
+          </p></li><li class="listitem"><p title="keywords"><b>keywords.&nbsp;</b>The set of keywords is different from Java. For examples, <code class="literal">start</code>
+            is a keyword within specification files, whereas <code class="literal">for</code> is an identifier,
+            not a keyword.</p></li><li class="listitem"><p title="identifier"><b>identifier.&nbsp;</b>Identifiers are restricted to Unicode characters with a
+            character code &lt;= 255.</p></li><li class="listitem"><p title="Unicode preprocessing"><b>Unicode preprocessing.&nbsp;</b>Prior to scanning, no Unicode preprocessing is performed. Thus,
+            a token in general may not contain Unicode escapes. However, the
+            definition of character and string literals has been extended to
+            support Unicode escapes.</p></li></ul></div></div><div class="sect1" title="Scanner modes"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e1646"></a>Scanner modes</h2></div></div></div><p>A scanner mode is a set of terminals. Whenever matching a string, the scanner
+        matches only terminals in the current mode. Scanner modes are completely transparent, usually,
+        there is no need to care about them: at compile-time, scanner modes are computed automatically,
+        there is no need to manually declare scanner modes. At runtime, the parser automatically switches
+        to the appropriate scanner mode, there is no need to manually set the scanner mode. For most
+        syntax files, the resulting scanner has exactly one mode (containing all terminals). </p><p>TODO: more</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch05.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;3.&nbsp;First steps&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="manual.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;5.&nbsp;Mapper files</td></tr></table></div></body></html>

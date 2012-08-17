@@ -1,0 +1,64 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;8.&nbsp;Source Code</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><link rel="home" href="manual.html" title="Mork"><link rel="up" href="manual.html" title="Mork"><link rel="prev" href="ch07.html" title="Chapter&nbsp;7.&nbsp;Usage"><link rel="next" href="apa.html" title="Appendix&nbsp;A.&nbsp;Mork syntax files"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;8.&nbsp;Source Code</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="apa.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;8.&nbsp;Source Code"><div class="titlepage"><div><div><h2 class="title"><a name="d0e3288"></a>Chapter&nbsp;8.&nbsp;Source Code</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch08.html#d0e3291">Overview</a></span></dt><dt><span class="sect1"><a href="ch08.html#d0e3318">Example applications</a></span></dt><dt><span class="sect1"><a href="ch08.html#d0e3398">Building Mork</a></span></dt><dt><span class="sect1"><a href="ch08.html#d0e3403">Miscellaneous</a></span></dt></dl></div><div class="sect1" title="Overview"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e3291"></a>Overview</h2></div></div></div><p title="Version numbering"><b>Version numbering.&nbsp;</b>The version numbering scheme is <code class="literal">major.minor</code>. The minor number is
+          bumped for normal releases with normal, incremental improvements. The major number is bump for
+          milestones.</p><div class="figure"><a name="d0e3302"></a><p class="title"><b>Figure&nbsp;8.1.&nbsp;Directory structure</b></p><div class="figure-contents"><pre class="programlisting">
+          mork
+          |- src/main/java/net/sf/beezle/mork
+          |   |- compiler              compiler
+          |   |- mapping               map symbols to objects
+          |   |- semantics             attribute grammars
+          |   |- parser                push-down automatons
+          |   |- scanner               finite automatons
+          |   |- grammar               context-free grammars
+          |   |- regexpr               regular expressions
+          |   |- classfile             Java class files
+          |   |- reflect               reflection
+          |    - util                  data types, misc
+          |- src/test/java             tests
+          |- src/site/manual           documentation
+           - examples                  example applications
+        </pre></div></div><br class="figure-break"><p title="Architecture"><b>Architecture.&nbsp;</b>Basically, Mork is a Java class library together with some documentation, examples,
+          a build system (python) and some launch scripts. The packages in the class library a structured
+          into three layers, with lower layers having no dependencies on upper layers. The lowest layer is
+          general-purpose, it is not tied to compiler tools. The compiler tool layer is by far the biggest
+          part. Basically, it implements typical data types described in compiler construction text book.
+          This layer is not tied to Mork, you could use it to realize other compiler tools. The Mork layer
+          is the top-most layer, adding Mork-specific stuff.
+        </p><div class="figure"><a name="d0e3312"></a><p class="title"><b>Figure&nbsp;8.2.&nbsp;Architecture</b></p><div class="figure-contents"><div class="mediaobject"><object type="image/svg+xml" data="library.svg"></object></div></div></div><br class="figure-break"></div><div class="sect1" title="Example applications"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e3318"></a>Example applications</h2></div></div></div><p>Mork includes a number of example applications. Every example is implemented in a
+        package of the example's name. Java's <code class="literal">main</code> method is always placed in
+        a class called Main. The following steps compile and run the example application
+        <code class="literal">foo</code>.
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Optional: build <code class="literal">javadoc</code>:
+            </p><pre class="programlisting">
+              cd examples
+              mkdir foo/javadoc
+              javadoc -d foo/javadoc -sourcepath . foo
+            </pre></li><li class="listitem"><p>Compile the Java files:
+            </p><pre class="programlisting">
+              cd examples/foo
+              javac *.java
+            </pre></li><li class="listitem"><p>Compile the mapper:
+            </p><pre class="programlisting">
+              mork Mapper.mapper
+            </pre></li><li class="listitem"><p>Run it:
+            </p><pre class="programlisting">
+              java foo.Main
+            </pre><p>If the example needs arguments, a usage message will be printed.
+          </p></li></ul></div><p>
+      </p><p title="calc"><b>calc.&nbsp;</b>The classic example for compiler tools:
+          calculate simple arithmetic expression.</p><p title="command"><b>command.&nbsp;</b>The application described in the first steps chapter of this manual.
+        </p><p title="interpreter"><b>interpreter.&nbsp;</b>Interpreter for a simple language. The implementation instantiates
+          classes that resemble a kind of abstract syntax. The methods of these
+          classes implement the interpreter. Note that no symbol table is necessary,
+          and that variable references point directly to the referenced variable.
+        </p><p title="compiler"><b>compiler.&nbsp;</b>Compiler for a simple language. The implementation instantiates
+          classes similar to those in the interpreter example. But instead of
+          interpretation methods, these classes have methods to generate Java
+          byte code.</p><p>To compile and run a program <code class="literal">Foo.prog</code>, process
+        as follows. </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p><code class="literal">java compiler.Main Foo.prog</code></p></li><li class="listitem"><p><code class="literal">java Foo</code></p></li></ul></div><p title="jp"><b><code class="literal">jp</code>.&nbsp;</b>A parser for Java 2, version 1.2. For example, you can run
+          <code class="literal">jp.Main examples/*/*.java</code> to parse all examples.
+        </p></div><div class="sect1" title="Building Mork"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e3398"></a>Building Mork</h2></div></div></div><p>To build Mork, simply invoke "mvn clean install site"</p></div><div class="sect1" title="Miscellaneous"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e3403"></a>Miscellaneous</h2></div></div></div><p title="Source conventions"><b>Source conventions.&nbsp;</b>
+          </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>maximum line length: 100 characters</p></li><li class="listitem"><p>indentation: 4 spaces, not tabs</p></li><li class="listitem"><p>newline: Unix convention</p></li><li class="listitem"><p>a raw <code class="literal">RuntimeException</code> is thrown if an
+              inconsistent state, i.e. a bug, has been detected.</p></li></ul></div><p title="Source conventions">
+        </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="apa.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;7.&nbsp;Usage&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="manual.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Appendix&nbsp;A.&nbsp;Mork syntax files</td></tr></table></div></body></html>

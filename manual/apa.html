@@ -1,0 +1,207 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Appendix&nbsp;A.&nbsp;Mork syntax files</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><link rel="home" href="manual.html" title="Mork"><link rel="up" href="manual.html" title="Mork"><link rel="prev" href="ch08.html" title="Chapter&nbsp;8.&nbsp;Source Code"><link rel="next" href="ix01.html" title="Index"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Appendix&nbsp;A.&nbsp;Mork syntax files</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch08.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ix01.html">Next</a></td></tr></table><hr></div><div class="appendix" title="Appendix&nbsp;A.&nbsp;Mork syntax files"><div class="titlepage"><div><div><h2 class="title"><a name="d0e3428"></a>Appendix&nbsp;A.&nbsp;Mork syntax files</h2></div></div></div><p>Mork is bootstrapped, the file listed in here are written in their own language.</p><p><code class="literal">Syntax.syntax</code> defines the syntax of syntax files.</p><p>
+      </p><pre class="programlisting">#
+# Copyright 1&amp;1 Internet AG, http://www.1and1.org
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; either version 2 of the License,
+# or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+#
+
+[PARSER]
+
+#
+# overall structure
+
+Syntax              ::= Parser Scanner ;
+Parser              ::= "[" "PARSER" "]" Rule+ ;
+Scanner             ::= "[" "SCANNER" "]" Priorities WhiteOpt Rule* ;
+Priorities          ::= UsePriorities | NoPriorities;
+UsePriorities       ::= ;
+NoPriorities        ::= "nopriorities;";
+WhiteOpt            ::= ("white" "=" SymbolSet ";")? ;
+SymbolSet           ::= ( Symbol ("," Symbol)* )? ;
+
+
+#
+# symbols
+
+Symbol              ::= StringSymbol | IdentifierSymbol ;
+StringSymbol        ::= StringLiteral ;
+IdentifierSymbol    ::= Identifier ;
+Rule                ::= Subject "::=" RegExpr ";" ;
+Subject             ::= Symbol ;
+
+#
+# regular expressions
+
+RegExpr             ::= Choice ;
+Choice              ::= Choice "|" Sequence | Sequence ;
+Sequence            ::= (Factor | Restriction) * ;
+Restriction         ::= Factor "-" Factor;
+Factor              ::= Operation | Reference | Range | "(" RegExpr ")" ;
+Operation           ::= Star | Plus | Option | Times | Not  ;
+
+Star                ::= Factor "*" ;
+Plus                ::= Factor "+" ;
+Option              ::= Factor "?" ;
+Times               ::= Factor ":" IntegerLiteral ;
+Not                 ::= Factor "!" ;
+
+Reference           ::= Symbol ;
+
+Range               ::= Atom (".." Atom)? ;
+Atom                ::= CharacterLiteral | Code ;
+Code                ::= IntegerLiteral ;
+
+[SCANNER]
+    white = WhiteSpace, EndOfLineComment, TraditionalComment ;
+
+
+IntegerLiteral     ::= '0'
+                     | '1'..'9' '0'..'9'*
+                     | '0' ('x'|'X')
+                           ('0'..'9' | 'a'..'f' | 'A'..'F')+
+                     | '0' ('0'..'7')+ ;
+
+StringLiteral      ::= '"' (('\\' 0..65535)
+                        | ('\\' | '"' | '\n' | '\r')!)+ '"' ;
+
+CharacterLiteral   ::= '\'' (('\\' 0..65535) |
+                           ('\\' |'\'' |'\n' | '\r')!)+ '\'' ;
+
+Identifier ::=
+   ( 0x0024..0x0024 | 0x0041..0x005a | 0x005f..0x005f |
+     0x0061..0x007a | 0x00a2..0x00a5 | 0x00aa..0x00aa |
+     0x00b5..0x00b5 | 0x00ba..0x00ba | 0x00c0..0x00d6 |
+     0x00d8..0x00f6 | 0x00f8..0x00ff )
+   ( 0x0000..0x0008 | 0x000e..0x001b | 0x0024..0x0024 |
+     0x0030..0x0039 | 0x0041..0x005a | 0x005f..0x005f |
+     0x0061..0x007a | 0x007f..0x009f | 0x00a2..0x00a5 |
+     0x00aa..0x00aa | 0x00b5..0x00b5 | 0x00ba..0x00ba |
+     0x00c0..0x00d6 | 0x00d8..0x00f6 | 0x00f8..0x00ff )* ;
+
+#
+# white space
+
+WhiteSpace         ::= ( ' ' | '\t' | '\n' | '\f' | '\r' )+ ;
+EndOfLineComment   ::= '#' ('\n' | '\r')!* ('\n' | '\r') ;
+TraditionalComment ::=
+  "/*"
+         ( ('*'! | '*'+ ('*' | '/')!)*
+         | '*'!* '*' ('*' | ('*' | '/')! '*'!* '*')*
+         )
+  "*/" ;
+</pre><p>
+    </p><p><code class="literal">Mapper.syntax</code> defines the syntax of mapper files. </p><p>
+      </p><pre class="programlisting">#
+# Copyright 1&amp;1 Internet AG, http://www.1and1.org
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; either version 2 of the License,
+# or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+#
+
+[PARSER]
+
+#
+# overall structure
+
+Mapper              ::= MapperName SyntaxFile Imports Definitions ;
+MapperName          ::= "mapper" Name ";" ;
+SyntaxFile          ::= Grammar ;
+Grammar             ::= "syntax" "=" StringLiteral ";" ;
+Imports             ::= Import* ;
+Import              ::= "import" PackageName ":" Class ("," Class)* ";";
+Class               ::= Identifier ("-&gt;" Identifier)? ;
+PackageName         ::= Name ;
+Name                ::= Identifier ("." Identifier)* ;
+
+#
+# Constructors
+
+Constructor         ::= ClassRef | MemberRef | Internal | Copy;
+ClassRef            ::= Identifier ;
+MemberRef           ::= Identifier "." Identifier ;
+Internal            ::= "[" Identifier "]" ;
+Copy                ::= "(" Identifier ")" ;
+
+#
+# Attributes
+
+Definitions         ::= Group* ;
+Group               ::= Symbol Attribute+ ;
+Symbol              ::= StringSymbol | IdentifierSymbol ;
+StringSymbol        ::= StringLiteral ;
+IdentifierSymbol    ::= Identifier ;
+Attribute           ::= AttributeName "=&gt;" Constructor Visibility ;
+AttributeName       ::= (":" Identifier)? ;
+
+#
+# visibility
+
+Visibility          ::= Implicit | Explicit ;
+Implicit            ::= ";" ;
+Explicit            ::= ":" ("&gt;" Path)* ";" ;
+Path                ::= ImplicitPath | LocalPath | NormalPath ;
+ImplicitPath        ::= "\\\\*" ;
+LocalPath           ::= Identifier ;
+NormalPath          ::= Step+ ;
+Step                ::= Move Identifier ;
+Move                ::= Ups | Up | Downs | Down ;
+Ups                 ::= "\\\\" ;
+Up                  ::= "\\" ;
+Downs               ::= "//" ;
+Down                ::= "/" ;
+
+
+[SCANNER]
+    white = WhiteSpace, EndOfLineComment, TraditionalComment ;
+
+
+StringLiteral      ::= '"' (('\\' 0..65535)
+                        | ('\\' | '"' | '\n' | '\r')!)+ '"' ;
+
+Identifier ::=
+   ( 0x0024..0x0024 | 0x0041..0x005a | 0x005f..0x005f |
+     0x0061..0x007a | 0x00a2..0x00a5 | 0x00aa..0x00aa |
+     0x00b5..0x00b5 | 0x00ba..0x00ba | 0x00c0..0x00d6 |
+     0x00d8..0x00f6 | 0x00f8..0x00ff )
+   ( 0x0000..0x0008 | 0x000e..0x001b | 0x0024..0x0024 |
+     0x0030..0x0039 | 0x0041..0x005a | 0x005f..0x005f |
+     0x0061..0x007a | 0x007f..0x009f | 0x00a2..0x00a5 |
+     0x00aa..0x00aa | 0x00b5..0x00b5 | 0x00ba..0x00ba |
+     0x00c0..0x00d6 | 0x00d8..0x00f6 | 0x00f8..0x00ff )* ;
+
+#
+# white space
+
+WhiteSpace         ::= ( ' ' | '\t' | '\n' | '\f' | '\r' )+ ;
+EndOfLineComment   ::= '#' ('\n' | '\r')!* ('\n' | '\r') ;
+TraditionalComment ::=
+  '/' '*'
+         ( ('*'! | '*'+ ('*' | '/')!)*
+         | '*'!* '*' ('*' | ('*' | '/')! '*'!* '*')*
+         )
+  '*' '/' ;
+</pre><p>
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch08.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ix01.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;8.&nbsp;Source Code&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="manual.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Index</td></tr></table></div></body></html>
