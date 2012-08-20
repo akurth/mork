@@ -70,8 +70,7 @@
       <formalpara>
         <title>Contact</title>
         <para><indexterm><primary>contact</primary></indexterm><indexterm><primary>feedback</primary>
-        </indexterm>Please send your feedback to <email>michael.hartmeier@1und1.de</email>! Mork has a web page
-          at <link url="https://github.com/mlhartme/mork">https://github.com/mlhartme/mork</link>
+        </indexterm>Mork has a web page at <link url="https://github.com/mlhartme/mork">https://github.com/mlhartme/mork</link>
         </para></formalpara>
 
     </sect1>
