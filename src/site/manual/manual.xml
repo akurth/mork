@@ -71,7 +71,7 @@
         <title>Contact</title>
         <para><indexterm><primary>contact</primary></indexterm><indexterm><primary>feedback</primary>
         </indexterm>Please send your feedback to <email>michael.hartmeier@1und1.de</email>! Mork has a web page
-          at <link url="https://sourceforge.net/apps/trac/beezle/wiki/Mork">https://sourceforge.net/apps/trac/beezle/wiki/Mork</link>
+          at <link url="https://github.com/mlhartme/mork">https://github.com/mlhartme/mork</link>
         </para></formalpara>
 
     </sect1>
@@ -230,8 +230,8 @@
         <literal>68/2+8</literal> <!-- 42 -->. Mork provides a calculator example
         <indexterm><primary>calculator</primary></indexterm>, you can compile and run it as follows:
         <programlisting>
-          svn export https://beezle.svn.sourceforge.net/svnroot/beezle/mork/trunk/examples/calc
-          cd calc
+          git clone https://github.com/mlhartme/mork.git
+          cd mork/examples/calc
           mvn clean package
           ./target/calc
         </programlisting>
@@ -283,8 +283,8 @@
 
       <para>Get the command example, build and run it:
         <programlisting>
-          svn export https://beezle.svn.sourceforge.net/svnroot/beezle/mork/trunk/examples/command
-          cd command
+          git clone https://github.com/mlhartme/mork.git
+          cd mork/examples/command
           mvn clean package
           ./target/command src/commands/jar.cf
         </programlisting>
