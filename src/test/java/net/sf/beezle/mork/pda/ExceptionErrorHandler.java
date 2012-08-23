@@ -21,4 +21,9 @@ public class ExceptionErrorHandler implements ErrorHandler {
     public void semanticError(Position pos, Exception e) {
         throw new RuntimeException();
     }
+
+    @Override
+    public void close() throws IOException {
+        // nothing to do, because exceptions are reported immediatly
+    }
 }

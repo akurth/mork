@@ -25,9 +25,15 @@ import java.io.IOException;
 /**
  * <code>Mapper.run()</code> reports errors by taking the registered error handler and
  * invoking the respective method of this inteferace.
+ *
+ * Implementations may choose between 1) report exceptions immediatly by throwing an IOException in the error methods,
+ * or 2) collecting errors and throwing an exception in the close method.
  */
 public interface ErrorHandler {
-    void lexicalError(Position pos);
-    void syntaxError(Position pos, IntBitSet shiftable);
-    void semanticError(Position pos, Exception e);
+    void lexicalError(Position pos) throws IOException;
+    void syntaxError(Position pos, IntBitSet shiftable) throws IOException;
+    void semanticError(Position pos, Exception e) throws IOException;
+
+    /** Throws an exception when one of the above methods was called. */
+    void close() throws IOException;
 }

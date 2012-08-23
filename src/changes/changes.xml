@@ -3,7 +3,9 @@
   <body>
     <release date="2012-08-xx" version="1.0.3">
       <action date="2012-02-12" dev="mhm" type="update">
-        Do not collect IOException in ErrorHandler, just throw them.
+        Improved ErrorHandler:
+        * added a close() method for deferred exceptions
+        * IOException no longer reported to the handler
       </action>
     </release>
     <release date="2012-03-08" version="1.0.1">

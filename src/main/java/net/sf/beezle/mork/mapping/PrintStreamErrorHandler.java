@@ -28,22 +28,24 @@ import java.io.PrintStream;
  * ErrorHandler that prints messages to the PrintStream specified in the constructor.
  */
 public class PrintStreamErrorHandler implements ErrorHandler {
-    public static final PrintStreamErrorHandler STDERR = new PrintStreamErrorHandler(System.err);
-
     /**
      * Where to send error messages.
      */
     private final PrintStream dest;
+
+    private boolean failed;
 
     public PrintStreamErrorHandler(PrintStream dest) {
         if (dest == null) {
             throw new IllegalArgumentException();
         }
         this.dest = dest;
+        this.failed = false;
     }
 
     protected void report(String pos, String message) {
         dest.println(pos + ": " + message);
+        failed = true;
     }
 
     public void lexicalError(Position pos) {
@@ -64,5 +66,11 @@ public class PrintStreamErrorHandler implements ErrorHandler {
 
     public void error(String pos, String message) {
         report(pos, message);
+    }
+
+    public void close() throws IOException {
+        if (failed) {
+            throw new IOException("mapping failed");
+        }
     }
 }

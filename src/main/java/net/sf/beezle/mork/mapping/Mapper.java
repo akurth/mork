@@ -67,7 +67,7 @@ public class Mapper implements Serializable {
      * my Mork when generating a mapper, applications will usually use <code>Mapper(String)</code>.
      */
     public Mapper(String name, Parser parser, Oag oag) {
-        this(name, parser, oag, PrintStreamErrorHandler.STDERR);
+        this(name, parser, oag, new PrintStreamErrorHandler(System.err));
     }
 
     public Mapper(String name, Parser parser, Oag oag, ErrorHandler errorHandler) {
@@ -143,6 +143,10 @@ public class Mapper implements Serializable {
         return parser != null;
     }
 
+    public ErrorHandler getErrorHandler() {
+        return errorHandler;
+    }
+
     /**
      * Defines the handler to report errors to.
      *
@@ -207,7 +211,8 @@ public class Mapper implements Serializable {
      * for System.err.
      *
      * @param  src when the method returns, src is always closed.
-     * @return null if error an error has been reported to the error handler
+     * @return never null
+     * @throws IOException to report errors
      */
     public Object[] run(Position position, Reader src) throws IOException {
         Node node;
@@ -219,8 +224,9 @@ public class Mapper implements Serializable {
         // casting is ok: the Treebuilder used in a mapper always creates Nodes
         node = (Node) parser.run(position, src, oag, logParsing);
         src.close();
+        errorHandler.close();
         if (node == null) {
-            return null;
+            throw new IllegalStateException("errorHandler.close expected to throw an exception");
         } else {
             return node.attrs;
         }
