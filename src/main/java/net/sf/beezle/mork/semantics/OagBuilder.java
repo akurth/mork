@@ -24,6 +24,7 @@ import net.sf.beezle.sushi.graph.EdgeIterator;
 import net.sf.beezle.sushi.graph.Graph;
 import net.sf.beezle.sushi.util.IntBitSet;
 
+import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -48,7 +49,7 @@ public class OagBuilder {
 
     //--
 
-    public static Visits[] run(Ag ag, Layout layout, boolean verbose) throws GenericException {
+    public static Visits[] run(Ag ag, Layout layout, PrintStream verbose) throws GenericException {
         OagBuilder builder;
         Graph<AttributeOccurrence>[] dp;
         Graph<AttributeOccurrence>[] idp;
@@ -68,38 +69,38 @@ public class OagBuilder {
         ds = builder.createDS(ids, as);
         edp = builder.createEDP(dp, ds);
         visits = builder.createVisits(edp, as);
-        if (verbose) {
+        if (verbose != null) {
             symbolTable = ag.getGrammar().getSymbolTable();
             for (i = 0; i < dp.length; i++) {
-                System.out.println("prod=" + i);
-                System.out.println("  dp\t" + aos(symbolTable, dp[i]));
-                System.out.println("  idp\t" + aos(symbolTable, idp[i]));
-                System.out.println("  edp\t" + aos(symbolTable, edp[i]));
+                verbose.println("prod=" + i);
+                verbose.println("  dp\t" + aos(symbolTable, dp[i]));
+                verbose.println("  idp\t" + aos(symbolTable, idp[i]));
+                verbose.println("  edp\t" + aos(symbolTable, edp[i]));
             }
             for (i = 0; i < ids.length; i++) {
-                System.out.println(symbolTable.get(i) + ":");
-                System.out.println(" ids\t" + as(symbolTable, ids[i]));
-                System.out.println(" as\t");
-                print(as[i]);
-                System.out.println(" ds\t" + as(symbolTable, ds[i]));
+                verbose.println(symbolTable.get(i) + ":");
+                verbose.println(" ids\t" + as(symbolTable, ids[i]));
+                verbose.println(" as\t");
+                print(as[i], verbose);
+                verbose.println(" ds\t" + as(symbolTable, ds[i]));
             }
         }
         return visits;
     }
 
-    private static void print(List[] as) {
+    private static void print(List[] as, PrintStream dest) {
         int i;
         int j;
         int max;
 
         for (i = 0; i < as.length; i++) {
-            System.out.print("\t\t" + i + ":");
+            dest.print("\t\t" + i + ":");
             max = as[i].size();
             for (j = 0; j < max; j++) {
-                System.out.print(' ');
-                System.out.print(((Attribute) as[i].get(j)).name);
+                dest.print(' ');
+                dest.print(((Attribute) as[i].get(j)).name);
             }
-            System.out.println();
+            dest.println();
         }
     }
 

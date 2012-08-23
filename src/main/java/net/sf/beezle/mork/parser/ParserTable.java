@@ -23,6 +23,7 @@ import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.pda.State;
 import net.sf.beezle.sushi.util.IntBitSet;
 
+import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -357,14 +358,14 @@ public class ParserTable implements Serializable {
         return modes[state];
     }
 
-    public void print() {
+    public void print(PrintStream dest) {
         int i;
 
         for (i = 0; i < values.length; i++) {
             if (i % 30 == 0) {
-                System.out.println();
+                dest.println();
             }
-            System.out.print(" " + (int) values[i]);
+            dest.print(" " + (int) values[i]);
         }
     }
 

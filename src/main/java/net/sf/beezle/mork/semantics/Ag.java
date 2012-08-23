@@ -70,7 +70,7 @@ public class Ag {
 
         layout = createLayout(firstAttrs);
         internalAttrs = createInternalAttributes(layout);
-        visits = OagBuilder.run(this, layout, false);
+        visits = OagBuilder.run(this, layout, null);
         return new Oag(visits, internalAttrs);
     }
 

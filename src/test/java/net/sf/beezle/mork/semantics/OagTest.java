@@ -50,7 +50,7 @@ public class OagTest extends TestCase {
         Visits[] visits;
 
         System.out.println(sems.getGrammar().getSymbolTable().toString());
-        visits = OagBuilder.run(sems, null, true);
+        visits = OagBuilder.run(sems, null, System.out);
         for (i = 0; i < visits.length; i++) {
             System.out.println(" " + i + "\t" + visits[i]);
         }

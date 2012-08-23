@@ -218,11 +218,7 @@ public class Mapper implements Serializable {
         parser.setErrorHandler(errorHandler);
         // casting is ok: the Treebuilder used in a mapper always creates Nodes
         node = (Node) parser.run(position, src, oag, logParsing);
-        try {
-            src.close();
-        } catch (IOException e) {
-            // nothing I can do - a follow-up problem of a previous io exception
-        }
+        src.close();
         if (node == null) {
             return null;
         } else {
