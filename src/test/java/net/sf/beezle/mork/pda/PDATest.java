@@ -3,6 +3,7 @@ package net.sf.beezle.mork.pda;
 import net.sf.beezle.mork.compiler.ConflictHandler;
 import net.sf.beezle.mork.grammar.Grammar;
 import net.sf.beezle.mork.grammar.Rule;
+import net.sf.beezle.mork.mapping.ExceptionErrorHandler;
 import net.sf.beezle.mork.misc.GenericException;
 import net.sf.beezle.mork.parser.Parser;
 import net.sf.beezle.mork.parser.ParserTable;

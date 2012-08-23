@@ -4,8 +4,9 @@
     <release date="2012-08-xx" version="1.0.3">
       <action date="2012-02-12" dev="mhm" type="update">
         Improved ErrorHandler:
-        * added a close() method for deferred exceptions
-        * IOException no longer reported to the handler
+        * added ExceptionErrorHandler to report exceptions immidiatly
+        * added a close() method for deferred exceptions. Mapper will never return null now.
+        * IOException no longer reported to the handler - they are throw immidiatly now.
       </action>
     </release>
     <release date="2012-03-08" version="1.0.1">
