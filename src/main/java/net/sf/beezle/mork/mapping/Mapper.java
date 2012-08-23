@@ -62,6 +62,10 @@ public class Mapper implements Serializable {
         this(name, null, null);
     }
 
+    public Mapper(String name, ErrorHandler errorHandler) {
+        this(name, null, null, errorHandler);
+    }
+
     /**
      * Create a mapper with the specified parser and semantics. This constructor is used
      * my Mork when generating a mapper, applications will usually use <code>Mapper(String)</code>.
