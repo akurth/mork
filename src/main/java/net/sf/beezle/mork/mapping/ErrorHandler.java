@@ -30,5 +30,4 @@ public interface ErrorHandler {
     void lexicalError(Position pos);
     void syntaxError(Position pos, IntBitSet shiftable);
     void semanticError(Position pos, Exception e);
-    void ioError(String position, String message, IOException e);
 }

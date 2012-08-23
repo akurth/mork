@@ -67,7 +67,7 @@ public class Mork {
 
     //-- the real functionality
 
-    public boolean compile(Job job) {
+    public boolean compile(Job job) throws IOException {
         boolean result;
 
         currentJob = job;
@@ -77,7 +77,7 @@ public class Mork {
     }
 
     /** Helper for compile */
-    private boolean compileCurrent() {
+    private boolean compileCurrent() throws IOException {
         Specification spec;
         Mapper result;
 
@@ -104,11 +104,11 @@ public class Mork {
 
     //-- load syntax
 
-    public Syntax loadSyntax(String fileName) throws GenericException, IllegalLiteral {
+    public Syntax loadSyntax(String fileName) throws GenericException, IllegalLiteral, IOException {
         return loadSyntax(fileName, syntaxMapper);
     }
 
-    private Syntax loadSyntax(String fileName, MorkMapper mapper) throws GenericException, IllegalLiteral {
+    private Syntax loadSyntax(String fileName, MorkMapper mapper) throws GenericException, IllegalLiteral, IOException {
         File file;
         Syntax syntax;
 

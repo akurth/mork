@@ -88,7 +88,7 @@ public class Parser {
         return new Parser(table, resolvers, scannerFactory);
     }
 
-    public Object run(Position position, Reader src, TreeBuilder treeBuilder, PrintStream verbose) {
+    public Object run(Position position, Reader src, TreeBuilder treeBuilder, PrintStream verbose) throws IOException {
         int terminal;
         int production;
         int state;
@@ -180,14 +180,13 @@ public class Parser {
                 top = -1;
             }
         } catch (IOException e) {
-            errorHandler.ioError(position.toString(), null, e);  // TODO
-            return null;
+            throw new IOException(position.toString() + ": io error: " + e.getMessage(), e);
         }
     }
 
     private String stateStr() {
         StringBuilder builder;
-        
+
         builder = new StringBuilder();
         builder.append('[');
         for (int i = 0; i <= top; i++) {
@@ -199,7 +198,7 @@ public class Parser {
         builder.append("] ");
         return builder.toString();
     }
-    
+
     /** returns the subject symbol of the production */
     public int getLeft(int production) {
         return table.getLeft(production);

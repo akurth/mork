@@ -23,12 +23,12 @@ import static org.junit.Assert.assertEquals;
 
 public class PDATest {
     @Test
-    public void simple() throws GenericException {
+    public void simple() throws Exception {
         checkOk(2, 1, new String[] { "a" }, "S a");
     }
 
     @Test
-    public void g1() throws GenericException {
+    public void g1() throws Exception {
         checkOk(13, 1, new String[] { "baa" },
                 "Z S",
                 "S S b",
@@ -39,7 +39,7 @@ public class PDATest {
     }
 
     @Test
-    public void lr2() throws GenericException {
+    public void lr2() throws Exception {
         checkOk(8, 2, new String[]{/*"baa", */"ba"},
                 "Z S",
                 "S Y a a",
@@ -50,7 +50,7 @@ public class PDATest {
     }
 
     @Test
-    public void lr3() throws GenericException {
+    public void lr3() throws Exception {
         checkOk(15, 3, new String[] { "xaaa", "xaab", "xaac" },
                 "Z S",
                 "S A a a a",
@@ -62,14 +62,14 @@ public class PDATest {
         );
     }
 
-    private void checkOk(int states, int k, String[] ok, String ... prods) throws GenericException {
+    private void checkOk(int states, int k, String[] ok, String ... prods) throws GenericException, IOException {
         Grammar grammar;
 
         grammar = Grammar.forProductions(prods);
         checkParsing(grammar, states, k, ok);
     }
 
-    private void checkParsing(Grammar grammar, int states, int k, String[] ok) throws GenericException {
+    private void checkParsing(Grammar grammar, int states, int k, String[] ok) throws GenericException, IOException {
         IntBitSet terminals;
         PDA pda;
         ConflictHandler conflictHandler;

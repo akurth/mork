@@ -24,6 +24,7 @@ import net.sf.beezle.mork.reflect.Method;
 import net.sf.beezle.mork.reflect.Selection;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 
@@ -59,9 +60,9 @@ public class MorkMapper extends Mapper {
     /**
      * @return null if an error has been reported
      */
-    public Object invoke(File source) {
+    public Object invoke(File source) throws IOException {
         if (mapperFn != null) {
-            return (Specification) invokeMapperFn(source.getPath());
+            return invokeMapperFn(source.getPath());
         } else {
             return invokeMapper(source);
         }
@@ -73,7 +74,7 @@ public class MorkMapper extends Mapper {
      *
      * @return  null if an error has been reported
      */
-    private Object invokeMapper(File source) {
+    private Object invokeMapper(File source) throws IOException {
         Object[] results;
         String name;
         Reader src;

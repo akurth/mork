@@ -21,9 +21,4 @@ public class ExceptionErrorHandler implements ErrorHandler {
     public void semanticError(Position pos, Exception e) {
         throw new RuntimeException();
     }
-
-    @Override
-    public void ioError(String position, String message, IOException e) {
-        throw new RuntimeException();
-    }
 }

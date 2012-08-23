@@ -58,10 +58,6 @@ public class PrintStreamErrorHandler implements ErrorHandler {
         report(pos.toString(), e.getMessage());
     }
 
-    public void ioError(String pos, String message, IOException e) {
-        report(pos, message + ": " + e.getMessage());
-    }
-
     public void error(String pos, GenericException e) {
         report(pos, e.getMessage());
     }

@@ -33,6 +33,7 @@ import net.sf.beezle.mork.semantics.BuiltIn;
 import net.sf.beezle.mork.semantics.IllegalLiteral;
 import net.sf.beezle.sushi.util.IntBitSet;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +73,7 @@ public class Stubs {
     }
 
     // TODO: as long as the context has no type I need this helper
-    public static Syntax loadSyntax(Object mork, String fileName) throws GenericException, IllegalLiteral {
+    public static Syntax loadSyntax(Object mork, String fileName) throws GenericException, IllegalLiteral, IOException {
         return ((Mork) mork).loadSyntax(fileName);
     }
 

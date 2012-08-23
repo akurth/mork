@@ -183,32 +183,24 @@ public class Mapper implements Serializable {
 
     //-- running the mapper
 
-    public Object[] run(String fileName) {
+    public Object[] run(String fileName) throws IOException {
         return run(new File(fileName));
     }
 
-    public Object[] run(net.sf.beezle.sushi.fs.Node node) {
-        try {
-            return run(node.toString(), node.createReader());
-        } catch (IOException e) {
-            errorHandler.ioError(node.toString(), "cannot open stream", e);
-            return null;
-        }
+    public Object[] run(net.sf.beezle.sushi.fs.Node node) throws IOException {
+        return run(node.toString(), node.createReader());
     }
 
-    public Object[] run(File file) {
+    public Object[] run(File file) throws IOException {
         try {
             return run(file.toURI().toURL().toString(), new FileReader(file));
         } catch (MalformedURLException e) {
             System.err.println("malformed file name: " + file);
             return null;
-        } catch (FileNotFoundException e) {
-            errorHandler.ioError(file.toString(), "file not found", e);
-            return null;
         }
     }
 
-    public Object[] run(String context, Reader src) {
+    public Object[] run(String context, Reader src) throws IOException {
         return run(new Position(context), src);
     }
 
@@ -222,7 +214,7 @@ public class Mapper implements Serializable {
      * @param  src when the method returns, src is always closed.
      * @return null if error an error has been reported to the error handler
      */
-    public Object[] run(Position position, Reader src) {
+    public Object[] run(Position position, Reader src) throws IOException {
         Node node;
 
         load();
@@ -274,7 +266,11 @@ public class Mapper implements Serializable {
             if (line.equals(end)) {
                 return;
             }
-            result = run("", new StringReader(line));
+            try {
+                result = run("", new StringReader(line));
+            } catch (IOException e) {
+                throw new IllegalStateException("unexpected io exception from StringReader", e);
+            }
             if ((result != null) && (result.length > 0)) {
                 System.out.println(result[0]);
             }
