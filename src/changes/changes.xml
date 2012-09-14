@@ -2,7 +2,10 @@
 <document xmlns="http://maven.apache.org/changes/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
   <body>
     <release date="2012-08-xx" version="1.0.2">
-      <action date="2012-02-12" dev="mhm" type="update">
+      <action date="2012-09-14" dev="mhm" type="update">
+        Renamed net.oneandone.mork to net.oneandone.mork.
+      </action>
+      <action date="2012-08-12" dev="mhm" type="update">
         Improved ErrorHandler:
         * added ExceptionErrorHandler to report exceptions immidiatly
         * added a close() method for deferred exceptions. Mapper will never return null now.
@@ -52,7 +55,7 @@
     <release date="2011-11-28" version="0.7">
       <action dev="mlhartme" type="update">
         Moved Project into Beezle: copied source code in svn; changed package and
-        groupId to net.sf.beezle.mork.
+        groupId to net.oneandone.mork.
       </action>
       <action dev="mlhartme" type="update">
         Changed examples into self-contained Maven projects.

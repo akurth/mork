@@ -17,7 +17,7 @@
 
 package calc;
 
-import net.sf.beezle.mork.mapping.Mapper;
+import net.oneandone.mork.mapping.Mapper;
 
 /**
  * Calculate simple expressions.

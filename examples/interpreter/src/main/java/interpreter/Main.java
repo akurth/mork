@@ -1,6 +1,6 @@
 package interpreter;
 
-import net.sf.beezle.mork.mapping.Mapper;
+import net.oneandone.mork.mapping.Mapper;
 
 /** Command line invokation. */
 

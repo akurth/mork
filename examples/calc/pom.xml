@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>net.sf.beezle.maven.poms</groupId>
+    <groupId>net.oneandone.maven.poms</groupId>
     <artifactId>parent</artifactId>
     <version>1.0.8</version>
   </parent>
@@ -13,7 +13,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>net.sf.beezle.mork</groupId>
+      <groupId>net.oneandone.mork</groupId>
       <artifactId>mork</artifactId>
       <version>1.0</version>
     </dependency>
@@ -29,7 +29,7 @@
             <phase>process-classes</phase>
             <configuration>
               <target>
-                <java fork="true" dir="${basedir}" classname="net.sf.beezle.mork.compiler.Main" failonerror="true">
+                <java fork="true" dir="${basedir}" classname="net.oneandone.mork.compiler.Main" failonerror="true">
                   <classpath>
                     <pathelement path="${basedir}/target/classes" />
                     <path refid="maven.compile.classpath" />
@@ -47,14 +47,14 @@
         </executions>
       </plugin>
      <plugin>
-        <groupId>net.sf.beezle.maven.plugins</groupId>
+        <groupId>net.oneandone.maven.plugins</groupId>
         <artifactId>application</artifactId>
         <version>1.4-SNAPSHOT</version>
         <configuration>
           <name>calc</name>
           <main>calc.Main</main>
           <strip>true</strip>
-          <extraRoots>net.sf.beezle.sushi.fs.NodeReader.create, calc.Mapper.load</extraRoots>
+          <extraRoots>net.oneandone.sushi.fs.NodeReader.create, calc.Mapper.load</extraRoots>
         </configuration>
         <executions>
           <execution>

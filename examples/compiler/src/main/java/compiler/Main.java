@@ -1,11 +1,11 @@
 package compiler;
 
-import net.sf.beezle.mork.classfile.Access;
-import net.sf.beezle.mork.classfile.ClassDef;
-import net.sf.beezle.mork.classfile.ClassRef;
-import net.sf.beezle.mork.classfile.MethodDef;
-import net.sf.beezle.mork.classfile.Output;
-import net.sf.beezle.mork.mapping.Mapper;
+import net.oneandone.mork.classfile.Access;
+import net.oneandone.mork.classfile.ClassDef;
+import net.oneandone.mork.classfile.ClassRef;
+import net.oneandone.mork.classfile.MethodDef;
+import net.oneandone.mork.classfile.Output;
+import net.oneandone.mork.mapping.Mapper;
 
 import java.io.File;
 import java.io.IOException;

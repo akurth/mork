@@ -15,17 +15,17 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-mapper net.sf.beezle.mork.compiler.SyntaxMapper;
+mapper net.oneandone.mork.compiler.SyntaxMapper;
 
 syntax = "Syntax.syntax";
 
-import net.sf.beezle.mork.regexpr:
+import net.oneandone.mork.regexpr:
     Choice, Loop, Sequence, Symbol, Range, Without;
-import net.sf.beezle.mork.grammar:
+import net.oneandone.mork.grammar:
     Rule;
-import net.sf.beezle.mork.compiler:
+import net.oneandone.mork.compiler:
     Syntax, Stubs;
-import net.sf.beezle.mork.semantics:
+import net.oneandone.mork.semantics:
     BuiltIn;
 import java.lang:
     Boolean, Integer, String;

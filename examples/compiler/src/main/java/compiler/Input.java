@@ -1,8 +1,8 @@
 package compiler;
 
-import net.sf.beezle.mork.classfile.ClassRef;
-import net.sf.beezle.mork.classfile.Code;
-import net.sf.beezle.mork.classfile.MethodRef;
+import net.oneandone.mork.classfile.ClassRef;
+import net.oneandone.mork.classfile.Code;
+import net.oneandone.mork.classfile.MethodRef;
 
 public class Input extends Statement {
     private LValue left;

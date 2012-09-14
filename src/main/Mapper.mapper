@@ -15,15 +15,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-mapper net.sf.beezle.mork.compiler.MapperMapper;
+mapper net.oneandone.mork.compiler.MapperMapper;
 
 syntax = "Mapper.syntax";
 
-import net.sf.beezle.mork.mapping:
+import net.oneandone.mork.mapping:
     Import, Internal, Library, Path;
-import net.sf.beezle.mork.compiler:
+import net.oneandone.mork.compiler:
     Specification, Stubs, Syntax;
-import net.sf.beezle.mork.semantics:
+import net.oneandone.mork.semantics:
     BuiltIn;
 import java.lang:
     Boolean, Integer, String;

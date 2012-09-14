@@ -465,7 +465,7 @@
         <para>The right hand side of an attribute specifies a constructor. A constructor
           <indexterm><primary>constructor</primary></indexterm> may be a Java constructor (e.g.
           <literal>command.Command</literal>), a Java method (e.g.
-          <literal>net.sf.beezle.mork.semantics.BuiltIn.parseString</literal>), or an internal constructor.
+          <literal>net.oneandone.mork.semantics.BuiltIn.parseString</literal>), or an internal constructor.
           Thus, the term constructor is used in a more generalized meaning.</para></formalpara>
 
       <formalpara>
@@ -1688,7 +1688,7 @@
               <programlisting>
                 package foo;
 
-                import net.sf.beezle.mork.util.GenericException;
+                import net.oneandone.mork.util.GenericException;
 
                 public class bar {
                 public static int div(int left, int right) throws GenericException {
@@ -2111,7 +2111,7 @@
         <para>If Java runs out of memory (i.e. throws an
           <literal>OutOfMemoryError</literal>), use the Java <literal>-Xmx</literal> option in
           the launch script to increase the memory available to the virtual machine. Example
-          <literal>java -Xmx128M net.sf.beezle.mork.compiler.Main veryComplex.mork</literal>.
+          <literal>java -Xmx128M net.oneandone.mork.compiler.Main veryComplex.mork</literal>.
         </para></formalpara>
 
       <formalpara>
@@ -2192,7 +2192,7 @@
             <phase>process-classes</phase>
             <configuration>
               <target>
-                <java fork="true" dir="${basedir}" classname="net.sf.beezle.mork.compiler.Main" failonerror="true">
+                <java fork="true" dir="${basedir}" classname="net.oneandone.mork.compiler.Main" failonerror="true">
                   <classpath>
                     <pathelement path="${basedir}/target/classes" />
                     <path refid="maven.compile.classpath" />
@@ -2231,7 +2231,7 @@
       <example>
         <title>Mapper usage</title>
         <programlisting>
-          import net.sf.beezle.mork.mapping.Mapper;
+          import net.oneandone.mork.mapping.Mapper;
 
           Mapper mapper;
           Object[] result;
@@ -2260,7 +2260,7 @@
     <sect1>
       <title>The <literal>Mapper</literal> class</title>
 
-      <para>The class <literal>net.sf.beezle.mork.mapping.Mapper</literal> forms the main API
+      <para>The class <literal>net.oneandone.mork.mapping.Mapper</literal> forms the main API
         used by applications. The following describes the most important constructors and methods.
         This description is sufficient for normal use. See the API documentation for more details.
       </para>
@@ -2339,7 +2339,7 @@
       <sect2>
         <title><literal>setErrorHander</literal></title>
 
-        <para><literal>setErrorHandler(net.sf.beezle.mork.mapping.ErrorHandler)</literal></para>
+        <para><literal>setErrorHandler(net.oneandone.mork.mapping.ErrorHandler)</literal></para>
 
         <para>Defines the error handler used by <literal>run</literal> to report errors. The
           <literal>ErrorHandler</literal> documentation below explains the various types of errors.
@@ -2432,14 +2432,14 @@
     <sect1>
       <title>The <literal>ErrorHandler</literal> interface</title>
 
-      <para><literal>net.sf.beezle.mork.mapping.ErrorHandler</literal></para>
+      <para><literal>net.oneandone.mork.mapping.ErrorHandler</literal></para>
 
       <para>Error handling is work in progress. If you have a choice, please rely on the
         default error handling. Avoid implementing you own error handler since the interface
         is expected to change. Similarly, this documentation is preliminary. It concentrates
         on the various error types (which I consider more stables), it does not explain individual
         methods of the interface. If you have to implement an error handler, the source code of
-        <literal>net.sf.beezle.mork.mapping.PrintStreamErrorHandler</literal> might provide
+        <literal>net.oneandone.mork.mapping.PrintStreamErrorHandler</literal> might provide
         some help.</para>
 
       <formalpara>
@@ -2542,7 +2542,7 @@
         <title>Directory structure</title>
         <programlisting>
           mork
-          |- src/main/java/net/sf/beezle/mork
+          |- src/main/java/net/oneandone/mork
           |   |- compiler              compiler
           |   |- mapping               map symbols to objects
           |   |- semantics             attribute grammars

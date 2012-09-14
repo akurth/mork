@@ -1,8 +1,8 @@
 package compiler;
 
-import net.sf.beezle.mork.classfile.Code;
-import net.sf.beezle.mork.semantics.BuiltIn;
-import net.sf.beezle.mork.semantics.IllegalLiteral;
+import net.oneandone.mork.classfile.Code;
+import net.oneandone.mork.semantics.BuiltIn;
+import net.oneandone.mork.semantics.IllegalLiteral;
 
 public class StringLiteral extends Expression {
     private String str;

@@ -1,6 +1,6 @@
 package compiler;
 
-import net.sf.beezle.mork.classfile.Code;
+import net.oneandone.mork.classfile.Code;
 
 public class Assign extends Statement {
     private LValue left;

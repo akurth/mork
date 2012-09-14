@@ -1,6 +1,6 @@
 package command;
 
-import net.sf.beezle.mork.mapping.Mapper;
+import net.oneandone.mork.mapping.Mapper;
 
 public class Main {
     public static void main(String[] args) {

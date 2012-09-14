@@ -1,23 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>net.sf.beezle.maven.poms</groupId>
-    <artifactId>parent</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <groupId>net.oneandone.maven.poms</groupId>
+    <artifactId>foss-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
   </parent>
 
   <name>Mork</name>
   <url>https://github.com/mlhartme/mork</url>
   <description>See ${project.url}.</description>
-  <licenses>
-    <license>
-      <name>GNU Lesser General Public License, Version 2.1</name>
-      <url>http://www.gnu.org/licenses/lgpl-2.1.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
 
-  <groupId>net.sf.beezle.mork</groupId>
+  <groupId>net.oneandone.mork</groupId>
   <artifactId>mork</artifactId>
   <version>1.0.2-SNAPSHOT</version>
   <!-- YP link: http://go.1and1.org/yp/YP-FE.16894 -->
@@ -25,17 +18,36 @@
   <packaging>jar</packaging>
   <inceptionYear>1998</inceptionYear>
 
+  <properties>
+    <oneandone.java.source>1.7</oneandone.java.source>
+    <oneandone.java.target>1.7</oneandone.java.target>
+  </properties>
+
+  <developers>
+    <developer>
+      <id>mlhartme</id>
+      <name>Michael Hartmeier</name>
+      <url>http://github.com/mlhartme/</url>
+      <organization>1 &amp; 1 Internet AG</organization>
+      <organizationUrl>https://github.com/1and1</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
+  </developers>
+
   <scm>
-    <connection>scm:git:https://github.com/mlhartme/mork.git</connection>
-    <developerConnection>scm:git:https://github.com/mlhartme/mork.git</developerConnection>
+    <connection>scm:git:ssh://git@github.com/mlhartme/mork.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/mlhartme/mork.git</developerConnection>
     <url>https://github.com/mlhartme/mork</url>
   </scm>
 
   <dependencies>
     <dependency>
-      <groupId>net.sf.beezle.sushi</groupId>
+      <groupId>net.oneandone.sushi</groupId>
       <artifactId>sushi</artifactId>
-      <version>2.6.2</version>
+      <version>3.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -98,7 +110,7 @@
                   <include name="src/main/*.mapper" />
                 </fileset>
                 <pathconvert property="mapper.bs2" refid="mapper.bs2" pathsep=" " />
-                <java fork="true" dir="${basedir}" classname="net.sf.beezle.mork.compiler.Main" failonerror="true">
+                <java fork="true" dir="${basedir}" classname="net.oneandone.mork.compiler.Main" failonerror="true">
                   <classpath>
                     <pathelement path="${basedir}/src/bsmork.jar" />
                     <pathelement path="${basedir}/target/classes" />
@@ -108,7 +120,7 @@
                   <arg path="${basedir}/target/classes" />
                   <arg value="-lst" />
                   <arg value="-mapper" />
-                  <arg value="net.sf.beezle.mork.bootstrap.Loader.loadMapper" />
+                  <arg value="net.oneandone.mork.bootstrap.Loader.loadMapper" />
                   <arg line="${mapper.bs2}" />
                 </java>
                 <echo>Bootstrap Pass 3</echo>
@@ -116,7 +128,7 @@
                   <include name="src/main/*.mapper" />
                 </fileset>
                 <pathconvert property="mapper.bs3" refid="mapper.bs3" pathsep=" " />
-                <java fork="true" dir="${basedir}" classname="net.sf.beezle.mork.compiler.Main" failonerror="true">
+                <java fork="true" dir="${basedir}" classname="net.oneandone.mork.compiler.Main" failonerror="true">
                   <classpath>
                     <pathelement path="${basedir}/target/classes" />
                     <pathelement path="${basedir}/target/test-classes" />
@@ -128,7 +140,7 @@
                   <arg line="${mapper.bs3}" />
                 </java>
                 <!-- run again to test the generated mappers -->
-                <java fork="true" dir="${basedir}" classname="net.sf.beezle.mork.compiler.Main" failonerror="true">
+                <java fork="true" dir="${basedir}" classname="net.oneandone.mork.compiler.Main" failonerror="true">
                   <classpath>
                     <pathelement path="${basedir}/target/classes" />
                     <pathelement path="${basedir}/target/test-classes" />
