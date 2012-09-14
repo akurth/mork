@@ -3,6 +3,9 @@
   <body>
     <release date="2012-08-xx" version="1.0.2">
       <action date="2012-09-14" dev="mhm" type="update">
+        Changed License from LGPL to Apache 2.0.
+      </action>
+      <action date="2012-09-14" dev="mhm" type="update">
         Renamed net.oneandone.mork to net.oneandone.mork.
       </action>
       <action date="2012-08-12" dev="mhm" type="update">
