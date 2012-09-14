@@ -2,7 +2,7 @@ mapper ArgumentTypeMismatch;
 
 syntax = "Ab.syntax";
 
-import net.sf.beezle.mork.compiler:
+import net.oneandone.mork.compiler:
   MainFunctionalTest;
 
 S   => MainFunctionalTest.ab;

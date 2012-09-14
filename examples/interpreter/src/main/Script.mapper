@@ -5,7 +5,7 @@ syntax = "Script.syntax";
 import interpreter:
     Assign, Binary, Block, Const, Declarations, Expression, If, Input,
     Print, Reference, Script, Unary, Variable, While;
-import net.sf.beezle.mork.semantics:
+import net.oneandone.mork.semantics:
     BuiltIn;
 import java.lang:
     Boolean, Integer, String;

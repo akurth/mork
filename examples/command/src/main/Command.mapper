@@ -4,7 +4,7 @@ syntax = "Command.syntax";
 
 import command:
     Command, Declarations, Line, Constant, Reference, Variable;
-import net.sf.beezle.mork.semantics:
+import net.oneandone.mork.semantics:
     BuiltIn;
 
 Command         => Command;
