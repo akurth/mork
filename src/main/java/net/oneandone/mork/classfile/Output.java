@@ -23,7 +23,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class Output implements Constants {
+public class Output implements Constants, AutoCloseable {
     private final ByteArrayOutputStream bufferDest;
     private final OutputStream finalDest;
     /** finalDest or bufferDest */
@@ -38,13 +38,10 @@ public class Output implements Constants {
     private final Pool constants;
 
     public static void save(ClassDef c, File file) throws IOException {
-        FileOutputStream stream;
-        Output output;
-
-        stream = new FileOutputStream(file);
-        output = new Output(stream);
-        c.write(output);
-        output.close();
+        try (FileOutputStream stream = new FileOutputStream(file);
+             Output output = new Output(stream)) {
+            c.write(output);
+        }
     }
 
     public Output(OutputStream dest) {

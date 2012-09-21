@@ -24,7 +24,7 @@ import java.io.InputStream;
  * A context to read a class file. The context is comprised of an
  * input stream and a constant pool.
  */
-public class Input implements Constants {
+public class Input implements Constants, AutoCloseable{
     private InputStream src;
     private Code context;
     private int ofs;  // only valid within code context
@@ -34,15 +34,11 @@ public class Input implements Constants {
     public Pool constants;
 
     public static ClassDef load(Node node) throws IOException {
-        InputStream src;
-        Input input;
         ClassDef result;
 
-        src = node.createInputStream();
-        try {
-            input = new Input(src);
+        try (InputStream src = node.createInputStream();
+             Input input = new Input(src)) {
             result = new ClassDef(input);
-            input.close();
         } catch (RuntimeException e) {
             throw new RuntimeException(node + ": " + e.getMessage(), e);
         }

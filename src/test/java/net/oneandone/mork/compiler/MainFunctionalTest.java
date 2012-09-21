@@ -233,26 +233,19 @@ public class MainFunctionalTest extends TestCase {
         run(args);
     }
 
+    // TODO: sushi
     private static void copy(File srcFile, File destFile) throws IOException {
-        FileReader src;
-        FileWriter dest;
         int c;
 
-        src = new FileReader(srcFile);
-        try {
-            dest = new FileWriter(destFile);
-            try {
-                for (c = src.read(); c != -1; c = src.read()) {
-                    dest.write((char) c);
-                }
-            } finally {
-                dest.close();
+        try (FileReader src = new FileReader(srcFile);
+             FileWriter dest = new FileWriter(destFile)) {
+            for (c = src.read(); c != -1; c = src.read()) {
+                dest.write((char) c);
             }
-        } finally {
-            src.close();
         }
     }
 
+    // TODO: sushi
     private static void rmRf(File file) throws IOException {
         File[] lst;
 
