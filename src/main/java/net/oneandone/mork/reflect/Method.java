@@ -191,13 +191,11 @@ public class Method extends Function implements Bytecodes {
 
                 return meth.invoke(vals[0], tmp);
             }
-        } catch (InvocationTargetException e) {
+        } catch (InvocationTargetException | IllegalArgumentException e) {
             throw e;
         } catch (IllegalAccessException e) {
             // isValid should prevent this
             throw new RuntimeException("can't access method");
-        } catch (IllegalArgumentException e) {
-            throw e;
         }
     }
 

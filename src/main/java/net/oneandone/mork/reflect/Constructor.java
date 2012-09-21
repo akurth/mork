@@ -137,9 +137,7 @@ public class Constructor extends Function implements Bytecodes {
     public Object invoke(Object[] vals) throws InvocationTargetException {
         try {
             return constr.newInstance(vals);
-        } catch (InvocationTargetException e) {
-            throw e;
-        } catch (IllegalArgumentException e) {
+        } catch (InvocationTargetException | IllegalArgumentException e) {
             throw e;
         } catch (IllegalAccessException e) {
             // runtime exception, isValid should prevent this case

@@ -56,13 +56,7 @@ public class Type implements Bytecodes, Constants {
         }
         try {
             return (Class<?>) wrapper.getDeclaredField("TYPE").get(null);
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e);
-        } catch (SecurityException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchFieldException e) {
+        } catch (IllegalArgumentException | SecurityException | IllegalAccessException | NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
     }

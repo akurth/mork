@@ -109,8 +109,7 @@ public class GenericCompiler extends CustomCompiler implements Bytecodes {
             try {
                 result[i] = fields[i].invokeN(obj);
             } catch (InvocationTargetException e) {
-                throw new RuntimeException("can't get field: " + fields[i]
-                        + ": " + e);
+                throw new RuntimeException("can't get field: " + fields[i] + ": " + e);
             }
         }
         return result;
