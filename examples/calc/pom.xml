@@ -2,8 +2,8 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>net.oneandone.maven.poms</groupId>
-    <artifactId>parent</artifactId>
-    <version>1.0.8</version>
+    <artifactId>foss-parent</artifactId>
+    <version>1.1.3</version>
   </parent>
 
   <groupId>calc</groupId>
@@ -13,9 +13,9 @@
 
   <dependencies>
     <dependency>
-      <groupId>net.oneandone.mork</groupId>
+      <groupId>net.oneandone</groupId>
       <artifactId>mork</artifactId>
-      <version>1.0</version>
+      <version>1.1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
   <build>
@@ -49,12 +49,12 @@
      <plugin>
         <groupId>net.oneandone.maven.plugins</groupId>
         <artifactId>application</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.4.0-SNAPSHOT</version>
         <configuration>
           <name>calc</name>
           <main>calc.Main</main>
           <strip>true</strip>
-          <extraRoots>net.oneandone.sushi.fs.NodeReader.create, calc.Mapper.load</extraRoots>
+          <extraRoots>net.oneandone.sushi.graph.CyclicDependency, net.oneandone.mork.misc.GenericException, net.oneandone.sushi.fs.NodeReader, calc.Mapper, calc.MapperFunctions1.invoke, net.oneandone.mork.reflect.Composition</extraRoots>
         </configuration>
         <executions>
           <execution>
