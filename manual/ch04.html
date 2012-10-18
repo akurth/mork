@@ -1,6 +1,6 @@
 <html><head>
       <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-   <title>Chapter&nbsp;4.&nbsp;Syntax files</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><link rel="home" href="manual.html" title="Mork"><link rel="up" href="manual.html" title="Mork"><link rel="prev" href="ch03.html" title="Chapter&nbsp;3.&nbsp;First steps"><link rel="next" href="ch05.html" title="Chapter&nbsp;5.&nbsp;Mapper files"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;4.&nbsp;Syntax files</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch05.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;4.&nbsp;Syntax files"><div class="titlepage"><div><div><h2 class="title"><a name="d0e1194"></a>Chapter&nbsp;4.&nbsp;Syntax files</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch04.html#d0e1213">Overall structure</a></span></dt><dt><span class="sect1"><a href="ch04.html#d0e1272">Symbols</a></span></dt><dt><span class="sect1"><a href="ch04.html#d0e1375">Regular expression</a></span></dt><dt><span class="sect1"><a href="ch04.html#d0e1573">Lexical structure</a></span></dt><dt><span class="sect1"><a href="ch04.html#d0e1646">Scanner modes</a></span></dt></dl></div><p title="About"><b>About.&nbsp;</b>This chapter is about syntax files. A syntax file defines the structure of
+   <title>Chapter&nbsp;4.&nbsp;Syntax files</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><link rel="home" href="manual.html" title="Mork"><link rel="up" href="manual.html" title="Mork"><link rel="prev" href="ch03.html" title="Chapter&nbsp;3.&nbsp;First steps"><link rel="next" href="ch05.html" title="Chapter&nbsp;5.&nbsp;Mapper files"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;4.&nbsp;Syntax files</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch05.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;4.&nbsp;Syntax files"><div class="titlepage"><div><div><h2 class="title"><a name="d0e1191"></a>Chapter&nbsp;4.&nbsp;Syntax files</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch04.html#d0e1210">Overall structure</a></span></dt><dt><span class="sect1"><a href="ch04.html#d0e1269">Symbols</a></span></dt><dt><span class="sect1"><a href="ch04.html#d0e1372">Regular expression</a></span></dt><dt><span class="sect1"><a href="ch04.html#d0e1570">Lexical structure</a></span></dt><dt><span class="sect1"><a href="ch04.html#d0e1643">Scanner modes</a></span></dt></dl></div><p title="About"><b>About.&nbsp;</b>This chapter is about syntax files. A syntax file defines the structure of
         an input stream. Mork reads syntax files when processing a mapper file. The syntax
         is defined by a list of BNF-style rules. The list of rules is divided into a parser
         section defining a pushdown automaton and a scanner section defining a finite
@@ -8,7 +8,7 @@
         a syntax file is the name of the language specified in the file, capitalized
         like Java class names. The file name extension is <code class="literal">.syntax</code>.
         Examples: <code class="literal">Java.syntax</code> for a Java syntax.
-      </p><div class="sect1" title="Overall structure"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e1213"></a>Overall structure</h2></div></div></div><div class="figure"><a name="d0e1216"></a><p class="title"><b>Figure&nbsp;4.1.&nbsp;Overall structure</b></p><div class="figure-contents"><pre class="programlisting">
+      </p><div class="sect1" title="Overall structure"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e1210"></a>Overall structure</h2></div></div></div><div class="figure"><a name="d0e1213"></a><p class="title"><b>Figure&nbsp;4.1.&nbsp;Overall structure</b></p><div class="figure-contents"><pre class="programlisting">
           Syntax              ::= Parser Scanner ;
           Parser              ::= "[" "PARSER" "]" Rule+ ;
           Scanner             ::= "[" "SCANNER" "]" Priorities WhiteOpt Rule* ;
@@ -47,13 +47,13 @@
           by priorities because the scanner needs to match both terminals. Mork ensures that
           no parser state can shift both terminals and adds both terminals to different scanner modes.
           The generated parser automatically switches it's scanner into the mode that matches all
-          terminals currently shiftable.</p></div><div class="sect1" title="Symbols"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e1272"></a>Symbols</h2></div></div></div><p>The syntax of input streams is defined in terms of symbols. Any symbol
+          terminals currently shiftable.</p></div><div class="sect1" title="Symbols"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e1269"></a>Symbols</h2></div></div></div><p>The syntax of input streams is defined in terms of symbols. Any symbol
         has a language which is defined by the parser and scanner section. A language
         is a set of strings. The set might be empty, it might include the empty
         string, and in may cases, the set in infinite. A symbol is said to match the
         current input, if the current input starts with an element of its language. Otherwise,
         the symbol does not match. Example: a symbol  <code class="literal">Integer</code> typically
-        matches <code class="literal">57...</code>, but not <code class="literal">xyz...</code>. </p><div class="figure"><a name="d0e1286"></a><p class="title"><b>Figure&nbsp;4.2.&nbsp;Symbols</b></p><div class="figure-contents"><pre class="programlisting">
+        matches <code class="literal">57...</code>, but not <code class="literal">xyz...</code>. </p><div class="figure"><a name="d0e1283"></a><p class="title"><b>Figure&nbsp;4.2.&nbsp;Symbols</b></p><div class="figure-contents"><pre class="programlisting">
           Symbol              ::= StringSymbol | IdentifierSymbol ;
           StringSymbol        ::= StringLiteral ;
           IdentifierSymbol    ::= Identifier ;
@@ -97,7 +97,7 @@
           before identifier symbols. </p><p title="Example"><b>Example.&nbsp;</b>The input <code class="literal">if</code> can typically be matched by the symbol
           <code class="literal">Identifier</code> and the string symbol <code class="literal">"if"</code>. Mork
           matches the <code class="literal">"if"</code> symbols because its definition proceeds the
-          definition of the <code class="literal">Identifier</code> symbol.</p></div><div class="sect1" title="Regular expression"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e1375"></a>Regular expression</h2></div></div></div><p>Regular expressions define languages.</p><div class="figure"><a name="d0e1380"></a><p class="title"><b>Figure&nbsp;4.3.&nbsp;Regular expression syntax</b></p><div class="figure-contents"><pre class="programlisting">
+          definition of the <code class="literal">Identifier</code> symbol.</p></div><div class="sect1" title="Regular expression"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e1372"></a>Regular expression</h2></div></div></div><p>Regular expressions define languages.</p><div class="figure"><a name="d0e1377"></a><p class="title"><b>Figure&nbsp;4.3.&nbsp;Regular expression syntax</b></p><div class="figure-contents"><pre class="programlisting">
           RegExpr             ::= Choice ;
           Choice              ::= Choice "|" Sequence | Sequence ;
           Sequence            ::= (Factor | Restriction)* ;
@@ -190,8 +190,8 @@
             New ::= "new" Name "(" Object Lst ")" ;
             Lst ::= Lst "," Object ;
             Lst ::= "," Object ;
-          </pre></div><div class="sect1" title="Lexical structure"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e1573"></a>Lexical structure</h2></div></div></div><p>Syntax files essentially follow the lexical conventions of Java.
-        The only major difference is the <code class="literal">EndOfLineComment</code>.</p><div class="figure"><a name="d0e1581"></a><p class="title"><b>Figure&nbsp;4.4.&nbsp;Lexical structure</b></p><div class="figure-contents"><pre class="programlisting">
+          </pre></div><div class="sect1" title="Lexical structure"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e1570"></a>Lexical structure</h2></div></div></div><p>Syntax files essentially follow the lexical conventions of Java.
+        The only major difference is the <code class="literal">EndOfLineComment</code>.</p><div class="figure"><a name="d0e1578"></a><p class="title"><b>Figure&nbsp;4.4.&nbsp;Lexical structure</b></p><div class="figure-contents"><pre class="programlisting">
           WhiteSpace         ::= ( ' ' | '\t' | '\n' | '\f' | '\r' )+ ;
           EndOfLineComment   ::= '/' '/' ('\n' | '\r')!* ('\n' | '\r') ;
           TraditionalComment ::= '/' '*' ('*'! | '*' '/'!)* '*' '/' ;
@@ -230,7 +230,7 @@
             character code &lt;= 255.</p></li><li class="listitem"><p title="Unicode preprocessing"><b>Unicode preprocessing.&nbsp;</b>Prior to scanning, no Unicode preprocessing is performed. Thus,
             a token in general may not contain Unicode escapes. However, the
             definition of character and string literals has been extended to
-            support Unicode escapes.</p></li></ul></div></div><div class="sect1" title="Scanner modes"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e1646"></a>Scanner modes</h2></div></div></div><p>A scanner mode is a set of terminals. Whenever matching a string, the scanner
+            support Unicode escapes.</p></li></ul></div></div><div class="sect1" title="Scanner modes"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e1643"></a>Scanner modes</h2></div></div></div><p>A scanner mode is a set of terminals. Whenever matching a string, the scanner
         matches only terminals in the current mode. Scanner modes are completely transparent, usually,
         there is no need to care about them: at compile-time, scanner modes are computed automatically,
         there is no need to manually declare scanner modes. At runtime, the parser automatically switches

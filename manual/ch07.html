@@ -1,13 +1,13 @@
 <html><head>
       <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-   <title>Chapter&nbsp;7.&nbsp;Usage</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><link rel="home" href="manual.html" title="Mork"><link rel="up" href="manual.html" title="Mork"><link rel="prev" href="ch06.html" title="Chapter&nbsp;6.&nbsp;Compiling"><link rel="next" href="ch08.html" title="Chapter&nbsp;8.&nbsp;Source Code"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;7.&nbsp;Usage</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch08.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;7.&nbsp;Usage"><div class="titlepage"><div><div><h2 class="title"><a name="d0e2826"></a>Chapter&nbsp;7.&nbsp;Usage</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch07.html#d0e2831">Overview</a></span></dt><dt><span class="sect1"><a href="ch07.html#d0e2861">The <code class="literal">Mapper</code> class</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch07.html#d0e2937">Constructor</a></span></dt><dt><span class="sect2"><a href="ch07.html#d0e3000"><code class="literal">setErrorHander</code></a></span></dt><dt><span class="sect2"><a href="ch07.html#d0e3032"><code class="literal">setEnvironment</code></a></span></dt><dt><span class="sect2"><a href="ch07.html#d0e3044"><code class="literal">run</code></a></span></dt><dt><span class="sect2"><a href="ch07.html#d0e3113"><code class="literal">run</code></a></span></dt></dl></dd><dt><span class="sect1"><a href="ch07.html#d0e3143">The <code class="literal">ErrorHandler</code> interface</a></span></dt><dt><span class="sect1"><a href="ch07.html#d0e3237">Deployment</a></span></dt></dl></div><p>This chapter explains how to work with mapper objects in your applications. The first
+   <title>Chapter&nbsp;7.&nbsp;Usage</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><link rel="home" href="manual.html" title="Mork"><link rel="up" href="manual.html" title="Mork"><link rel="prev" href="ch06.html" title="Chapter&nbsp;6.&nbsp;Compiling"><link rel="next" href="ch08.html" title="Chapter&nbsp;8.&nbsp;Source Code"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;7.&nbsp;Usage</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch08.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;7.&nbsp;Usage"><div class="titlepage"><div><div><h2 class="title"><a name="d0e2823"></a>Chapter&nbsp;7.&nbsp;Usage</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch07.html#d0e2828">Overview</a></span></dt><dt><span class="sect1"><a href="ch07.html#d0e2858">The <code class="literal">Mapper</code> class</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch07.html#d0e2934">Constructor</a></span></dt><dt><span class="sect2"><a href="ch07.html#d0e2997"><code class="literal">setErrorHander</code></a></span></dt><dt><span class="sect2"><a href="ch07.html#d0e3029"><code class="literal">setEnvironment</code></a></span></dt><dt><span class="sect2"><a href="ch07.html#d0e3041"><code class="literal">run</code></a></span></dt><dt><span class="sect2"><a href="ch07.html#d0e3110"><code class="literal">run</code></a></span></dt></dl></dd><dt><span class="sect1"><a href="ch07.html#d0e3140">The <code class="literal">ErrorHandler</code> interface</a></span></dt><dt><span class="sect1"><a href="ch07.html#d0e3234">Deployment</a></span></dt></dl></div><p>This chapter explains how to work with mapper objects in your applications. The first
       section outlines the most important steps. This is followed by a kind method reference
       of the mapper class. Finally, the last section describes the runtime environment required to
-      use a mapper. </p><div class="sect1" title="Overview"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e2831"></a>Overview</h2></div></div></div><p>Using a mapper in an application involves creation and running. Suppose the mapper
+      use a mapper. </p><div class="sect1" title="Overview"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e2828"></a>Overview</h2></div></div></div><p>Using a mapper in an application involves creation and running. Suppose the mapper
         name was <code class="literal">foo.Mapper</code>. The following code fragment create a
         <code class="literal">foo.Mapper</code> instance and runs it on the file <code class="literal">xy</code>.
-      </p><div class="example"><a name="d0e2845"></a><p class="title"><b>Example&nbsp;7.1.&nbsp;Mapper usage</b></p><div class="example-contents"><pre class="programlisting">
-          import net.sf.beezle.mork.mapping.Mapper;
+      </p><div class="example"><a name="d0e2842"></a><p class="title"><b>Example&nbsp;7.1.&nbsp;Mapper usage</b></p><div class="example-contents"><pre class="programlisting">
+          import net.oneandone.mork.mapping.Mapper;
 
           Mapper mapper;
           Object[] result;
@@ -26,7 +26,7 @@
         </pre></div></div><br class="example-break"><p>If the file <code class="literal">xy</code> is mapped without errors, the returned object array
         is printed. Otherwise, <code class="literal">run</code> prints an error message and returns
         <code class="literal">null</code>. Except for Java IO problems, all error messages include the
-        current source position.</p></div><div class="sect1" title="The Mapper class"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e2861"></a>The <code class="literal">Mapper</code> class</h2></div></div></div><p>The class <code class="literal">net.sf.beezle.mork.mapping.Mapper</code> forms the main API
+        current source position.</p></div><div class="sect1" title="The Mapper class"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e2858"></a>The <code class="literal">Mapper</code> class</h2></div></div></div><p>The class <code class="literal">net.oneandone.mork.mapping.Mapper</code> forms the main API
         used by applications. The following describes the most important constructors and methods.
         This description is sufficient for normal use. See the API documentation for more details.
       </p><p title="Mapper vs. Generated classes"><b><code class="literal">Mapper</code> vs. Generated classes.&nbsp;</b>Note that <code class="literal">Mapper</code> is not a generated classes. How does this class know the
@@ -46,7 +46,7 @@
           this problem by using Java reflection to refer to generated classes. As far as I know, there is no
           performance drawback.</p><p title="Threading"><b>Threading.&nbsp;</b>Mapper objects are not thread-safe. If your code uses multiple threads you have to
           synchronize them to make sure that at most one thread at a time executes within a given mapper
-          object. </p><div class="sect2" title="Constructor"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2937"></a>Constructor</h3></div></div></div><p>
+          object. </p><div class="sect2" title="Constructor"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2934"></a>Constructor</h3></div></div></div><p>
           <code class="literal">Mapper(String name)</code>
         </p><p>Instantiates the mapper with the specified name. The <code class="literal">name</code> argument
           specifies the mapper name as defined in the mapper file. You can create any number of mapper
@@ -67,15 +67,15 @@
             sure that the mapper was compiled properly with the appropriate version of Mork. Note: an unchecked
             exception is thrown because the caller is not expected to catch and recover from this problem. I
             can see only good reason for catching the exceptions: to report an internal application error and
-            quit.</p></div><div class="sect2" title="setErrorHander"><div class="titlepage"><div><div><h3 class="title"><a name="d0e3000"></a><code class="literal">setErrorHander</code></h3></div></div></div><p><code class="literal">setErrorHandler(net.sf.beezle.mork.mapping.ErrorHandler)</code></p><p>Defines the error handler used by <code class="literal">run</code> to report errors. The
+            quit.</p></div><div class="sect2" title="setErrorHander"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2997"></a><code class="literal">setErrorHander</code></h3></div></div></div><p><code class="literal">setErrorHandler(net.oneandone.mork.mapping.ErrorHandler)</code></p><p>Defines the error handler used by <code class="literal">run</code> to report errors. The
           <code class="literal">ErrorHandler</code> documentation below explains the various types of errors.
         </p><p title="Default error handler"><b>Default error handler.&nbsp;</b>If <code class="literal">setErrorHandler</code> is not used to explicitly define an error handler,
             <code class="literal">run</code> uses a default error handler. The default error handler prints all errors
             to <code class="literal">System.err</code>. All error messages includes the position where the problem
             occurred.  This behavior is sufficient for may applications. Especially if you start with a new
             application, it is save to ignore <code class="literal">setErrorHandler</code> an rely on the default error
-            handler. </p></div><div class="sect2" title="setEnvironment"><div class="titlepage"><div><div><h3 class="title"><a name="d0e3032"></a><code class="literal">setEnvironment</code></h3></div></div></div><p><code class="literal">setEnvironment(Object)</code></p><p>Defines the mapper's environment object. Use <code class="literal">YourSymbol : [env];</code> to access
-          this object from your mapper file.</p></div><div class="sect2" title="run"><div class="titlepage"><div><div><h3 class="title"><a name="d0e3044"></a><code class="literal">run</code></h3></div></div></div><p><code class="literal">run(Object context, Reader src)</code></p><p>Runs the mapper on the specified stream. <code class="literal">run</code> performs syntactic analysis
+            handler. </p></div><div class="sect2" title="setEnvironment"><div class="titlepage"><div><div><h3 class="title"><a name="d0e3029"></a><code class="literal">setEnvironment</code></h3></div></div></div><p><code class="literal">setEnvironment(Object)</code></p><p>Defines the mapper's environment object. Use <code class="literal">YourSymbol : [env];</code> to access
+          this object from your mapper file.</p></div><div class="sect2" title="run"><div class="titlepage"><div><div><h3 class="title"><a name="d0e3041"></a><code class="literal">run</code></h3></div></div></div><p><code class="literal">run(Object context, Reader src)</code></p><p>Runs the mapper on the specified stream. <code class="literal">run</code> performs syntactic analysis
           (i.e. scanning and parsing) and mapping into Java objects. If <code class="literal">run</code> does not
           detect errors, it returns the Java objects of the start symbol. The context argument specifies a
           name for the reader, <code class="literal">context.toString()</code> is used to report error positions and
@@ -97,17 +97,17 @@
             with the mapper specification, not with the stream processed by the mapper. To correct this problem,
             the underlying map file has to be fixed. <code class="literal">CyclicDependencies</code> is an
             unchecked exception because the application has to be fixed, applications are not expected to
-            recover from this problem.</p></div><div class="sect2" title="run"><div class="titlepage"><div><div><h3 class="title"><a name="d0e3113"></a><code class="literal">run</code></h3></div></div></div><p><code class="literal">public Object[] run(String fileName)</code></p><p>Convenience method to map files. Opens <code class="literal">fileName</code> as a
+            recover from this problem.</p></div><div class="sect2" title="run"><div class="titlepage"><div><div><h3 class="title"><a name="d0e3110"></a><code class="literal">run</code></h3></div></div></div><p><code class="literal">public Object[] run(String fileName)</code></p><p>Convenience method to map files. Opens <code class="literal">fileName</code> as a
           <code class="literal">FileReader</code> and invokes <code class="literal">run(Object context, Reader src)</code>,
           passing <code class="literal">fileName</code> and the <code class="literal">FileReader</code> object as argument.
           As usual, a relative <code class="literal">fileName</code> is interpreted relative to the current working
           directory. The <code class="literal">FileReader</code> object will always be closed when returning from the
-          method, even if the mapper throws an unchecked exception. </p></div></div><div class="sect1" title="The ErrorHandler interface"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e3143"></a>The <code class="literal">ErrorHandler</code> interface</h2></div></div></div><p><code class="literal">net.sf.beezle.mork.mapping.ErrorHandler</code></p><p>Error handling is work in progress. If you have a choice, please rely on the
+          method, even if the mapper throws an unchecked exception. </p></div></div><div class="sect1" title="The ErrorHandler interface"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e3140"></a>The <code class="literal">ErrorHandler</code> interface</h2></div></div></div><p><code class="literal">net.oneandone.mork.mapping.ErrorHandler</code></p><p>Error handling is work in progress. If you have a choice, please rely on the
         default error handling. Avoid implementing you own error handler since the interface
         is expected to change. Similarly, this documentation is preliminary. It concentrates
         on the various error types (which I consider more stables), it does not explain individual
         methods of the interface. If you have to implement an error handler, the source code of
-        <code class="literal">net.sf.beezle.mork.mapping.PrintStreamErrorHandler</code> might provide
+        <code class="literal">net.oneandone.mork.mapping.PrintStreamErrorHandler</code> might provide
         some help.</p><p title="Exceptions"><b>Exceptions.&nbsp;</b><code class="literal">ErrorHandler</code> distinguishes various error types, where each type of error
           reported by a different exception. Different exceptions resemble the various modules involved in
           mapping. Every module reports errors to the <code class="literal">run</code> method by throwing his individual
@@ -128,7 +128,7 @@
           triggered the constructor. The term semantic error is compiler construction terminology.
           A typical semantic error is an undefined identifier or a type mismatch. Constructors are
           expected to check for semantic errors like undefined identifiers and throw a checked exception
-          to indicate problems. </p></div><div class="sect1" title="Deployment"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e3237"></a>Deployment</h2></div></div></div><p>As long as you applications on your development system, you can skip this section:
+          to indicate problems. </p></div><div class="sect1" title="Deployment"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e3234"></a>Deployment</h2></div></div></div><p>As long as you applications on your development system, you can skip this section:
         all Mork classes needed to run the application have been set up by installing Mork on
         the development system. This section applies if you want to (manually or automatically)
         deploy applications on a system where Mork is not installed.

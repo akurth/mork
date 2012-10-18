@@ -1,7 +1,7 @@
 <html><head>
       <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-   <title>Chapter&nbsp;5.&nbsp;Mapper files</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><link rel="home" href="manual.html" title="Mork"><link rel="up" href="manual.html" title="Mork"><link rel="prev" href="ch04.html" title="Chapter&nbsp;4.&nbsp;Syntax files"><link rel="next" href="ch06.html" title="Chapter&nbsp;6.&nbsp;Compiling"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;5.&nbsp;Mapper files</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch06.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;5.&nbsp;Mapper files"><div class="titlepage"><div><div><h2 class="title"><a name="d0e1653"></a>Chapter&nbsp;5.&nbsp;Mapper files</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch05.html#d0e1734">Overall structure</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch05.html#d0e1759">Mapper name</a></span></dt><dt><span class="sect2"><a href="ch05.html#d0e1796">Syntax file</a></span></dt><dt><span class="sect2"><a href="ch05.html#d0e1812">Import declarations</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch05.html#d0e1926">Constructors</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch05.html#d0e1964">Normal constructors</a></span></dt><dt><span class="sect2"><a href="ch05.html#d0e2122">Special constructors</a></span></dt><dt><span class="sect2"><a href="ch05.html#d0e2167">Exceptions</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch05.html#d0e2274">Attributes</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch05.html#d0e2296">Definition</a></span></dt><dt><span class="sect2"><a href="ch05.html#d0e2351">Compile-time</a></span></dt><dt><span class="sect2"><a href="ch05.html#d0e2483">Runtime</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch05.html#d0e2539">Visibility</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch05.html#d0e2613">Paths</a></span></dt></dl></dd></dl></div><p title="Mapping"><b>Mapping.&nbsp;</b>Turning input streams into objects is called <span class="emphasis"><em>mapping</em></span>
-        <a class="indexterm" name="d0e1664"></a>. Mapping turns data from
+   <title>Chapter&nbsp;5.&nbsp;Mapper files</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><link rel="home" href="manual.html" title="Mork"><link rel="up" href="manual.html" title="Mork"><link rel="prev" href="ch04.html" title="Chapter&nbsp;4.&nbsp;Syntax files"><link rel="next" href="ch06.html" title="Chapter&nbsp;6.&nbsp;Compiling"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;5.&nbsp;Mapper files</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch06.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;5.&nbsp;Mapper files"><div class="titlepage"><div><div><h2 class="title"><a name="d0e1650"></a>Chapter&nbsp;5.&nbsp;Mapper files</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch05.html#d0e1731">Overall structure</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch05.html#d0e1756">Mapper name</a></span></dt><dt><span class="sect2"><a href="ch05.html#d0e1793">Syntax file</a></span></dt><dt><span class="sect2"><a href="ch05.html#d0e1809">Import declarations</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch05.html#d0e1923">Constructors</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch05.html#d0e1961">Normal constructors</a></span></dt><dt><span class="sect2"><a href="ch05.html#d0e2119">Special constructors</a></span></dt><dt><span class="sect2"><a href="ch05.html#d0e2164">Exceptions</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch05.html#d0e2271">Attributes</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch05.html#d0e2293">Definition</a></span></dt><dt><span class="sect2"><a href="ch05.html#d0e2348">Compile-time</a></span></dt><dt><span class="sect2"><a href="ch05.html#d0e2480">Runtime</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch05.html#d0e2536">Visibility</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch05.html#d0e2610">Paths</a></span></dt></dl></dd></dl></div><p title="Mapping"><b>Mapping.&nbsp;</b>Turning input streams into objects is called <span class="emphasis"><em>mapping</em></span>
+        <a class="indexterm" name="d0e1661"></a>. Mapping turns data from
         a character representation into an object representation. Initially, data is represented as a
         sequence of characters without structure. This representation is appropriate to edit, store or
         transfer data. In contrast, the object representation the input stream is mapped to is appropriate
@@ -9,7 +9,7 @@
         represented by <code class="literal">List</code> objects. The purpose of mapping is to turn input streams into
         the representation most appropriate to process the data. Note: the object representation is similar
         to abstract syntax trees generated by some compiler tools, but the classes underlying individual
-        objects can be freely chosen and objects are not restricted to trees. </p><div class="figure"><a name="d0e1674"></a><p class="title"><b>Figure&nbsp;5.1.&nbsp;Mapping</b></p><div class="figure-contents"><div class="mediaobject"><object type="image/svg+xml" data="mapping.svg"></object></div></div></div><br class="figure-break"><p title="Steps"><b>Steps.&nbsp;</b>Mapping is comprised of two steps. In step one, the input stream is syntactically analyzed.
+        objects can be freely chosen and objects are not restricted to trees. </p><div class="figure"><a name="d0e1671"></a><p class="title"><b>Figure&nbsp;5.1.&nbsp;Mapping</b></p><div class="figure-contents"><div class="mediaobject"><object type="image/svg+xml" data="mapping.svg"></object></div></div></div><br class="figure-break"><p title="Steps"><b>Steps.&nbsp;</b>Mapping is comprised of two steps. In step one, the input stream is syntactically analyzed.
         This includes scanning and parsing and results in a syntax tree. This step turns that input
         stream from a character representation into a tree representation. The tree representation is
         used because it's most appropriate to check the syntax of the input stream. Step two takes the
@@ -20,7 +20,7 @@
         objects and they are both objects themselves. However, a mapper de-serializes from a human-readable
         stream, whereas an <code class="literal">ObjectInputStream</code> de-serialize from an machine-readable stream.
       </p><p title="Mapper files"><b>Mapper files.&nbsp;</b>A mapper file is a text file that defines a mapper.
-        <a class="indexterm" name="d0e1701"></a>It defines the syntax of
+        <a class="indexterm" name="d0e1698"></a>It defines the syntax of
         an input stream by referencing a syntax file and it defines how to map syntax trees into objects.
         Mork translates mapper files into Java classes. </p><p title="Naming conventions"><b>Naming conventions.&nbsp;</b>Mork does not restrict the name of mapper files. My naming convention for mapper files is
         as follows. The base name is the same as the base name of the syntax file. The file name extension
@@ -36,7 +36,7 @@
         there is nothing special compared to other compiler tools. Defining mapper files should also be
         simple because it is basically a simple association. However, this chapter probably turns out to
         be more difficult because (1) the mapping concept differs from other tools and thus needs
-        more explanations and (2) this chapter of the manual is incomplete. </p><div class="sect1" title="Overall structure"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e1734"></a>Overall structure</h2></div></div></div><div class="figure"><a name="d0e1737"></a><p class="title"><b>Figure&nbsp;5.2.&nbsp;Overall structure</b></p><div class="figure-contents"><pre class="programlisting">
+        more explanations and (2) this chapter of the manual is incomplete. </p><div class="sect1" title="Overall structure"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e1731"></a>Overall structure</h2></div></div></div><div class="figure"><a name="d0e1734"></a><p class="title"><b>Figure&nbsp;5.2.&nbsp;Overall structure</b></p><div class="figure-contents"><pre class="programlisting">
           Mapper              ::= MapperName SyntaxFile Imports Definitions ;
           MapperName          ::= "mapper" Name ";" ;
           SyntaxFile          ::= "syntax" "=" StringLiteral ";" ;
@@ -48,7 +48,7 @@
         </pre></div></div><br class="figure-break"><p title="Overview"><b>Overview.&nbsp;</b>Start symbol of the mapper file grammar is <code class="literal">Mapper</code>.
           <code class="literal">Definitions</code> form the core of mapper files, they associates symbols
           defined in <code class="literal">SyntaxFile</code> with Java classes declared in
-          <code class="literal">Imports</code>.</p><div class="sect2" title="Mapper name"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1759"></a>Mapper name</h3></div></div></div><p title="Purpose"><b>Purpose.&nbsp;</b>The mapper name specifies a fully qualified name for the mapper. The name has to
+          <code class="literal">Imports</code>.</p><div class="sect2" title="Mapper name"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1756"></a>Mapper name</h3></div></div></div><p title="Purpose"><b>Purpose.&nbsp;</b>The mapper name specifies a fully qualified name for the mapper. The name has to
             follow Java's rules for fully qualified class names. When generating a mapper, the name is used
             as a prefix for the various classes resulting from the generation. When running an application,
             the mapper name is used to locate and load these classes. The name is fully qualified, i.e. the
@@ -60,12 +60,12 @@
             which defines a class <code class="literal">Foo</code>. Mork implements the same behavior for mappers:
             Defining a mapper <code class="literal">Foo</code> in a mapper file <code class="literal">Bar.mapper</code> results
             in a Java class file <code class="literal">Foo.class</code> defining a class <code class="literal">Bar</code>.
-          </p></div><div class="sect2" title="Syntax file"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1796"></a>Syntax file</h3></div></div></div><p title="Syntax File"><b>Syntax File.&nbsp;</b><code class="literal">SyntaxFile</code> refers to the file defining the mapper's syntax.
+          </p></div><div class="sect2" title="Syntax file"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1793"></a>Syntax file</h3></div></div></div><p title="Syntax File"><b>Syntax File.&nbsp;</b><code class="literal">SyntaxFile</code> refers to the file defining the mapper's syntax.
             <code class="literal">StringLiteral</code> is the file name. A relative file name is interpreted
             relative to the location of the mapper file, not relative to the current directory.
             The character separating directories in the file name is <code class="literal">/</code>, regardless of
             the platform you run Mork on. Thus, it is illegal to use backslashes on Windows. Rationale:
-            make mapper file platform independent.</p></div><div class="sect2" title="Import declarations"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1812"></a>Import declarations</h3></div></div></div><p title="Purpose"><b>Purpose.&nbsp;</b><code class="literal">Imports</code> resemble Java import declarations: Import declarations specify
+            make mapper file platform independent.</p></div><div class="sect2" title="Import declarations"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1809"></a>Import declarations</h3></div></div></div><p title="Purpose"><b>Purpose.&nbsp;</b><code class="literal">Imports</code> resemble Java import declarations: Import declarations specify
             classes to be referenced by simple identifiers, without the package that contains the class. The
             purpose of both Java and Mork import declarations is to simplify references to classes with long
             qualified names. Qualified names can get quite long, especially because Java naming conventions
@@ -95,7 +95,7 @@
             package have to be explicitly imported. Example: <code class="literal">import foo: Bar;</code> is
             required to reference <code class="literal">foo.Bar</code> even if the mapper package is
             <code class="literal">foo</code>. Once again, the rationale is to document dependencies.
-          </p></div></div><div class="sect1" title="Constructors"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e1926"></a>Constructors</h2></div></div></div><div class="figure"><a name="d0e1929"></a><p class="title"><b>Figure&nbsp;5.3.&nbsp;Constructors</b></p><div class="figure-contents"><pre class="programlisting">
+          </p></div></div><div class="sect1" title="Constructors"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e1923"></a>Constructors</h2></div></div></div><div class="figure"><a name="d0e1926"></a><p class="title"><b>Figure&nbsp;5.3.&nbsp;Constructors</b></p><div class="figure-contents"><pre class="programlisting">
           Constructor         ::= ClassRef | MemberRef | Internal | Copy;
           ClassRef            ::= Identifier ;
           MemberRef           ::= Identifier "." Identifier ;
@@ -115,7 +115,7 @@
         </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>name</p></li><li class="listitem"><p>argument type list</p></li><li class="listitem"><p>result type</p></li><li class="listitem"><p>exceptions</p></li></ul></div><p title="Static typing"><b>Static typing.&nbsp;</b>Argument and return types are known at compile time. This type information is used by
           Mork to perform static type checking. At runtime, all values passed to or returned from a
           constructor are guarantied to be assignable to/from the specified type. It is impossible to
-          get runtime type mismatches here because of an illegal constructor invocation.</p><div class="sect2" title="Normal constructors"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1964"></a>Normal constructors</h3></div></div></div><p title="Java constructors"><b>Java constructors.&nbsp;</b></p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p title="name"><b>name.&nbsp;</b>A public Java constructor of an imported class <code class="literal">C</code> defines a
+          get runtime type mismatches here because of an illegal constructor invocation.</p><div class="sect2" title="Normal constructors"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1961"></a>Normal constructors</h3></div></div></div><p title="Java constructors"><b>Java constructors.&nbsp;</b></p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p title="name"><b>name.&nbsp;</b>A public Java constructor of an imported class <code class="literal">C</code> defines a
                 constructor with the name <code class="literal">C</code>.</p></li><li class="listitem"><p title="arguments"><b>arguments.&nbsp;</b><code class="literal">C</code> takes the same arguments as the Java constructor.
               </p></li><li class="listitem"><p title="result"><b>result.&nbsp;</b><code class="literal">C</code> returns the object created by the Java constructor.
               </p></li><li class="listitem"><p title="exceptions"><b>exceptions.&nbsp;</b><code class="literal">C</code> throws all exceptions (both checked and unchecked)
@@ -132,7 +132,7 @@
               </p></li><li class="listitem"><p title="result"><b>result.&nbsp;</b>If <code class="literal">C.F</code> is a static field, <code class="literal">C.F</code> returns the
                 value of the static field. Otherwise, <code class="literal">C.F</code> returns the value of the field
                 of the argument object.</p></li><li class="listitem"><p title="exceptions"><b>exceptions.&nbsp;</b>C.F throws a <code class="literal">NullPointerException</code> is a non-static field is invoked
-                with a null argument.</p></li></ul></div><p title="Example"><b>Example.&nbsp;</b>TODO</p></div><div class="sect2" title="Special constructors"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2122"></a>Special constructors</h3></div></div></div><p title="Internal constructors"><b>Internal constructors.&nbsp;</b>Internal constructors provide access to internal variables maintained by
+                with a null argument.</p></li></ul></div><p title="Example"><b>Example.&nbsp;</b>TODO</p></div><div class="sect2" title="Special constructors"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2119"></a>Special constructors</h3></div></div></div><p title="Internal constructors"><b>Internal constructors.&nbsp;</b>Internal constructors provide access to internal variables maintained by
             the scanner. Only terminal symbols can use internal constructors, it is an error
             to trigger an internal constructor for a non-terminal symbol. Internal constructors
             are specified within array brackets. The following list shows the available
@@ -149,12 +149,12 @@
             constructor does nothing, in particular, no constructor is invoked. Copy
             constructors are useful to work around some argument passing problems.
             Copy constructors should become obsolete by solving these problems.
-          </p></div><div class="sect2" title="Exceptions"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2167"></a>Exceptions</h3></div></div></div><p title="Purpose"><b>Purpose.&nbsp;</b>Constructors may throw checked and unchecked exceptions. An unchecked exception
+          </p></div><div class="sect2" title="Exceptions"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2164"></a>Exceptions</h3></div></div></div><p title="Purpose"><b>Purpose.&nbsp;</b>Constructors may throw checked and unchecked exceptions. An unchecked exception
             is an exception derived from <code class="literal">java.lang.RuntimeException</code> or
             <code class="literal">java.lang.Error</code>). Otherwise, it is a checked exception. Technically,
             a constructor may throw exceptions of any type, whenever it sees fit; there are no
             restrictions imposed by Mork. However, I suggest using exceptions as outlines in the
-            section.</p><div class="sect3" title="Unchecked exceptions"><div class="titlepage"><div><div><h4 class="title"><a name="d0e2181"></a>Unchecked exceptions</h4></div></div></div><p>Unchecked exceptions should be thrown if a constructor detects an internal error.
+            section.</p><div class="sect3" title="Unchecked exceptions"><div class="titlepage"><div><div><h4 class="title"><a name="d0e2178"></a>Unchecked exceptions</h4></div></div></div><p>Unchecked exceptions should be thrown if a constructor detects an internal error.
             An internal error is something that "should not happen", an inconsistent/unexpected state.
             An internal error can be avoided by the programmer. If not, it's a bug. A
             <code class="literal">NullPointerException</code> usually indicate an internal error. </p><p title="Example"><b>Example.&nbsp;</b><code class="literal">java.lang.Integer.parseInt</code> throws the unchecked exception
@@ -162,7 +162,7 @@
               number syntax on the strings passed to <code class="literal">parseInt</code>, the method can be
               used as a constructor. If a <code class="literal">NumberFormatException</code> occurs, this is a
               bug in the application, because the string passed to <code class="literal">parseInt</code> is
-              assumed to be a valid number.</p></div><div class="sect3" title="Checked exceptions"><div class="titlepage"><div><div><h4 class="title"><a name="d0e2208"></a>Checked exceptions</h4></div></div></div><p title="Usage"><b>Usage.&nbsp;</b>A constructor should use checked exceptions to impose constraints on the input.
+              assumed to be a valid number.</p></div><div class="sect3" title="Checked exceptions"><div class="titlepage"><div><div><h4 class="title"><a name="d0e2205"></a>Checked exceptions</h4></div></div></div><p title="Usage"><b>Usage.&nbsp;</b>A constructor should use checked exceptions to impose constraints on the input.
               Whenever the input (i.e. the arguments passed to the constructors) violates a constraint,
               a checked exception should be thrown. You are free to check whatever constraint you wish.
               A mapper catches checked exceptions and turns the exception's message into an error
@@ -180,7 +180,7 @@
               </p><pre class="programlisting">
                 package foo;
 
-                import net.sf.beezle.mork.util.GenericException;
+                import net.oneandone.mork.util.GenericException;
 
                 public class bar {
                 public static int div(int left, int right) throws GenericException {
@@ -197,10 +197,10 @@
               error is a checked exception, it is not considered an internal error. The difference to an
               <code class="literal">IllegalArgumentException</code> is, that applications cannot prevent semantic errors:
               arguments are attributes, and attributes stem (directly or indirectly) from end-user's input.
-              Unlike Java code, end-user input cannot be controlled by the application. </p></div></div></div><div class="sect1" title="Attributes"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e2274"></a>Attributes</h2></div></div></div><p title="Overview"><b>Overview.&nbsp;</b>An attribute associates a symbols with a constructor. A simple attribute is defined
+              Unlike Java code, end-user input cannot be controlled by the application. </p></div></div></div><div class="sect1" title="Attributes"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e2271"></a>Attributes</h2></div></div></div><p title="Overview"><b>Overview.&nbsp;</b>An attribute associates a symbols with a constructor. A simple attribute is defined
           by <code class="literal">Foo =&gt; Bar</code>, where <code class="literal">Foo</code> is a symbol and
           <code class="literal">Bar</code> is the name of a constructor. Basically, a mapper file is a list of
-          attribute definitions, attributes form the core of the file, </p><div class="figure"><a name="d0e2291"></a><p class="title"><b>Figure&nbsp;5.4.&nbsp;Attribute syntax</b></p><div class="figure-contents"><pre class="programlisting">
+          attribute definitions, attributes form the core of the file, </p><div class="figure"><a name="d0e2288"></a><p class="title"><b>Figure&nbsp;5.4.&nbsp;Attribute syntax</b></p><div class="figure-contents"><pre class="programlisting">
           Definitions         ::= Group* ;
           Group               ::= Symbol Attribute+ ;
           Symbol              ::= StringSymbol | IdentifierSymbol ;
@@ -208,7 +208,7 @@
           IdentifierSymbol    ::= Identifier ;
           Attribute           ::= AttributeName "=&gt;" Constructor Visibility;
           AttributeName       ::= (":" Identifier)? ;
-        </pre></div></div><br class="figure-break"><div class="sect2" title="Definition"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2296"></a>Definition</h3></div></div></div><p title="Attribute"><b>Attribute.&nbsp;</b>An attribute is defined by (1) a symbol, (2) an attribute name, (3) a constructor
+        </pre></div></div><br class="figure-break"><div class="sect2" title="Definition"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2293"></a>Definition</h3></div></div></div><p title="Attribute"><b>Attribute.&nbsp;</b>An attribute is defined by (1) a symbol, (2) an attribute name, (3) a constructor
             name and (4) visibility. The attribute is said to be attached to its symbol. Symbol and
             constructor name are most important here, they define the actual mapping. In contrast, it's
             common not to specify an <code class="literal">AttributeName</code> and a <code class="literal">Visibility</code>.
@@ -224,7 +224,7 @@
           </p><p title="Visibility"><b>Visibility.&nbsp;</b><code class="literal">Visibility</code> defines constructors where the attribute is passed as
             an argument.</p><p title="Argument passing"><b>Argument passing.&nbsp;</b>The argument list passed to a constructor is defined by the visibility of all attributes
             defined in a mapper file. This differs from the Java mechanism where arguments are specified
-            explicitly by an argument list. </p></div><div class="sect2" title="Compile-time"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2351"></a>Compile-time</h3></div></div></div><p>At compile-time, Mork computes various values for each attribute: the type,
+            explicitly by an argument list. </p></div><div class="sect2" title="Compile-time"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2348"></a>Compile-time</h3></div></div></div><p>At compile-time, Mork computes various values for each attribute: the type,
           the argument list, and the constructor.</p><p title="Type"><b>Type.&nbsp;</b>Objects are guaranteed to be of the attribute type. Attribute type is a Java type.
             The type of an attribute is used to perform static type checking and to resolve overloaded
             constructor names. In this sense, the attribute type is similar to the type of a local variable
@@ -268,7 +268,7 @@
             section.</p><p title="Argument order"><b>Argument order.&nbsp;</b>A given symbol may have any number of attributes. The ordering of objects
             resulting at runtime follows the ordering of attribute definitions in the mapper file.
             This implies that the array returned from running a mapper is ordered according the
-            attribute sequence for the start symbol.</p></div><div class="sect2" title="Runtime"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2483"></a>Runtime</h3></div></div></div><p title="Runtime vs compile-time"><b>Runtime vs compile-time.&nbsp;</b>Symbols and attributes are compile-time entities. They define how to create their
+            attribute sequence for the start symbol.</p></div><div class="sect2" title="Runtime"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2480"></a>Runtime</h3></div></div></div><p title="Runtime vs compile-time"><b>Runtime vs compile-time.&nbsp;</b>Symbols and attributes are compile-time entities. They define how to create their
             respective runtime entity: syntax tree nodes and objects. Each syntax tree node has a
             defining symbol, and each object has a defining constructor.</p><p title="Runtime effect"><b>Runtime effect.&nbsp;</b>A syntax tree node for a given symbol <code class="literal">S</code> is mapped into objects by
             invoking the constructors of all attributes attached to <code class="literal">S</code>. Example: an
@@ -285,10 +285,10 @@
             <code class="literal">Integer</code> objects. Automatic wrapping corresponds with automatic
             unwrapping for constructor arguments. In effect, wrapping and unwrapping is transparent
             for constructor definitions. Within Java code, you can freely choose to work with primitive
-            values or wrapper values. </p></div></div><div class="sect1" title="Visibility"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e2539"></a>Visibility</h2></div></div></div><p>Mork uses visibilities rules because most of the argument passing is trivial and known
+            values or wrapper values. </p></div></div><div class="sect1" title="Visibility"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e2536"></a>Visibility</h2></div></div></div><p>Mork uses visibilities rules because most of the argument passing is trivial and known
         implicitly. Visibility rules just specify where trivial argument passing does not apply.
       </p><p>TODO: This section is a collection of fragments.
-        Visibility is very experimental and subject to change.</p><div class="figure"><a name="d0e2546"></a><p class="title"><b>Figure&nbsp;5.5.&nbsp;Visibility syntax</b></p><div class="figure-contents"><pre class="programlisting">
+        Visibility is very experimental and subject to change.</p><div class="figure"><a name="d0e2543"></a><p class="title"><b>Figure&nbsp;5.5.&nbsp;Visibility syntax</b></p><div class="figure-contents"><pre class="programlisting">
           Visibility          ::= Implicit | Explicit ;
           Implicit            ::= ";" ;
           Explicit            ::= ":" ("&gt;" Path)* ";" ;
@@ -328,10 +328,10 @@
                 and the wrapper type for F is assignable from the component type of A.
               </p></li><li class="listitem"><p>A has sequence cardinality and F is a assignable from a Java List
                 or F is assignable from the array type for the component type.</p></li></ul></div><p title="Argument conversion">
-        </p><div class="sect2" title="Paths"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2613"></a>Paths</h3></div></div></div><p>TODO: this section is a collection of fragments. Paths are still evolving and
+        </p><div class="sect2" title="Paths"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2610"></a>Paths</h3></div></div></div><p>TODO: this section is a collection of fragments. Paths are still evolving and
           subject to change.</p><p title="Purpose"><b>Purpose.&nbsp;</b>Paths declare non-local visibility. They are special in two ways:
             (1) a single path can select multiple values, and (2) paths can access
-            remote values.</p><div class="figure"><a name="d0e2623"></a><p class="title"><b>Figure&nbsp;5.6.&nbsp;Path syntax</b></p><div class="figure-contents"><pre class="programlisting">
+            remote values.</p><div class="figure"><a name="d0e2620"></a><p class="title"><b>Figure&nbsp;5.6.&nbsp;Path syntax</b></p><div class="figure-contents"><pre class="programlisting">
             Path                ::= ImplicitPath | LocalPath | NormalPath ;
             ImplicitPath        ::= "\\\\*" ;
             LocalPath           ::= Identifier ;
@@ -349,7 +349,7 @@
             (<code class="literal">\</code> and <code class="literal">/</code>) specify a single step, ups and
             downs moves (<code class="literal">\\</code> and <code class="literal">//</code>) specify repeated steps.
           </p><p title="Dead-end paths"><b>Dead-end paths.&nbsp;</b>A dead-end path is a path that does not reach any attributes, i.e. that does
-            not actually contribute to the visibility. <a class="indexterm" name="d0e2655"></a>
+            not actually contribute to the visibility. <a class="indexterm" name="d0e2652"></a>
             It is an error to specify dead-end paths. Example: <code class="literal">/X</code> if a dead-end path when
             applied to a symbol <code class="literal">Y ::= Z Z; </code>. TODO: what about the start symbols?
           </p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch06.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;4.&nbsp;Syntax files&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="manual.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;6.&nbsp;Compiling</td></tr></table></div></body></html>

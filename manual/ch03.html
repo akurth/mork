@@ -1,22 +1,22 @@
 <html><head>
       <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-   <title>Chapter&nbsp;3.&nbsp;First steps</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><link rel="home" href="manual.html" title="Mork"><link rel="up" href="manual.html" title="Mork"><link rel="prev" href="ch02.html" title="Chapter&nbsp;2.&nbsp;Setup"><link rel="next" href="ch04.html" title="Chapter&nbsp;4.&nbsp;Syntax files"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;3.&nbsp;First steps</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch02.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch04.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;3.&nbsp;First steps"><div class="titlepage"><div><div><h2 class="title"><a name="d0e299"></a>Chapter&nbsp;3.&nbsp;First steps</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch03.html#d0e345">Get going</a></span></dt><dt><span class="sect1"><a href="ch03.html#d0e458">Overall logic</a></span></dt><dt><span class="sect1"><a href="ch03.html#d0e502">Syntax files</a></span></dt><dt><span class="sect1"><a href="ch03.html#d0e527">Mapper files</a></span></dt><dt><span class="sect1"><a href="ch03.html#d0e660">Visibility</a></span></dt><dt><span class="sect1"><a href="ch03.html#d0e862">Error handling </a></span></dt><dt><span class="sect1"><a href="ch03.html#d0e948">Resolving identifiers</a></span></dt><dt><span class="sect1"><a href="ch03.html#d0e1145">What's next</a></span></dt></dl></div><p title="Quick start"><b>Quick start.&nbsp;</b>A simple introduction for compiler tools is a calculator to compute expressions like
+   <title>Chapter&nbsp;3.&nbsp;First steps</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><link rel="home" href="manual.html" title="Mork"><link rel="up" href="manual.html" title="Mork"><link rel="prev" href="ch02.html" title="Chapter&nbsp;2.&nbsp;Setup"><link rel="next" href="ch04.html" title="Chapter&nbsp;4.&nbsp;Syntax files"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;3.&nbsp;First steps</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch02.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch04.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;3.&nbsp;First steps"><div class="titlepage"><div><div><h2 class="title"><a name="d0e296"></a>Chapter&nbsp;3.&nbsp;First steps</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch03.html#d0e342">Get going</a></span></dt><dt><span class="sect1"><a href="ch03.html#d0e455">Overall logic</a></span></dt><dt><span class="sect1"><a href="ch03.html#d0e499">Syntax files</a></span></dt><dt><span class="sect1"><a href="ch03.html#d0e524">Mapper files</a></span></dt><dt><span class="sect1"><a href="ch03.html#d0e657">Visibility</a></span></dt><dt><span class="sect1"><a href="ch03.html#d0e859">Error handling </a></span></dt><dt><span class="sect1"><a href="ch03.html#d0e945">Resolving identifiers</a></span></dt><dt><span class="sect1"><a href="ch03.html#d0e1142">What's next</a></span></dt></dl></div><p title="Quick start"><b>Quick start.&nbsp;</b>A simple introduction for compiler tools is a calculator to compute expressions like
         <code class="literal">68/2+8</code> . Mork provides a calculator example
-        <a class="indexterm" name="d0e312"></a>, you can compile and run it as follows:
+        <a class="indexterm" name="d0e309"></a>, you can compile and run it as follows:
         </p><pre class="programlisting">
-          svn export https://beezle.svn.sourceforge.net/svnroot/beezle/mork/trunk/examples/calc
-          cd calc
+          git clone https://github.com/mlhartme/mork.git
+          cd mork/examples/calc
           mvn clean package
           ./target/calc
         </pre><p title="Quick start">
       </p><p title="Example"><b>Example.&nbsp;</b>This chapter is built around an example called <code class="literal">command</code>
-        <a class="indexterm" name="d0e327"></a>. The above calculator example is not suitable
+        <a class="indexterm" name="d0e324"></a>. The above calculator example is not suitable
         because it demonstrates the most basic features only. <code class="literal">command</code> is simple enough
         to serve as an introduction and it is as complex as necessary to demonstrate the important
         features.</p><p title="Overview"><b>Overview.&nbsp;</b>The next section explains how to compile and run <code class="literal">command</code> without digging
         into the sources. This is followed by various sections that pick the interesting aspects of
         <code class="literal">command</code> and explain them in more detail. Note that this chapter is an
-        introduction, exhaustive coverage follows in the remaining chapters.</p><div class="sect1" title="Get going"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e345"></a>Get going</h2></div></div></div><p title="command"><b><code class="literal">command</code>.&nbsp;</b><code class="literal">command</code> adds GUI front-ends to command line tools like
+        introduction, exhaustive coverage follows in the remaining chapters.</p><div class="sect1" title="Get going"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e342"></a>Get going</h2></div></div></div><p title="command"><b><code class="literal">command</code>.&nbsp;</b><code class="literal">command</code> adds GUI front-ends to command line tools like
           <code class="literal">javac</code>, <code class="literal">jar</code>, or <code class="literal">mork</code>. To do so, the form of
           valid command lines is described in a command file. A command file describing Java's
           <code class="literal">jar</code> command line tool is shown in the listing below. The description consists
@@ -28,7 +28,7 @@
               <code class="literal">jar</code></p></li></ul></div><p title="command">
           Note: To keep things simple, only a fraction of <code class="literal">jar</code>'s functionality is
           provided. Most notably, you can create jar file only, extracting data is not available.
-        </p><div class="figure"><a name="d0e395"></a><p class="title"><b>Figure&nbsp;3.1.&nbsp;jar command file</b></p><div class="figure-contents"><pre class="programlisting">command "create jar": "Creates a jar file"
+        </p><div class="figure"><a name="d0e392"></a><p class="title"><b>Figure&nbsp;3.1.&nbsp;jar command file</b></p><div class="figure-contents"><pre class="programlisting">command "create jar": "Creates a jar file"
     jar: "jar file name";
     dir: "directory";
 {
@@ -36,12 +36,12 @@
 }
 </pre></div></div><br class="figure-break"><p>Get the command example, build and run it:
         </p><pre class="programlisting">
-          svn export https://beezle.svn.sourceforge.net/svnroot/beezle/mork/trunk/examples/command
-          cd command
+          git clone https://github.com/mlhartme/mork.git
+          cd mork/examples/command
           mvn clean package
           ./target/command src/commands/jar.cf
         </pre><p>
-      </p><div class="figure"><a name="d0e405"></a><p class="title"><b>Figure&nbsp;3.2.&nbsp;jar command screen shot</b></p><div class="figure-contents"><div class="mediaobject"><img src="jarCF.jpg" alt="jar command screen shot"></div></div></div><br class="figure-break"><p title="Front-ends"><b>Front-ends.&nbsp;</b>Running <code class="literal">command</code> on a command file opens a window that provides a
+      </p><div class="figure"><a name="d0e402"></a><p class="title"><b>Figure&nbsp;3.2.&nbsp;jar command screen shot</b></p><div class="figure-contents"><div class="mediaobject"><img src="jarCF.jpg" alt="jar command screen shot"></div></div></div><br class="figure-break"><p title="Front-ends"><b>Front-ends.&nbsp;</b>Running <code class="literal">command</code> on a command file opens a window that provides a
           front-end to the respective command line tool. The front-end has fields for
           all variables declared in the command file and provides two buttons to
           start the command or to cancel without running the command. The following
@@ -52,7 +52,7 @@
           <code class="literal">Command.java</code> which defines the <code class="literal">command.Command</code> class. The
           largest Java files are <code class="literal">Console.java</code> (implementing a console window
           for command output) and <code class="literal">Frontend.java</code> (implementing the initial Swing
-          dialog). </p><div class="figure"><a name="d0e442"></a><p class="title"><b>Figure&nbsp;3.3.&nbsp;Source files</b></p><div class="figure-contents"><pre class="programlisting">
+          dialog). </p><div class="figure"><a name="d0e439"></a><p class="title"><b>Figure&nbsp;3.3.&nbsp;Source files</b></p><div class="figure-contents"><pre class="programlisting">
           pom.xml
           src/main/Command.syntax
           src/main/Command.mapper
@@ -70,9 +70,9 @@
         </pre></div></div><br class="figure-break"><p>Besides Java files, the source directory contains a syntax file
         <code class="literal">Command.syntax</code> and a mapper file <code class="literal">Command.mapper</code>. The syntax file
         defines the syntax of command files and the mapper file defines how to map a command files into an
-        instance of <code class="literal">command.Command</code>.</p></div><div class="sect1" title="Overall logic"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e458"></a>Overall logic</h2></div></div></div><div class="figure"><a name="d0e461"></a><p class="title"><b>Figure&nbsp;3.4.&nbsp;command.Main</b></p><div class="figure-contents"><pre class="programlisting">package command;
+        instance of <code class="literal">command.Command</code>.</p></div><div class="sect1" title="Overall logic"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e455"></a>Overall logic</h2></div></div></div><div class="figure"><a name="d0e458"></a><p class="title"><b>Figure&nbsp;3.4.&nbsp;command.Main</b></p><div class="figure-contents"><pre class="programlisting">package command;
 
-import net.sf.beezle.mork.mapping.Mapper;
+import net.oneandone.mork.mapping.Mapper;
 
 public class Main {
     public static void main(String[] args) {
@@ -113,8 +113,8 @@ public class Main {
               from the end-user's input.
               </p><pre class="programlisting">
                 command.run();
-              </pre></li></ol></div></div><div class="sect1" title="Syntax files"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e502"></a>Syntax files</h2></div></div></div><p title="Syntax files"><b>Syntax files.&nbsp;</b><code class="literal">Command.syntax</code> defines the syntax of command files. A syntax file has a
-          scanner section and a parser section.</p><div class="figure"><a name="d0e512"></a><p class="title"><b>Figure&nbsp;3.5.&nbsp;<code class="literal">Command.syntax</code></b></p><div class="figure-contents"><pre class="programlisting">[PARSER]
+              </pre></li></ol></div></div><div class="sect1" title="Syntax files"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e499"></a>Syntax files</h2></div></div></div><p title="Syntax files"><b>Syntax files.&nbsp;</b><code class="literal">Command.syntax</code> defines the syntax of command files. A syntax file has a
+          scanner section and a parser section.</p><div class="figure"><a name="d0e509"></a><p class="title"><b>Figure&nbsp;3.5.&nbsp;<code class="literal">Command.syntax</code></b></p><div class="figure-contents"><pre class="programlisting">[PARSER]
 
 Command      ::= "command" String ":" String Declarations "{" Line "}" ;
 Declarations ::= Variable* ;
@@ -140,16 +140,16 @@ Identifier   ::= Letter (Letter | Digit)* ;
           hand side. Running the mapper creates a syntax tree according to these rules, where each node
           represents a symbol. Usually, the leafs of the syntax tree are defined in the scanner section,
           whereas the inner nodes are define in the parser section. The first rule in the parser section
-          defines the root node of the syntax tree.</p></div><div class="sect1" title="Mapper files"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e527"></a>Mapper files</h2></div></div></div><p title="Mapper files"><b>Mapper files.&nbsp;</b><code class="literal">Command.mapper</code> defines how to turn command files into instances of
+          defines the root node of the syntax tree.</p></div><div class="sect1" title="Mapper files"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e524"></a>Mapper files</h2></div></div></div><p title="Mapper files"><b>Mapper files.&nbsp;</b><code class="literal">Command.mapper</code> defines how to turn command files into instances of
           <code class="literal">command.Command</code>. Running the mapper reads a command file, checks for
           the appropriate syntax (defined in the syntax file) and maps the file into an instance of
-          <code class="literal">command.Command</code></p><div class="figure"><a name="d0e542"></a><p class="title"><b>Figure&nbsp;3.6.&nbsp;<code class="literal">Command.mapper</code></b></p><div class="figure-contents"><pre class="programlisting">mapper command.Mapper;
+          <code class="literal">command.Command</code></p><div class="figure"><a name="d0e539"></a><p class="title"><b>Figure&nbsp;3.6.&nbsp;<code class="literal">Command.mapper</code></b></p><div class="figure-contents"><pre class="programlisting">mapper command.Mapper;
 
 syntax = "Command.syntax";
 
 import command:
     Command, Declarations, Line, Constant, Reference, Variable;
-import net.sf.beezle.mork.semantics:
+import net.oneandone.mork.semantics:
     BuiltIn;
 
 Command         =&gt; Command;
@@ -166,7 +166,7 @@ Identifier      =&gt; [text];
 String          =&gt; BuiltIn.parseString;
 Literal         =&gt; [text];
 </pre></div></div><br class="figure-break"><p title="Mapping"><b>Mapping.&nbsp;</b>A mapper file is comprised of a list of attributes. The basic form of an attribute
-          <a class="indexterm" name="d0e553"></a> associates a symbol (on the left hand side)
+          <a class="indexterm" name="d0e550"></a> associates a symbol (on the left hand side)
           with a constructor (on the right hand side). Whenever the specified symbol is found in some input
           stream, the associated constructor is triggered. Here are two attributes used in the
           <code class="literal">command</code> application.
@@ -184,13 +184,13 @@ Literal         =&gt; [text];
           <code class="literal">java.lang.String</code>. A mapper returns the object(s) created for the root node. In
           the <code class="literal">command</code> example, this is a <code class="literal">command.Command</code> object.
         </p><p title="Constructors"><b>Constructors.&nbsp;</b>The right hand side of an attribute specifies a constructor. A constructor
-          <a class="indexterm" name="d0e597"></a> may be a Java constructor (e.g.
+          <a class="indexterm" name="d0e594"></a> may be a Java constructor (e.g.
           <code class="literal">command.Command</code>), a Java method (e.g.
-          <code class="literal">net.sf.beezle.mork.semantics.BuiltIn.parseString</code>), or an internal constructor.
+          <code class="literal">net.oneandone.mork.semantics.BuiltIn.parseString</code>), or an internal constructor.
           Thus, the term constructor is used in a more generalized meaning.</p><p title="Internal constructors"><b>Internal constructors.&nbsp;</b>A common requirement for symbols like <code class="literal">Identifier</code> is to access
           the actual input matched by the symbol. Example: the symbol <code class="literal">Identifier</code>
           might match the input <code class="literal">jar</code>. For this purpose, Mork provides internal
-          constructors.<a class="indexterm" name="d0e621"></a>
+          constructors.<a class="indexterm" name="d0e618"></a>
           <code class="literal">command</code> use the internal constructor <code class="literal">[text]</code> to
           access the actual input matched by the symbol. (There are more internal constructors
           besides <code class="literal">[text]</code>, but in most cases, <code class="literal">[text]</code> is all you need).
@@ -207,7 +207,7 @@ Literal         =&gt; [text];
           <code class="literal">command</code> are explicitly imported, even though the mapper resides in
           the same package. Similarly, classes from <code class="literal">java.lang</code> have to be imported
           explicitly. Explicitly also means that Mork does not provide something like
-          <code class="literal">import foo.*</code>.</p></div><div class="sect1" title="Visibility"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e660"></a>Visibility</h2></div></div></div><p title="Argument passing"><b>Argument passing.&nbsp;</b>In the previous section, you have seen how to associate symbols with constructors
+          <code class="literal">import foo.*</code>.</p></div><div class="sect1" title="Visibility"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e657"></a>Visibility</h2></div></div></div><p title="Argument passing"><b>Argument passing.&nbsp;</b>In the previous section, you have seen how to associate symbols with constructors
           in order to create objects. Constructors take arguments. How do you define the arguments
           passed to a constructor? The answer is visibility. If you now other compiler tools it might take
           some time to get used to the visibility idea. But it's the feature that makes mapper files simple
@@ -224,8 +224,8 @@ Literal         =&gt; [text];
           visibility turns Java's argument lists upside down: argument lists are tied to the constructor
           and kind of pull arguments into the constructor. In contrast, visibility is tied to an argument
           and kind of pushes it toward an constructor. This is illustrated in the graphic below.
-        </p><div class="figure"><a name="d0e693"></a><p class="title"><b>Figure&nbsp;3.7.&nbsp;Argument passing</b></p><div class="figure-contents"><div class="mediaobject"><object type="image/svg+xml" data="passing.svg"></object></div></div></div><br class="figure-break"><p title="Visibility"><b>Visibility.&nbsp;</b>Each attribute has a visibility which defines the constructors the attribute is passed
-          to as an argument. <a class="indexterm" name="d0e704"></a>Visibility can be defined
+        </p><div class="figure"><a name="d0e690"></a><p class="title"><b>Figure&nbsp;3.7.&nbsp;Argument passing</b></p><div class="figure-contents"><div class="mediaobject"><object type="image/svg+xml" data="passing.svg"></object></div></div></div><br class="figure-break"><p title="Visibility"><b>Visibility.&nbsp;</b>Each attribute has a visibility which defines the constructors the attribute is passed
+          to as an argument. <a class="indexterm" name="d0e701"></a>Visibility can be defined
           explicitly and implicitly. Look at the listing below, it shows two attribute definitions from
           <code class="literal">command</code>'s map file. Visibility of the <code class="literal">Declarations</code> attribute
           is defined explicitly by a colon <code class="literal">":"</code> and two paths <code class="literal">\\Command</code>
@@ -273,7 +273,7 @@ Literal         =&gt; [text];
           Variable attributes. A List arguments is assignable to <code class="literal">java.util.List</code> or arrays
           of the respective base type.  TODO: more about </p><p title="Option arguments"><b>Option arguments.&nbsp;</b>TODO: change command to include an example for optional arguments. TODO: more about
           optional arguments.</p><p title="Argument merging"><b>Argument merging.&nbsp;</b>Alternative arguments are merged. Example <code class="literal">Constant</code> and
-          <code class="literal">Reference</code>.  TODO: more about this. </p></div><div class="sect1" title="Error handling"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e862"></a>Error handling </h2></div></div></div><p title="Errors"><b>Errors.&nbsp;</b><code class="literal">command</code>'s <code class="literal">main</code> method uses <code class="literal">Mapper.run</code>
+          <code class="literal">Reference</code>.  TODO: more about this. </p></div><div class="sect1" title="Error handling"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e859"></a>Error handling </h2></div></div></div><p title="Errors"><b>Errors.&nbsp;</b><code class="literal">command</code>'s <code class="literal">main</code> method uses <code class="literal">Mapper.run</code>
           to read command files. This method reports syntax errors and semantic errors to System.err. A syntax
           error is reported whenever the syntax of the input stream read by the mapper does not match the
           syntax specified in the syntax file underlying this mapper. Semantic errors are reported whenever
@@ -294,7 +294,7 @@ Literal         =&gt; [text];
             tests/jar.cf:2:5: semantic error: duplicate variable name: jar
             examples/command &gt;
           </pre><p title="Semantic errors">
-        </p><p title="Defining"><b>Defining.&nbsp;</b>Defining semantic errors<a class="indexterm" name="d0e902"></a> is straight
+        </p><p title="Defining"><b>Defining.&nbsp;</b>Defining semantic errors<a class="indexterm" name="d0e899"></a> is straight
           forward: check for the error situation in the appropriate constructor and, if a problem is
           detected, throw a checked exception. Whenever a mapper encounters a checked exception, it issues a
           semantic error message, reporting the current source positions and the string obtained from
@@ -307,7 +307,7 @@ Literal         =&gt; [text];
           The <code class="literal">Failure</code> class extends <code class="literal">java.lang.Exception</code>, thus it is
           a checked exception. When reporting this error, the exception message
           <code class="literal">duplicate variable name</code> is used to describe the problem. The position
-          reported is the position of the <code class="literal">Declarations</code> symbol. </p><div class="figure"><a name="d0e940"></a><p class="title"><b>Figure&nbsp;3.8.&nbsp;<code class="literal">Declarations.java</code></b></p><div class="figure-contents"><pre class="programlisting">package command;
+          reported is the position of the <code class="literal">Declarations</code> symbol. </p><div class="figure"><a name="d0e937"></a><p class="title"><b>Figure&nbsp;3.8.&nbsp;<code class="literal">Declarations.java</code></b></p><div class="figure-contents"><pre class="programlisting">package command;
 
 public class Declarations {
     private Variable[] vars;
@@ -362,7 +362,7 @@ public class Declarations {
         return result;
     }
 }
-</pre></div></div><br class="figure-break"><p>The next section includes another example for semantic errors.</p></div><div class="sect1" title="Resolving identifiers"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e948"></a>Resolving identifiers</h2></div></div></div><p title="Meta"><b>Meta.&nbsp;</b>Resolving identifiers can be seen as an advanced topic, but it is a common task within
+</pre></div></div><br class="figure-break"><p>The next section includes another example for semantic errors.</p></div><div class="sect1" title="Resolving identifiers"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e945"></a>Resolving identifiers</h2></div></div></div><p title="Meta"><b>Meta.&nbsp;</b>Resolving identifiers can be seen as an advanced topic, but it is a common task within
           applications that use Mork. Almost every compiler or interpreter resolves variable names
           in one way or another.</p><p title="Example"><b>Example.&nbsp;</b>The <code class="literal">command</code> example has to resolve identifiers to evaluate the command line
           specified in a command file. Consider the jar command file listed in the first section. It includes
@@ -372,7 +372,7 @@ public class Declarations {
           </pre><p title="Example">
           To evaluate this line, <code class="literal">command</code> has to find the variables referenced by the
           identifiers <code class="literal">jar</code> and <code class="literal">dir</code>. This is called identifier resolution.
-          <a class="indexterm" name="d0e976"></a>
+          <a class="indexterm" name="d0e973"></a>
           <code class="literal">command</code>'s identifier resolution is implemented in the files
           <code class="literal">Line.java</code> and <code class="literal">Reference.java</code>.</p><p title="Line objects"><b>Line objects.&nbsp;</b>Before digging into identifier resolution, I have to explain the <code class="literal">Line</code>
           class. See the listing below. Instances of this class represent command lines like
@@ -388,7 +388,7 @@ public class Declarations {
           provide another <code class="literal">eval</code> method; <code class="literal">Line</code>'s <code class="literal">eval</code>
           is used in <code class="literal">Command.execute</code> to compute the string which is used to launch
           an operating system process. <code class="literal">Line</code>'s <code class="literal">eval</code> method simply
-          evaluates all expressions and concatenates the results. </p><div class="figure"><a name="d0e1054"></a><p class="title"><b>Figure&nbsp;3.9.&nbsp;<code class="literal">Line.java</code></b></p><div class="figure-contents"><pre class="programlisting">package command;
+          evaluates all expressions and concatenates the results. </p><div class="figure"><a name="d0e1051"></a><p class="title"><b>Figure&nbsp;3.9.&nbsp;<code class="literal">Line.java</code></b></p><div class="figure-contents"><pre class="programlisting">package command;
 
 /**
  * A command line is a sequence of expression.
@@ -423,7 +423,7 @@ public class Line {
           What happens inside is straight forward: the declarations object is searched for the identifier.
           If the is a variable with the specified name, it is stored in the <code class="literal">var</code>
           field and the identifier resolution has succeeded. Otherwise, a semantic error
-          <code class="literal">unknown identifier</code> is issued by throwing an exception. </p><div class="figure"><a name="d0e1076"></a><p class="title"><b>Figure&nbsp;3.10.&nbsp;<code class="literal">Reference.java</code></b></p><div class="figure-contents"><pre class="programlisting">package command;
+          <code class="literal">unknown identifier</code> is issued by throwing an exception. </p><div class="figure"><a name="d0e1073"></a><p class="title"><b>Figure&nbsp;3.10.&nbsp;<code class="literal">Reference.java</code></b></p><div class="figure-contents"><pre class="programlisting">package command;
 
 /** Variable reference. */
 
@@ -464,7 +464,7 @@ public class Reference extends Expression {
           a <code class="literal">Declarations</code> object and all it's arguments are satisfied.
         </p><p title="Paths"><b>Paths.&nbsp;</b>In general, a path specifies a way through the syntax tree. <code class="literal">\\</code> passes an
           attribute up in the syntax tree until the specified symbol is found, and <code class="literal">//</code>
-          passes an attribute down until the specified symbol is found.</p><p>TODO: some words about optional arguments and lists of arguments.</p></div><div class="sect1" title="What's next"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e1145"></a>What's next</h2></div></div></div><p>This chapter introduced the most important features. There are several ways
+          passes an attribute down until the specified symbol is found.</p><p>TODO: some words about optional arguments and lists of arguments.</p></div><div class="sect1" title="What's next"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e1142"></a>What's next</h2></div></div></div><p>This chapter introduced the most important features. There are several ways
         to go on now:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p title="Extend the command example"><b>Extend the <code class="literal">command</code> example.&nbsp;</b>Interesting stuff is missing in <code class="literal">command</code>:
               </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>Beautified dialogs</p></li><li class="listitem"><p>More input elements like browse buttons or check boxes, e.g. to switch between
                     creating a jar file and extracting data from a jar file. </p></li><li class="listitem"><p>Instead of launching an operating system process, a command could invoke
