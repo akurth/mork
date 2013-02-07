@@ -17,7 +17,7 @@ package net.oneandone.mork.semantics;
 
 import net.oneandone.mork.scanner.Position;
 
-import java.io.PrintStream;
+import java.io.PrintWriter;
 
 /**
  * Node of the syntax tree. A stupid data contained for Semantics.
@@ -74,7 +74,7 @@ public class Node {
         }
     }
 
-    public void compute(PrintStream log) throws SemanticError {
+    public void compute(PrintWriter log) throws SemanticError {
         Object visit;
         int next;
         int max;

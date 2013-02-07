@@ -23,6 +23,7 @@ import net.oneandone.sushi.cli.Option;
 import net.oneandone.sushi.cli.Remaining;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,13 +91,13 @@ public class Main extends Cli implements Command {
         outputPath = null;
         listing = false;
         if (verbose) {
-            output.verbose = System.out;
+            output.verbose = new PrintWriter(System.out, true);
         }
         if (lst) {
             listing = true;
         }
         if (stat) {
-            output.statistics = System.out;
+            output.statistics = new PrintWriter(System.out, true);
         }
         if (directory != null) {
             outputPath = directory;
@@ -132,6 +133,7 @@ public class Main extends Cli implements Command {
     + " -stat                 print mapper statistics\n"
     + " -verbose              issue overall progress information\n";
 
+    @Override
     public void printHelp() {
         output.normal("Mork compiler tool, version " + getVersion());
         output.normal("");

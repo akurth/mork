@@ -20,20 +20,20 @@ import net.oneandone.mork.scanner.Position;
 import net.oneandone.sushi.util.IntBitSet;
 
 import java.io.IOException;
-import java.io.PrintStream;
+import java.io.PrintWriter;
 
 /**
- * ErrorHandler that prints messages to the PrintStream specified in the constructor.
+ * ErrorHandler that prints messages to the PrintWriter specified in the constructor.
  */
-public class PrintStreamErrorHandler implements ErrorHandler {
+public class PrintWriterErrorHandler implements ErrorHandler {
     /**
      * Where to send error messages.
      */
-    private final PrintStream dest;
+    private final PrintWriter dest;
 
     private boolean failed;
 
-    public PrintStreamErrorHandler(PrintStream dest) {
+    public PrintWriterErrorHandler(PrintWriter dest) {
         if (dest == null) {
             throw new IllegalArgumentException();
         }
@@ -46,14 +46,17 @@ public class PrintStreamErrorHandler implements ErrorHandler {
         failed = true;
     }
 
+    @Override
     public void lexicalError(Position pos) {
         report(pos.toString(), "illegal token");
     }
 
+    @Override
     public void syntaxError(Position pos, IntBitSet shiftable) {
         report(pos.toString(), "syntax error");
     }
 
+    @Override
     public void semanticError(Position pos, Exception e) {
         report(pos.toString(), e.getMessage());
     }
@@ -66,6 +69,7 @@ public class PrintStreamErrorHandler implements ErrorHandler {
         report(pos, message);
     }
 
+    @Override
     public void close() throws IOException {
         if (failed) {
             throw new IOException("mapping failed");

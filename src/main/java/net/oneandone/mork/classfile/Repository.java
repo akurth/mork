@@ -19,7 +19,7 @@ import net.oneandone.sushi.fs.Node;
 import net.oneandone.sushi.fs.file.FileNode;
 
 import java.io.IOException;
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -103,13 +103,13 @@ public class Repository {
         }
     }
 
-    public void dump(PrintStream dest) {
+    public void dump(PrintWriter dest) {
         for (ClassDef def : defs.values()) {
             dest.println(def.toString());
         }
     }
 
-    public void diff(Repository rightSet, PrintStream info) throws IOException {
+    public void diff(Repository rightSet, PrintWriter info) throws IOException {
         ClassDef tmp;
 
         for (ClassDef left : defs.values()) {
@@ -145,14 +145,14 @@ public class Repository {
         }
     }
 
-    public static void diffBody(ClassDef left, ClassDef right, PrintStream info) {
+    public static void diffBody(ClassDef left, ClassDef right, PrintWriter info) {
         List<FieldDef> removedFields;
         List<FieldDef> addedFields;
         List<MethodDef> removedMethods;
         List<MethodDef> addedMethods;
 
-        removedFields = new ArrayList<FieldDef>();
-        addedFields = new ArrayList<FieldDef>();
+        removedFields = new ArrayList<>();
+        addedFields = new ArrayList<>();
         for (FieldDef lf : left.fields) {
             if (right.lookupField(lf) == null) {
                 removedFields.add(lf);

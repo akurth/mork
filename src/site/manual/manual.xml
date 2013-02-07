@@ -2439,7 +2439,7 @@
         is expected to change. Similarly, this documentation is preliminary. It concentrates
         on the various error types (which I consider more stables), it does not explain individual
         methods of the interface. If you have to implement an error handler, the source code of
-        <literal>net.oneandone.mork.mapping.PrintStreamErrorHandler</literal> might provide
+        <literal>net.oneandone.mork.mapping.PrintWriterErrorHandler</literal> might provide
         some help.</para>
 
       <formalpara>
@@ -2472,7 +2472,7 @@
         <title>Position</title>
         <para><literal>IllegalToken</literal>, <literal>SyntaxError</literal> and
           <literal>SemanticError</literal> have a position field that stores the position in the input
-          stream where the problem occurred. The source code for <literal>PrintStreamErrorHandler</literal>
+          stream where the problem occurred. The source code for <literal>PrintWriterErrorHandler</literal>
           demonstrates how to use this field to report problems to the user.</para></formalpara>
 
       <formalpara>

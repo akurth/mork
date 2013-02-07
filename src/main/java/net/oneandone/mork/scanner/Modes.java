@@ -20,7 +20,7 @@ import net.oneandone.mork.misc.GenericException;
 import net.oneandone.mork.parser.ParserTable;
 import net.oneandone.sushi.util.IntBitSet;
 
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class Modes {
         table.setModes(parserModes);
     }
 
-    public static List generate(FA fa, ParserTable table, IntBitSet whites, PrintStream listing) throws GenericException {
+    public static List generate(FA fa, ParserTable table, IntBitSet whites, PrintWriter listing) throws GenericException {
         int i;
         int max;
         IntBitSet shifts;

@@ -21,7 +21,7 @@ import net.oneandone.mork.grammar.PrefixSet;
 import net.oneandone.mork.misc.GenericException;
 import net.oneandone.mork.parser.ParserTable;
 
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -48,6 +48,7 @@ public class PDA implements PDABuilder {
         exceptions = new ArrayList<Throwable>();
         for (int i = 0; i < threads.length; i++) {
             threads[i] = new Thread("pda-builder-" + i) {
+                @Override
                 public void run() {
                     net.oneandone.mork.pda.State state;
 
@@ -107,11 +108,13 @@ public class PDA implements PDABuilder {
         return id;
     }
 
+    @Override
     public Grammar getGrammar() {
         return grammar;
     }
 
     /** @return id of existing state, -id of newly added state */
+    @Override
     public synchronized int addIfNew(State state) {
         Integer existing;
 
@@ -119,6 +122,7 @@ public class PDA implements PDABuilder {
         return existing == null ? -add(state) : existing.intValue();
     }
 
+    @Override
     public int size() {
         return states.size();
     }
@@ -146,13 +150,13 @@ public class PDA implements PDABuilder {
         return result;
     }
 
-    public void print(PrintStream dest) {
+    public void print(PrintWriter dest) {
         for (Map.Entry<State, Integer> entry : states.entrySet()) {
             dest.println(entry.getKey().toString(entry.getValue(), grammar));
         }
     }
 
-    public void statistics(PrintStream output) {
+    public void statistics(PrintWriter output) {
         int size;
         int itemsCount;
         int itemsMin;

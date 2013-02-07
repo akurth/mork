@@ -20,7 +20,7 @@ import net.oneandone.mork.parser.ParserTable;
 import net.oneandone.mork.regexpr.Range;
 import net.oneandone.sushi.util.IntBitSet;
 
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +66,7 @@ public class ScannerFactory {
     //--
 
     public static ScannerFactory create(
-        FA fa, int errorSi, ParserTable parserTable, IntBitSet whites, PrintStream verbose, PrintStream listing)
+        FA fa, int errorSi, ParserTable parserTable, IntBitSet whites, PrintWriter verbose, PrintWriter listing)
             throws GenericException {
         List modes;  // list of IntSets
         char[] table;

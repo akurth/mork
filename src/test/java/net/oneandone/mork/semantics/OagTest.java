@@ -22,6 +22,7 @@ import net.oneandone.mork.reflect.Identity;
 import net.oneandone.sushi.util.Separator;
 import net.oneandone.sushi.util.Strings;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class OagTest extends TestCase {
         Visits[] visits;
 
         System.out.println(sems.getGrammar().getSymbolTable().toString());
-        visits = OagBuilder.run(sems, null, System.out);
+        visits = OagBuilder.run(sems, null, new PrintWriter(System.out, true));
         for (i = 0; i < visits.length; i++) {
             System.out.println(" " + i + "\t" + visits[i]);
         }

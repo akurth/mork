@@ -23,7 +23,7 @@ import net.oneandone.mork.scanner.ScannerFactory;
 import net.oneandone.mork.semantics.SemanticError;
 
 import java.io.IOException;
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.io.Reader;
 
 /**
@@ -86,7 +86,7 @@ public class Parser {
         return new Parser(table, resolvers, scannerFactory);
     }
 
-    public Object run(Position position, Reader src, TreeBuilder treeBuilder, PrintStream verbose) throws IOException {
+    public Object run(Position position, Reader src, TreeBuilder treeBuilder, PrintWriter verbose) throws IOException {
         int terminal;
         int production;
         int state;

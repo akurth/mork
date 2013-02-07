@@ -20,7 +20,7 @@ import net.oneandone.mork.misc.StringArrayList;
 import net.oneandone.mork.reflect.Function;
 import net.oneandone.mork.scanner.Position;
 
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 
@@ -60,7 +60,7 @@ public class Attribution implements Serializable {
      *
      * @param ctx  left-hand-side node
      */
-    public void eval(Node ctx, PrintStream verbose) throws SemanticError {
+    public void eval(Node ctx, PrintWriter verbose) throws SemanticError {
         Object result;
         int i;
         Throwable t;
@@ -98,7 +98,7 @@ public class Attribution implements Serializable {
     /**
      * @param verbose != null
      */
-    private void log(Object result, PrintStream verbose) {
+    private void log(Object result, PrintWriter verbose) {
         int i;
 
         verbose.print("attribution: ");

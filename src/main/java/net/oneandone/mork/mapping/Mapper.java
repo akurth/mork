@@ -22,18 +22,15 @@ import net.oneandone.mork.semantics.Oag;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * Maps streams into Objects by scanning. Implements the analyzing parts a compiler or any other text processing
@@ -46,8 +43,8 @@ public class Mapper implements Serializable {
     private final String name;
     private Parser parser;  // null: not loaded
     private Oag oag;  // undefined if not loaded
-    private PrintStream logParsing;
-    private PrintStream logAttribution;
+    private PrintWriter logParsing;
+    private PrintWriter logAttribution;
     private Object environment;  // default environment is null
 
     /** never null */
@@ -69,7 +66,7 @@ public class Mapper implements Serializable {
      * my Mork when generating a mapper, applications will usually use <code>Mapper(String)</code>.
      */
     public Mapper(String name, Parser parser, Oag oag) {
-        this(name, parser, oag, new PrintStreamErrorHandler(System.err));
+        this(name, parser, oag, new PrintWriterErrorHandler(new PrintWriter(System.err, true)));
     }
 
     public Mapper(String name, Parser parser, Oag oag, ErrorHandler errorHandler) {
@@ -172,7 +169,7 @@ public class Mapper implements Serializable {
         this.environment = environment;
     }
 
-    public void setLogging(PrintStream logParsing, PrintStream logAttribution) {
+    public void setLogging(PrintWriter logParsing, PrintWriter logAttribution) {
         this.logParsing = logParsing;
         this.logAttribution = logAttribution;
     }
@@ -209,7 +206,7 @@ public class Mapper implements Serializable {
      * Reads an stream, creates the syntax tree, computes the attributes and returns
      * the attributes of the start symbol. Main functionality of this class, all other
      * <code>run</code> methods use it.  Reports errors to the registered errorHander;
-     * if there is no errorHandler defined, this method defines a PrintStreamErrorHandler
+     * if there is no errorHandler defined, this method defines a PrintWriterErrorHandler
      * for System.err.
      *
      * @param  src when the method returns, src is always closed.

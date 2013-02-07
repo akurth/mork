@@ -15,14 +15,14 @@
  */
 package net.oneandone.mork.semantics;
 
+import net.oneandone.graph.EdgeIterator;
+import net.oneandone.graph.Graph;
 import net.oneandone.mork.grammar.Grammar;
 import net.oneandone.mork.misc.GenericException;
 import net.oneandone.mork.misc.StringArrayList;
-import net.oneandone.graph.EdgeIterator;
-import net.oneandone.graph.Graph;
 import net.oneandone.sushi.util.IntBitSet;
 
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -47,7 +47,7 @@ public class OagBuilder {
 
     //--
 
-    public static Visits[] run(Ag ag, Layout layout, PrintStream verbose) throws GenericException {
+    public static Visits[] run(Ag ag, Layout layout, PrintWriter verbose) throws GenericException {
         OagBuilder builder;
         Graph<AttributeOccurrence>[] dp;
         Graph<AttributeOccurrence>[] idp;
@@ -86,7 +86,7 @@ public class OagBuilder {
         return visits;
     }
 
-    private static void print(List[] as, PrintStream dest) {
+    private static void print(List[] as, PrintWriter dest) {
         int i;
         int j;
         int max;

@@ -21,7 +21,7 @@ import net.oneandone.mork.misc.GenericException;
 import net.oneandone.mork.pda.State;
 import net.oneandone.sushi.util.IntBitSet;
 
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -356,7 +356,7 @@ public class ParserTable implements Serializable {
         return modes[state];
     }
 
-    public void print(PrintStream dest) {
+    public void print(PrintWriter dest) {
         int i;
 
         for (i = 0; i < values.length; i++) {

@@ -24,7 +24,7 @@ import net.oneandone.mork.regexpr.Range;
 import net.oneandone.mork.regexpr.RegExpr;
 import net.oneandone.sushi.util.IntBitSet;
 
-import java.io.PrintStream;
+import java.io.PrintWriter;
 
 /** Translates Rules into an FA */
 public class FABuilder extends Action {
@@ -32,7 +32,7 @@ public class FABuilder extends Action {
      * Translates only those rules where the left-hand.side is contained
      * in the specified terminals set. The remaining rules are used for inlining.
      */
-    public static FABuilder run(Rule[] rules, IntBitSet terminals, StringArrayList symbolTable, PrintStream verbose)
+    public static FABuilder run(Rule[] rules, IntBitSet terminals, StringArrayList symbolTable, PrintWriter verbose)
             throws ActionException {
         FA alt;
         int i;

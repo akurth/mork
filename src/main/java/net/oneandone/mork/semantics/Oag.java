@@ -20,14 +20,14 @@ import net.oneandone.mork.parser.ParserTable;
 import net.oneandone.mork.parser.TreeBuilder;
 import net.oneandone.mork.scanner.Scanner;
 
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.io.Serializable;
 
 /**
  * Ordered attribute grammar.
  */
 public class Oag implements TreeBuilder, Serializable {
-    private transient PrintStream logging;
+    private transient PrintWriter logging;
     private transient NodeFactory[] terminals;
     private transient NodeFactory[] nonterminals;
     private transient Scanner scanner;
@@ -54,7 +54,7 @@ public class Oag implements TreeBuilder, Serializable {
         this.environment = environment;
     }
 
-    public void setLogging(PrintStream logging) {
+    public void setLogging(PrintWriter logging) {
         this.logging = logging;
     }
 
@@ -66,6 +66,7 @@ public class Oag implements TreeBuilder, Serializable {
         return oag;
     }
 
+    @Override
     public void open(Scanner scanner, Parser parser) {
         this.scanner = scanner;
         this.parser = parser;
@@ -94,10 +95,12 @@ public class Oag implements TreeBuilder, Serializable {
 
     //-- TreeBuilder interface
 
+    @Override
     public Object createTerminal(int terminal) {
         return terminals[terminal].allocateTerminal(scanner, environment);
     }
 
+    @Override
     public Object createNonterminal(int production) throws SemanticError {
         Node node;
 
@@ -106,7 +109,7 @@ public class Oag implements TreeBuilder, Serializable {
         return node;
     }
 
-    public void printVisits(PrintStream dest) {
+    public void printVisits(PrintWriter dest) {
         int i;
 
         for (i = 0; i < visits.length; i++) {

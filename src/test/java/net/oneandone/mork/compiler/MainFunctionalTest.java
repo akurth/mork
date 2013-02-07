@@ -24,7 +24,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
+import java.io.PrintWriter;
 
 public class MainFunctionalTest extends TestCase {
     /** working directory for runnning mork in. */
@@ -219,8 +219,8 @@ public class MainFunctionalTest extends TestCase {
 
         fakedOut = new ByteArrayOutputStream();
         fakedErr = new ByteArrayOutputStream();
-        output = new Output(new PrintStream(fakedErr));
-        output.normal = new PrintStream(fakedOut);
+        output = new Output(new PrintWriter(fakedErr));
+        output.normal = new PrintWriter(fakedOut);
         exitCode = new Main(output).run(args);
         stdout = fakedOut.toString();
         stderr = fakedErr.toString();

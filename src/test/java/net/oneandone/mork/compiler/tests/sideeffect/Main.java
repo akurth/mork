@@ -17,6 +17,7 @@ package net.oneandone.mork.compiler.tests.sideeffect;
 
 import net.oneandone.mork.mapping.Mapper;
 
+import java.io.PrintWriter;
 import java.io.StringReader;
 
 /**
@@ -28,7 +29,7 @@ public class Main {
         Object[] result;
 
         mapper = new Mapper("net.oneandone.mork.compiler.tests.sideeffect.Mapper");
-        mapper.setLogging(null, System.out);
+        mapper.setLogging(null, new PrintWriter(System.out, true));
         result = mapper.run("<const>", new StringReader("abbb"));
         System.out.println("result: " + result[0]);
     }

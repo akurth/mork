@@ -33,6 +33,7 @@ import net.oneandone.sushi.util.IntBitSet;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.StringReader;
 
 import static org.junit.Assert.assertEquals;
@@ -99,7 +100,7 @@ public class PDATest {
         terminals = new IntBitSet();
         grammar.getTerminals(terminals);
         pda = check(states, k, grammar);
-        pda.print(System.out);
+        pda.print(new PrintWriter(System.out));
         conflictHandler = new ConflictHandler(grammar);
         table = pda.createTable(pda.getEofSymbol(), conflictHandler);
         scannerRules = new Rule[terminals.size()];
@@ -136,7 +137,7 @@ public class PDATest {
                     }
                     return null;
                 }
-            }, System.out);
+            }, new PrintWriter(System.out, true));
         }
     }
 

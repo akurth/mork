@@ -15,12 +15,12 @@
  */
 package net.oneandone.mork.compiler;
 
-import net.oneandone.mork.mapping.PrintStreamErrorHandler;
+import net.oneandone.mork.mapping.PrintWriterErrorHandler;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Global IO configuration. Public fields - global variables, to allow modifiction at any time.
@@ -28,25 +28,25 @@ import java.io.PrintStream;
  *
  * No code other than this class and the Main class should use System.out or System.err.
  */
-public class Output extends PrintStreamErrorHandler {
-    public PrintStream normal;
-    public PrintStream verbose;
-    public PrintStream statistics;
+public class Output extends PrintWriterErrorHandler {
+    public PrintWriter normal;
+    public PrintWriter verbose;
+    public PrintWriter statistics;
 
     /**
      * A print-stream version the listing file for the current job --
      * null for no listing.
      */
-    public PrintStream listing;
+    public PrintWriter listing;
 
     public Output() {
-        this(System.err);
+        this(new PrintWriter(System.err, true));
     }
 
-    public Output(PrintStream errors) {
+    public Output(PrintWriter errors) {
         super(errors);
 
-        normal = System.out;
+        normal = new PrintWriter(System.out, true);
         verbose = null;
         statistics = null;
         listing = null;
@@ -71,8 +71,8 @@ public class Output extends PrintStreamErrorHandler {
     public void openListing(File listingFile) {
         if (listingFile != null) {
             try {
-                listing = new PrintStream(new FileOutputStream(listingFile));
-            } catch (FileNotFoundException e) {
+                listing = new PrintWriter(new FileWriter(listingFile));
+            } catch (IOException e) {
                 error(listingFile.getName(), "can't open listing file - listing disabled");
                 listing = null;
             }
