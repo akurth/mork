@@ -17,7 +17,7 @@ package net.oneandone.mork.semantics;
 
 import junit.framework.TestCase;
 import net.oneandone.mork.misc.GenericException;
-import net.oneandone.sushi.graph.Graph;
+import net.oneandone.graph.Graph;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -40,11 +40,11 @@ public class PartitionTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        left = new ArrayList<String>();
-        right = new ArrayList<String>();
-        inherited = new HashSet<String>();
-        synthesized = new HashSet<String>();
-        relation = new Graph<String>();
+        left = new ArrayList<>();
+        right = new ArrayList<>();
+        inherited = new HashSet<>();
+        synthesized = new HashSet<>();
+        relation = new Graph<>();
     }
 
     //--- disconnected

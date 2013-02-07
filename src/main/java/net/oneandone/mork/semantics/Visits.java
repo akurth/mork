@@ -16,9 +16,9 @@
 package net.oneandone.mork.semantics;
 
 import net.oneandone.mork.misc.GenericException;
-import net.oneandone.sushi.graph.CyclicDependency;
-import net.oneandone.sushi.graph.EdgeIterator;
-import net.oneandone.sushi.graph.Graph;
+import net.oneandone.graph.CyclicDependency;
+import net.oneandone.graph.EdgeIterator;
+import net.oneandone.graph.Graph;
 import net.oneandone.sushi.util.Util;
 
 import java.util.LinkedHashSet;
