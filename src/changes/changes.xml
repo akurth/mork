@@ -11,7 +11,7 @@
     </release>
     <release date="2012-11-09" version="1.1.1">
       <action date="2012-11-09" dev="mhm" type="update">
-        Update sushi 2.8.1 to 2.8.1.
+        Update sushi 2.8.0 to 2.8.1.
       </action>
     </release>
     <release date="2012-10-18" version="1.1.0">
@@ -25,7 +25,7 @@
         Compile for Java 7.
       </action>
       <action date="2012-09-14" dev="mhm" type="update">
-        Update Sushi 2.6.x to 3.0.0.
+        Update Sushi 2.6.x to 2.8.1.
       </action>
       <action date="2012-08-12" dev="mhm" type="update">
         Improved ErrorHandler:
