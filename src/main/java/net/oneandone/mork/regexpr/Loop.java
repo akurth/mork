@@ -18,7 +18,7 @@ package net.oneandone.mork.regexpr;
 
 
 /**
- * Loop with >= 1 iterations. Caution, this is not Kleene star.
+ * Loop with &lt;= 1 iterations. Caution, this is not Kleene star.
  * Using Kleene star would be problematic because translating EBNF rules
  * into grammars becomes much harder.
  */

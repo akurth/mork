@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Attribute grammar, supports >=0 synthesized and inherited attributes.
+ * Attribute grammar, supports &gt;=0 synthesized and inherited attributes.
  * Uses lazy evaluation to calculate attributes. There are no pre-calculated
  * computation sequence and no checks for cyclic dependencies are done at
  * run-time.
@@ -40,7 +40,7 @@ public class AgBuffer implements Compare {
 
     public AgBuffer(Attribute start) {
         this.start = start;
-        this.states = new ArrayList<State>();
+        this.states = new ArrayList<>();
     }
 
     public AgBuffer(List<State> states) {
@@ -149,7 +149,7 @@ public class AgBuffer implements Compare {
     //--
 
     /**
-     * Merge all attributes with >0 attributions buffers. Return the merged attribute of the
+     * Merge all attributes with &gt;0 attributions buffers. Return the merged attribute of the
      * specified symbol.
      */
     public Attribute merge(List<AgBuffer> copyBuffers, int symbol, Type mergedType) {

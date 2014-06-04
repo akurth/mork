@@ -26,13 +26,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Attribute grammar, supports >=0 synthesized and inherited attributes.
+ * Attribute grammar, supports &gt;=0 synthesized and inherited attributes.
  * Uses lazy evaluation to calculate attributes. There are no pre-calculated
  * computation sequence and no checks for cyclic dependencies are done at
  * run-time.
  */
 public class State implements Compare {
-    /** inv: seed or size() > 0.  Productions are sorted! */
+    /** inv: seed or size() &gt; 0.  Productions are sorted! */
     private final List<Alternative> alternatives;
 
     // TODO: private
@@ -43,7 +43,7 @@ public class State implements Compare {
 
     public State(Attribute attribute) {
         this.transportAttribute = attribute;
-        this.alternatives = new ArrayList<Alternative>();
+        this.alternatives = new ArrayList<>();
     }
 
     // TODO: attributions are shared
@@ -52,7 +52,7 @@ public class State implements Compare {
         int max;
 
         transportAttribute = orig.transportAttribute;
-        alternatives = new ArrayList<Alternative>();
+        alternatives = new ArrayList<>();
         max = orig.alternatives.size();
         for (i = 0; i < max; i++) {
             alternatives.add(orig.alternatives.get(i));
@@ -78,7 +78,7 @@ public class State implements Compare {
 
     public State(boolean up, Attribute attr, Grammar grm) {
         transportAttribute = attr;
-        alternatives = new ArrayList<Alternative>();
+        alternatives = new ArrayList<>();
         if (up) {
             addSynthesized(attr.symbol, grm);
         } else {

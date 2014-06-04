@@ -34,7 +34,7 @@ public class StringArrayList implements Serializable {
     /** The amount by which the capacity of data is increased when necessary. */
     private static final int GROW = 256;
 
-    /** Storage for elements. May contain null, even at indexes < size. */
+    /** Storage for elements. May contain null, even at indexes &lt; size. */
     private String[] data;
 
     /** Number of elements actually used in data. */

@@ -245,13 +245,13 @@ public class ArgumentTest extends CompareBase {
 
         sorted = doSort(arguments, expected);
         max = sorted.size();
-        merged = new ArrayList<Argument>();
-        expectedMerged = new ArrayList<List<Argument>>();
+        merged = new ArrayList<>();
+        expectedMerged = new ArrayList<>();
         for (i = 0; i < max; i++) {
-            arg = Argument.merge(grm.getStart(), null, sorted.get(i));
+            arg = Argument.merge(grm.getStart(), sorted.get(i));
             merged.add(arg);
             assertIncludes(arg, sorted.get(i));
-            tmp = new ArrayList<Argument>();
+            tmp = new ArrayList<>();
             tmp.add(arg);
             expectedMerged.add(tmp);
         }

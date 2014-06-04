@@ -51,7 +51,7 @@ public class Constructor extends Function implements Bytecodes {
     /**
      * Gets all valid Constructors for the specified Class.
      * @param  cl  the clase whose constructors are searched
-     * @result all valid Constructors found.
+     * @return all valid Constructors found.
      */
     public static Selection forClass(Class cl) {
         java.lang.reflect.Constructor[] constrs;

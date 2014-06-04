@@ -70,9 +70,9 @@ public class Argument implements Compare {
 
     /**
      * Merge list of arguments.
-     * pre: list.size() > 0  && all arguments have to start with the same attribute
+     * pre: list.size() &gt; 0 and all arguments have to start with the same attribute
      */
-    public static Argument merge(int symbol, Definition target, List<Argument> arguments) {
+    public static Argument merge(int symbol, List<Argument> arguments) {
         AgBuffer buffer;
         List<AgBuffer> argBuffers;
         int i;
@@ -87,9 +87,9 @@ public class Argument implements Compare {
         if (max == 0) {
             throw new IllegalArgumentException();
         }
-        argBuffers = new ArrayList<AgBuffer>();
+        argBuffers = new ArrayList<>();
         mergedType = null;
-        resultingSources = new ArrayList<Definition>();
+        resultingSources = new ArrayList<>();
         for (i = 0; i < max; i++) {
             arg = arguments.get(i);
             resultingSources.addAll(arg.sources);
@@ -131,8 +131,8 @@ public class Argument implements Compare {
         List<List<Argument>> sort;
 
         max = args.size();
-        seq = new ArrayList<Argument>();
-        mergable = new ArrayList<Argument>();
+        seq = new ArrayList<>();
+        mergable = new ArrayList<>();
         for (i = 0; i < max; i++) {
             arg = args.get(i);
             if (arg.modifier == Path.MERGEABLE) {
@@ -144,7 +144,7 @@ public class Argument implements Compare {
         sort = RelatedArgument.sort(mergable);
         max = sort.size();
         for (i = 0; i < max; i++) {
-            arg = merge(target.getAttribute().symbol, target, sort.get(i));
+            arg = merge(target.getAttribute().symbol, sort.get(i));
             seq.add(arg);
         }
         return seq;

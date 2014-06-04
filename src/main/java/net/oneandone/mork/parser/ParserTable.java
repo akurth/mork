@@ -50,7 +50,7 @@ public class ParserTable implements Serializable {
 
     /**
      * Values in the table. [state * symbolCount + symbol]. Each value
-     * stores   operand << ACTION_BITS | action.
+     * stores   operand &lt;&lt; ACTION_BITS | action.
      */
     private final char[] values;
 

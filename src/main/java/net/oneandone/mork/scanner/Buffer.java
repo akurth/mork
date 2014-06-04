@@ -114,7 +114,7 @@ public class Buffer {
 
     /**
      * Sets the current end ofs by to the specified value
-     * @param ofs < getEndOfs()
+     * @param ofs &lt; getEndOfs()
      */
     public void resetEndOfs(int ofs) {
         if (endPageIdx == 0) {

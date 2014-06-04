@@ -62,7 +62,7 @@ public class Method extends Function implements Bytecodes {
      * specified name.
      * @param  cl      Class to look at
      * @param  name    the Function name to look for
-     * @result  retrieves all Methods found
+     * @return retrieves all Methods found
      */
     public static Selection forName(Class cl, String name) {
         java.lang.reflect.Method[] all;

@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Attribute grammar, supports >=0 synthesized and inherited attributes.
+ * Attribute grammar, supports &gt;=0 synthesized and inherited attributes.
  */
 public class Ag {
     private final Grammar grammar;
@@ -39,8 +39,8 @@ public class Ag {
 
     public Ag(Grammar grammar) {
         this.grammar = grammar;
-        this.internals = new ArrayList<Object>();
-        this.attributions = new ArrayList<AttributionBuffer>();
+        this.internals = new ArrayList<>();
+        this.attributions = new ArrayList<>();
     }
 
     public Grammar getGrammar() {

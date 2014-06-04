@@ -128,7 +128,7 @@ public class PDA implements PDABuilder {
     }
 
     /**
-     * Pseudo-symbol, indicates end-of-file (or an empty word if lookahead is seen as a set of words of length <= 1)
+     * Pseudo-symbol, indicates end-of-file (or an empty word if lookahead is seen as a set of words of length &lt;= 1)
      */
     public int getEofSymbol() {
         return grammar.getSymbolCount();
