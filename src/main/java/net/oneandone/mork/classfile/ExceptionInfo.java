@@ -23,8 +23,6 @@ public class ExceptionInfo {
     public int handler; // a pc
     public ClassRef type;
 
-    public static final int SIZE = 8;
-
     public ExceptionInfo(int start, int end, int handler, ClassRef type) {
         this.start = start;
         this.end = end;

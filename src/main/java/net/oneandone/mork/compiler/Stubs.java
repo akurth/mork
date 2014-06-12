@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Helper functions referred by Mapper.mapper. These methods brigde gaps
+ * Helper functions referenced by Mapper.mapper. These methods bridge gaps
  * between references in mork files and the functionality in the classes.
  * In the long run, this class should vanish as I provide more
  * and more powerful mapping features.

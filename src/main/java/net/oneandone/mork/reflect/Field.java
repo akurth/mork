@@ -210,7 +210,7 @@ public class Field extends Function implements Bytecodes {
         if (cl == null) {
             return null;
         } else {
-            name = (String) in.readUTF();
+            name = in.readUTF();
             return cl.getDeclaredField(name);
         }
     }
