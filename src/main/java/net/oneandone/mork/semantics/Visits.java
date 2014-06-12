@@ -105,6 +105,22 @@ public class Visits {
         this.visits = visits;
     }
 
+    public Visits newInstance() {
+        Object[] copy;
+        Object obj;
+
+        copy = new Object[visits.length];
+        for (int i = visits.length - 1; i >= 0; i--) {
+            obj = visits[i];
+            if (obj instanceof Attribution) {
+                copy[i] = ((Attribution) obj).newInstance();
+            } else {
+                copy[i] = obj;
+            }
+        }
+        return new Visits(copy);
+    }
+
     public Object get(int idx) {
         return visits[idx];
     }

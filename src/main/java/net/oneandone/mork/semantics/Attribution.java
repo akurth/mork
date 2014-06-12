@@ -15,8 +15,6 @@
  */
 package net.oneandone.mork.semantics;
 
-import net.oneandone.mork.grammar.Grammar;
-import net.oneandone.mork.misc.StringArrayList;
 import net.oneandone.mork.reflect.Function;
 import net.oneandone.mork.scanner.Position;
 
@@ -44,9 +42,7 @@ public class Attribution implements Serializable {
      * Nonterminal attribution.
      * ofs = -1 for left hand side.
      */
-    public Attribution(
-        Function function, int resultOfs, int resultAttr, int[] argsOfs, int[] argsAttr)
-    {
+    public Attribution(Function function, int resultOfs, int resultAttr, int[] argsOfs, int[] argsAttr) {
         this.function = function;
         this.resultOfs = resultOfs;
         this.resultAttr = resultAttr;
@@ -54,6 +50,11 @@ public class Attribution implements Serializable {
         this.argsAttr = argsAttr;
         this.args = new Object[argsOfs.length];
     }
+
+    public Object newInstance() {
+        return new Attribution(function, resultOfs, resultAttr, argsOfs, argsAttr);
+    }
+
 
     /**
      * Caution: do not call this method concurrently!
@@ -148,29 +149,5 @@ public class Attribution implements Serializable {
         }
         buf.append(')');
         return buf.toString();
-    }
-
-    public String toString(StringArrayList symTab, Grammar grm) {
-        StringBuilder buf;
-        int i;
-
-        buf = new StringBuilder();
-        buf.append('\t');
-        buf.append("" + function);
-        buf.append("\n\t\t");
-        buf.append(toStringRef(resultOfs, resultAttr));
-        buf.append("\t<- ");
-        for (i = 0; i < argsOfs.length; i++) {
-            if (i > 0) {
-                buf.append(", ");
-            }
-            buf.append(toStringRef(argsOfs[i], argsAttr[i]));
-        }
-        buf.append('\n');
-        return buf.toString();
-    }
-
-    private static String toStringRef(int ofs, int attr) {
-        return "($" + (ofs + 1) + ")." + attr;
     }
 }

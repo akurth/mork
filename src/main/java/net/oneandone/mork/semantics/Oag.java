@@ -61,9 +61,19 @@ public class Oag implements TreeBuilder, Serializable {
     public Oag newInstance() {
         Oag oag;
 
-        oag = new Oag(visits, internalAttrs);
+        oag = new Oag(newVisits(), internalAttrs);
         oag.setLogging(logging);
         return oag;
+    }
+
+    private Visits[] newVisits() {
+        Visits[] result;
+
+        result = new Visits[visits.length];
+        for (int i = visits.length - 1; i >= 0; i--) {
+            result[i] = visits[i].newInstance();
+        }
+        return result;
     }
 
     @Override
