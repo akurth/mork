@@ -1,6 +1,6 @@
 ## Changelog 
 
-### 1.1.5 (pending)
+### 1.1.5 (2017-11-13)
 
 * compile for Java 8
 * update parent pom
