@@ -2,8 +2,8 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>net.oneandone.maven.poms</groupId>
-    <artifactId>foss-parent</artifactId>
-    <version>1.4.8</version>
+    <artifactId>lazy-foss-parent</artifactId>
+    <version>1.0.2</version>
   </parent>
 
   <name>Mork</name>
@@ -17,16 +17,6 @@
 
   <packaging>jar</packaging>
   <inceptionYear>1998</inceptionYear>
-
-  <properties>
-    <oneandone.java.source>1.7</oneandone.java.source>
-    <oneandone.java.target>1.7</oneandone.java.target>
-    <checkstyle.skip>true</checkstyle.skip>
-    <pmd.skip>true</pmd.skip>
-
-    <!-- TODO: fails with Java 8 -->
-    <findbugs.skip>true</findbugs.skip>
-  </properties>
 
   <developers>
     <developer>
@@ -219,35 +209,4 @@
       </plugin>
     </plugins>
   </build>
-  <profiles>
-    <profile>
-      <id>java8</id>
-      <activation>
-        <jdk>1.8</jdk>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-              <additionalparam>-Xdoclint:syntax</additionalparam>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-      <reporting>
-        <plugins>
-          <plugin>
-            <!-- javadoc 8 is way too picky ... -->
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-              <additionalparam>-Xdoclint:syntax</additionalparam>
-            </configuration>
-          </plugin>
-        </plugins>
-      </reporting>
-    </profile>
-  </profiles>
 </project>
