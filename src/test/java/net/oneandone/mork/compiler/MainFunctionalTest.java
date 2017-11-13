@@ -221,7 +221,7 @@ public class MainFunctionalTest extends TestCase {
         fakedErr = new ByteArrayOutputStream();
         output = new Output(new PrintWriter(fakedErr));
         output.normal = new PrintWriter(fakedOut);
-        exitCode = new Main(output).run(args);
+        exitCode = Main.doMain(output, args);
         stdout = fakedOut.toString();
         stderr = fakedErr.toString();
     }

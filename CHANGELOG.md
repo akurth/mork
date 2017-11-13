@@ -1,9 +1,10 @@
 ## Changelog 
 
-### 1.2.0 (pending)
+### 1.1.5 (pending)
 
 * compile for Java 8
 * update parent pom
+* update sushi 2.8.14 to sushi 3.1.6 and inline 1.1.1
 
 
 ### 1.1.4 (2014-06-12)

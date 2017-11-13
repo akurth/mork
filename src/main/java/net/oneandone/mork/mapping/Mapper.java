@@ -117,7 +117,7 @@ public class Mapper implements Serializable {
         try {
             c = loader.loadClass(name);
         } catch (ClassNotFoundException e) {
-            throw new IllegalStateException(e.getMessage(), e);
+            throw new IllegalStateException(name + ": cannot load class: " + e.getMessage(), e);
         }
         try {
             m = c.getMethod("load", new Class[]{});
@@ -191,7 +191,7 @@ public class Mapper implements Serializable {
     }
 
     public Object[] run(net.oneandone.sushi.fs.Node node) throws IOException {
-        return run(node.toString(), node.createReader());
+        return run(node.toString(), node.newReader());
     }
 
     public Object[] run(File file) throws IOException {

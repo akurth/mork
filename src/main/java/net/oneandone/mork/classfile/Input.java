@@ -36,7 +36,7 @@ public class Input implements Constants, AutoCloseable{
     public static ClassDef load(Node node) throws IOException {
         ClassDef result;
 
-        try (InputStream src = node.createInputStream();
+        try (InputStream src = node.newInputStream();
              Input input = new Input(src)) {
             result = new ClassDef(input);
         } catch (RuntimeException e) {

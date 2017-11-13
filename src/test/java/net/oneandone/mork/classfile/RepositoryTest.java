@@ -28,7 +28,7 @@ public class RepositoryTest {
     private final Repository repository;
 
     public RepositoryTest() throws IOException {
-        world = new World();
+        world = World.create();
         repository = new Repository();
         repository.addAllLazy(world.locateClasspathItem(Object.class));
     }

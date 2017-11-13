@@ -45,12 +45,12 @@ public class Repository {
         return file.isFile() && (file instanceof FileNode) ? ((FileNode) file).openZip() : file;
     }
 
-    public void addAll(Node file) throws IOException {
-        Node dir;
+    public void addAll(Node<?> file) throws IOException {
+        Node<?> dir;
 
         file.checkExists();
         dir = getDir(file);
-        for (Node node : dir.find("**/*.class")) {
+        for (Node<?> node : dir.find("**/*.class")) {
             add(Input.load(node));
         }
     }

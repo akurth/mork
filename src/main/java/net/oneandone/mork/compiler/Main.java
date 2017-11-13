@@ -15,16 +15,12 @@
  */
 package net.oneandone.mork.compiler;
 
+import net.oneandone.inline.Cli;
 import net.oneandone.mork.misc.GenericException;
 import net.oneandone.mork.reflect.Function;
-import net.oneandone.sushi.cli.Cli;
-import net.oneandone.sushi.cli.Command;
-import net.oneandone.sushi.cli.Option;
-import net.oneandone.sushi.cli.Remaining;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,50 +28,51 @@ import java.util.List;
  * I.e it defines the main method. Knowledge about command line syntax goes here, not into the Mork
  * class.
  */
-public class Main extends Cli implements Command {
+public class Main {
     public static void main(String[] args) {
-        Main main;
-
-        main = new Main(new Output());
-        System.exit(main.run(args));
+        System.exit(doMain(null, args));
     }
 
-    @Option("help")
-    private boolean help;
+    private static Output redirect;
 
-    @Option("verbose")
-    private boolean verbose;
+    public static int doMain(Output redirect, String[] args) {
+        Cli cli;
 
-    @Option("lst")
-    private boolean lst;
-
-    @Option("stat")
-    private boolean stat;
-
-    @Option("d")
-    private String directory;
-
-    @Option("k")
-    private int k;
-
-    @Option("t")
-    private int threadCount = Runtime.getRuntime().availableProcessors();
-;
-    @Option("mapper")
-    private String mapper;
-
-    private List<String> files = new ArrayList<String>();
-
-    @Remaining
-    public void addRemaining(String file) {
-        files.add(file);
+        Main.redirect = redirect;
+        try {
+            cli = new Cli();
+            cli.addDefault(Main.class, "notused -help -verbose -lst -stat -d=null -k -t -mapper=null file*");
+            cli.run(args);
+        } finally {
+            Main.redirect = null;
+        }
+        return 0;
     }
+
+    private final boolean help;
+    private final boolean verbose;
+    private final boolean lst;
+    private final boolean stat;
+    private final String directory;
+    private final int k;
+    private final int threadCount;
+    private final String mapper;
+    private List<String> files;
 
     private final Output output;
     private Function mapperFn;
 
-    public Main(Output output) {
-        this.output = output;
+    public Main(boolean help, boolean verbose, boolean lst, boolean stat, String directory, int k, int threadCount, String mapper, List<String> files) {
+        this.help = help;
+        this.verbose = verbose;
+        this.lst = lst;
+        this.stat = stat;
+        this.directory = directory;
+        this.k = k;
+        this.threadCount = threadCount == 0 ?  Runtime.getRuntime().availableProcessors() : threadCount;
+        this.mapper = mapper;
+        this.files = files;
+        this.output = redirect == null ? new Output() : redirect;
         this.mapperFn = null;
     }
 
@@ -133,7 +130,6 @@ public class Main extends Cli implements Command {
     + " -stat                 print mapper statistics\n"
     + " -verbose              issue overall progress information\n";
 
-    @Override
     public void printHelp() {
         output.normal("Mork compiler tool, version " + getVersion());
         output.normal("");
@@ -153,8 +149,7 @@ public class Main extends Cli implements Command {
     }
 
 
-    @Override
-    public void invoke() throws Exception {
+    public void run() throws Exception {
         Mork mork;
         Job[] jobs;
         int i;
